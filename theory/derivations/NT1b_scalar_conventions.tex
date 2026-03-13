@@ -1,0 +1,1250 @@
+%%======================================================================
+%%  NT-1b: Literature Conventions and Benchmarks
+%%         for Scalar Form Factor Computation
+%%
+%%  Literature Pass output for dual-review pipeline (L + L-R reviewer).
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%  Every value cites a specific equation in a specific paper.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{array}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+\newtheorem{benchmark}[proposition]{Benchmark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs verification]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}{\textcolor{green!50!black}{\textsf{[verified]}}}
+\newcommand{\inferred}{\textcolor{orange!60!black}{\textsf{[inferred by analogy]}}}
+\newcommand{\benchval}[1]{\colorbox{yellow!20}{\texttt{#1}}}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-1b: Scalar Form Factors --- Conventions \& Benchmarks (v2)}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-1b Scalar Form Factors:\\[4pt]
+       Literature Conventions and Benchmarks}\\[8pt]
+       {\normalsize Literature Pass Output --- Dual-Review Pipeline (v2)}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all operator data, sign conventions, and benchmark
+values needed to compute the one-loop nonlocal form factors
+$h_C^{(0)}(\Box/m^2)$ and $h_R^{(0)}(\Box/m^2)$ for a
+\textbf{real scalar field} with non-minimal coupling~$\xi$ on a curved
+background, using the Barvinsky--Vilkovisky / Codello--Zanusso heat
+kernel formalism.  All formulas are extracted from the primary literature;
+no original derivations are performed (those are Derivation Pass's task).
+Each value is annotated with its provenance:
+\exactlit\ = extracted verbatim from a paper equation;
+\verified\ = cross-checked against $\geq 2$ independent sources;
+\inferred\ = inferred by analogy with the Dirac (NT-1) computation.
+
+This is the Literature Pass output for the dual-review pipeline and will be
+critically reviewed by Literature Review before being passed to Derivation Pass.
+It supersedes the earlier (v1) single-pass output.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item Codello--Zanusso (CZ): arXiv:1203.2034 \cite{CZ2012}.
+\item Teixeira--Shapiro--Ribeiro (TSR): arXiv:2003.04503 \cite{TSR2020}.
+\item Vassilevich: Phys.\ Rept.\ \textbf{388} (2003) 279
+  [hep-th/0306138] \cite{Vassilevich2003}.
+\item Barvinsky--Vilkovisky (BV): Nucl.\ Phys.\ B \textbf{282} (1987) 163;
+  B \textbf{333} (1990) 471, 512 \cite{BV1987,BV1990a}.
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Scalar Field Operator Data}
+\label{sec:operator-data}
+%%======================================================================
+
+\subsection{Classical action and kinetic operator}
+
+The action for a real scalar field with non-minimal gravitational
+coupling on a $d$-dimensional Riemannian manifold $(M,g)$:
+\begin{equation}
+  S[\varphi] = \frac{1}{2}\int \dd^d x\,\sqrt{g}\,\Bigl\{
+    g^{\mu\nu}\partial_\mu\varphi\,\partial_\nu\varphi
+    + (m^2 + \xi R)\,\varphi^2
+  \Bigr\}\,.
+  \label{eq:scalar-action}
+\end{equation}
+\exactlit\ \fromlit{TSR eq.~(4.1), with their conventions for the
+sign of the $\xi R$ coupling}.
+
+The kinetic (inverse propagator) operator obtained from the second
+functional derivative $\delta^2 S/\delta\varphi^2$ is:
+\begin{equation}
+  \boxed{
+  \Delta = -\Box + \xi R + m^2\,,
+  }
+  \label{eq:scalar-operator}
+\end{equation}
+where $\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$ is the covariant
+d'Alembertian (Laplace--Beltrami operator).
+\exactlit\ \fromlit{TSR below eq.~(4.1)}
+
+\subsection{Identification of operator data}
+\label{sec:operator-identification}
+
+The operator~\eqref{eq:scalar-operator} is of \textbf{Laplace type}.
+We express it in the standard forms used by different references.
+
+\begin{convention}[Our convention --- matching NT-1]
+\label{conv:ours}
+\oursign\;
+Following NT-1 Convention~2.6, the generalised Laplacian is:
+\begin{equation}
+  \Delta = -(g^{\mu\nu}D_\mu D_\nu + E) = -D^2 - E\,,
+  \label{eq:our-laplacian}
+\end{equation}
+where $D_\mu = \nabla_\mu + A_\mu$ is the full covariant derivative
+and $E$ is the endomorphism.
+
+For the \textbf{real scalar field}:
+\begin{itemize}[nosep]
+\item The bundle is trivial ($\mathbb{R}^1$), so $A_\mu = 0$ and
+  $D_\mu = \nabla_\mu$.
+\item $D^2 = g^{\mu\nu}\nabla_\mu\nabla_\nu = \Box$.
+\item Comparing $-\Box + \xi R + m^2 = -\Box - E$ gives:
+\end{itemize}
+\begin{equation}
+  \boxed{
+  E = -\xi R - m^2\,.
+  }
+  \label{eq:E-scalar}
+\end{equation}
+\verified\ Cross-checked: substituting into~\eqref{eq:our-laplacian}
+recovers~\eqref{eq:scalar-operator}.
+\end{convention}
+
+\begin{convention}[CZ convention]
+\label{conv:CZ}
+Codello--Zanusso~\cite{CZ2012} define the Laplacian as
+\fromlit{CZ eq.~(2)}:
+\begin{equation}
+  \Delta = -D^2 + \mathbf{U}\,,
+  \label{eq:CZ-laplacian}
+\end{equation}
+where $\mathbf{U}$ is their endomorphism.
+Matching with~\eqref{eq:scalar-operator}:
+\begin{equation}
+  \boxed{
+  \mathbf{U}_{\mathrm{CZ}} = \xi R + m^2 = -E\,.
+  }
+  \label{eq:U-CZ-scalar}
+\end{equation}
+\exactlit\ \fromlit{CZ Section~2, eq.~(2), specialised to scalar}
+\end{convention}
+
+\begin{convention}[BV convention]
+\label{conv:BV}
+Barvinsky--Vilkovisky define the ``potential'' $\mathbf{P}$ through
+\fromlit{CZ Appendix~A}:
+\begin{equation}
+  \mathbf{U}_{\mathrm{CZ}} = -\mathbf{P} + \frac{R}{6}\,\hat{1}\,,
+  \qquad\text{equivalently}\qquad
+  \mathbf{P}_{\mathrm{BV}} = -\mathbf{U}_{\mathrm{CZ}} + \frac{R}{6}\,.
+  \label{eq:P-BV-def}
+\end{equation}
+For the scalar field:
+\begin{equation}
+  P_{\mathrm{BV}} = -(\xi R + m^2) + \frac{R}{6}
+  = -\Bigl(\xi - \frac{1}{6}\Bigr)R - m^2\,.
+  \label{eq:P-BV-scalar}
+\end{equation}
+Defining the shorthand
+$\tilde{\xi} \equiv \xi - \frac{1}{6}$ \fromlit{TSR below eq.~(4.10)}:
+\begin{equation}
+  \boxed{
+  P_{\mathrm{BV}} = -\tilde{\xi}\,R - m^2\,.
+  }
+  \label{eq:P-BV-tilde}
+\end{equation}
+For the \textbf{massless} case ($m=0$): $P_{\mathrm{BV}} = -\tilde{\xi}\,R$.
+\verified\ \fromlit{TSR eq.\ after (4.1): ``$\hat{P} = -(\xi - 1/6)R$''};
+matches CZ Appendix~A BV basis derivation.
+\end{convention}
+
+\begin{convention}[TSR convention]
+\label{conv:TSR}
+TSR~\cite{TSR2020} use the BV-basis heat kernel expansion
+\fromlit{TSR eq.~(2)}:
+\begin{equation}
+  \Tr K(s) = \frac{(\mu^2)^{2-\omega}}{(4\pi s)^\omega}
+  \int \dd^4 x\,\sqrt{g}\,e^{-sm^2}\,\tr\bigl\{
+    \hat{1} + s\hat{P} + s^2[\ldots]\bigr\}\,.
+  \label{eq:TSR-HK}
+\end{equation}
+Their $\hat{P}$ is the BV potential with $m^2$ \textbf{excluded}
+(the mass enters through the $e^{-sm^2}$ factor).  For scalar:
+$\hat{P}_{\mathrm{TSR}} = -\tilde{\xi}\,R$.
+This matches $P_{\mathrm{BV}}|_{m=0}$.
+\exactlit\ \fromlit{TSR between eqs.~(4.1) and (4.2)}
+\end{convention}
+
+\begin{remark}[Relationship to our $\hat{P}$]
+\label{rem:Phat}
+In our NT-1 conventions (Convention~2.11), we defined:
+\begin{equation}
+  \hat{P}_{\mathrm{ours}} \equiv E - \frac{R}{6}\,\Id\,.
+  \label{eq:Phat-ours}
+\end{equation}
+This differs from $P_{\mathrm{BV}} = E + \frac{R}{6}$ by a sign
+on the $R/6$ term:
+\begin{equation}
+  \hat{P}_{\mathrm{ours}} = P_{\mathrm{BV}} - \frac{R}{3}\,.
+  \label{eq:Phat-vs-PBV}
+\end{equation}
+\textbf{For the scalar field this distinction is immaterial}, because
+we work directly with the CZ form factors expressed in terms of
+$\mathbf{U}$ (or equivalently~$E$).  The $P$-based BV form factors
+$f_1,\ldots,f_5$ are related to CZ form factors by a linear
+transformation (Section~\ref{sec:BV-CZ}), and the final physical
+form factors $h_C^{(0)}$, $h_R^{(0)}$ are
+convention-independent.
+\end{remark}
+
+
+\subsection{Complete operator data summary}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lccl}
+\toprule
+\textbf{Quantity} & \textbf{Value (scalar)} & \textbf{Provenance} & \textbf{Source} \\
+\midrule
+$\tr(\Id)$ & $1$ & \exactlit & trivial bundle \\
+$\Omega_{\mu\nu}$ & $0$ & \exactlit & trivial bundle \\
+$E$ (our convention) & $-\xi R - m^2$ & \verified & eq.~\eqref{eq:E-scalar} \\
+$\mathbf{U}_{\mathrm{CZ}} = -E$ & $\xi R + m^2$ & \verified & eq.~\eqref{eq:U-CZ-scalar} \\
+$P_{\mathrm{BV}}$ & $-\tilde{\xi}\,R - m^2$ & \verified & eq.~\eqref{eq:P-BV-scalar} \\
+$P_{\mathrm{BV}}|_{m=0}$ & $-\tilde{\xi}\,R$ & \verified &
+  \fromlit{TSR after (4.1)} \\
+$\hat{\mathcal{R}}_{\alpha\beta}$ (TSR) & $0$ & \exactlit &
+  \fromlit{TSR after (4.1)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Dramatic simplification relative to Dirac]
+\label{rem:simplification}
+For the scalar field:
+\begin{enumerate}[nosep]
+\item $\Omega_{\mu\nu} = 0$ eliminates all $f_\Omega$-dependent terms.
+\item $\tr(\Id) = 1$ removes all multiplicity factors.
+\item $\mathbf{U} = \xi R + m^2$ is proportional to scalar curvature
+  (no matrix structure).
+\end{enumerate}
+As a result, the form factor computation reduces to a \textbf{purely
+algebraic} specialization of the CZ general formulas, with no
+subtleties from bundle curvature traces.
+\end{remark}
+
+
+%%======================================================================
+\section{Sign Convention Comparison Table}
+\label{sec:signs}
+%%======================================================================
+
+The following table compares sign conventions for a \textbf{generic}
+Laplace-type operator across all relevant references.
+
+\subsection{Generic operator conventions}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\raggedright}p{3cm} p{3cm} p{3cm} p{3cm}}
+\toprule
+\textbf{Quantity} &
+\textbf{CZ (1203.2034)} &
+\textbf{BV / TSR} &
+\textbf{Our NT-1} \\
+\midrule
+Laplacian definition &
+$\Delta = -D^2 + \mathbf{U}$ \fromlit{CZ eq.~(2)} &
+same as CZ &
+$\Delta = -D^2 - E$ \\
+Endomorphism &
+$\mathbf{U}$ &
+$\mathbf{U}$ &
+$E = -\mathbf{U}$ \\
+Bundle curvature &
+$\Omega_{\mu\nu}$ \fromlit{CZ eq.~(1)} &
+$\hat{\mathcal{R}}_{\mu\nu}$ \fromlit{TSR after (4.1)} &
+$\Omega_{\mu\nu}$ \\
+``Potential'' &
+(uses $\mathbf{U}$ directly) &
+$\hat{P} = -\mathbf{U} + \frac{R}{6}$ &
+$\hat{P} = E - \frac{R}{6}$ \\
+Linear HK term &
+$-s\mathbf{U} + s\frac{R}{6}$ &
+$s\hat{P}$ &
+--- \\
+Effective action sign &
+\multicolumn{3}{l}{Bosonic: $+\frac{1}{2}\Tr\ln\Delta$;\quad
+  Fermionic (Dirac): $-\Tr\ln\Delta$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Scalar field verification}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\raggedright}p{3.5cm} p{3.5cm} p{3.5cm} p{3.5cm}}
+\toprule
+\textbf{Quantity} &
+\textbf{CZ value} &
+\textbf{TSR value} &
+\textbf{Our value} \\
+\midrule
+\multicolumn{4}{l}{\textit{Real scalar, non-minimal coupling $\xi$, massless:}} \\
+Endomorphism &
+$\mathbf{U} = \xi R$ &
+(uses $\hat{P}$) &
+$E = -\xi R$ \\
+Potential &
+--- &
+$\hat{P} = -\tilde{\xi}\,R$ &
+$\hat{P}_{\mathrm{ours}} = -(\xi+\frac{1}{6})R$ \\
+$P_{\mathrm{BV}}$ &
+$-\mathbf{U}+R/6 = -\tilde{\xi} R$ &
+$= \hat{P}_{\mathrm{TSR}}$ &
+$E + R/6 = -\tilde{\xi}\,R$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Dirac spinor (massless), for comparison:}} \\
+Endomorphism &
+$\mathbf{U} = R/4$ &
+--- &
+$E = -R/4$ \\
+$P_{\mathrm{BV}}$ &
+$-R/4+R/6 = -R/12$ &
+--- &
+$-R/4+R/6=-R/12$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\verified\ All entries cross-checked.  The key conversion rules are:
+\begin{align}
+  E_{\mathrm{ours}} &= -\mathbf{U}_{\mathrm{CZ}}\,,
+  \label{eq:sign-rule-1}\\
+  P_{\mathrm{BV}} &= E_{\mathrm{ours}} + \frac{R}{6}
+  = -\mathbf{U}_{\mathrm{CZ}} + \frac{R}{6}\,.
+  \label{eq:sign-rule-2}
+\end{align}
+When using CZ form factors (which are written in terms of $\mathbf{U}$),
+substitute $\mathbf{U} = -E$.
+
+\begin{remark}[Note on Vassilevich's convention]
+\label{rem:vassilevich-sign}
+Vassilevich~\cite{Vassilevich2003} defines the Laplacian as
+$\Delta = -(D^2 + E)$ (his eq.~(1.2.1)), where $E$ has the
+\textbf{same sign} as our $E$ and the \textbf{opposite sign} to
+CZ's $\mathbf{U}$.  For the scalar: $E_{\mathrm{Vass}} = -\xi R - m^2$.
+The Seeley--DeWitt coefficient $a_1$ in his conventions is
+\fromlit{Vassilevich eq.~(4.1)}:
+\begin{equation}
+  a_1 = \frac{R}{6}\,\Id - E_{\mathrm{Vass}}
+  = \frac{R}{6} + \xi R + m^2\,.
+  \label{eq:Vass-a1}
+\end{equation}
+This is \textbf{not} the same as $P_{\mathrm{BV}}$ (which is
+$E + R/6 = -\xi R - m^2 + R/6$). The difference:
+$a_1 - P_{\mathrm{BV}} = 2\xi R + 2m^2 = -2E$.
+
+The important consistency check: the $a_2$ coefficient, which
+controls logarithmic divergences, produces the \textbf{same}
+$\beta$-functions regardless of which convention is used for~$E$,
+because $a_2$ involves $E^2$ and $RE$ in specific combinations
+that are convention-independent.
+\end{remark}
+
+
+%%======================================================================
+\section{Known $\beta$-Coefficients (Benchmarks)}
+\label{sec:beta}
+%%======================================================================
+
+The one-loop effective action for a \textbf{real scalar field}
+in $d=4$, in the Weyl-$R^2$ basis:
+\begin{equation}
+  \Gamma^{(1)}_{\mathrm{scalar}}
+  = \frac{1}{2(4\pi)^2}\int \dd^4 x\,\sqrt{g}\,\Bigl\{
+    C_{\mu\nu\rho\sigma}\Bigl[
+      \frac{\beta_W}{2-\omega} + \cdots
+    \Bigr]C^{\mu\nu\rho\sigma}
+    + R\Bigl[
+      \frac{\beta_R}{2-\omega} + \cdots
+    \Bigr]R
+  \Bigr\}\,,
+  \label{eq:effective-action-structure}
+\end{equation}
+where $\omega = d/2 \to 2$ in dimensional regularization, and
+$\beta_W$, $\beta_R$ are the logarithmic divergence coefficients.
+\exactlit\ \fromlit{TSR eq.~(46)}
+
+\subsection{Weyl-squared coefficient}
+
+\begin{benchmark}[$\beta_W$ for real scalar]
+\label{bench:beta-W}
+\begin{equation}
+  \boxed{
+  \beta_W^{(0)} = \frac{1}{120}\,.
+  }
+  \label{eq:beta-W-scalar}
+\end{equation}
+\verified\ Derived from two independent paths:
+
+\medskip\noindent
+\textbf{Source 1} (CZ): The short-time value $f_{\mathrm{Ric}}(0) = 1/60$
+\fromlit{CZ eq.~(5.4) = our~\eqref{eq:f-at-zero}}.
+In $d=4$: $f_C = \frac{1}{2}f_{\mathrm{Ric}}$
+\fromlit{CZ eq.~(5.11)}, so
+$\beta_W = f_C(0) = \frac{1}{2}\cdot\frac{1}{60} = \frac{1}{120}$.
+
+\medskip\noindent
+\textbf{Source 2} (TSR): From TSR eq.~(46), the $C^2$
+coefficient in the $\frac{1}{2(4\pi)^2}$ effective action is
+$\frac{1}{2}\cdot\frac{1}{60(2-\omega)}$, giving
+$\beta_W = \frac{1}{2}\cdot\frac{1}{60} = \frac{1}{120}$.
+\fromlit{TSR eq.~(46), coefficient of $C^2$ divergent part}
+
+\medskip\noindent
+\textbf{Source 3} (TSR Ricci-basis cross-check):
+From TSR eq.~(39), $M_{R_{\mu\nu}^2}$ has divergent coefficient
+$1/60$.  The Gauss--Bonnet reduction~\eqref{eq:GB-reduction} gives
+$\beta_W = \frac{1}{2}\cdot\frac{1}{60} = \frac{1}{120}$.
+\end{benchmark}
+
+\subsection{$R^2$ coefficient}
+
+\begin{benchmark}[$\beta_R$ for real scalar, general $\xi$]
+\label{bench:beta-R}
+\begin{equation}
+  \boxed{
+  \beta_R^{(0)}(\xi) = \frac{1}{2}\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}
+  = \frac{1}{2}\,\tilde{\xi}^2\,.
+  }
+  \label{eq:beta-R-scalar}
+\end{equation}
+\verified\ Derived from two independent paths:
+
+\medskip\noindent
+\textbf{Source 1} (TSR direct): From TSR eq.~(46), the $R^2$
+divergent coefficient is $\frac{1}{2}(\xi-\frac{1}{6})^2$.
+\exactlit\ \fromlit{TSR eq.~(46), coefficient of $R\cdot[\ldots]\cdot R$}
+
+\medskip\noindent
+\textbf{Source 2} (TSR Ricci-to-Weyl conversion):
+From TSR eq.~(40), the $R^2$ divergent coefficient in the Ricci basis is
+$(\frac{1}{2}\tilde{\xi}^2 - \frac{1}{180})$.
+From TSR eq.~(39), the $R_{\mu\nu}^2$ divergent coefficient is $1/60$.
+The Weyl-basis $R^2$ coefficient (TSR eq.~(42m)):
+$\tilde{M}_{R^2} = M_{R^2} + \frac{1}{3}M_{R_{\mu\nu}^2}$, so
+$\beta_R = (\frac{1}{2}\tilde{\xi}^2 - \frac{1}{180}) + \frac{1}{3}\cdot\frac{1}{60}
+= \frac{1}{2}\tilde{\xi}^2 - \frac{1}{180} + \frac{1}{180}
+= \frac{1}{2}\tilde{\xi}^2$.
+\fromlit{TSR eqs.~(39), (40), (42m)}
+
+\medskip\noindent
+\textbf{Source 3} (CZ form factor values at $x=0$):
+$h_R^{(0)}(0;\xi) = f_{R,\mathrm{bis}}(0) + \xi\,f_{R\mathbf{U}}(0)
++ \xi^2\,f_{\mathbf{U}}(0)$
+$= [\frac{1}{3}\cdot\frac{1}{60} + \frac{1}{120}] + \xi(-\frac{1}{6}) + \xi^2(\frac{1}{2})$
+$= [\frac{1}{180}+\frac{1}{120}] - \frac{\xi}{6} + \frac{\xi^2}{2}$
+$= \frac{5}{360} - \frac{\xi}{6} + \frac{\xi^2}{2}$
+$= \frac{1}{72} - \frac{\xi}{6} + \frac{\xi^2}{2}$
+$= \frac{1}{2}(\xi^2 - \frac{\xi}{3} + \frac{1}{36})
+= \frac{1}{2}(\xi - \frac{1}{6})^2$.
+\fromlit{CZ eq.~(5.4) values, assembled}
+\end{benchmark}
+
+Expanding~\eqref{eq:beta-R-scalar}:
+\begin{equation}
+  \beta_R^{(0)}(\xi) = \frac{\xi^2}{2} - \frac{\xi}{6} + \frac{1}{72}\,.
+  \label{eq:beta-R-expanded}
+\end{equation}
+
+\subsection{Special coupling values}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Coupling} & $\xi$ & $\tilde{\xi}$ & $\beta_W^{(0)}$
+  & $\beta_R^{(0)}$ \\
+\midrule
+Minimal & $0$ & $-1/6$ & $1/120$ & $1/72$ \\
+Conformal & $1/6$ & $0$ & $1/120$ & $0$ \\
+General & $\xi$ & $\xi-1/6$ & $1/120$ & $(1/2)\tilde{\xi}^2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\verified
+
+\begin{remark}[Independence of $\beta_W$ from $\xi$]
+\label{rem:betaW-xi-independence}
+$\beta_W$ is \textbf{independent of}~$\xi$.  This is because the
+Weyl tensor is traceless, so the $C^2$ divergence receives
+contributions only from the ``universal'' part of the heat kernel
+(the $f_{\mathrm{Ric}}$ form factor via the Weyl-basis projection
+$f_C = \frac{d-2}{4(d-3)}f_{\mathrm{Ric}}$), not from the
+endomorphism~$\mathbf{U}$ or the potential~$P$.
+\fromlit{Structure visible in CZ eqs.~(5.11)--(5.12)}
+
+In contrast, $\beta_R$ depends quadratically on $\tilde{\xi}$ and
+vanishes precisely at conformal coupling $\xi = 1/6$.
+\end{remark}
+
+
+%%======================================================================
+\section{CZ Form Factor Formulas Specialized to Scalar}
+\label{sec:CZ-formulas}
+%%======================================================================
+
+\subsection{Master function}
+
+The basic heat kernel form factor (universal for all spins):
+\begin{equation}
+  \varphi(x) \equiv f(x) = \int_0^1 \dd\alpha\,e^{-\alpha(1-\alpha)\,x}\,.
+  \label{eq:master-function}
+\end{equation}
+\exactlit\ \fromlit{CZ eq.~(5.3) = their $f(x)$; TSR eq.~(5) = their $f(\tau)$}
+
+\medskip\noindent
+Taylor expansion around $x = 0$:
+\begin{equation}
+  \varphi(x) = 1 - \frac{x}{6} + \frac{x^2}{60} - \frac{x^3}{840} + O(x^4)\,.
+  \label{eq:phi-taylor}
+\end{equation}
+\exactlit\ \fromlit{CZ below eq.~(5.3)}
+
+\medskip\noindent
+Large-$x$ asymptotics:
+\begin{equation}
+  \varphi(x) = \frac{2}{x} + \frac{4}{x^2} + O(x^{-3})
+  \quad\text{as } x \to \infty\,.
+  \label{eq:phi-asymptotic}
+\end{equation}
+\exactlit\ \fromlit{CZ below eq.~(5.4)}
+
+\subsection{Five CZ form factors (Ricci basis)}
+\label{sec:five-CZ}
+
+The heat kernel trace expansion in the CZ curvature basis
+$\{R_{\mu\nu}, R, \mathbf{U}, \Omega_{\mu\nu}\}$:
+\begin{align}
+  \Tr K^s &= \frac{1}{(4\pi s)^{d/2}}\int \dd^d x\,\sqrt{g}\,\tr\Bigl\{
+    \hat{1} - s\,\mathbf{U} + s\,\hat{1}\,\frac{R}{6}
+    \nonumber\\
+  &\quad + s^2\Bigl[
+    \hat{1}\,R_{\mu\nu}\,f_{\mathrm{Ric}}(s\Box)\,R^{\mu\nu}
+    + \hat{1}\,R\,f_R(s\Box)\,R
+    \nonumber\\
+  &\quad\quad
+    + R\,f_{R\mathbf{U}}(s\Box)\,\mathbf{U}
+    + \mathbf{U}\,f_{\mathbf{U}}(s\Box)\,\mathbf{U}
+    + \Omega_{\mu\nu}\,f_\Omega(s\Box)\,\Omega^{\mu\nu}
+  \Bigr] + O(\mathcal{R}^3)\Bigr\}\,.
+  \label{eq:CZ-expansion}
+\end{align}
+\exactlit\ \fromlit{CZ eq.~(5.1)}
+
+\medskip
+The five form factors are \fromlit{CZ eq.~(5.3)}:
+\begin{align}
+  f_{\mathrm{Ric}}(x) &= \frac{1}{6x} + \frac{\varphi(x) - 1}{x^2}\,,
+  \label{eq:f-Ric}\\[4pt]
+  f_R(x) &= \frac{\varphi}{32} + \frac{\varphi}{8x}
+    - \frac{7}{48x} - \frac{\varphi - 1}{8x^2}\,,
+  \label{eq:f-R}\\[4pt]
+  f_{R\mathbf{U}}(x) &= -\frac{\varphi}{4}
+    - \frac{\varphi - 1}{2x}\,,
+  \label{eq:f-RU}\\[4pt]
+  f_{\mathbf{U}}(x) &= \frac{\varphi}{2}\,,
+  \label{eq:f-U}\\[4pt]
+  f_\Omega(x) &= -\frac{\varphi - 1}{2x}\,.
+  \label{eq:f-Omega}
+\end{align}
+\exactlit\ \fromlit{CZ eq.~(5.3) verbatim, with $f \to \varphi$}
+
+All form factors are regular at $x = 0$ (apparent poles cancel via
+the Taylor expansion of~$\varphi$).
+
+\subsection{Short-time values ($x \to 0$)}
+
+Using $\varphi(0) = 1$, $\varphi'(0) = -1/6$, and L'H\^{o}pital:
+\begin{equation}
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{lclcl}
+  f_{\mathrm{Ric}}(0) &=& 1/60\,, &\quad&
+    \exactlit\ \fromlit{CZ eq.~(5.4)}\\
+  f_R(0) &=& 1/120\,, &&
+    \exactlit\ \fromlit{CZ eq.~(5.4)}\\
+  f_{R\mathbf{U}}(0) &=& -1/6\,, &&
+    \exactlit\ \fromlit{CZ eq.~(5.4)}\\
+  f_{\mathbf{U}}(0) &=& 1/2\,, &&
+    \exactlit\ \fromlit{CZ eq.~(5.4)}\\
+  f_\Omega(0) &=& 1/12\,. &&
+    \exactlit\ \fromlit{CZ eq.~(5.4)}
+\end{array}
+\label{eq:f-at-zero}
+\end{equation}
+
+\subsection{Higher-order Taylor coefficients}
+
+\exactlit\ \fromlit{CZ eq.~(5.5)}:
+\begin{equation}
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{lcl}
+  f_{\mathrm{Ric}}(x) &=& \frac{1}{60} - \frac{x}{840}
+    + \frac{x^2}{15120} + O(x^3)\,,\\[2pt]
+  f_R(x) &=& \frac{1}{120} - \frac{x}{336}
+    + \frac{11x^2}{30240} + O(x^3)\,,\\[2pt]
+  f_{R\mathbf{U}}(x) &=& -\frac{1}{6} + \frac{x}{30}
+    - \frac{x^2}{280} + O(x^3)\,,\\[2pt]
+  f_{\mathbf{U}}(x) &=& \frac{1}{2} - \frac{x}{12}
+    + \frac{x^2}{120} + O(x^3)\,,\\[2pt]
+  f_\Omega(x) &=& \frac{1}{12} - \frac{x}{120}
+    + \frac{x^2}{1680} + O(x^3)\,.
+\end{array}
+\label{eq:f-taylor}
+\end{equation}
+
+\subsection{Large-$x$ asymptotic values}
+
+\exactlit\ \fromlit{CZ eq.~(5.8)}:
+\begin{equation}
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{lcl}
+  f_{\mathrm{Ric}}(x) &=& \frac{1}{6x} - \frac{1}{x^2}
+    + O(x^{-3})\,,\\[2pt]
+  f_R(x) &=& -\frac{1}{12x} + \frac{1}{2x^2}
+    + O(x^{-3})\,,\\[2pt]
+  f_{R\mathbf{U}}(x) &=& -\frac{2}{x^2}
+    - \frac{8}{x^3} + O(x^{-4})\,,\\[2pt]
+  f_{\mathbf{U}}(x) &=& \frac{1}{x} + \frac{2}{x^2}
+    + O(x^{-3})\,,\\[2pt]
+  f_\Omega(x) &=& \frac{1}{2x} - \frac{1}{2x^2}
+    + O(x^{-3})\,.
+\end{array}
+\label{eq:f-large-x}
+\end{equation}
+
+
+%%======================================================================
+\section{Weyl-Basis Assembly: $h_C^{(0)}$ and $h_R^{(0)}$}
+\label{sec:weyl-assembly}
+%%======================================================================
+
+\subsection{Gauss--Bonnet reduction}
+
+At order $\mathcal{R}^2$ in the curvature expansion, the identity
+\fromlit{CZ eq.~(A.1), TSR eq.~(4.12)}:
+\begin{equation}
+  R_{\mu\nu\rho\sigma}\,f(\Box)\,R^{\mu\nu\rho\sigma}
+  = 4\,R_{\mu\nu}\,f(\Box)\,R^{\mu\nu}
+  - R\,f(\Box)\,R + O(\mathcal{R}^3)
+  \label{eq:GB-reduction}
+\end{equation}
+allows elimination of the Riemann tensor form factor.
+
+\subsection{Weyl-basis form factors ($d = 4$)}
+
+Changing basis from $\{R_{\mu\nu}, R\}$ to $\{C_{\mu\nu\rho\sigma}, R\}$:
+\exactlit\ \fromlit{CZ eqs.~(5.11)--(5.12)}
+\begin{align}
+  f_C(x) &= \frac{d-2}{4(d-3)}\,f_{\mathrm{Ric}}(x)
+    \;\xrightarrow{d=4}\;
+    \frac{1}{2}\,f_{\mathrm{Ric}}(x)\,,
+  \label{eq:f-C}\\[4pt]
+  f_{R,\mathrm{bis}}(x) &= \frac{d}{4(d-1)}\,f_{\mathrm{Ric}}(x) + f_R(x)
+    \;\xrightarrow{d=4}\;
+    \frac{1}{3}\,f_{\mathrm{Ric}}(x) + f_R(x)\,.
+  \label{eq:f-Rbis}
+\end{align}
+
+\subsection{Scalar heat kernel in Weyl basis}
+
+For the real scalar with $\tr(\Id) = 1$, $\Omega_{\mu\nu} = 0$,
+and $\mathbf{U} = \xi R$ (massless), the CZ
+expansion~\eqref{eq:CZ-expansion} in the Weyl basis becomes:
+\begin{align}
+  \Tr K^s\big|_{\mathrm{scalar}}
+  &= \frac{1}{(4\pi s)^{d/2}}\int \dd^d x\,\sqrt{g}\,\Bigl\{
+    1 - s\xi R + s\frac{R}{6}
+  \nonumber\\
+  &\quad + s^2\Bigl[
+    C_{\mu\nu\rho\sigma}\,f_C(s\Box)\,C^{\mu\nu\rho\sigma}
+  \nonumber\\
+  &\quad\quad
+    + R\,\bigl(f_{R,\mathrm{bis}}(s\Box)
+    + \xi\,f_{R\mathbf{U}}(s\Box)
+    + \xi^2\,f_{\mathbf{U}}(s\Box)\bigr)\,R
+  \Bigr] + O(\mathcal{R}^3)\Bigr\}\,.
+  \label{eq:scalar-HK}
+\end{align}
+\verified\ This follows from substituting $\tr(\Id)=1$, $\Omega=0$,
+$\mathbf{U}=\xi R$ into~\eqref{eq:CZ-expansion} and applying
+the Weyl-basis change~\eqref{eq:f-C}--\eqref{eq:f-Rbis}.
+
+\subsection{Physical form factors}
+
+The form factors entering the one-loop effective action
+$\Gamma^{(1)} = +\frac{1}{2}\Tr\ln\Delta$ for the scalar are:
+
+\begin{equation}
+  \boxed{
+  h_C^{(0)}(x) = f_C(x)
+  = \frac{1}{2}\,f_{\mathrm{Ric}}(x)
+  = \frac{1}{12x} + \frac{\varphi(x) - 1}{2x^2}\,,
+  }
+  \label{eq:hC-scalar}
+\end{equation}
+\begin{equation}
+  \boxed{
+  h_R^{(0)}(x;\xi) = f_{R,\mathrm{bis}}(x)
+    + \xi\,f_{R\mathbf{U}}(x) + \xi^2\,f_{\mathbf{U}}(x)\,.
+  }
+  \label{eq:hR-scalar}
+\end{equation}
+\verified\ Both equations follow from the assembly in~\eqref{eq:scalar-HK}.
+
+\begin{remark}[Key properties of $h_C^{(0)}$]
+\label{rem:hC-properties}
+The Weyl form factor~\eqref{eq:hC-scalar} is:
+\begin{enumerate}[nosep]
+\item \textbf{Independent of~$\xi$} (no endomorphism contribution
+  to $C^2$ sector).
+\item \textbf{Independent of the field type} up to the trace factor
+  $\tr(\Id)$ (which is $1$ for scalar, $4$ for Dirac).
+\item Identical in structure to $f_{\mathrm{Ric}}/2$ with no
+  $f_\Omega$ correction (since $\Omega_{\mu\nu} = 0$).
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Explicit $h_R^{(0)}$ in terms of $\varphi$]
+\label{rem:hR-explicit}
+Substituting the CZ form factors:
+\begin{align}
+  h_R^{(0)}(x;\xi) &=
+  \underbrace{\Bigl[\frac{1}{3}\,f_{\mathrm{Ric}} + f_R\Bigr]}_{f_{R,\mathrm{bis}}}
+  + \xi\,f_{R\mathbf{U}} + \xi^2\,f_{\mathbf{U}}
+  \nonumber\\
+  &= \Bigl[\frac{1}{18x} + \frac{\varphi-1}{3x^2}
+    + \frac{\varphi}{32} + \frac{\varphi}{8x}
+    - \frac{7}{48x} - \frac{\varphi-1}{8x^2}\Bigr]
+  \nonumber\\
+  &\quad + \xi\Bigl[-\frac{\varphi}{4}
+    - \frac{\varphi-1}{2x}\Bigr]
+  + \xi^2\,\frac{\varphi}{2}\,.
+  \label{eq:hR-explicit}
+\end{align}
+This is the expression Derivation Pass should expand and simplify.
+Note the $\xi$-dependent terms vanish when $\Omega_{\mu\nu}=0$
+does not help here---the $\xi$-dependence enters through
+$\mathbf{U}$, not through $\Omega$.
+\end{remark}
+
+
+%%======================================================================
+\section{Special Cases}
+\label{sec:special}
+%%======================================================================
+
+\subsection{Minimal coupling ($\xi = 0$)}
+
+With $\xi = 0$ (no curvature coupling):
+\begin{align}
+  \mathbf{U} &= m^2\,, & P_{\mathrm{BV}} &= \frac{R}{6} - m^2\,,
+  \nonumber\\
+  h_C^{(0)}(x) &= f_C(x)\,, &
+  h_R^{(0)}(x; 0) &= f_{R,\mathrm{bis}}(x)\,.
+  \label{eq:minimal-coupling}
+\end{align}
+Since $\mathbf{U} = m^2$ is constant (independent of curvature),
+the $f_{R\mathbf{U}}$ and $f_{\mathbf{U}}$ terms contribute to
+the $R^2$ sector only through the proper-time integration (via
+the $e^{-sm^2}$ factor), producing the massive form factors
+$k_R$ of TSR.
+
+\medskip\noindent
+Benchmarks:
+\begin{align}
+  \beta_W^{(0)}(0) &= \frac{1}{120}\,, &
+  \beta_R^{(0)}(0) &= \frac{1}{72}\,. \label{eq:beta-minimal}
+\end{align}
+\verified\ From~\eqref{eq:beta-W-scalar} and~\eqref{eq:beta-R-scalar}
+with $\xi=0$.
+
+\subsection{Conformal coupling ($\xi = 1/6$)}
+
+With $\xi = 1/6$ (conformal coupling in $d = 4$):
+\begin{align}
+  \tilde{\xi} &= 0\,, & P_{\mathrm{BV}} &= -m^2\,,
+  \nonumber\\
+  \mathbf{U} &= \frac{R}{6} + m^2\,, & E &= -\frac{R}{6} - m^2\,.
+\end{align}
+
+The conformal scalar operator (massless) is $\Delta = -\Box + R/6$,
+which is the \textbf{Yamabe operator} (conformally covariant in $d=4$).
+
+\subsubsection{Conformal symmetry consequences}
+
+\begin{enumerate}
+\item $\beta_R^{(0)}(1/6) = 0$:
+\verified\ the $R^2$ logarithmic divergence vanishes, reflecting
+the Weyl invariance of the conformal scalar.
+\fromlit{TSR eq.~(46) with $\xi=1/6$; confirmed by
+$h_R^{(0)}(0; 1/6) = \frac{1}{72} - \frac{1}{36} + \frac{1}{72} = 0$}
+
+\item $\beta_W^{(0)} = 1/120$ persists (the $C^2$ anomaly is nonzero
+even for a conformal field).
+
+\item The conformal anomaly coefficients for a single real conformal
+scalar are \inferred\ (from standard conformal anomaly literature):
+\begin{equation}
+  a_{\mathrm{anomaly}} = \frac{1}{360}\,,\qquad
+  c_{\mathrm{anomaly}} = \frac{1}{120}\,,
+  \label{eq:anomaly-coeffs-ac}
+\end{equation}
+in the notation $\langle T^\mu{}_\mu\rangle =
+c\,C^2 - a\,E_4 + (\mathrm{total\ derivatives})$.
+Here $c = \beta_W = 1/120$ and $a = 1/360$ (the $E_4$ coefficient
+is third-order in curvatures and beyond our computation).
+
+\item The limit $\xi \to 1/6$ in $h_R^{(0)}(x;\xi)$ is smooth:
+the $R^2$ form factor remains nonlocal for $\xi \neq 1/6$ but
+becomes local at $\xi = 1/6$.
+\fromlit{TSR end of Section~4}
+\end{enumerate}
+
+
+%%======================================================================
+\section{BV--CZ Form Factor Conversion}
+\label{sec:BV-CZ}
+%%======================================================================
+
+For completeness (and as a cross-check tool for Derivation Pass), we record
+the linear transformation between BV and CZ form factor bases.
+
+\subsection{BV form factors $f_1,\ldots,f_5$}
+
+The BV-basis heat kernel trace is \fromlit{CZ eq.~(5.7) = our~(HK\_2.2bis)}:
+\begin{equation}
+  \Tr K^s = \frac{1}{(4\pi s)^{d/2}}\int \dd^d x\,\sqrt{g}\,\tr\Bigl\{
+    \hat{1} + s\,\mathbf{P} + s^2\bigl[\ldots\bigr]
+  \Bigr\}\,,
+\end{equation}
+where $\mathbf{P} = -\mathbf{U} + \frac{R}{6}\hat{1}$.
+
+\subsection{CZ-to-BV conversion}
+
+\exactlit\ \fromlit{CZ eq.~(5.9) = BV\_basis}:
+\begin{align}
+  f_1 &= f_{\mathrm{Ric}}\,, \label{eq:BV-CZ-1}\\
+  f_2 &= f_R + \frac{1}{6}\,f_{R\mathbf{U}}
+    + \frac{1}{36}\,f_{\mathbf{U}}\,, \label{eq:BV-CZ-2}\\
+  f_3 &= -\frac{1}{3}\,f_{\mathbf{U}}
+    - f_{R\mathbf{U}}\,, \label{eq:BV-CZ-3}\\
+  f_4 &= f_{\mathbf{U}}\,, \label{eq:BV-CZ-4}\\
+  f_5 &= f_\Omega\,. \label{eq:BV-CZ-5}
+\end{align}
+
+\subsection{BV-to-CZ conversion (inverse)}
+
+Inverting~\eqref{eq:BV-CZ-1}--\eqref{eq:BV-CZ-5}:
+\begin{align}
+  f_{\mathrm{Ric}} &= f_1\,, \\
+  f_{R\mathbf{U}} &= -f_3 - \frac{1}{3}\,f_4\,, \\
+  f_{\mathbf{U}} &= f_4\,, \\
+  f_R &= f_2 - \frac{1}{6}\,f_3 - \frac{1}{36}\,f_4
+    = f_2 + \frac{1}{6}\,f_{R\mathbf{U}} + \frac{1}{36}\,f_{\mathbf{U}}\,, \\
+  f_\Omega &= f_5\,.
+\end{align}
+
+\subsection{Verification against TSR}
+\label{sec:BV-CZ-verify}
+
+TSR~\cite{TSR2020} give the BV form factors
+\fromlit{TSR eq.~(4) = their (3.4)}:
+\begin{align}
+  f_1(\tau) &= \frac{f(\tau) - 1 + \tau/6}{\tau^2}\,,
+    \label{eq:TSR-f1}\\
+  f_2(\tau) &= \frac{f(\tau)}{288}
+    + \frac{f(\tau)-1}{24\tau}
+    - \frac{f(\tau)-1+\tau/6}{8\tau^2}\,,
+    \label{eq:TSR-f2}\\
+  f_3(\tau) &= \frac{f(\tau)}{12}
+    + \frac{f(\tau)-1}{2\tau}\,,
+    \label{eq:TSR-f3}\\
+  f_4(\tau) &= \frac{f(\tau)}{2}\,,
+    \label{eq:TSR-f4}\\
+  f_5(\tau) &= \frac{1-f(\tau)}{2\tau}\,,
+    \label{eq:TSR-f5}
+\end{align}
+where $\tau = -s\Box$ and $f(\tau)$ is the master
+function~\eqref{eq:master-function}.
+
+\medskip\noindent
+\textbf{Cross-checks} (all verified algebraically):
+\begin{itemize}[nosep]
+\item $f_1$: $[\varphi-1+x/6]/x^2 = (\varphi-1)/x^2 + 1/(6x)
+  = f_{\mathrm{Ric}}$ \verified
+\item $f_4$: $\varphi/2 = f_{\mathbf{U}}$ \verified
+\item $f_5$: $(1-\varphi)/(2x) = -(\varphi-1)/(2x) = f_\Omega$ \verified
+\item $f_3$: $\varphi/12 + (\varphi-1)/(2x)$.
+  CZ predicts $f_3 = -(1/3)f_{\mathbf{U}} - f_{R\mathbf{U}}
+  = -\varphi/6 + \varphi/4 + (\varphi-1)/(2x)
+  = \varphi/12 + (\varphi-1)/(2x)$ \verified
+\item $f_2$: CZ predicts $f_2 = f_R + (1/6)f_{R\mathbf{U}} + (1/36)f_{\mathbf{U}}
+  = \varphi/288 + \varphi/(24x) - 1/(16x) - (\varphi-1)/(8x^2)$.
+  TSR gives $f_2 = \varphi/288 + (\varphi-1)/(24x) - (\varphi-1+x/6)/(8x^2)
+  = \varphi/288 + \varphi/(24x) - 1/(24x) - (\varphi-1)/(8x^2) - 1/(48x)
+  = \varphi/288 + \varphi/(24x) - 1/(16x) - (\varphi-1)/(8x^2)$ \verified
+\end{itemize}
+
+All five BV form factors from TSR~\eqref{eq:TSR-f1}--\eqref{eq:TSR-f5}
+match the CZ-to-BV conversion exactly.
+
+
+%%======================================================================
+\section{Comparison with NT-1 Dirac Conventions}
+\label{sec:comparison}
+%%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{>{\raggedright}p{4cm} p{4.5cm} p{4.5cm}}
+\toprule
+\textbf{Quantity} &
+\textbf{Real scalar (spin 0)} &
+\textbf{Dirac spinor (spin 1/2)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Quantity} &
+\textbf{Real scalar (spin 0)} &
+\textbf{Dirac spinor (spin 1/2)} \\
+\midrule
+\endhead
+Field &
+$\varphi \in \mathbb{R}$ &
+$\psi \in \mathbb{C}^4$ \\
+Representation &
+trivial ($\mathbb{R}^1$) &
+spinor bundle ($\mathbb{C}^4$) \\
+$\tr(\Id)$ &
+$1$ &
+$4$ \\
+$E$ (our convention) &
+$-\xi R - m^2$ &
+$-R/4$ \fromlit{NT-1 eq.~(2.27)} \\
+$\mathbf{U}_{\mathrm{CZ}} = -E$ &
+$\xi R + m^2$ &
+$R/4$ \\
+$\Omega_{\mu\nu}$ &
+$0$ &
+$\frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^\rho\gamma^\sigma$
+  \fromlit{NT-1 eq.~(2.27)} \\
+$P_{\mathrm{BV}}$ ($m=0$) &
+$-\tilde{\xi}\,R$ &
+$-R/12$ \\
+\midrule
+$\beta_W = h_C(0)$ &
+$1/120$ \verified &
+$1/20$ \fromlit{NT-1 result} \\
+$\beta_R = h_R(0)$ &
+$(1/2)\tilde{\xi}^2$ \verified &
+$0$ \fromlit{NT-1 result} \\
+Conformally invariant? &
+Only at $\xi = 1/6$ &
+Always (massless, $d=4$) \\
+\midrule
+$h_C(x)$ &
+$\frac{1}{12x} + \frac{\varphi-1}{2x^2}$ &
+$\frac{3\varphi-1}{6x} + \frac{2(\varphi-1)}{x^2}$ \\[4pt]
+$h_R(x)$ &
+$f_{R,\mathrm{bis}} + \xi f_{R\mathbf{U}} + \xi^2 f_{\mathbf{U}}$
+  &
+$\frac{3\varphi+2}{36x} + \frac{5(\varphi-1)}{6x^2}$ \\
+\midrule
+Overall sign in $\Gamma^{(1)}$ &
+$+\frac{1}{2}$ (bosonic) &
+$-1$ (fermionic) \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\begin{remark}[Ratio of $\beta_W$ coefficients]
+\label{rem:betaW-ratio}
+$\beta_W^{\mathrm{Dirac}} / \beta_W^{\mathrm{scalar}}
+= (1/20)/(1/120) = 6$.
+
+This factor of~$6$ decomposes as $\tr(\Id) \times (\text{enhancement})
+= 4 \times 3/2$, where the $3/2$ comes from the spin connection
+curvature $\Omega_{\mu\nu}$ contribution to the Dirac form factor.
+For the scalar, $\Omega = 0$, so the enhancement is absent.
+
+\textbf{Note}: when combined with the \textbf{overall sign} of the
+fermion determinant, the total contributions to the gravitational
+effective action are:
+\begin{equation}
+  (\beta_W)_{\mathrm{total}} = +\frac{1}{2}\cdot\beta_W^{(0)}
+  - 1\cdot\beta_W^{(1/2)} = \frac{1}{240} - \frac{1}{20}
+  = -\frac{11}{240}\,.
+  \label{eq:betaW-total}
+\end{equation}
+\end{remark}
+
+\begin{remark}[Structural difference in $h_R$]
+\label{rem:hR-structure}
+The Dirac $h_R^{(1/2)}$ is a \textbf{closed-form} function of
+$\varphi$ and $x$ alone (no free parameters), because for the
+Dirac field $\xi$ is not a free parameter and the operator data
+are uniquely fixed by the Lichnerowicz formula.
+
+In contrast, the scalar $h_R^{(0)}$ depends on the \textbf{free
+coupling parameter}~$\xi$ and is a quadratic polynomial in $\xi$
+whose coefficients are the CZ form factors.  This parametric
+dependence is what makes $h_R^{(0)}$ vanish at $\xi=1/6$ but be
+nonzero elsewhere.
+\end{remark}
+
+
+%%======================================================================
+\section{Massive Form Factors from TSR}
+\label{sec:massive}
+%%======================================================================
+
+For completeness and as additional benchmarks, we record the TSR
+massive form factors.  After proper-time integration of the heat
+kernel with the $e^{-sm^2}$ mass regulator, the effective action
+for a massive scalar takes the form \fromlit{TSR eq.~(46)}:
+\begin{align}
+  \overline{\Gamma}^{(1)}_{\mathrm{scalar}}
+  &= \frac{1}{2(4\pi)^2}\int \dd^4x\,\sqrt{g}\,\biggl\{
+    \frac{m^4}{2}\Bigl[\frac{1}{2-\omega}
+      + \ln\Bigl(\frac{4\pi\mu^2}{m^2}\Bigr)
+      + \frac{3}{2}\Bigr]
+  \nonumber\\
+  &\quad + \tilde{\xi}\,m^2 R\Bigl[\frac{1}{2-\omega}
+      + \ln\Bigl(\frac{4\pi\mu^2}{m^2}\Bigr) + 1\Bigr]
+  \nonumber\\
+  &\quad + \frac{1}{2}\,C_{\mu\nu\rho\sigma}\Bigl[
+    \frac{1}{60(2-\omega)}
+    + \frac{1}{60}\ln\Bigl(\frac{4\pi\mu^2}{m^2}\Bigr)
+    + k_W\Bigr]C^{\mu\nu\rho\sigma}
+  \nonumber\\
+  &\quad + R\Bigl[\frac{\tilde{\xi}^2}{2}\Bigl(\frac{1}{2-\omega}
+    + \ln\Bigl(\frac{4\pi\mu^2}{m^2}\Bigr)\Bigr)
+    + k_R\Bigr]R\biggr\}\,,
+  \label{eq:TSR-full-action}
+\end{align}
+where the nonlocal form factors $k_W$ and $k_R$ are
+\fromlit{TSR eqs.~(45W) and (45R)}:
+\begin{align}
+  k_W &= \frac{8A}{15a^4} + \frac{2}{45a^2} + \frac{1}{150}\,,
+  \label{eq:kW}\\
+  k_R &= A\tilde{\xi}^2
+    + \Bigl(\frac{2A}{3a^2} + \frac{1}{18} - \frac{A}{6}\Bigr)\tilde{\xi}
+    - \frac{A}{18a^2} + \frac{A}{144} + \frac{A}{9a^4}
+    - \frac{7}{2160} - \frac{1}{108a^2}\,,
+  \label{eq:kR}
+\end{align}
+with
+\begin{equation}
+  a^2 = \frac{4k^2}{k^2 + 4m^2} = -\frac{4\Box}{\Box - 4m^2}\,,
+  \qquad
+  A = 1 - \frac{1}{a}\ln\Bigl|\frac{2+a}{2-a}\Bigr|\,.
+  \label{eq:a-A-def}
+\end{equation}
+\exactlit\ \fromlit{TSR eqs.~(43), (44)}
+
+\subsection{UV limit ($k^2 \gg m^2$)}
+
+In the UV, $a \to 2$ and $A \to 1 - \frac{1}{2}\ln(k^2/m^2)$,
+giving \fromlit{TSR eqs.~(47W), (47R)}:
+\begin{align}
+  k_W &\to -\frac{1}{120}\ln\Bigl(\frac{-\Box}{\mu^2}\Bigr)
+    + \mathrm{const}\,, \\
+  k_R &\to -\frac{\tilde{\xi}^2}{2}\ln\Bigl(\frac{-\Box}{\mu^2}\Bigr)
+    + \mathrm{const}\,.
+\end{align}
+These reproduce the $\beta$-coefficients:
+$\beta_W = 1/120$, $\beta_R = \tilde{\xi}^2/2$. \verified
+
+\subsection{IR limit ($k^2 \ll m^2$)}
+
+In the IR, $a \to k/m \to 0$ and $A \to -k^2/(12m^2)$, giving
+\fromlit{TSR eq.~(48)}:
+\begin{equation}
+  k_W \to -\frac{1}{840}\,\frac{k^2}{m^2} + O(k^4/m^4)\,.
+\end{equation}
+The decoupling is quadratic---no logarithmic running in the IR.
+
+
+%%======================================================================
+\section*{Summary of Benchmarks for Derivation Pass}
+%%======================================================================
+
+\noindent
+Derivation Pass must reproduce the following values from a first-principles
+computation of $h_C^{(0)}$ and $h_R^{(0)}$ using the CZ heat kernel
+form factors:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\fbox{%
+\begin{minipage}{0.92\textwidth}
+\begin{align*}
+  &\text{B1:} \quad \tr(\Id) = 1
+    \quad\text{\verified}\\
+  &\text{B2:} \quad \Omega_{\mu\nu} = 0
+    \quad\text{\verified}\\
+  &\text{B3:} \quad E = -\xi R - m^2
+    \quad(\text{equiv.\ } \mathbf{U}_{\mathrm{CZ}} = \xi R + m^2)
+    \quad\text{\verified}\\
+  &\text{B4:} \quad P_{\mathrm{BV}}|_{m=0} = -\tilde{\xi}\,R
+    \quad\text{where } \tilde{\xi} = \xi - 1/6
+    \quad\text{\verified}\\
+  &\text{B5:} \quad
+    h_C^{(0)}(0) = \beta_W^{(0)} = \frac{1}{120}
+    \quad\text{\verified\ (3 sources)}\\
+  &\text{B6:} \quad
+    h_R^{(0)}(0;\,\xi=0) = \beta_R^{(0)}(0) = \frac{1}{72}
+    \quad\text{\verified}\\
+  &\text{B7:} \quad
+    h_R^{(0)}(0;\,\xi=1/6) = \beta_R^{(0)}(1/6) = 0
+    \quad\text{\verified}\\
+  &\text{B8:} \quad
+    \beta_R^{(0)}(\xi) = \frac{1}{2}\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}
+    \quad\text{(general $\xi$)}
+    \quad\text{\verified\ (3 sources)}\\
+  &\text{B9:} \quad
+    h_C^{(0)}(x) = \frac{1}{12x} + \frac{\varphi(x)-1}{2x^2}
+    \quad\text{\verified}\\
+  &\text{B10:} \quad
+    \beta_W^{(0)}/\beta_W^{(1/2)} = 1/6
+    \quad\text{(local-limit ratio to Dirac, not pointwise)}
+    \quad\text{\verified}\\
+  &\text{B11:} \quad
+    f_{R,\mathrm{bis}}(0) + \xi\,f_{R\mathbf{U}}(0)
+    + \xi^2\,f_{\mathbf{U}}(0) = \frac{1}{2}(\xi-\tfrac{1}{6})^2
+    \quad\text{\verified}\\
+  &\text{B12:} \quad
+    \text{BV form factors}~\eqref{eq:TSR-f1}\text{--}\eqref{eq:TSR-f5}
+    = \text{CZ-to-BV conversion}
+    \quad\text{\verified}
+\end{align*}
+\end{minipage}
+}
+\end{center}
+
+
+%%======================================================================
+\begin{thebibliography}{20}
+
+\bibitem{CZ2012}
+A.~Codello and O.~Zanusso,
+``On the non-local heat kernel expansion,''
+J.\ Math.\ Phys.\ \textbf{54} (2013) 013513
+[arXiv:1203.2034 [hep-th]].
+
+\bibitem{TSR2020}
+P.~de~Morais~Teixeira, I.~L.~Shapiro, and T.~G.~Ribeiro,
+``One-loop effective action: nonlocal form factors and
+renormalization group,''
+Grav.\ Cosmol.\ \textbf{26} (2020) 185
+[arXiv:2003.04503 [hep-th]].
+
+\bibitem{Vassilevich2003}
+D.~V.~Vassilevich,
+``Heat kernel expansion: user's manual,''
+Phys.\ Rept.\ \textbf{388} (2003) 279
+[hep-th/0306138].
+
+\bibitem{BV1987}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``The generalized Schwinger--DeWitt technique in gauge theories
+and quantum gravity,''
+Phys.\ Rept.\ \textbf{119} (1985) 1;
+Nucl.\ Phys.\ B \textbf{282} (1987) 163.
+
+\bibitem{BV1990a}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``Covariant perturbation theory (II).\ Second order in the curvature.
+General algorithms,''
+Nucl.\ Phys.\ B \textbf{333} (1990) 471.
+
+\bibitem{Avramidi1990}
+I.~G.~Avramidi,
+``The covariant technique for calculation of one-loop effective
+action,''
+Nucl.\ Phys.\ B \textbf{355} (1991) 712
+[hep-th/9510140].
+
+\end{thebibliography}
+
+\end{document}

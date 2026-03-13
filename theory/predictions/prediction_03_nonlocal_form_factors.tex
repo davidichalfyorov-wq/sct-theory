@@ -1,0 +1,370 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% SCT Theory — Prediction 03: Nonlocal Form Factors
+% Status: UNTESTED
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{untested}{RGB}{180,120,0}
+\definecolor{sctblue}{RGB}{0,51,153}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Prediction Card}}
+\fancyhead[R]{\small\textsc{P-03}}
+\fancyfoot[C]{\thepage}
+
+\title{%
+  \textbf{SCT Prediction 03:}\\[6pt]
+  \Large Nonlocal Form Factors from the Full Spectral Action\\[4pt]
+  \large $\mathrm{Tr}\,f(D^2/\Lambda^2)$ beyond local curvature expansion
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{center}
+  \colorbox{untested!15}{\parbox{0.6\textwidth}{\centering
+    \textbf{\color{untested} STATUS: UNTESTED}\\[2pt]
+    \small Requires resolution of scales $\sim 1/\Lambda$
+  }}
+\end{center}
+
+\vspace{1em}
+
+% ============================================================
+\section{Source}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Derived from:} SCT Axiom~1 (Spectral Action Principle), evaluated beyond the asymptotic (heat kernel) expansion.
+  \item \textbf{Derivation overview:}
+
+  The heat kernel expansion used in Predictions P-01 and P-02 is an asymptotic expansion in powers of $1/\Lambda^2$:
+  \begin{equation}
+    \mathrm{Tr}\,f(D^2/\Lambda^2) \sim \sum_{n=0}^{\infty} f_{4-n}\,\Lambda^{4-2n}\,a_n(D^2)
+    \label{eq:asymptotic}
+  \end{equation}
+  This is a \emph{local} expansion: each $a_n$ is a local curvature invariant. The full spectral action contains \textbf{nonlocal} contributions that are invisible in the asymptotic expansion. These can be extracted via three independent methods:
+
+  \begin{enumerate}
+    \item \textbf{Spectral zeta function:}
+      \begin{equation}
+        \Gamma^{(1)} = -\frac{1}{2}\,\zeta'_{D^2}(0)
+        \label{eq:zeta-method}
+      \end{equation}
+      where $\zeta_{D^2}(s) = \mathrm{Tr}\,(D^2)^{-s}$ is the spectral zeta function of $D^2$. The derivative at $s=0$ captures the one-loop effective action including all nonlocal terms.
+
+    \item \textbf{Avramidi nonlocal heat kernel:}
+      \begin{equation}
+        \mathrm{Tr}\,e^{-t D^2} = \frac{1}{(4\pi t)^{d/2}}\int d^dx\,\sqrt{g}\left[
+          1 + t\,\frac{R}{6} + t^2\left(
+            R\,F_1\!\left(\frac{t\Box}{\Lambda^2}\right)R
+            + R_{\mu\nu}\,F_2\!\left(\frac{t\Box}{\Lambda^2}\right)R^{\mu\nu}
+            + \ldots
+          \right)
+        \right]
+        \label{eq:avramidi}
+      \end{equation}
+      where $F_1, F_2$ are nonlocal \textbf{form factors} --- functions of the covariant d'Alembertian $\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$.
+
+    \item \textbf{Functional renormalization group (FRG):}
+      \begin{equation}
+        \partial_k \Gamma_k = \frac{1}{2}\,\mathrm{Tr}\left[\frac{\partial_k R_k}{\Gamma_k^{(2)} + R_k}\right]
+        \label{eq:wetterich}
+      \end{equation}
+      Using the spectral action as the \emph{bare action} at $k = \Lambda$, i.e., $\Gamma_{k=\Lambda} = \mathrm{Tr}\,f(D^2/\Lambda^2)$, the Wetterich equation~\eqref{eq:wetterich} generates the flow to the infrared, producing the full quantum effective action $\Gamma_{k=0}$ including all nonlocal contributions.
+  \end{enumerate}
+
+  \item \textbf{Key references:}
+    \begin{itemize}
+      \item I.~G.~Avramidi, \textit{Heat Kernel Method and its Applications}, Birkh\"auser (2015).
+      \item A.~O.~Barvinsky, G.~A.~Vilkovisky, \textit{Nucl.\ Phys.\ B}~\textbf{333}, 471 (1990).
+      \item A.~O.~Barvinsky, G.~A.~Vilkovisky, \textit{Nucl.\ Phys.\ B}~\textbf{282}, 163 (1987).
+      \item D.~F.~Litim, \textit{Phys.\ Rev.\ D}~\textbf{64}, 105007 (2001), arXiv:\texttt{hep-th/0103195}.
+      \item C.~Wetterich, \textit{Phys.\ Lett.\ B}~\textbf{301}, 90 (1993).
+    \end{itemize}
+\end{itemize}
+
+% ============================================================
+\section{Observable Quantity}
+% ============================================================
+
+\subsection{The Prediction: Form Factors}
+
+The full spectral action generates a nonlocal gravitational effective action of the form:
+
+\begin{equation}
+  \boxed{
+    \Gamma_{\text{grav}} = \int d^4x\,\sqrt{g}\left[
+      \frac{\Lambda_{\text{cc}}}{8\pi G} - \frac{R}{16\pi G}
+      + R\,\mathcal{F}_1(\Box/\Lambda^2)\,R
+      + R_{\mu\nu}\,\mathcal{F}_2(\Box/\Lambda^2)\,R^{\mu\nu}
+      + \ldots
+    \right]
+  }
+  \label{eq:nonlocal-action}
+\end{equation}
+
+where $\mathcal{F}_1$ and $\mathcal{F}_2$ are \textbf{nonlocal form factors} determined entirely by the spectral triple $(A, H, D)$ and the cutoff function $f$.
+
+\subsection{Structure of the Form Factors}
+
+In the regime $\Box/\Lambda^2 \ll 1$ (low energies), the form factors admit a Taylor expansion:
+\begin{align}
+  \mathcal{F}_1(\Box/\Lambda^2) &= c_1 + c_1'\,\frac{\Box}{\Lambda^2} + c_1''\,\frac{\Box^2}{\Lambda^4} + \ldots \label{eq:F1-expansion}\\
+  \mathcal{F}_2(\Box/\Lambda^2) &= c_2 + c_2'\,\frac{\Box}{\Lambda^2} + c_2''\,\frac{\Box^2}{\Lambda^4} + \ldots \label{eq:F2-expansion}
+\end{align}
+The zeroth-order coefficients $c_1, c_2$ are exactly the Wilson coefficients from Prediction P-01. The higher-order coefficients $c_i', c_i'', \ldots$ are additional SCT predictions that go beyond the local truncation.
+
+\subsection{Key Result: Agreement and Disagreement with Standard EFT}
+
+The full analysis reveals a structured relationship between SCT and standard EFT:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{6cm}cc}
+  \toprule
+  \textbf{Quantity} & \textbf{SCT} & \textbf{Standard EFT} \\
+  \midrule
+  Newtonian potential $V(r)$ & \multicolumn{2}{c}{\textbf{Agree}} \\
+  One-loop quantum correction $\beta$ & \multicolumn{2}{c}{\textbf{Agree} (P-00)} \\
+  Low-energy scattering amplitudes & \multicolumn{2}{c}{\textbf{Agree}} \\
+  Nonanalytic terms ($\ln q^2$, $1/q^2$) & \multicolumn{2}{c}{\textbf{Agree}} \\
+  \midrule
+  Local Wilson coefficients $c_1, c_2$ & Fixed ($-1/3$) & Free \\
+  Ratios $c_W/c_R$ & Fixed by spectral triple & Free \\
+  Form factors at $\Box/\Lambda^2 \sim 1$ & Determined & Unknown \\
+  Physics at $r \sim 1/\Lambda$ & Predicted & Breaks down \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\noindent
+\textbf{Summary:} The two formalisms agree on all \emph{long-range} (infrared) quantum predictions. They potentially differ in \emph{local Wilson coefficients}, where SCT fixes ratios through the spectral triple geometry. The most dramatic physical differences manifest at scales comparable to $1/\Lambda$.
+
+% ============================================================
+\section{Three Independent Derivations}
+% ============================================================
+
+The consistency of the nonlocal form factors can be cross-checked via three independent methods. This provides a strong internal consistency check for SCT.
+
+\subsection{Method 1: Spectral Zeta Function}
+
+The one-loop effective action is:
+\begin{equation}
+  \Gamma^{(1)} = -\frac{1}{2}\,\zeta'_{D^2}(0) = -\frac{1}{2}\left.\frac{d}{ds}\,\mathrm{Tr}\,(D^2)^{-s}\right|_{s=0}
+\end{equation}
+This is exact (no expansion) and produces the full nonlocal effective action. The form factors are obtained by expanding $\Gamma^{(1)}$ in a curvature expansion (Barvinsky--Vilkovisky technique).
+
+\textbf{Advantage:} Exact, no truncation. \textbf{Difficulty:} Requires knowledge of the full spectrum of $D^2$.
+
+\subsection{Method 2: Avramidi Nonlocal Heat Kernel}
+
+The heat kernel $K(t) = \mathrm{Tr}\,e^{-tD^2}$ is expanded in curvature (but not in $t$):
+\begin{equation}
+  K(t) = \frac{1}{(4\pi t)^2}\int d^4x\,\sqrt{g}\left[
+    b_0 + t\,b_1(x) + t^2\,\hat{b}_2(x; t\Box) + \ldots
+  \right]
+\end{equation}
+where $\hat{b}_2(x; t\Box)$ contains the nonlocal form factors. The spectral action is then:
+\begin{equation}
+  \mathrm{Tr}\,f(D^2/\Lambda^2) = \int_0^\infty dt\,\tilde{f}(t)\,K(t/\Lambda^2)
+\end{equation}
+where $\tilde{f}$ is the inverse Laplace transform of $f$.
+
+\textbf{Advantage:} Systematic, covariant. \textbf{Difficulty:} Higher-order form factors become algebraically involved.
+
+\subsection{Method 3: Functional Renormalization Group}
+
+The Wetterich equation~\eqref{eq:wetterich} with boundary condition $\Gamma_{k=\Lambda} = S_{\text{spectral}}$ generates the quantum effective action:
+\begin{equation}
+  \Gamma_{k=0}[\text{SCT}] = \Gamma_{k=\Lambda}[\text{SCT}] + \int_0^\Lambda dk\,\partial_k\Gamma_k
+\end{equation}
+The flow generates nonlocal terms even if the initial action is local (which the spectral action approximately is in the heat kernel truncation).
+
+\textbf{Advantage:} Incorporates RG running naturally. \textbf{Difficulty:} Requires truncation of the theory space; the full flow is infinite-dimensional.
+
+\subsection{Consistency Requirement}
+
+All three methods must yield the same physical predictions (scattering amplitudes, correlation functions) in their common domain of validity. This is a nontrivial internal consistency check for SCT:
+\begin{equation}
+  \mathcal{F}_i^{(\text{zeta})} = \mathcal{F}_i^{(\text{Avramidi})} = \mathcal{F}_i^{(\text{FRG})}
+  \quad \text{(within each method's regime of validity)}
+\end{equation}
+
+% ============================================================
+\section{Energy Scale and Regime}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Regime:} UV / trans-Planckian. The nonlocal form factors become important when $\Box/\Lambda^2 \sim 1$, i.e., when spacetime curvature varies on scales comparable to $1/\Lambda$.
+
+  \item \textbf{Where SCT differs from standard EFT:}
+    \begin{itemize}
+      \item For $\Box/\Lambda^2 \ll 1$: The form factors reduce to local Wilson coefficients. SCT and EFT make the same physical predictions up to the values of $c_1, c_2$ (Prediction P-01).
+      \item For $\Box/\Lambda^2 \sim 1$: The full momentum dependence of $\mathcal{F}_1, \mathcal{F}_2$ matters. Standard EFT breaks down here (its perturbative expansion diverges), while SCT provides a definite prediction through the full spectral action.
+      \item For $\Box/\Lambda^2 \gg 1$: Deep UV regime. The form factors are controlled by the high-energy asymptotics of $f$, which in turn is constrained by the spectral triple.
+    \end{itemize}
+
+  \item \textbf{Characteristic energy:} $E \sim \Lambda \sim M_P \approx 1.22 \times 10^{19}$~GeV.
+
+  \item \textbf{Physical contexts where $\Box/\Lambda^2 \sim 1$:}
+    \begin{itemize}
+      \item Near singularities of classical GR (black hole interior, Big Bang).
+      \item In the very early universe during Planck-era inflation.
+      \item Scattering at center-of-mass energies $\sqrt{s} \sim M_P$.
+    \end{itemize}
+\end{itemize}
+
+% ============================================================
+\section{Specific Physical Predictions}
+% ============================================================
+
+\subsection{Modified Graviton Propagator}
+
+The nonlocal form factors modify the graviton propagator in momentum space:
+\begin{equation}
+  G^{-1}_{\mu\nu\rho\sigma}(p) = G^{-1}_{\text{EH},\mu\nu\rho\sigma}(p)
+    + p^4\left[
+      \mathcal{F}_1(p^2/\Lambda^2)\,P^{(0)}_{\mu\nu\rho\sigma}
+      + \mathcal{F}_2(p^2/\Lambda^2)\,P^{(2)}_{\mu\nu\rho\sigma}
+    \right]
+    \label{eq:modified-propagator}
+\end{equation}
+where $P^{(0)}$ and $P^{(2)}$ are the spin-0 and spin-2 projection operators. The momentum dependence of $\mathcal{F}_{1,2}(p^2/\Lambda^2)$ is a specific SCT prediction.
+
+\subsection{UV Behavior of Scattering Amplitudes}
+
+At high energies ($p^2 \gg \Lambda^2$), the form factors determine whether gravity is:
+\begin{itemize}
+  \item \textbf{Asymptotically free:} $\mathcal{F}_i(z) \sim z^\alpha$ with $\alpha > 0$ (amplitudes grow).
+  \item \textbf{Asymptotically safe:} $\mathcal{F}_i(z) \to \text{const}$ (amplitudes plateau).
+  \item \textbf{Exponentially suppressed:} $\mathcal{F}_i(z) \sim e^{-z}$ (amplitudes die off).
+\end{itemize}
+The choice of cutoff function $f$ in the spectral action determines which behavior is realized. For example, $f(u) = e^{-u}$ gives exponential suppression, suggesting that SCT with this choice is \emph{superrenormalizable} at high energies.
+
+\subsection{Wilson Coefficients at Intermediate Scales}
+
+The higher-order Taylor coefficients in~\eqref{eq:F1-expansion}--\eqref{eq:F2-expansion} produce operators like $R\Box R$, $R\Box^2 R$, etc. Their coefficients are:
+\begin{align}
+  c_1' &= \left.\frac{d\mathcal{F}_1}{d(\Box/\Lambda^2)}\right|_{\Box=0} \label{eq:c1-prime}\\
+  c_1'' &= \frac{1}{2}\left.\frac{d^2\mathcal{F}_1}{d(\Box/\Lambda^2)^2}\right|_{\Box=0} \label{eq:c1-double-prime}
+\end{align}
+These are \emph{additional} predictions beyond P-01 and P-02. In standard EFT, each $c_i^{(n)}$ would be a new free parameter.
+
+% ============================================================
+\section{Required Experimental Precision}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Direct detection of form factors:} Requires probing gravitational interactions at momentum transfers $p \sim \Lambda \sim M_P$. This is $\sim 10^{15}$ times higher than the LHC energy, and utterly inaccessible by any foreseeable collider.
+
+  \item \textbf{Indirect signatures:}
+    \begin{enumerate}
+      \item \textbf{Primordial gravitational wave spectrum:} If Planck-era inflation occurred, the form factors would imprint on the tensor power spectrum at very short wavelengths. Current CMB experiments (Planck, BICEP) probe scales that exited the horizon $\sim 60$ $e$-folds before the end of inflation, far below the Planck scale.
+      \item \textbf{Black hole information problem:} The nonlocal form factors could affect Hawking radiation near the singularity. However, this involves the deep interior of black holes, which is observationally inaccessible.
+      \item \textbf{Trans-Planckian scattering:} In principle, cosmic ray interactions at $E \gtrsim M_P$ would be sensitive. The GZK cutoff limits cosmic ray energies to $\sim 10^{11}$~GeV $\ll M_P$.
+    \end{enumerate}
+
+  \item \textbf{Current best constraints on nonlocal gravity:}
+    \begin{center}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{lcc}
+      \toprule
+      \textbf{Source} & \textbf{Scale probed} & \textbf{Constraint} \\
+      \midrule
+      Lunar laser ranging & $10^{-11}$ m$^{-1}$ & $\Lambda_{\text{NL}} > 10^{-2}$~eV \\
+      Binary pulsars & $10^{-4}$ m$^{-1}$ & Weak \\
+      GW150914 ringdown & $10^{3}$ m$^{-1}$ & $\Lambda_{\text{NL}} > 10^{-13}$~eV \\
+      \bottomrule
+    \end{tabular}
+    \end{center}
+    These constraints probe nonlocality at astrophysical scales, not Planck-scale nonlocality. The gap is $\sim 30$ orders of magnitude.
+\end{itemize}
+
+% ============================================================
+\section{Theoretical Value and Consistency Checks}
+% ============================================================
+
+Although experimentally untestable, the nonlocal form factors serve critical theoretical functions:
+
+\begin{enumerate}
+  \item \textbf{UV completeness:} The form factors determine whether SCT provides a genuinely UV-complete theory or merely an effective description. If $\mathcal{F}_i(z) \to 0$ for $z \to \infty$, the theory is UV-finite.
+
+  \item \textbf{Unitarity:} The momentum-space behavior of the modified propagator~\eqref{eq:modified-propagator} determines whether the theory contains ghosts (negative-norm states). The form factor $\mathcal{F}_2$ must be chosen/derived such that no new poles with wrong-sign residues appear.
+
+  \item \textbf{Causality:} Nonlocal actions can violate causality if the form factors have the wrong analytic structure. SCT must satisfy:
+    \begin{equation}
+      \mathcal{F}_i(z) \text{ is analytic in the upper half-plane of $z = p^2$}
+    \end{equation}
+    (retarded boundary condition).
+
+  \item \textbf{Entropy and thermodynamics:} The form factors affect the Wald entropy of black holes:
+    \begin{equation}
+      S_{\text{Wald}} = \frac{A}{4G} + 8\pi\int_{\mathcal{H}} d^2x\,\sqrt{h}\left[
+        2c_1\,R + c_2\,R_{\mu\nu}\,n^{\mu\nu}
+        + \text{(nonlocal corrections)}
+      \right]
+    \end{equation}
+    The nonlocal corrections are a distinctive SCT prediction for black hole thermodynamics.
+
+  \item \textbf{Agreement in the IR:} The form factors must satisfy $\mathcal{F}_i(0) = c_i$ (Prediction P-01) and must reproduce all model-independent one-loop results (Prediction P-00) in the infrared limit.
+\end{enumerate}
+
+% ============================================================
+\section{Status}
+% ============================================================
+
+\begin{center}
+\colorbox{untested!15}{\parbox{0.85\textwidth}{\centering
+  \textbf{\color{untested}\Large UNTESTED}\\[6pt]
+  Nonlocal form factors are defined at scales $\sim 1/\Lambda \sim \ell_P$,\\
+  far beyond any experimental reach.\\[4pt]
+  \textbf{Distinguishing power:} This is where SCT makes its strongest\\
+  predictions \emph{beyond} standard EFT. The full momentum-dependent\\
+  form factors $\mathcal{F}_1(\Box/\Lambda^2), \mathcal{F}_2(\Box/\Lambda^2)$ are determined\\
+  by the spectral triple, with no free parameters.\\[4pt]
+  \textbf{Agreement with EFT:} In the infrared ($\Box/\Lambda^2 \ll 1$),\\
+  SCT reproduces all standard EFT predictions.\\
+  Differences emerge only at Planck-scale curvatures.\\[4pt]
+  \textbf{Theoretical value:} The form factors determine UV completeness,\\
+  unitarity, causality, and black hole thermodynamics within SCT.\\
+  Cross-checking three derivation methods provides internal consistency tests.
+}}
+\end{center}
+
+% ============================================================
+\section{Relation to Other SCT Predictions}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{P-00 (Donoghue coefficient):} Reproduced in the IR limit $\Box/\Lambda^2 \to 0$. The nonanalytic terms ($\ln q^2$, $1/q^2$) are identical.
+  \item \textbf{P-01 (Fixed $c_1/c_2$ ratio):} The zeroth-order Taylor coefficients of the form factors: $\mathcal{F}_1(0) = c_1$, $\mathcal{F}_2(0) = c_2$, with $c_1/c_2 = -1/3$.
+  \item \textbf{P-02 (Running constants):} The scale dependence $c_i(\mu)$ emerges from the interplay between the bare form factors and quantum corrections generated by the FRG flow.
+  \item \textbf{Hierarchy:} P-00 $\subset$ P-01 $\subset$ P-02 $\subset$ P-03. Each successive prediction contains more information about the UV structure of SCT.
+\end{itemize}
+
+\vspace{1em}
+\noindent
+\textit{This prediction card is part of the SCT Theory prediction catalog.}
+
+\end{document}

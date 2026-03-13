@@ -1,0 +1,61 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Downloaded papers
+.arxiv-papers/
+papers/latex-sources/
+papers/references/*.pdf
+
+# Large data files
+data/experimental/
+data/observational/
+data/simulations/
+data/processed/kg-backups/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+analysis/notebooks/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Local build and vendor outputs
+.tools/
+theory/lean/.lake/
+theory/lean/_sct_check_*.lean
+analysis/results/
+docs/notes/
+docs/plans/
+docs/reviews/
+docs/temp_roadmap_analysis.txt
+SCT Spectral Causal Theory Complete.pdf

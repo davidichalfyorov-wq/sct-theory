@@ -1,0 +1,305 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% SCT Theory — Prediction 02: Running Constants with Fixed ICs
+% Status: UNTESTED
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{untested}{RGB}{180,120,0}
+\definecolor{sctblue}{RGB}{0,51,153}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Prediction Card}}
+\fancyhead[R]{\small\textsc{P-02}}
+\fancyfoot[C]{\thepage}
+
+\title{%
+  \textbf{SCT Prediction 02:}\\[6pt]
+  \Large Running of Curvature-Squared Couplings\\
+  with Fixed Initial Conditions\\[4pt]
+  \large $c_1^{\text{SCT}}(\mu) = \dfrac{f_4}{480\pi^2} - 2b_1\ln\!\left(\dfrac{\Lambda}{\mu}\right)$
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{center}
+  \colorbox{untested!15}{\parbox{0.6\textwidth}{\centering
+    \textbf{\color{untested} STATUS: UNTESTED}\\[2pt]
+    \small Current experiments cannot probe curvature-squared running
+  }}
+\end{center}
+
+\vspace{1em}
+
+% ============================================================
+\section{Source}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Derived from:} Combination of:
+    \begin{enumerate}
+      \item SCT Axiom~1 (Spectral Action Principle), which fixes the bare values of $c_1$ and $c_2$ at the cutoff scale $\Lambda$ (see Prediction P-01).
+      \item Standard renormalization group equations for higher-derivative gravity (Julve--Tonin, 1978; Fradkin--Tseytlin, 1982; Avramidi--Barvinsky, 1985).
+    \end{enumerate}
+  \item \textbf{Derivation chain:}
+    \begin{enumerate}
+      \item The spectral action fixes boundary conditions at $\mu = \Lambda$:
+        \begin{align}
+          c_1(\Lambda) &= \frac{f_4}{480\pi^2} \label{eq:c1-boundary}\\
+          c_2(\Lambda) &= -\frac{f_4}{160\pi^2} \label{eq:c2-boundary}
+        \end{align}
+      \item The one-loop renormalization group equations for the curvature-squared couplings in the gravitational effective action are:
+        \begin{align}
+          \mu\frac{d c_1}{d\mu} &= -2b_1 \label{eq:beta-c1}\\
+          \mu\frac{d c_2}{d\mu} &= -2b_2 \label{eq:beta-c2}
+        \end{align}
+        where $b_1, b_2$ are the one-loop beta function coefficients.
+      \item Integrating~\eqref{eq:beta-c1}--\eqref{eq:beta-c2} from $\Lambda$ down to $\mu$:
+        \begin{align}
+          c_1^{\text{SCT}}(\mu) &= \frac{f_4}{480\pi^2} - 2b_1\ln\!\left(\frac{\Lambda}{\mu}\right) \label{eq:c1-running}\\
+          c_2^{\text{SCT}}(\mu) &= -\frac{f_4}{160\pi^2} - 2b_2\ln\!\left(\frac{\Lambda}{\mu}\right) \label{eq:c2-running}
+        \end{align}
+    \end{enumerate}
+  \item \textbf{Key references:}
+    \begin{itemize}
+      \item J.~Julve, M.~Tonin, \textit{Nuovo Cim.\ B}~\textbf{46}, 137 (1978).
+      \item E.~S.~Fradkin, A.~A.~Tseytlin, \textit{Nucl.\ Phys.\ B}~\textbf{201}, 469 (1982).
+      \item I.~G.~Avramidi, A.~O.~Barvinsky, \textit{Phys.\ Lett.\ B}~\textbf{159}, 269 (1985).
+      \item A.~O.~Barvinsky, G.~A.~Vilkovisky, \textit{Phys.\ Rep.}~\textbf{119}, 1 (1985).
+    \end{itemize}
+\end{itemize}
+
+% ============================================================
+\section{Observable Quantity}
+% ============================================================
+
+\subsection{The Prediction}
+
+The running curvature-squared couplings with \textbf{fixed initial conditions} determined by the spectral geometry:
+
+\begin{equation}
+  \boxed{
+    c_1^{\text{SCT}}(\mu) = \frac{f_4}{480\pi^2} - 2b_1\ln\!\left(\frac{\Lambda}{\mu}\right)
+  }
+  \label{eq:prediction}
+\end{equation}
+
+\begin{equation}
+  \boxed{
+    c_2^{\text{SCT}}(\mu) = -\frac{f_4}{160\pi^2} - 2b_2\ln\!\left(\frac{\Lambda}{\mu}\right)
+  }
+  \label{eq:prediction2}
+\end{equation}
+
+\subsection{What Makes This a Prediction}
+
+In standard EFT of gravity, the renormalization group equations~\eqref{eq:beta-c1}--\eqref{eq:beta-c2} are the same, but the initial conditions $c_1(\mu_0)$ and $c_2(\mu_0)$ at some reference scale $\mu_0$ are \textbf{free parameters} that must be measured experimentally. The full running is:
+\begin{equation}
+  c_i^{\text{EFT}}(\mu) = c_i(\mu_0) - 2b_i\ln\!\left(\frac{\mu_0}{\mu}\right)
+  \label{eq:eft-running}
+\end{equation}
+with two undetermined constants $c_1(\mu_0), c_2(\mu_0)$.
+
+In SCT, these constants are \textbf{replaced by computable quantities}:
+\begin{equation}
+  c_1(\mu_0) \to \frac{f_4}{480\pi^2} - 2b_1\ln\!\left(\frac{\Lambda}{\mu_0}\right), \qquad
+  c_2(\mu_0) \to -\frac{f_4}{160\pi^2} - 2b_2\ln\!\left(\frac{\Lambda}{\mu_0}\right)
+\end{equation}
+The only remaining free parameter is $f_4$, which is a moment of the cutoff function:
+\begin{equation}
+  f_4 = \int_0^\infty f(u)\,u\,du
+  \label{eq:f4-definition}
+\end{equation}
+This is fixed once the cutoff function $f$ and the spectral triple $(A, H, D)$ are specified.
+
+\subsection{Beta Function Coefficients}
+
+The one-loop beta function coefficients for pure gravity (no matter fields):
+\begin{align}
+  b_1^{\text{pure grav}} &= \frac{1}{(4\pi)^2}\cdot\frac{133}{10} \\
+  b_2^{\text{pure grav}} &= -\frac{1}{(4\pi)^2}\cdot\frac{196}{45}
+\end{align}
+
+With $N_s$ real scalars, $N_f$ Dirac fermions, and $N_v$ vectors:
+\begin{align}
+  b_1 &= \frac{1}{(4\pi)^2}\left(\frac{133}{10} + N_s\cdot\frac{1}{2} + N_f\cdot(-1) + N_v\cdot\frac{11}{2}\right) \\
+  b_2 &= \frac{1}{(4\pi)^2}\left(-\frac{196}{45} + N_s\cdot\frac{1}{60} + N_f\cdot\frac{1}{10} + N_v\cdot\frac{31}{180}\right)
+\end{align}
+
+For the Standard Model matter content ($N_s = 4, N_f = 45, N_v = 12$):
+\begin{align}
+  b_1^{\text{SM}} &= \frac{1}{(4\pi)^2}\left(\frac{133}{10} + 2 - 45 + 66\right) = \frac{1}{(4\pi)^2}\cdot\frac{363}{10} \\
+  b_2^{\text{SM}} &= \frac{1}{(4\pi)^2}\left(-\frac{196}{45} + \frac{4}{60} + \frac{45}{10} + \frac{12\cdot 31}{180}\right) = \frac{1}{(4\pi)^2}\cdot\frac{53}{9}
+\end{align}
+
+% ============================================================
+\section{SCT vs.\ Standard EFT}
+% ============================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{4.5cm}cc}
+  \toprule
+  & \textbf{SCT} & \textbf{Standard EFT} \\
+  \midrule
+  RG equations & Same & Same \\
+  Beta functions $b_1, b_2$ & Same & Same \\
+  Initial condition $c_1(\Lambda)$ & $f_4/(480\pi^2)$ & Free parameter \\
+  Initial condition $c_2(\Lambda)$ & $-f_4/(160\pi^2)$ & Free parameter \\
+  Ratio at $\mu = \Lambda$ & $-1/3$ (fixed) & Arbitrary \\
+  Free parameters & 1 ($f_4$) & 2 ($c_1(\mu_0), c_2(\mu_0)$) \\
+  Predictive power & Higher & Lower \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\noindent
+\textbf{Key distinction:} SCT reduces the number of free parameters in the gravitational sector from 2 to 1. If both $c_1(\mu)$ and $c_2(\mu)$ could be independently measured at any single scale $\mu$, one could test whether their relationship is consistent with the SCT prediction.
+
+% ============================================================
+\section{Scale-Dependent Ratio $c_1(\mu)/c_2(\mu)$}
+% ============================================================
+
+The ratio $c_1/c_2 = -1/3$ holds exactly only at $\mu = \Lambda$. At lower scales:
+\begin{equation}
+  \frac{c_1(\mu)}{c_2(\mu)} = \frac{f_4/(480\pi^2) - 2b_1\ln(\Lambda/\mu)}{-f_4/(160\pi^2) - 2b_2\ln(\Lambda/\mu)}
+\end{equation}
+
+For $\mu \ll \Lambda$, the logarithmic terms dominate and the ratio approaches:
+\begin{equation}
+  \frac{c_1(\mu)}{c_2(\mu)} \xrightarrow{\mu \ll \Lambda} \frac{b_1}{b_2}
+\end{equation}
+which is determined entirely by the matter content. For the SM:
+\begin{equation}
+  \frac{c_1(\mu)}{c_2(\mu)} \xrightarrow{\mu \ll \Lambda} \frac{b_1^{\text{SM}}}{b_2^{\text{SM}}} = \frac{363/10}{53/9} = \frac{3267}{530} \approx 6.16
+\end{equation}
+
+This dramatic departure from $-1/3$ at low energies means that the SCT prediction is most sharply testable at the highest accessible energies, i.e., closest to $\Lambda$.
+
+% ============================================================
+\section{Energy Scale and Regime}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Regime:} UV. The prediction specifies the running from $\mu = \Lambda$ (cutoff) downward.
+  \item \textbf{Cutoff scale:} $\Lambda \sim M_P \approx 1.22 \times 10^{19}$~GeV (expected). The precise value depends on the spectral triple.
+  \item \textbf{Where distinguishable from EFT:} At any scale where both $c_1$ and $c_2$ can be independently measured. The constraint is one relation between two quantities:
+    \begin{equation}
+      c_1(\mu) + \frac{1}{3}\,c_2(\mu) = -2\left(b_1 + \frac{1}{3}b_2\right)\ln\!\left(\frac{\Lambda}{\mu}\right)
+      \label{eq:constraint}
+    \end{equation}
+    This linear combination is predicted as a function of $\mu/\Lambda$, with no additional free parameters (once $f_4$ is used to set the overall normalization).
+  \item \textbf{RG validity:} The one-loop running~\eqref{eq:c1-running}--\eqref{eq:c2-running} is valid in the perturbative regime $c_i \ll 1/G\mu^2$. Higher-loop corrections become important near $\mu \sim M_P$.
+\end{itemize}
+
+% ============================================================
+\section{Required Experimental Precision}
+% ============================================================
+
+\subsection{What Would Be Needed}
+
+To test this prediction, one needs:
+\begin{enumerate}
+  \item Independent measurements of $c_1(\mu)$ and $c_2(\mu)$ at the same energy scale $\mu$.
+  \item Sufficient precision to check the constraint~\eqref{eq:constraint}.
+  \item Alternatively: measurement of $c_1(\mu)$ at two different scales to extract $b_1$ and $c_1(\Lambda)$ separately, then compare $c_1(\Lambda)$ with the SCT prediction.
+\end{enumerate}
+
+\subsection{Current Status}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Observable} & \textbf{Sensitivity to $c_i$} & \textbf{Current precision} \\
+  \midrule
+  Graviton scattering (LHC) & $\propto c_i \cdot E^2/M_P^2$ & Not observed \\
+  Black hole QNMs & $\propto c_i/(M_P^2 r_s^2)$ & $\delta\omega/\omega \sim 0.1$ \\
+  Inflation (tensor tilt) & $\propto c_2 \cdot H^2/M_P^2$ & $r < 0.036$ (BICEP3) \\
+  Neutron star mergers & $\propto c_i \cdot R_{\text{NS}}^{-4}$ & Not yet resolved \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+In all cases, the sensitivity to $c_i$ is suppressed by at least $(E/M_P)^2$, making direct measurement impossible with current technology.
+
+\subsection{Theoretical Constraints}
+
+Certain combinations of $c_1, c_2$ are constrained by:
+\begin{itemize}
+  \item \textbf{Unitarity:} $c_2 < 0$ required to avoid the massive spin-2 ghost (Stelle, 1977). SCT satisfies this: $c_2^{\text{SCT}} = -f_4/(160\pi^2) < 0$ for $f_4 > 0$.
+  \item \textbf{Positivity bounds:} Forward dispersion relations constrain certain linear combinations of $c_i$ (de Rham et al., 2017). Compatibility with SCT values is a nontrivial check.
+  \item \textbf{Asymptotic safety:} If gravity is asymptotically safe, the UV fixed point determines $c_i(\Lambda_{\text{UV}})$. Comparing with SCT values could test or constrain both scenarios.
+\end{itemize}
+
+% ============================================================
+\section{Remaining Uncertainty: The Moment $f_4$}
+% ============================================================
+
+The individual values of $c_1(\Lambda)$ and $c_2(\Lambda)$ depend on $f_4$. This quantity is determined by:
+\begin{equation}
+  f_4 = \int_0^\infty f(u)\,u\,du
+\end{equation}
+where $f$ is the cutoff function in the spectral action. The ratio $c_1/c_2 = -1/3$ is \emph{independent} of $f_4$, but the absolute scale of the running (and thus the constraint~\eqref{eq:constraint}) requires knowing $f_4$.
+
+\noindent
+\textbf{How $f_4$ is fixed in practice:}
+\begin{itemize}
+  \item By choosing a specific cutoff function $f$ (e.g., $f(u) = e^{-u}$ gives $f_4 = 1$).
+  \item By matching the spectral action to a known physical quantity (e.g., the cosmological constant, the gravitational coupling, or a particle mass).
+  \item In the noncommutative geometry approach (Connes--Chamseddine--Marcolli), $f_4$ is related to the Yukawa coupling matrix of the Standard Model.
+\end{itemize}
+
+% ============================================================
+\section{Status}
+% ============================================================
+
+\begin{center}
+\colorbox{untested!15}{\parbox{0.85\textwidth}{\centering
+  \textbf{\color{untested}\Large UNTESTED}\\[6pt]
+  No current experiment probes the running of curvature-squared couplings.\\[4pt]
+  \textbf{Distinguishing power:} SCT reduces 2 free parameters to 1,\\
+  imposing the constraint $c_1(\Lambda) + \frac{1}{3}c_2(\Lambda) = 0$.\\
+  This is testable in principle if $c_1$ and $c_2$ are ever measured independently.\\[4pt]
+  \textbf{Theoretical consistency:} The predicted sign $c_2 < 0$ is consistent with\\
+  unitarity requirements for the massive spin-2 mode.\\
+  The predicted initial conditions are compatible with known positivity bounds.
+}}
+\end{center}
+
+% ============================================================
+\section{Relation to Other SCT Predictions}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{P-00 (Donoghue coefficient):} Model-independent; does not involve $c_1, c_2$.
+  \item \textbf{P-01 (Fixed $c_1/c_2$ ratio):} Provides the initial condition at $\mu = \Lambda$ that is the starting point of the running described here.
+  \item \textbf{P-03 (Nonlocal form factors):} Goes beyond the local running couplings to capture the full momentum-dependent structure of the spectral action.
+\end{itemize}
+
+\vspace{1em}
+\noindent
+\textit{This prediction card is part of the SCT Theory prediction catalog.}
+
+\end{document}

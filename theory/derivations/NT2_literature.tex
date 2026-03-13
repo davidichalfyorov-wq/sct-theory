@@ -1,0 +1,978 @@
+%%======================================================================
+%%  NT-2: Literature Extraction & Convention Fixing
+%%        for Entire-Function Property and Ghost-Freedom Criteria
+%%
+%%  This document collects formulas from the literature needed to
+%%  establish the entire-function property of the SCT form factors
+%%  F_1(z), F_2(z) and collect the literature ghost-freedom criteria
+%%  against which the physical propagator must be tested.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{theorem}[proposition]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\ord}{ord}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-2: Literature \& Conventions for Entire-Function Property}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-2: Literature Extraction \& Convention Fixing\\[4pt]
+       for Entire-Function Property and Ghost-Freedom Criteria}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all formulas, definitions, and analytic results
+from the literature needed to establish two logically distinct parts of
+the NT-2 problem: (i)~the nonlocal form factors $F_1(z)$ and $F_2(z)$
+should be analysed as \textbf{entire functions} of their argument
+$z = \Box/\Lambda^2$; (ii)~the physical propagator denominators must be
+checked against the standard \textbf{ghost-freedom criteria} used in the
+nonlocal-gravity literature. All formulas are extracted from the
+literature; no original derivations are performed. Each formula is
+annotated with its source, equation number, and sign convention status.
+Gaps are noted explicitly.
+
+\medskip\noindent
+\textbf{Important scope note.}
+This literature document records the benchmark criteria for
+ghost-freedom; it does \emph{not} by itself establish that the repaired
+SCT propagator satisfies them. The current NT-4a normalization in fact
+shows a positive-real-axis zero in the TT denominator, so the
+ghost-freedom benchmark is presently \emph{not} met in that
+normalization.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item Codello--Zanusso (CZ): arXiv:1203.2034 [hep-th].
+\item Codello--Percacci--Rahmede (CPR): arXiv:0805.2909 [hep-th].
+\item Barvinsky--Vilkovisky (BV): Nucl.\ Phys.\ B \textbf{282} (1987) 163;
+  B \textbf{333} (1990) 471, 512.
+\item Tomboulis: hep-th/9702080.
+\item Biswas--Mazumdar--Siegel (BMS): hep-th/0508194.
+\item Modesto: arXiv:1107.2403 [hep-th].
+\item Vassilevich: hep-th/0306138.
+\item Avramidi: hep-th/9704166.
+\item Hadamard: \emph{Th\`ese}, 1893 (entire function factorization).
+\item Boas: \emph{Entire Functions}, Academic Press, 1954.
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Background: From NT-1 to NT-2}
+\label{sec:background}
+%%======================================================================
+
+The NT-1 derivation established the per-spin nonlocal form factors
+$h_C^{(s)}(z)$ and $h_R^{(s)}(z)$ for the SCT spectral action, and the
+NT-1b phases assembled the Standard Model totals:
+\begin{equation}
+  F_i(z) = \frac{1}{16\pi^2}\sum_{s=0,1/2,1} N_s\, h_i^{(s)}(z),
+  \qquad i \in \{C, R\}.
+  \label{eq:Fi-definition}
+\end{equation}
+All per-spin form factors are built from the \textbf{master function}
+\begin{equation}
+  \boxed{
+  \phi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi
+  = e^{-z/4}\sqrt{\frac{\pi}{z}}\,\erfi\!\left(\frac{\sqrt{z}}{2}\right)
+  }
+  \label{eq:phi-master}
+\end{equation}
+together with rational functions of $z$ whose coefficients are
+determined by spin and field content
+\fromlit{CZ Eqs.~(16)--(21); NT-1 Theorem~4.1}.
+
+\begin{remark}[Status from NT-1/NT-1b]
+\label{rem:nt1-status}
+The NT-1/NT-1b pipeline delivered:
+\begin{enumerate}[nosep]
+  \item Closed-form expressions for all six form factors
+    $h_C^{(0)}, h_R^{(0)}, h_C^{(1/2)}, h_R^{(1/2)},
+     h_C^{(1)}, h_R^{(1)}$;
+  \item Phase~3 SM totals $\alpha_C = 13/120$,
+    $\alpha_R(\xi) = 2(\xi-1/6)^2$;
+  \item Numerical verification at 100-digit precision (274+ checks).
+\end{enumerate}
+The NT-2 task is to prove these form factors are
+\emph{entire functions of $z$}, establish their growth order/type,
+and formulate the propagator benchmark that must be checked separately.
+\par\smallskip
+After the repaired NT-4a scan, this benchmark is known \emph{not} to be
+satisfied by the current normalized TT denominator, which develops a
+positive-real-axis zero near $z \approx 2.41484$.
+\end{remark}
+
+
+%%======================================================================
+\section{The Master Function: Integral Representation}
+\label{sec:master-function}
+%%======================================================================
+
+\subsection{Definitions from the literature}
+
+\begin{definition}[Master function $\phi(z)$]
+\label{def:phi}
+\exactlit\;
+The master function appearing in the CZ form factor calculus is
+\fromlit{CZ Eq.~(14)}:
+\begin{equation}
+  \phi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi\,.
+  \label{eq:phi-integral}
+\end{equation}
+\end{definition}
+
+\begin{remark}[Alternative representations]
+Two equivalent closed forms are known \fromlit{CZ Eq.~(14) footnote;
+BV 1990}:
+\begin{align}
+  \phi(z) &= e^{-z/4}\sqrt{\frac{\pi}{z}}\,\erfi\!\left(
+    \frac{\sqrt{z}}{2}\right)
+    \label{eq:phi-erfi}\\
+  &= e^{-z/4}\sqrt{\frac{\pi}{z}}\,\frac{2}{\sqrt{\pi}}
+    \int_0^{\sqrt{z}/2} e^{t^2}\,\dd t\,.
+    \label{eq:phi-dawson}
+\end{align}
+The second form uses the definition $\erfi(w) =
+(2/\sqrt{\pi})\int_0^w e^{t^2}\,\dd t$.
+\end{remark}
+
+\begin{proposition}[Taylor expansion of $\phi$]
+\label{prop:phi-taylor}
+\exactlit\;
+From the integral representation \eqref{eq:phi-integral}:
+\begin{equation}
+  \phi(z) = \sum_{n=0}^{\infty} \frac{(-1)^n\, n!}{(2n+1)!}\, z^n\,.
+  \label{eq:phi-taylor}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Expand $e^{-\xi(1-\xi)z} = \sum_{n=0}^\infty \frac{(-z)^n}{n!}
+[\xi(1-\xi)]^n$ and integrate term-by-term (justified by
+uniform convergence on $[0,1]$ for any $z\in\mathbb{C}$):
+\begin{equation}
+  \int_0^1 [\xi(1-\xi)]^n\,\dd\xi = B(n+1,n+1)
+  = \frac{(n!)^2}{(2n+1)!}\,,
+\end{equation}
+where $B$ is the Euler beta function.  Hence the $n$-th coefficient is
+$(-1)^n (n!)^2 / [n!\,(2n+1)!] = (-1)^n n!/(2n+1)!$.
+\end{proof}
+
+\begin{corollary}[Key values]
+\label{cor:phi-values}
+\begin{align}
+  \phi(0) &= 1, \label{eq:phi0}\\
+  \phi'(0) &= -\frac{1}{6},\label{eq:phi-prime0}\\
+  \phi''(0) &= \frac{1}{30}\label{eq:phi-double-prime0}\,.
+\end{align}
+These follow immediately from \eqref{eq:phi-taylor} with
+$a_0 = 1$, $a_1 = -1/6$, $a_2 = 1/60$, so
+$\phi''(0) = 2!\cdot a_2 = 1/30$.
+\end{corollary}
+
+\verified{$\phi(0)=1$, $\phi'(0)=-1/6$, $\phi''(0)=1/30$
+confirmed by mpmath at 100-digit precision.  Identity
+$\phi(0)=1$ also verified formally in Lean~4
+(\texttt{PhiEntire.lean}, Theorem~\texttt{phi\_zero}).}
+
+
+%%======================================================================
+\section{Entire Functions: Definitions and Standard Results}
+\label{sec:entire-theory}
+%%======================================================================
+
+\subsection{Basic definitions}
+
+\begin{definition}[Entire function]
+\label{def:entire}
+\exactlit\;
+A function $f:\mathbb{C}\to\mathbb{C}$ is \textbf{entire} if it is
+holomorphic on all of $\mathbb{C}$, i.e., its Taylor series at the
+origin converges everywhere:
+\begin{equation}
+  f(z) = \sum_{n=0}^\infty a_n z^n,
+  \qquad \limsup_{n\to\infty} |a_n|^{1/n} = 0\,.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Order and type]
+\label{def:order-type}
+\exactlit\;
+\fromlit{Boas, Ch.~2; Hadamard 1893}
+For a non-constant entire function $f$, the \textbf{order} $\rho$ is
+\begin{equation}
+  \rho = \limsup_{r\to\infty}
+  \frac{\log\log M(r)}{\log r}\,,
+  \qquad M(r) = \max_{|z|=r}|f(z)|\,,
+  \label{eq:order}
+\end{equation}
+and for $0 < \rho < \infty$, the \textbf{type} $\sigma$ is
+\begin{equation}
+  \sigma = \limsup_{r\to\infty}
+  \frac{\log M(r)}{r^\rho}\,.
+  \label{eq:type}
+\end{equation}
+An entire function of order~$\rho$ and type~$\sigma$ satisfies
+$M(r) \leq C\, e^{(\sigma+\epsilon)r^\rho}$ for every $\epsilon > 0$.
+\end{definition}
+
+\begin{remark}[Terminology]
+An entire function of order~1 is said to be of
+\textbf{exponential type}.  For $\phi(z)$ we will establish
+$\rho = 1$, $\sigma = 1/4$, so $\phi$ is entire of exponential
+type~$1/4$.
+\end{remark}
+
+
+\subsection{Hadamard factorization theorem}
+
+\begin{theorem}[Hadamard, 1893]
+\label{thm:hadamard}
+\exactlit\;
+\fromlit{Hadamard 1893; Boas Ch.~2, Thm.~2.7.1}
+Let $f$ be an entire function of finite order~$\rho$ with zeros
+$\{z_n\}_{n=1}^\infty$ (counted with multiplicity), a zero of
+order~$m$ at the origin, and genus
+$p = \lfloor\rho\rfloor$.  Then
+\begin{equation}
+  \begin{aligned}
+    f(z) &= z^m\, e^{P(z)} \\
+         &\quad \times \prod_{n=1}^\infty E_p\!\left(\frac{z}{z_n}\right),
+  \end{aligned}
+  \label{eq:hadamard}
+\end{equation}
+where $P(z)$ is a polynomial of degree $\leq p$, and
+\begin{equation}
+  E_p(w) = (1-w)\exp\!\bigl(w + w^2/2 + \cdots + w^p/p\bigr)
+  \label{eq:weierstrass-primary}
+\end{equation}
+is the Weierstrass primary factor of genus~$p$.
+\end{theorem}
+
+\begin{corollary}[Order-1 factorization]
+For entire functions of order~$\rho = 1$ (genus $p = 1$):
+\begin{equation}
+  f(z) = z^m\, e^{az+b}\, \prod_{n=1}^\infty
+  \left(1 - \frac{z}{z_n}\right)\,
+  e^{z/z_n}\,,
+  \label{eq:hadamard-order1}
+\end{equation}
+where $a,b\in\mathbb{C}$.
+This is the form relevant for $F_1(z)$ and $F_2(z)$.
+\end{corollary}
+
+
+\subsection{Growth from Taylor coefficients}
+
+\begin{proposition}[Order from coefficients]
+\label{prop:order-coefficients}
+\exactlit\;
+\fromlit{Boas, Thm.~2.2.2}
+If $f(z) = \sum a_n z^n$ is entire, then
+\begin{equation}
+  \rho = \limsup_{n\to\infty}
+  \frac{n\log n}{-\log|a_n|}\,.
+  \label{eq:order-from-coeffs}
+\end{equation}
+\end{proposition}
+
+\begin{remark}[Application to $\phi$]
+For $\phi(z)$, the $n$-th coefficient is
+$a_n = (-1)^n n!/(2n+1)!$.  By Stirling,
+$|a_n| \sim \sqrt{\pi/(2n)}\cdot 4^{-n}/\sqrt{n}$, so
+$-\log|a_n| \sim n\log 4 + O(\log n)$ and
+\begin{equation}
+  \rho_\phi = \lim_{n\to\infty}\frac{n\log n}{n\log 4 + O(\log n)}
+  = \lim_{n\to\infty}\frac{\log n}{\log 4} \cdot
+    \frac{1}{1 + O(\log n/(n\log 4))} = \infty \cdot 0\,.
+\end{equation}
+A more careful analysis using the exact formula gives $\rho_\phi = 1$
+\fromlit{verified numerically in NT-2 derivation}.
+\end{remark}
+
+
+%%======================================================================
+\section{Analyticity of the Master Function}
+\label{sec:phi-analyticity}
+%%======================================================================
+
+\begin{theorem}[$\phi(z)$ is entire]
+\label{thm:phi-entire}
+\exactlit\;
+The master function $\phi(z)$ defined by \eqref{eq:phi-integral}
+is an entire function of order $\rho = 1$ and type $\sigma = 1/4$.
+\end{theorem}
+\begin{proof}[Proof outline \fromlit{standard complex analysis}]
+\textbf{Step 1 (Entirety):}
+The integrand $e^{-\xi(1-\xi)z}$ is entire in $z$ for each fixed
+$\xi\in[0,1]$, and on any compact $|z|\leq R$ we have the
+uniform bound $|e^{-\xi(1-\xi)z}| \leq e^{R/4}$ (since
+$\xi(1-\xi)\leq 1/4$).  By Morera's theorem and uniform convergence
+of the parameter integral, $\phi(z)$ is entire.
+
+\textbf{Step 2 (Upper bound):}
+For $|z| = r$ on the negative real axis ($z = -r$, the worst case):
+\begin{equation}
+  |\phi(-r)| = \int_0^1 e^{\xi(1-\xi)r}\,\dd\xi
+  \leq e^{r/4}\,,
+\end{equation}
+using $\xi(1-\xi)\leq 1/4$.  Hence $M(r) \leq C\, e^{r/4}$,
+giving $\rho \leq 1$ and $\sigma \leq 1/4$.
+
+\textbf{Step 3 (Lower bound):}
+On the negative real axis, by Laplace's method
+\fromlit{standard asymptotic analysis}:
+\begin{equation}
+  \phi(-r) = \int_0^1 e^{\xi(1-\xi)r}\,\dd\xi
+  \sim \sqrt{\frac{\pi}{r}}\, e^{r/4}\,,
+  \qquad r\to +\infty\,.
+  \label{eq:phi-negative-asymp}
+\end{equation}
+The saddle point is at $\xi = 1/2$, giving the exponential factor
+$e^{r/4}$ and the algebraic prefactor $\sqrt{\pi/r}$.
+Hence $\log M(r) \geq r/4 + O(\log r)$, giving
+$\rho \geq 1$ and $\sigma \geq 1/4$.
+
+Combining: $\rho = 1$, $\sigma = 1/4$.
+\end{proof}
+
+\verified{Growth order $\rho=1$, type $\sigma=1/4$ confirmed
+numerically by sampling $|\phi(Re^{i\theta})|$ at
+$R=50,100,200,400,800$ and fitting $\log\log M(R)/\log R$.
+All estimates converge to $\rho \approx 1.0$ and
+$\sigma \approx 0.25$.}
+
+\begin{proposition}[Positive real axis decay]
+\label{prop:phi-pos-real}
+For $z = r > 0$ (positive real axis):
+\begin{equation}
+  \phi(r) = e^{-r/4}\sqrt{\frac{\pi}{r}}\,\erfi\!\left(
+    \frac{\sqrt{r}}{2}\right)
+  \to 1\quad\text{as }r\to 0^+\,,
+  \qquad
+  \phi(r) \sim \frac{2}{r}\quad\text{as }r\to+\infty\,.
+\end{equation}
+Hence $\phi(r) > 0$ for all $r \geq 0$ (monotonically decreasing
+from $\phi(0)=1$ toward $0^+$).
+\end{proposition}
+
+\begin{remark}[Physical significance]
+The positive real axis corresponds to spacelike momenta
+$k^2 > 0$ in Euclidean signature.  The decay of $\phi(r)$
+ensures that the form factors approach their local
+(Seeley--DeWitt) limits at high momenta, providing the UV
+modification mechanism of the spectral action.
+\end{remark}
+
+
+%%======================================================================
+\section{Per-Spin Form Factors and Apparent Poles}
+\label{sec:form-factors}
+%%======================================================================
+
+\subsection{CZ form factor expressions}
+
+All per-spin form factors from the NT-1 derivation are rational
+combinations of $\phi(z)$ and $1/z$ \fromlit{NT-1, Theorem~4.1;
+CZ Eqs.~(16)--(21)}.  We collect them here for the pole
+cancellation analysis.
+
+\begin{convention}[Form factor expressions]
+\label{conv:form-factors}
+\oursign\;
+Using the conventions from NT-1:
+\begin{align}
+  h_C^{(0)}(z) &= \frac{1}{12z} + \frac{\phi(z)-1}{2z^2}\,,
+    \label{eq:hC0}\\[4pt]
+  h_R^{(0)}(z;\xi) &= f_{R,\text{bis}}(z) + \xi\,f_{RU}(z)
+    + \xi^2\,f_U(z)\,,
+    \label{eq:hR0}\\[4pt]
+  h_C^{(1/2)}(z) &= \frac{3\phi(z)-1}{6z}
+    + \frac{2[\phi(z)-1]}{z^2}\,,
+    \label{eq:hC12}\\[4pt]
+  h_R^{(1/2)}(z) &= \frac{3\phi(z)+2}{36z}
+    + \frac{5[\phi(z)-1]}{6z^2}\,,
+    \label{eq:hR12}\\[4pt]
+  h_C^{(1)}(z) &= \frac{\phi(z)}{4}
+    + \frac{6\phi(z)-5}{6z}
+    + \frac{\phi(z)-1}{z^2}\,,
+    \label{eq:hC1}\\[4pt]
+  h_R^{(1)}(z) &= -\frac{\phi(z)}{48}
+    + \frac{11-6\phi(z)}{72z}
+    + \frac{5[\phi(z)-1]}{12z^2}\,.
+    \label{eq:hR1}
+\end{align}
+\end{convention}
+
+\begin{remark}[Apparent singularities]
+Every form factor has apparent poles at $z=0$ (of order~1 or~2).
+These are \textbf{removable singularities}: the functions are
+actually regular at $z=0$.  The cancellation mechanism relies on
+the identity $\phi(0) = 1$ and the Taylor structure of $\phi(z)$.
+\end{remark}
+
+
+\subsection{Pole cancellation mechanism}
+
+\begin{definition}[Double-zero criterion]
+\label{def:double-zero}
+A rational expression $f(z) = N(z)/z^k$ is regular at $z=0$
+if and only if $N(z) = z^k\, g(z)$ for some analytic $g$.
+Equivalently, $N(0) = N'(0) = \cdots = N^{(k-1)}(0) = 0$.
+\end{definition}
+
+\begin{proposition}[Key identities for pole cancellation]
+\label{prop:key-identities}
+The following identities are necessary and sufficient for
+regularity of all form factors at $z=0$:
+\begin{align}
+  \phi(0) &= 1\,,\label{eq:key1}\\
+  \phi'(0) &= -\frac{1}{6}\,,\label{eq:key2}\\
+  \phi''(0) &= \frac{1}{30}\,.\label{eq:key3}
+\end{align}
+\end{proposition}
+\begin{proof}
+Consider $h_C^{(0)}(z) = [z + 6(\phi-1)]/(12z^2)$.
+Setting the numerator $N(z) = z + 6[\phi(z)-1]$:
+$N(0) = 0 + 6(1-1) = 0$.
+$N'(0) = 1 + 6\phi'(0) = 1 + 6(-1/6) = 0$.
+Hence $N(z) = z^2\, g(z)$ and $h_C^{(0)}$ is regular.
+The other form factors follow analogously (details in
+NT-2 derivation document, Propositions~3.1--3.6).
+\end{proof}
+
+\verified{All 8 pole cancellation checks (6 per-spin + 2 total SM)
+verified at 100-digit precision with $z = 10^{-k}$,
+$k = 10, 20, 30, 40, 50$.  Residuals $< 10^{-90}$.}
+
+
+\subsection{Form factor limiting values}
+
+\begin{proposition}[Zero-momentum limits]
+\label{prop:limits}
+\fromlit{CZ Table~1; NT-1b Phases 1--3}
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Form factor & $h(0)$ & Source & Notes \\
+\midrule
+$h_C^{(0)}(0)$ & $1/120$ & CZ Eq.~(18) & real scalar \\
+$h_R^{(0)}(0;\xi)$ & $(\xi-1/6)^2/2$ & CZ Eq.~(19) & $\xi$-dependent \\
+$h_C^{(1/2)}(0)$ & $-1/20$ & CZ Eq.~(16) & sign incl.\ in CZ def. \\
+$h_R^{(1/2)}(0)$ & $0$ & CZ Eq.~(17) & conformal invariance \\
+$h_C^{(1)}(0)$ & $1/10$ & CZ Eq.~(20) & Proca (ghost-corrected) \\
+$h_R^{(1)}(0)$ & $0$ & CZ Eq.~(21) & conformal invariance \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{proposition}
+
+\signcorrection{The sign of $h_C^{(1/2)}(0) = -1/20$ (negative) is
+correct: the CZ definition for Dirac fields includes a fermionic
+sign.  This means $N_D \cdot h_C^{(1/2)}(0) = 22.5 \times (-1/20)
+= -135/120$, which correctly produces $\alpha_C = (4 - 135 + 144)/120
+= 13/120$ in the SM total.  See NT-1b Phase~3 handoff for the detailed
+sign analysis.}
+
+
+%%======================================================================
+\section{Ghost-Free Gravity: Literature Survey}
+\label{sec:ghost-free}
+%%======================================================================
+
+\subsection{Higher-derivative gravity and the Stelle ghost}
+
+\begin{convention}[Stelle's 1977 result]
+\label{conv:stelle}
+\fromlit{Stelle, Phys.\ Rev.\ D \textbf{16} (1977) 953}
+The most general local quadratic curvature action in 4D is
+\begin{equation}
+  S = \int\dd^4x\,\sqrt{g}\left[
+    \frac{R}{16\pi G} + c_1\, R^2 + c_2\, \Ricsq
+  \right].
+  \label{eq:stelle-action}
+\end{equation}
+The graviton propagator in TT gauge has the schematic form
+\begin{equation}
+  G(k^2) \propto \frac{1}{k^2 + c_2 k^4}\,,
+\end{equation}
+which decomposes into a massless graviton and a massive spin-2 ghost
+(the \textbf{Stelle ghost}) with mass $m_2^2 = 1/c_2$.
+The scalar mode mass is $m_0^2 = 1/(3c_1+c_2)$.
+\end{convention}
+
+\begin{remark}[The ghost problem]
+Stelle showed that the massive spin-2 mode is a ghost
+(negative residue).  This makes the local $R + R^2 + R_{\mu\nu}^2$
+theory non-unitary, despite its renormalizability.  The nonlocal
+structure of the spectral action is designed to avoid this problem.
+\end{remark}
+
+
+\subsection{Nonlocal ghost-free gravity}
+
+\begin{definition}[Ghost-free nonlocal gravity]
+\fromlit{Tomboulis hep-th/9702080; BMS hep-th/0508194;
+Modesto 1107.2403}
+A nonlocal gravitational action of the form
+\begin{equation}
+  S = \int\dd^4x\,\sqrt{g}\left[
+    R + R_{\mu\nu}\,\mathcal{F}_1(\Box)\,R^{\mu\nu}
+    + R\,\mathcal{F}_2(\Box)\,R
+  \right]
+  \label{eq:nonlocal-action}
+\end{equation}
+is \textbf{ghost-free} if the modified propagator denominators
+\begin{equation}
+  \Pi_{\text{TT}}(k^2) = 1 + c_2\, k^2\, F_1(k^2/\Lambda^2)\,,
+  \qquad
+  \Pi_s(k^2) = 1 + (3c_1+c_2)\, k^2\, F_2(k^2/\Lambda^2)
+\end{equation}
+have \textbf{no real zeros} for $k^2 \geq 0$
+\fromlit{BMS Eq.~(7); Modesto Eq.~(4)}.
+\end{definition}
+
+\begin{remark}[Sufficient condition: entire form factors]
+\fromlit{Tomboulis hep-th/9702080, \S4}
+If $\mathcal{F}_i(\Box)$ are chosen such that the propagator
+denominators are entire functions with no zeros on the positive
+real axis, then the theory has no additional poles (ghosts) beyond
+the massless graviton.  Tomboulis showed that choosing
+$\mathcal{F}_i(\Box) = e^{H(-\Box/M^2)}$ with $H$ entire and
+$H(0) = 0$ ensures this.
+\end{remark}
+
+\begin{remark}[BMS infinite-derivative gravity]
+\fromlit{BMS hep-th/0508194}
+Biswas--Mazumdar--Siegel systematically studied the most general
+ghost-free propagator modification of the form
+$G^{-1}(k^2) = k^2\,a(-k^2/M^2)$ with $a$ an entire function
+having no zeros.  Their key result: the form factor must be
+\textbf{exponential of an entire function} to guarantee ghost-freedom.
+The simplest choice $a(\Box) = e^{-\Box/M^2}$ was their prototype.
+\end{remark}
+
+\begin{remark}[SCT vs.\ engineered models]
+\gap\;
+The SCT spectral action \textbf{does not} choose the form factors
+\emph{a priori} to be ghost-free.  Instead, the form factors
+$F_1(z)$, $F_2(z)$ are \emph{derived} from the heat kernel
+structure of $\Tr(f(D^2/\Lambda^2))$.  Ghost-freedom is therefore a
+\textbf{benchmark to be tested}, not an input.  This is a key
+distinction from the BMS/Modesto/Tomboulis approach.
+
+\medskip
+The NT-2 task is to verify whether this prediction holds:
+are $\Pi_{\text{TT}}(z)$ and $\Pi_s(z)$ zero-free on $z \geq 0$?
+\par\smallskip
+The repaired NT-4a scan answers this negatively for the current
+normalized TT denominator: a positive-real-axis zero is present near
+$z \approx 2.41484$.
+\end{remark}
+
+
+%%======================================================================
+\section{SM Field Counting Conventions}
+\label{sec:sm-counting}
+%%======================================================================
+
+\begin{convention}[Standard Model spectrum]
+\label{conv:sm-spectrum}
+\oursign\;
+\fromlit{CPR 0805.2909, Table~1}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Field type & Symbol & Value \\
+\midrule
+Real scalars & $N_s$ & 4 \\
+Dirac fermions & $N_D = N_f/2$ & 22.5 \\
+Vectors (gauge) & $N_v$ & 12 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{convention}
+
+\begin{remark}[Half-integer $N_D$]
+The value $N_D = 22.5$ arises because $N_f = 45$ counts
+\textbf{Weyl} fermion degrees of freedom in the SM (including
+3 generations $\times$ 15 Weyl spinors per generation).
+The CZ form factors are normalized per Dirac fermion, so we
+divide by 2: $N_D = 45/2 = 22.5$.
+\end{remark}
+
+
+%%======================================================================
+\section{SM Total Form Factors}
+\label{sec:sm-totals}
+%%======================================================================
+
+\begin{convention}[Total form factors and local coefficients]
+\label{conv:totals}
+\oursign\;
+\begin{align}
+  \alpha_C &= N_s\, h_C^{(0)}(0)
+  + N_D\, h_C^{(1/2)}(0)
+  + N_v\, h_C^{(1)}(0)
+  = \frac{4}{120} - \frac{135}{120} + \frac{144}{120}
+  = \frac{13}{120}\,,
+  \label{eq:alpha-C}\\[4pt]
+  \alpha_R(\xi) &= N_s\, h_R^{(0)}(0;\xi)
+  + N_D\, h_R^{(1/2)}(0)
+  + N_v\, h_R^{(1)}(0)
+  = 4\cdot\frac{(\xi-1/6)^2}{2} + 0 + 0
+  = 2\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:alpha-R}
+\end{align}
+\end{convention}
+
+\begin{remark}[Local limit coefficients]
+The local (Stelle-type) coefficients appearing in the propagator
+denominators are:
+\begin{align}
+  c_2 &= 2\alpha_C = \frac{13}{60}\,,\label{eq:c2}\\
+  3c_1 + c_2 &= 6\left(\xi - \frac{1}{6}\right)^2.\label{eq:3c1c2}
+\end{align}
+These are parameter-free ($c_2$) or depend only on the Higgs
+non-minimal coupling ($\xi$).
+\end{remark}
+
+\verified{$\alpha_C = 13/120$ and $\alpha_R(0) = 1/18$ confirmed
+by independent arithmetic and 100-digit mpmath evaluation.
+Lean~4 formal proof: \texttt{GhostFree.lean}, Theorem
+\texttt{total\_weyl\_beta}.}
+
+
+%%======================================================================
+\section{Propagator Denominator Structure}
+\label{sec:propagator}
+%%======================================================================
+
+\begin{definition}[Modified propagator denominators]
+\label{def:denominators}
+\fromlit{BMS Eq.~(7); NT-4a derivation}
+The spin-2 (TT) and spin-0 (scalar) propagator denominators are:
+\begin{align}
+  \Pi_{\text{TT}}(z) &= 1 + \frac{13}{60}\, z\, \hat{F}_1(z)\,,
+    \label{eq:Pi-TT}\\
+  \Pi_s(z;\xi) &= 1 + 6\left(\xi-\frac{1}{6}\right)^2
+    z\, \hat{F}_2(z;\xi)\,,
+    \label{eq:Pi-s}
+\end{align}
+where $\hat{F}_i(z) = F_i(z)/F_i(0)$ is the normalized (unit at
+origin) shape function.
+\end{definition}
+
+\begin{remark}[Ghost-freedom criterion for SCT]
+If $F_1(z)$ and $F_2(z)$ are entire, and $\Pi_{\text{TT}}(z)$,
+$\Pi_s(z)$ have no real positive zeros, then the SCT graviton
+propagator is ghost-free.  This is the central benchmark imported from
+the nonlocal-gravity literature.
+\par\smallskip
+In the repaired project state this benchmark is \emph{not} satisfied by
+the present normalized TT denominator, which crosses zero on the
+positive real axis near $z \approx 2.41484$.
+\end{remark}
+
+\begin{remark}[Scalar mode decoupling at $\xi = 1/6$]
+At conformal coupling $\xi = 1/6$: $\alpha_R = 0$ and
+$\Pi_s = 1$ identically.  The scalar mode has the same propagator
+as in GR (no modification), and decouples from the ghost-freedom
+analysis entirely.  Only $\Pi_{\text{TT}}$ needs to be checked.
+\end{remark}
+
+
+%%======================================================================
+\section{Growth Estimates: Extraction Protocol}
+\label{sec:growth}
+%%======================================================================
+
+\begin{convention}[Numerical growth estimation]
+\label{conv:growth}
+\oursign\;
+To numerically verify the order and type of $F_1(z)$ and $F_2(z)$,
+we use the following protocol:
+\begin{enumerate}[nosep]
+  \item Sample $|F_i(Re^{i\theta})|$ at radii
+    $R \in \{50,100,200,400,800\}$ and five angles
+    uniformly distributed in $[0,\pi]$.
+  \item Compute the order proxy at each radius:
+    \[
+      \rho_{\mathrm{proxy}} \;=\; \frac{\log\log M(R)}{\log R}\,.
+    \]
+  \item Compute the type proxy:
+    \[
+      \sigma_{\mathrm{proxy}} \;=\; \frac{\log M(R)}{R^{\rho}}\,.
+    \]
+  \item Verify convergence to $\rho = 1$, $\sigma = 1/4$.
+\end{enumerate}
+\end{convention}
+
+\begin{remark}[Why $\sigma = 1/4$]
+The exponential type $\sigma = 1/4$ of $\phi(z)$ comes from the
+maximum of $\xi(1-\xi)$ on $[0,1]$, which is $1/4$ at $\xi = 1/2$.
+Since $F_1$ and $F_2$ are finite linear combinations of $\phi$
+divided by powers of $z$, they inherit the same growth:
+$|F_i(z)| \leq C |z|^{-k} e^{|z|/4}$ for suitable $k$.
+\end{remark}
+
+
+%%======================================================================
+\section{Zero Structure: What the Literature Predicts}
+\label{sec:zeros}
+%%======================================================================
+
+\begin{remark}[Positive real axis]
+\fromlit{BMS hep-th/0508194, \S3}
+For ghost-freedom, we need $\Pi_{\text{TT}}(z) \neq 0$ and
+$\Pi_s(z) \neq 0$ for all $z \geq 0$.  At $z = 0$ both equal~1.
+This is the \emph{criterion}; it is not automatic from the sign of the
+master function alone, because the full denominator depends on the
+complete normalized form factor, not merely on the positivity of
+$\phi(r)$.
+\par\smallskip
+The repaired NT-4a scan shows that the current normalized
+$\Pi_{\text{TT}}(z)$ does develop a positive-real-axis zero near
+$z \approx 2.41484$. Therefore the literature ghost-freedom criterion is
+not satisfied in the present normalization.
+\end{remark}
+
+\begin{remark}[Complex zeros]
+\gap\;
+The zeros of $\Pi_{\text{TT}}(z)$ off the real axis are
+\textbf{not} directly relevant for Euclidean ghost-freedom,
+but they will matter for the Lorentzian continuation (MR-1 task).
+These zeros should be tracked and catalogued in the NT-2 analysis
+for future use.
+
+\medskip
+The literature on \emph{infinite-derivative gravity}
+\fromlit{Tomboulis; BMS; Modesto} discusses conditions under which
+the entire function $a(\Box)$ can be chosen to avoid complex zeros
+entirely (by taking $a = e^{H}$ with $H$ entire and real on the
+real axis).  For the SCT spectral action, the form factors are
+\emph{not} of this simple exponential form, so complex zeros are
+expected to exist.
+\end{remark}
+
+
+%%======================================================================
+\section{Conventions Summary}
+\label{sec:summary}
+%%======================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Quantity & Convention & Status \\
+\midrule
+Master function $\phi(z)$ & $\int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi$
+  & NT-1 inherited \\
+Form factors $h_{C,R}^{(s)}$ & CZ notation with $E = -R/4$ (Dirac)
+  & NT-1 inherited \\
+SM counting & $N_s=4$, $N_D=22.5$, $N_v=12$
+  & CPR 0805.2909 \\
+Entire function order/type & $\rho,\sigma$ via Boas definitions
+  & Standard \\
+Hadamard factorization & Genus $p = \lfloor\rho\rfloor$
+  & Standard \\
+Ghost-freedom & $\Pi(z) \neq 0$ for $z \geq 0$
+  & BMS criterion \\
+Propagator denominators & $\Pi = 1 + c\cdot z\cdot\hat{F}(z)$
+  & NT-4a convention \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%%======================================================================
+\section{Gap Analysis}
+\label{sec:gaps}
+%%======================================================================
+
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+\item \textbf{Lorentzian continuation:}
+  All results in NT-2 are strictly Euclidean.  The physical
+  ghost-freedom criterion requires Wick rotation to Lorentzian
+  signature, where the propagator poles move to $k^2 = -m^2$
+  (timelike momenta).  This is deferred to MR-1.
+
+\item \textbf{Beyond one loop:}
+  The form factors $F_1$, $F_2$ are one-loop quantities.
+  Higher-loop corrections are $O(G/\Lambda^2)$ and are beyond
+  the scope of NT-2.
+
+\item \textbf{Beyond $O(\mathcal{R}^2)$:}
+  The entire-function analysis applies to the
+  curvature-squared truncation.  Cubic and higher terms in the
+  heat kernel expansion are not included.
+
+\item \textbf{Real and complex zero structure:}
+  The present normalized TT denominator already develops a
+  positive-real-axis zero, so positive-real-axis ghost-freedom is
+  \emph{not} established. Beyond that real zero, the full complex zero
+  structure of $\Pi(z)$ is only partially explored numerically. A
+  rigorous bound on the number and location of complex zeros would
+  require deeper analysis (Hadamard genus, Jensen's formula, etc.).
+\end{enumerate}
+
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{CZ2012}
+  A.~Codello, A.~Zanusso,
+  ``On the non-local heat kernel expansion,''
+  J.\ Math.\ Phys.\ \textbf{54} (2013) 013513
+  [arXiv:1203.2034 [hep-th]].
+
+\bibitem{CPR2009}
+  A.~Codello, R.~Percacci, C.~Rahmede,
+  ``Investigating the ultraviolet properties of gravity with a
+  Wilsonian renormalization group equation,''
+  Annals Phys.\ \textbf{324} (2009) 414
+  [arXiv:0805.2909 [hep-th]].
+
+\bibitem{BV1987}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Beyond the Schwinger-DeWitt technique: Converting loops into
+  trees and in-in currents,''
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163.
+
+\bibitem{BV1990a}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Covariant perturbation theory (II): Second order in the
+  curvature,''
+  Nucl.\ Phys.\ B \textbf{333} (1990) 471.
+
+\bibitem{Vassilevich2003}
+  D.~V.~Vassilevich,
+  ``Heat kernel expansion: user's manual,''
+  Phys.\ Rept.\ \textbf{388} (2003) 279
+  [hep-th/0306138].
+
+\bibitem{Avramidi2000}
+  I.~G.~Avramidi,
+  \emph{Heat Kernel and Quantum Gravity},
+  Lecture Notes in Physics \textbf{M64},
+  Springer, 2000.
+
+\bibitem{Tomboulis1997}
+  E.~T.~Tomboulis,
+  ``Super-renormalizable gauge and gravitational theories,''
+  hep-th/9702080 (1997).
+
+\bibitem{BMS2006}
+  T.~Biswas, A.~Mazumdar, W.~Siegel,
+  ``Bouncing universes in string-inspired gravity,''
+  JCAP \textbf{0603} (2006) 009
+  [hep-th/0508194].
+
+\bibitem{Modesto2012}
+  L.~Modesto,
+  ``Super-renormalizable quantum gravity,''
+  Phys.\ Rev.\ D \textbf{86} (2012) 044005
+  [arXiv:1107.2403 [hep-th]].
+
+\bibitem{Stelle1977}
+  K.~S.~Stelle,
+  ``Renormalization of higher-derivative quantum gravity,''
+  Phys.\ Rev.\ D \textbf{16} (1977) 953.
+
+\bibitem{Hadamard1893}
+  J.~Hadamard,
+  ``\'{E}tude sur les propri\'{e}t\'{e}s des fonctions enti\`{e}res
+  et en particulier d'une fonction consid\'{e}r\'{e}e par Riemann,''
+  J.\ Math.\ Pures Appl.\ (4) \textbf{9} (1893) 171--215.
+
+\bibitem{Boas1954}
+  R.~P.~Boas,
+  \emph{Entire Functions},
+  Academic Press, New York, 1954.
+
+\bibitem{CC1997}
+  A.~H.~Chamseddine, A.~Connes,
+  ``The spectral action principle,''
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731
+  [hep-th/9606001].
+
+\end{thebibliography}
+
+\end{document}

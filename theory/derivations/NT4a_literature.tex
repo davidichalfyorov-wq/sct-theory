@@ -1,0 +1,917 @@
+%%======================================================================
+%%  NT-4a: Literature Extraction & Convention Fixing
+%%         for Linearized Nonlocal Field Equations
+%%
+%%  This document collects formulas from the literature needed to
+%%  derive the linearized gravitational field equations from the
+%%  SCT spectral action, including propagator structure, Barnes-Rivers
+%%  projectors, and the modified Newtonian potential.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{theorem}[proposition]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-4a: Literature \& Conventions for Linearized Field Equations}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-4a: Literature Extraction \& Convention Fixing\\[4pt]
+       for Linearized Nonlocal Field Equations}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all formulas, conventions, and computational
+recipes from the literature needed to derive the linearized
+gravitational field equations from the SCT spectral action
+$\Tr(f(D^2/\Lambda^2))$.  The linearization is performed on a flat
+Minkowski (or Euclidean) background, yielding the modified graviton
+propagator in momentum space.  The document covers: the structure of
+higher-derivative gravity (Stelle 1977), the Barnes--Rivers spin
+projector decomposition (van Nieuwenhuizen 1973), nonlocal propagator
+modifications (BMS, Modesto), and the modified Newtonian potential.
+All formulas are extracted from the literature; no original derivations
+are performed.  Each formula is annotated with its source.
+Gaps are noted explicitly.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item Stelle: Phys.\ Rev.\ D \textbf{16} (1977) 953.
+\item van Nieuwenhuizen: Nucl.\ Phys.\ B \textbf{60} (1973) 478.
+\item Barvinsky--Vilkovisky (BV): Nucl.\ Phys.\ B \textbf{282} (1987)
+  163; B \textbf{333} (1990) 471.
+\item Biswas--Mazumdar--Siegel (BMS): hep-th/0508194.
+\item Modesto: arXiv:1107.2403 [hep-th].
+\item Biswas--Gerber--Mazumdar (BGM): arXiv:1112.5430 [gr-qc].
+\item Codello--Zanusso (CZ): arXiv:1203.2034 [hep-th].
+\item Codello--Percacci--Rahmede (CPR): arXiv:0805.2909 [hep-th].
+\item Chamseddine--Connes (CC): hep-th/9606001.
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Background: From NT-1b Phase~3 to NT-4a}
+\label{sec:background}
+%%======================================================================
+
+\subsection{Input from preceding derivations}
+
+The NT-4a linearization takes as input the one-loop effective action
+established in NT-1 through NT-1b Phase~3:
+\begin{equation}
+  \Gamma_{\text{1-loop}} = \int\dd^4x\,\sqrt{g}\left[
+    F_1\!\left(\frac{\Box}{\Lambda^2}\right)\Weylsq
+    + F_2\!\left(\frac{\Box}{\Lambda^2}\right)R^2
+  \right] + \text{topological},
+  \label{eq:effective-action}
+\end{equation}
+where the form factors $F_1(z)$ and $F_2(z)$ are entire functions
+(NT-2) with known local coefficients \fromlit{NT-1b Phase~3}:
+\begin{align}
+  F_1(0) &= \frac{\alpha_C}{16\pi^2}
+  = \frac{13}{1920\pi^2}\,,
+    \label{eq:F1-zero}\\
+  F_2(0;\xi) &= \frac{\alpha_R(\xi)}{16\pi^2}
+  = \frac{2(\xi-1/6)^2}{16\pi^2}\,.
+    \label{eq:F2-zero}
+\end{align}
+
+\begin{remark}[Curvature basis]
+\label{rem:curvature-basis}
+\fromlit{CZ Eq.~(25); NT-1b Phase~3}
+The Weyl-$R^2$ basis is preferred over the Ricci-$R^2$ basis because:
+\begin{enumerate}[nosep]
+  \item $\Weylsq$ and $R^2$ are algebraically independent;
+  \item The Weyl tensor is traceless ($C^\mu{}_{\mu\rho\sigma}=0$),
+    so $\Weylsq$ projects purely onto spin-2;
+  \item In the Gauss--Bonnet identity
+    $E_4 = \Weylsq - 2\Ricsq + \frac{2}{3}R^2$, the Euler density
+    $E_4$ is topological in 4D and does not contribute to
+    equations of motion.
+\end{enumerate}
+The conversion between bases is:
+\begin{equation}
+  \Ricsq = \Weylsq - \frac{1}{3}R^2 + E_4\,,
+  \qquad\text{(in 4D)}.
+  \label{eq:basis-conversion}
+\end{equation}
+\end{remark}
+
+
+\subsection{Connection to the Stelle framework}
+
+\begin{convention}[Local limit coefficients]
+\label{conv:local-coeffs}
+\oursign\;
+The local ($z\to 0$) limit of the effective action
+\eqref{eq:effective-action} is:
+\begin{equation}
+  \Gamma_{\text{local}} = \int\dd^4x\,\sqrt{g}\left[
+    \frac{\alpha_C}{16\pi^2}\,\Weylsq
+    + \frac{\alpha_R}{16\pi^2}\,R^2
+  \right].
+  \label{eq:local-limit}
+\end{equation}
+Comparing with the Stelle action
+$S_{\text{Stelle}} = \int(c_1 R^2 + c_2 \Ricsq)$
+and using \eqref{eq:basis-conversion}, we identify
+\fromlit{Stelle 1977; NT-1b Phase~3}:
+\begin{align}
+  c_2 &= 2\alpha_C = \frac{13}{60}\,,
+    \label{eq:c2-local}\\
+  c_1 &= \frac{\alpha_R - \alpha_C/3}{16\pi^2}\,,\notag\\
+  3c_1 + c_2 &= 6\left(\xi - \frac{1}{6}\right)^2.
+    \label{eq:3c1c2-local}
+\end{align}
+\end{convention}
+
+\verified{$c_2 = 13/60$, $3c_1+c_2 = 6(\xi-1/6)^2$ confirmed by
+NT-1b Phase~3 (354/354 checks PASS).  Lean~4 formal proof:
+\texttt{Propagator.lean}, Theorem \texttt{c2\_local}.}
+
+
+%%======================================================================
+\section{Linearization: Conventions and Identities}
+\label{sec:linearization}
+%%======================================================================
+
+\subsection{Metric perturbation}
+
+\begin{convention}[Background plus perturbation]
+\label{conv:metric-perturbation}
+\oursign\;
+We expand the metric about a flat background:
+\begin{equation}
+  g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}\,,
+  \qquad |h_{\mu\nu}| \ll 1\,,
+  \label{eq:metric-expansion}
+\end{equation}
+with $\eta_{\mu\nu} = \text{diag}(-1,+1,+1,+1)$ in Lorentzian
+signature or $\delta_{\mu\nu}$ in Euclidean.  We work to
+\textbf{first order in $h_{\mu\nu}$} (linear perturbation theory).
+\end{convention}
+
+\begin{convention}[Transverse-traceless gauge]
+\label{conv:tt-gauge}
+\oursign\;
+The TT gauge conditions:
+\begin{equation}
+  \partial^\mu h_{\mu\nu} = 0\,,
+  \qquad h^\mu{}_\mu = 0\,.
+  \label{eq:tt-conditions}
+\end{equation}
+This removes the gauge and trace degrees of freedom, leaving
+only the physical spin-2 graviton modes.
+\end{convention}
+
+
+\subsection{Linearized curvature tensors}
+
+\begin{proposition}[Linearized curvatures on flat background]
+\label{prop:linearized-curvatures}
+\fromlit{Wald Ch.~7; Stelle 1977 App.}
+To first order in $h_{\mu\nu}$ about $\eta_{\mu\nu}$:
+\begin{align}
+  R_{\mu\nu}^{(1)} &= \frac{1}{2}\bigl(
+    -\Box h_{\mu\nu} + \partial_\mu\partial_\rho h^\rho{}_\nu
+    + \partial_\nu\partial_\rho h^\rho{}_\mu
+    - \partial_\mu\partial_\nu h
+  \bigr),
+  \label{eq:ricci-lin}\\[4pt]
+  R^{(1)} &= \partial_\mu\partial_\nu h^{\mu\nu} - \Box h\,,
+  \label{eq:scalar-lin}\\[4pt]
+  G_{\mu\nu}^{(1)} &= R_{\mu\nu}^{(1)}
+    - \frac{1}{2}\eta_{\mu\nu}R^{(1)}\,,
+  \label{eq:einstein-lin}
+\end{align}
+where $h = \eta^{\mu\nu}h_{\mu\nu}$ and $\Box =
+\eta^{\mu\nu}\partial_\mu\partial_\nu$.
+\end{proposition}
+
+\begin{corollary}[TT gauge simplification]
+\label{cor:tt-simplification}
+In TT gauge ($\partial^\mu h_{\mu\nu} = 0$, $h = 0$):
+\begin{align}
+  R_{\mu\nu}^{(1)}\big|_{\text{TT}} &= -\frac{1}{2}\Box h_{\mu\nu}\,,
+  \label{eq:ricci-tt}\\
+  R^{(1)}\big|_{\text{TT}} &= 0\,,
+  \label{eq:scalar-tt}\\
+  G_{\mu\nu}^{(1)}\big|_{\text{TT}} &= -\frac{1}{2}\Box h_{\mu\nu}\,.
+  \label{eq:einstein-tt}
+\end{align}
+In particular, $R^2|_{\text{TT}} = 0$, so the $F_2(\Box/\Lambda^2)R^2$
+term does not contribute in TT gauge.  Only the Weyl term survives.
+\end{corollary}
+
+\begin{remark}[Curvature-squared in TT gauge]
+In TT gauge, the linearized Weyl tensor coincides with the Riemann
+tensor, and \fromlit{Stelle App.~A}:
+\begin{equation}
+  \Weylsq\big|_{\text{TT}}^{(2)}
+  = \frac{1}{2}\,h_{\mu\nu}\,\Box^2\, h^{\mu\nu}
+  + \text{total derivatives}\,.
+  \label{eq:weyl-sq-tt}
+\end{equation}
+This gives the fourth-derivative kinetic term characteristic of
+higher-derivative gravity.
+\end{remark}
+
+
+\subsection{Off-shell gauge invariance}
+
+\begin{definition}[Linearized gauge transformation]
+\label{def:gauge-transf}
+\fromlit{Wald Ch.~7; Weinberg Ch.~10}
+Under an infinitesimal diffeomorphism generated by $\xi^\mu$:
+\begin{equation}
+  h_{\mu\nu} \to h_{\mu\nu} + \partial_\mu\xi_\nu
+  + \partial_\nu\xi_\mu\,.
+  \label{eq:gauge-transf}
+\end{equation}
+A gauge mode is $h_{\mu\nu}^{(\xi)} = \partial_\mu\xi_\nu
++ \partial_\nu\xi_\mu$.
+\end{definition}
+
+\begin{proposition}[Linearized Bianchi identity]
+\label{prop:bianchi}
+\exactlit\;
+The linearized Einstein tensor satisfies
+\begin{equation}
+  \partial^\mu G_{\mu\nu}^{(1)} = 0
+  \label{eq:bianchi}
+\end{equation}
+identically (not just on-shell).  This is the linearized version
+of $\nabla^\mu G_{\mu\nu} = 0$.
+\end{proposition}
+\begin{proof}
+Direct computation from \eqref{eq:ricci-lin}--\eqref{eq:einstein-lin}:
+\begin{equation}
+  \partial^\mu G_{\mu\nu}^{(1)}
+  = \frac{1}{2}\bigl(
+    -\Box\partial_\rho h^\rho{}_\nu
+    + \partial_\nu\partial_\mu\partial_\rho h^{\mu\rho}
+    + \Box\partial_\rho h^\rho{}_\nu
+    - \partial_\nu\Box h
+    - \partial_\nu\partial_\mu\partial_\rho h^{\mu\rho}
+    + \partial_\nu\Box h
+  \bigr) = 0\,.
+\end{equation}
+All six terms cancel pairwise.
+\end{proof}
+
+\begin{corollary}[Off-shell gauge invariance]
+\label{cor:gauge-inv}
+The linearized Einstein tensor is invariant under
+\eqref{eq:gauge-transf}:
+\begin{equation}
+  G_{\mu\nu}^{(1)}[h + \partial\xi + \partial\xi]
+  = G_{\mu\nu}^{(1)}[h]\,,
+\end{equation}
+because $G_{\mu\nu}^{(1)}[\partial\xi + \partial\xi] = 0$ by the
+Bianchi identity and the symmetry of the construction.
+\end{corollary}
+
+\verified{Off-shell gauge invariance verified numerically for 5 random
+$k$-vectors (seed 42) and 5 random $\xi$-vectors: all residuals
+$< 10^{-14}$.  Bianchi identity verified for 5 random $k$-vectors
+and 5 random symmetric $h$-tensors (seed 43).}
+
+
+%%======================================================================
+\section{Barnes--Rivers Projectors}
+\label{sec:barnes-rivers}
+%%======================================================================
+
+\subsection{Spin decomposition of the graviton}
+
+\begin{definition}[Symmetric tensor decomposition]
+\label{def:spin-decomposition}
+\fromlit{van Nieuwenhuizen, Nucl.\ Phys.\ B \textbf{60} (1973) 478;
+Rivers, Nuovo Cimento \textbf{34} (1964) 387}
+A symmetric rank-2 tensor $h_{\mu\nu}$ in $d=4$ momentum space
+decomposes into irreducible spin components:
+\begin{itemize}[nosep]
+  \item \textbf{Spin-2:} 5 d.o.f.\ (transverse-traceless)
+  \item \textbf{Spin-1:} 4 d.o.f.\ (gauge, pure diffeomorphism)
+  \item \textbf{Spin-0 (scalar):} 1 d.o.f.\ (trace + longitudinal)
+\end{itemize}
+Total: $10 = 5 + 4 + 1$ components.
+\end{definition}
+
+
+\subsection{The five projectors}
+
+\begin{convention}[Transverse projector]
+\label{conv:theta}
+\oursign\;
+\fromlit{van Nieuwenhuizen Eq.~(2.1)}
+\begin{equation}
+  \theta_{\mu\nu}(k) = \delta_{\mu\nu}
+  - \frac{k_\mu k_\nu}{k^2}\,.
+  \label{eq:theta}
+\end{equation}
+In Euclidean signature, $\theta$ projects onto the subspace
+transverse to $k^\mu$.  We have $\theta_\mu{}^\mu = d-1 = 3$ and
+$k^\mu\theta_{\mu\nu} = 0$.
+\end{convention}
+
+\begin{definition}[Barnes--Rivers projectors]
+\label{def:barnes-rivers}
+\fromlit{van Nieuwenhuizen Eqs.~(2.3)--(2.7)}
+The five orthogonal projectors on symmetric rank-2 tensors
+in momentum space are:
+\begin{align}
+  P^{(2)}_{\mu\nu,\rho\sigma}
+  &= \frac{1}{2}\bigl(
+    \theta_{\mu\rho}\theta_{\nu\sigma}
+    + \theta_{\mu\sigma}\theta_{\nu\rho}
+  \bigr) - \frac{1}{3}\theta_{\mu\nu}\theta_{\rho\sigma}\,,
+    \label{eq:P2}\\[4pt]
+  P^{(1)}_{\mu\nu,\rho\sigma}
+  &= \frac{1}{2}\bigl(
+    \theta_{\mu\rho}\omega_{\nu\sigma}
+    + \theta_{\mu\sigma}\omega_{\nu\rho}
+    + \theta_{\nu\rho}\omega_{\mu\sigma}
+    + \theta_{\nu\sigma}\omega_{\mu\rho}
+  \bigr),
+    \label{eq:P1}\\[4pt]
+  P^{(0\text{-}s)}_{\mu\nu,\rho\sigma}
+  &= \frac{1}{3}\theta_{\mu\nu}\theta_{\rho\sigma}\,,
+    \label{eq:P0s}\\[4pt]
+  P^{(0\text{-}w)}_{\mu\nu,\rho\sigma}
+  &= \omega_{\mu\nu}\omega_{\rho\sigma}\,,
+    \label{eq:P0w}\\[4pt]
+  P^{(0\text{-}sw)}_{\mu\nu,\rho\sigma}
+  &= \frac{1}{\sqrt{3}}\bigl(
+    \theta_{\mu\nu}\omega_{\rho\sigma}
+    + \omega_{\mu\nu}\theta_{\rho\sigma}
+  \bigr),
+    \label{eq:P0sw}
+\end{align}
+where $\omega_{\mu\nu} = k_\mu k_\nu/k^2$ is the longitudinal
+projector ($\theta + \omega = \delta$).
+\end{definition}
+
+\begin{proposition}[Projector algebra]
+\label{prop:projector-algebra}
+\exactlit\;
+\fromlit{van Nieuwenhuizen Eqs.~(2.8)--(2.10)}
+The Barnes--Rivers projectors satisfy:
+\begin{enumerate}[nosep]
+  \item \textbf{Orthogonality:}
+    $P^{(A)}_{\mu\nu,\alpha\beta}\,P^{(B)\alpha\beta}{}_{\rho\sigma}
+    = \delta^{AB}\,P^{(A)}_{\mu\nu,\rho\sigma}$\,.
+  \item \textbf{Completeness:}
+    $P^{(2)} + P^{(1)} + P^{(0\text{-}s)} + P^{(0\text{-}w)}
+    = I_{\mu\nu,\rho\sigma}$\,,
+    where $I_{\mu\nu,\rho\sigma} = \frac{1}{2}(\delta_{\mu\rho}
+    \delta_{\nu\sigma} + \delta_{\mu\sigma}\delta_{\nu\rho})$.
+  \item \textbf{Traces:}
+    $P^{(2)\mu\nu}{}_{\mu\nu} = 5$,
+    $P^{(1)\mu\nu}{}_{\mu\nu} = 4$,
+    $P^{(0\text{-}s)\mu\nu}{}_{\mu\nu} = 1$.
+\end{enumerate}
+Note: $P^{(0\text{-}sw)}$ is \emph{not} a projector (it is
+nilpotent: $P^{(0\text{-}sw)}\cdot P^{(0\text{-}sw)} = 0$).
+It is the ``mixing'' operator between the two spin-0 sectors.
+\end{proposition}
+
+\verified{Projector algebra (orthogonality, completeness, traces)
+verified numerically for 5 random $k$-vectors at double precision.
+Residuals $< 10^{-14}$.  Lean~4: \texttt{GaugeInv.lean},
+Theorems \texttt{projector\_P2\_squared},
+\texttt{projector\_P2\_P0s\_orthogonal},
+\texttt{P2\_plus\_P0s\_trace}.}
+
+
+\subsection{Role in the graviton propagator}
+
+\begin{remark}[Why Barnes--Rivers projectors matter]
+\fromlit{van Nieuwenhuizen 1973; Stelle 1977}
+The graviton propagator in any higher-derivative or nonlocal theory
+can be decomposed as:
+\begin{equation}
+  G_{\mu\nu,\rho\sigma}(k) = \frac{P^{(2)}_{\mu\nu,\rho\sigma}}{
+    k^2\,\Pi_{\text{TT}}(k^2/\Lambda^2)}
+  + \frac{P^{(0\text{-}s)}_{\mu\nu,\rho\sigma}}{
+    k^2\,\Pi_s(k^2/\Lambda^2)}
+  + \text{gauge-dependent terms}\,.
+  \label{eq:propagator-decomposition}
+\end{equation}
+The physical content is entirely in the spin-2 and spin-0-scalar
+denominators $\Pi_{\text{TT}}$ and $\Pi_s$.  The gauge-dependent
+terms (involving $P^{(1)}$, $P^{(0\text{-}w)}$, $P^{(0\text{-}sw)}$)
+are unphysical and drop out of on-shell amplitudes.
+\end{remark}
+
+
+%%======================================================================
+\section{Stelle's Local Theory: Propagator Structure}
+\label{sec:stelle}
+%%======================================================================
+
+\subsection{The quadratic-gravity action}
+
+\begin{convention}[Stelle action]
+\label{conv:stelle-action}
+\fromlit{Stelle, Phys.\ Rev.\ D \textbf{16} (1977) 953, Eq.~(1)}
+The most general local action quadratic in curvature (in 4D):
+\begin{equation}
+  S_{\text{Stelle}} = \int\dd^4x\,\sqrt{g}\left[
+    \frac{R}{16\pi G}
+    + \alpha\,\Weylsq + \beta\,R^2
+  \right].
+  \label{eq:stelle-action}
+\end{equation}
+\end{convention}
+
+\begin{remark}[Relation to our notation]
+In the SCT local limit: $\alpha = F_1(0)$ and $\beta = F_2(0)$.
+Stelle uses different notation; the mapping is:
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Quantity & Stelle & SCT \\
+\midrule
+Weyl$^2$ coefficient & $\alpha$ & $F_1(0) = \alpha_C/(16\pi^2)$ \\
+$R^2$ coefficient & $\beta$ & $F_2(0) = \alpha_R/(16\pi^2)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{remark}
+
+
+\subsection{Stelle propagator}
+
+\begin{proposition}[Stelle propagator in Barnes--Rivers basis]
+\label{prop:stelle-propagator}
+\fromlit{Stelle 1977, Eq.~(15)}
+Linearizing $S_{\text{Stelle}}$ about flat space and inverting
+the kinetic operator:
+\begin{align}
+  G^{\text{Stelle}}_{\text{TT}}(k^2)
+  &= \frac{1}{k^2(1 + 2\alpha\, k^2)}
+  = \frac{1}{k^2} - \frac{1}{k^2 + m_2^2}\,,
+  \label{eq:stelle-prop-tt}\\[4pt]
+  G^{\text{Stelle}}_s(k^2)
+  &= \frac{1}{k^2(1 + (6\beta + 2\alpha)\, k^2)}\,,
+  \label{eq:stelle-prop-s}
+\end{align}
+where $m_2^2 = 1/(2\alpha)$ is the massive spin-2 ghost mass.
+\end{proposition}
+
+\begin{remark}[The ghost]
+\fromlit{Stelle 1977, \S III}
+The partial fraction decomposition \eqref{eq:stelle-prop-tt}
+shows a massless graviton pole at $k^2=0$ (positive residue)
+and a massive pole at $k^2 = -m_2^2$ (\textbf{negative} residue).
+The negative residue means the massive spin-2 mode is a ghost:
+it has negative-norm states and violates unitarity.
+
+This is the central problem that the nonlocal structure of the
+spectral action aims to resolve: by replacing $2\alpha \to
+c_2\, F_1(k^2/\Lambda^2)/F_1(0)$, the denominator
+$\Pi_{\text{TT}}(z) = 1 + c_2\, z\, \hat{F}_1(z)$ can be made
+zero-free if $\hat{F}_1$ is entire and positive on the real axis.
+\end{remark}
+
+\signcorrection{The factor $2\alpha$ in the Stelle propagator
+denominator maps to $c_2 = 2\alpha_C$ in our notation.
+Some references write $c_2 = \alpha_C$; the factor of 2 comes
+from the conversion between the Weyl-$R^2$ basis and the
+Ricci-$R^2$ basis via $\Ricsq = \Weylsq - R^2/3 + E_4$.}
+
+
+%%======================================================================
+\section{Nonlocal Propagator: SCT Structure}
+\label{sec:nonlocal-propagator}
+%%======================================================================
+
+\subsection{Modified denominators}
+
+\begin{definition}[SCT propagator denominators]
+\label{def:sct-denominators}
+\oursign\;
+\fromlit{NT-4a derivation; cf.\ BMS Eq.~(7)}
+Define the normalized shape functions:
+\begin{equation}
+  \hat{F}_i(z) = \frac{F_i(z)}{F_i(0)}\,,
+  \qquad \hat{F}_i(0) = 1\,.
+  \label{eq:shape-functions}
+\end{equation}
+The modified propagator denominators are:
+\begin{align}
+  \Pi_{\text{TT}}(z) &= 1 + c_2\, z\, \hat{F}_1(z)
+  = 1 + \frac{13}{60}\, z\, \hat{F}_1(z)\,,
+    \label{eq:Pi-TT}\\
+  \Pi_s(z;\xi) &= 1 + (3c_1+c_2)\, z\, \hat{F}_2(z;\xi)
+  = 1 + 6\left(\xi-\frac{1}{6}\right)^2 z\, \hat{F}_2(z;\xi)\,.
+    \label{eq:Pi-s}
+\end{align}
+\end{definition}
+
+\begin{remark}[Normalization convention]
+\label{rem:normalization}
+The normalization $\hat{F}_i(0) = 1$ ensures
+$\Pi_{\mathrm{TT}}(0) = \Pi_s(0) = 1$, reproducing
+the standard GR propagator at zero momentum.
+This is the same convention used by BMS~\cite{BMS2006}
+and Modesto~\cite{Modesto2012}.
+\end{remark}
+
+\verified{$\Pi_{\text{TT}}(0) = 1$ and $\Pi_s(0) = 1$ confirmed
+analytically and numerically (100-digit precision).
+Lean~4: \texttt{Propagator.lean}, Theorem \texttt{pi\_tt\_zero}.}
+
+
+\subsection{Comparison with BMS and Modesto}
+
+\begin{remark}[BMS ghost-free ansatz]
+\fromlit{BMS hep-th/0508194, Eq.~(7)}
+BMS propose the form $a(-\Box/M^2) = e^{-\Box/M^2}$, giving
+$\Pi = 1 + c\, k^2\, e^{k^2/M^2}$.  This is manifestly positive
+for all $k^2 \geq 0$ and has no zeros anywhere.
+
+In contrast, the SCT form factors are \emph{not} pure exponentials:
+$\hat{F}_1(z) \neq e^{z/M^2}$.  The SCT form factors are
+\emph{derived} from the spectral action, not chosen by hand.
+Ghost-freedom must therefore be verified rather than assumed.
+\end{remark}
+
+\begin{remark}[Modesto super-renormalizability]
+\fromlit{Modesto 1107.2403}
+Modesto showed that choosing $a(\Box) = e^{H(\Box)}$ with $H$
+a polynomial of sufficiently high degree leads to
+super-renormalizable (or even finite) quantum gravity.  The SCT
+spectral action produces a similar UV improvement, but through
+the heat kernel mechanism rather than by hand.
+\end{remark}
+
+
+%%======================================================================
+\section{Scalar Mode and the Higgs Non-Minimal Coupling}
+\label{sec:scalar-mode}
+%%======================================================================
+
+\begin{proposition}[Scalar mode decoupling at $\xi = 1/6$]
+\label{prop:scalar-decoupling}
+\fromlit{NT-1b Phase~1; Stelle 1977 \S III}
+At conformal coupling $\xi = 1/6$:
+\begin{align}
+  \alpha_R(1/6) &= 0\,,\\
+  3c_1 + c_2\big|_{\xi=1/6} &= 0\,,\\
+  \Pi_s(z;\xi=1/6) &= 1 \quad\text{(identically)}\,.
+\end{align}
+The scalar gravitational mode has the same propagator as in GR
+(no higher-derivative modification).  The scalar mode is
+\textbf{physical but unmodified} --- it propagates at all momenta
+without a mass scale.
+\end{proposition}
+
+\begin{remark}[Conformal vs.\ minimal coupling]
+The two special values of $\xi$ are:
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Coupling & $\xi$ & $3c_1+c_2$ \\
+\midrule
+Conformal & $1/6$ & $0$ (scalar decouples) \\
+Minimal & $0$ & $1/6$ (scalar mass $m_0 = \Lambda\sqrt{6}$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+At minimal coupling, the scalar mode acquires a mass
+$m_0^2 = \Lambda^2/(3c_1+c_2) = 6\Lambda^2$.  Whether this
+mode is ghost or healthy depends on the sign of the residue.
+\end{remark}
+
+\verified{$\Pi_s(z;\xi=1/6) = 1$ verified analytically and
+numerically for $z \in \{0.1, 0.5, 1, 5, 10\}$.
+Lean~4: \texttt{Propagator.lean}, Theorems
+\texttt{scalar\_mode\_conformal} and \texttt{scalar\_mode\_minimal}.}
+
+
+%%======================================================================
+\section{Modified Newtonian Potential}
+\label{sec:newtonian}
+%%======================================================================
+
+\subsection{Fourier representation}
+
+\begin{convention}[Static potential from propagator]
+\label{conv:potential}
+\fromlit{Stelle 1977 Eq.~(17); BGM 1112.5430 Eq.~(12)}
+The gravitational potential of a static point source of mass $M$
+in the linearized theory is obtained by Fourier transform:
+\begin{equation}
+  V(r) = -\frac{G M}{r}\int_0^\infty\dd k\,
+  \frac{k\sin(kr)}{\pi}\left[
+    \frac{4}{3}\,G_{\text{TT}}(k^2)
+    - \frac{1}{3}\,G_s(k^2)
+  \right]
+  \cdot k^2\,.
+  \label{eq:potential-fourier}
+\end{equation}
+The factors $4/3$ and $-1/3$ come from the spin-2 and spin-0
+contributions to the Newtonian limit, respectively.
+\end{convention}
+
+\begin{remark}[Alternative form]
+\fromlit{BGM 1112.5430}
+For a nonlocal propagator $G(k^2) = 1/(k^2\,\Pi(k^2/\Lambda^2))$,
+the potential ratio $V(r)/V_{\text{Newton}}(r)$ can be written as
+\begin{equation}
+  \frac{V(r)}{V_N(r)} = 1 + \Delta V_{\text{TT}}(r)
+  + \Delta V_s(r)\,,
+  \label{eq:potential-ratio}
+\end{equation}
+where $\Delta V_{\text{TT}}$ and $\Delta V_s$ are the spin-2 and
+spin-0 corrections, respectively.
+\end{remark}
+
+
+\subsection{Yukawa approximation}
+
+\begin{proposition}[Effective Yukawa form]
+\label{prop:yukawa}
+\fromlit{Stelle 1977 Eq.~(18); BGM Eq.~(14)}
+When the propagator denominators have effective mass scales
+$m_2$ and $m_0$, the leading correction to the Newtonian potential
+takes the Yukawa form:
+\begin{equation}
+  \frac{V(r)}{V_N(r)} \approx
+  1 - \frac{4}{3}\,e^{-m_2 r}
+  + \frac{1}{3}\,e^{-m_0 r}\,,
+  \label{eq:yukawa-approx}
+\end{equation}
+where the signs reflect the ghost nature of the Stelle spin-2 mode.
+At $r \gg 1/m_2, 1/m_0$, both Yukawa terms are exponentially
+suppressed and $V(r) \to V_N(r)$.
+\end{proposition}
+
+\begin{remark}[SCT mass scales]
+\fromlit{NT-4a derivation}
+The effective mass scales in the SCT case are:
+\begin{align}
+  m_2 &= \frac{\Lambda}{\sqrt{c_2}}
+  = \Lambda\sqrt{\frac{60}{13}}\,,
+    \label{eq:m2}\\
+  m_0 &= \frac{\Lambda}{\sqrt{3c_1+c_2}}
+  = \frac{\Lambda}{\sqrt{6(\xi-1/6)^2}}\,.
+    \label{eq:m0}
+\end{align}
+At conformal coupling $\xi = 1/6$, $m_0 \to \infty$ (the scalar
+Yukawa term vanishes) and
+\begin{equation}
+  \frac{V(r)}{V_N(r)}\bigg|_{\xi=1/6}
+  \approx 1 - \frac{4}{3}\,e^{-m_2 r}\,.
+  \label{eq:yukawa-conformal}
+\end{equation}
+\end{remark}
+
+
+\subsection{UV behavior of the potential}
+
+\begin{proposition}[Finiteness at the origin]
+\label{prop:finite-origin}
+\fromlit{Modesto 1107.2403 \S IV; BGM 1112.5430}
+Unlike the Newtonian $1/r$ singularity, the modified potential
+$V(r)$ is \textbf{finite} as $r \to 0$:
+\begin{equation}
+  V(0) = -G M \left(\frac{4}{3}\,m_2 - \frac{1}{3}\,m_0\right)
+  + O(1/\Lambda^2)\,.
+  \label{eq:V-origin}
+\end{equation}
+This UV regularization is a generic feature of nonlocal
+(entire-function) modifications of the propagator.
+\end{proposition}
+
+\begin{remark}[Physical significance]
+The finiteness of the gravitational potential at $r=0$ is
+one of the key predictions of the SCT spectral action:
+it resolves the Newtonian singularity without introducing
+a physical cutoff or lattice.  The regularization scale
+is set by $\Lambda$ (the spectral action cutoff).
+\end{remark}
+
+\verified{$V(r)$ finiteness at small $r$ verified numerically:
+$V(10^{-6}/\Lambda)$ returns a finite value for both
+$\xi = 0$ and $\xi = 1/6$.  Large-$r$ recovery:
+$V(r)/V_N(r) \to 1$ with $< 1\%$ error at $r = 10^4/\Lambda$.}
+
+
+%%======================================================================
+\section{Conventions Summary}
+\label{sec:summary}
+%%======================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Quantity & Convention & Source \\
+\midrule
+Metric perturbation & $g_{\mu\nu} = \eta_{\mu\nu}+h_{\mu\nu}$
+  & Standard \\
+TT gauge & $\partial^\mu h_{\mu\nu}=0$, $h=0$
+  & Standard \\
+Barnes--Rivers projectors & $P^{(2)}, P^{(1)}, P^{(0\text{-}s)},
+  P^{(0\text{-}w)}$ & vN 1973 \\
+Transverse projector & $\theta_{\mu\nu} = \delta_{\mu\nu} -
+  k_\mu k_\nu/k^2$ & vN 1973 \\
+Propagator denominators & $\Pi = 1 + c\cdot z\cdot\hat{F}(z)$
+  & BMS/NT-4a \\
+Local coefficients & $c_2 = 13/60$,
+  $3c_1+c_2=6(\xi-1/6)^2$ & NT-1b Phase~3 \\
+Yukawa masses & $m_2 = \Lambda\sqrt{60/13}$,
+  $m_0 = \Lambda/\sqrt{6(\xi-1/6)^2}$ & NT-4a derived \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%%======================================================================
+\section{Gap Analysis}
+\label{sec:gaps}
+%%======================================================================
+
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+\item \textbf{Full nonlinear equations:}
+  NT-4a covers only the linearized (flat background) case.
+  The full nonlinear variational equations
+  $\delta S/\delta g^{\mu\nu} = 0$ are deferred to NT-4b
+  (Barvinsky--Vilkovisky formalism).
+
+\item \textbf{FLRW reduction:}
+  Cosmological applications require reducing the field equations
+  to the FLRW metric.  This is NT-4c.
+
+\item \textbf{Gauge fixing:}
+  The TT gauge is used throughout.  A covariant gauge-fixing
+  analysis (de Donder gauge, etc.) would require the full
+  $P^{(1)}$ and $P^{(0\text{-}w)}$ sectors.
+
+\item \textbf{Gravitational waves:}
+  The linearized equations describe gravitational wave
+  propagation with modified dispersion, but the detailed
+  analysis of waveform corrections is not performed here.
+
+\item \textbf{PPN parameters:}
+  The post-Newtonian limit and PPN parameter extraction
+  from the modified potential is deferred to PPN-1.
+
+\item \textbf{Numerical Fourier transform:}
+  The Yukawa approximation is used instead of the full numerical
+  Fourier integral \eqref{eq:potential-fourier}.  A numerical
+  integration would be needed for precision tests against
+  solar system data.
+\end{enumerate}
+
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{Stelle1977}
+  K.~S.~Stelle,
+  ``Renormalization of higher-derivative quantum gravity,''
+  Phys.\ Rev.\ D \textbf{16} (1977) 953.
+
+\bibitem{vN1973}
+  P.~van Nieuwenhuizen,
+  ``On the renormalization of quantum gravitation without matter,''
+  Annals Phys.\ \textbf{104} (1977) 197;
+  see also Nucl.\ Phys.\ B \textbf{60} (1973) 478.
+
+\bibitem{BV1987}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Beyond the Schwinger-DeWitt technique: Converting loops into
+  trees and in-in currents,''
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163.
+
+\bibitem{BV1990a}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Covariant perturbation theory (II): Second order in the
+  curvature,''
+  Nucl.\ Phys.\ B \textbf{333} (1990) 471.
+
+\bibitem{BMS2006}
+  T.~Biswas, A.~Mazumdar, W.~Siegel,
+  ``Bouncing universes in string-inspired gravity,''
+  JCAP \textbf{0603} (2006) 009
+  [hep-th/0508194].
+
+\bibitem{Modesto2012}
+  L.~Modesto,
+  ``Super-renormalizable quantum gravity,''
+  Phys.\ Rev.\ D \textbf{86} (2012) 044005
+  [arXiv:1107.2403 [hep-th]].
+
+\bibitem{BGM2012}
+  T.~Biswas, E.~Gerber, A.~Mazumdar,
+  ``Towards singularity- and ghost-free theories of gravity,''
+  Phys.\ Rev.\ Lett.\ \textbf{108} (2012) 031101
+  [arXiv:1112.5430 [gr-qc]].
+
+\bibitem{CZ2012}
+  A.~Codello, A.~Zanusso,
+  ``On the non-local heat kernel expansion,''
+  J.\ Math.\ Phys.\ \textbf{54} (2013) 013513
+  [arXiv:1203.2034 [hep-th]].
+
+\bibitem{CPR2009}
+  A.~Codello, R.~Percacci, C.~Rahmede,
+  ``Investigating the ultraviolet properties of gravity with a
+  Wilsonian renormalization group equation,''
+  Annals Phys.\ \textbf{324} (2009) 414
+  [arXiv:0805.2909 [hep-th]].
+
+\bibitem{CC1997}
+  A.~H.~Chamseddine, A.~Connes,
+  ``The spectral action principle,''
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731
+  [hep-th/9606001].
+
+\bibitem{Tomboulis1997}
+  E.~T.~Tomboulis,
+  ``Super-renormalizable gauge and gravitational theories,''
+  hep-th/9702080 (1997).
+
+\end{thebibliography}
+
+\end{document}

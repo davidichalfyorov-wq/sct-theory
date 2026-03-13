@@ -1,0 +1,915 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{fancyhdr}
+
+\geometry{margin=2.5cm}
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Id}{\mathbf{1}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\Rsq}{R^2}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Boxop}{\Box}
+\DeclareMathOperator{\erfi}{erfi}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Derivation Probe}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={Local Scalar Sector in the Spectral Action},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{Local Scalar Sector in the Spectral Action}\\[6pt]
+  \large A Derivation Probe on the Weyl and $R^2$ Limits of the Scalar Contribution
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This note is a derivation-style probe written to match the working rhythm of
+the SCT theory corpus.  Its aim is narrow but structurally important: to
+track, in full local detail, how a single real scalar field contributes to
+the curvature-squared sector of the one-loop spectral action.  The two facts
+to be established are familiar from the verified scalar form-factor phase,
+but here they are reassembled in a way that reflects the style of the
+derivation corpus itself:
+\begin{enumerate}[nosep]
+  \item the scalar contribution to the Weyl-squared sector has a fixed local
+  coefficient $\beta_W^{(0)} = 1/120$;
+  \item the scalar contribution to the local $R^2$ sector is
+  $\beta_R^{(0)}(\xi) = \frac{1}{2}(\xi - 1/6)^2$ and therefore vanishes at
+  conformal coupling.
+\end{enumerate}
+The derivation is carried out in the Weyl basis $\{\Weylsq,\Rsq\}$, beginning
+from the verified scalar heat-kernel form factors and the master function
+\[
+  \phi(x) = \int_0^1 \dd\alpha\, e^{-\alpha(1-\alpha)x}
+  = e^{-x/4}\sqrt{\frac{\pi}{x}}\,
+    \erfi\!\left(\frac{\sqrt{x}}{2}\right).
+\]
+We keep a strict separation between exact formulas, local expansions,
+structural interpretation, and domain of validity.  No new claim is made
+beyond the already verified scalar sector; the point is to expose clearly how
+the conformal locus enters the local spectral action.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\label{sec:intro}
+
+The curvature-squared sector of the spectral action is one of the first
+places where the formal machinery of the heat kernel begins to show direct
+physical structure.  At that order, each field species contributes a pair of
+form factors multiplying $\Weylsq$ and $\Rsq$, and the local limits of those
+form factors become the corresponding Wilson coefficients in the effective
+action.  For the scalar field this sector is especially instructive because
+it is the only spin contribution that carries the non-minimal coupling
+$\xi$.
+
+That single fact has two consequences.
+
+First, the scalar sector is the only place where the local $R^2$ coefficient
+can inherit dependence on the Higgs-curvature coupling when one passes to the
+full Standard Model sum.  Second, the conformal value $\xi = 1/6$ is not an
+external ornament imposed on the theory after the fact.  It appears directly
+in the local coefficient extracted from the scalar form factor.
+
+The aim of the present note is therefore not computational novelty but
+structural clarity.  We derive the local limits in a way that makes the
+dependence on $\xi$ transparent and keeps the logic in the order used
+throughout the stronger SCT derivations:
+\begin{enumerate}[label=\arabic*.]
+  \item fix conventions and operator data,
+  \item state the verified form factors,
+  \item expand the master function,
+  \item compute the local coefficients explicitly,
+  \item read off the limiting cases and their physical interpretation.
+\end{enumerate}
+
+\section{Setup and Notation}
+\label{sec:setup}
+
+\subsection{Scalar operator data}
+
+We work on a closed four-dimensional Riemannian manifold $(M,g)$ and take a
+real scalar field $\varphi$ with action
+\begin{equation}
+  S[\varphi]
+  = \frac{1}{2}\int \dd^4x\,\sqrt{g}\,
+  \left(
+    g^{\mu\nu}\partial_\mu\varphi\,\partial_\nu\varphi
+    + \xi R\,\varphi^2 + m^2\varphi^2
+  \right).
+  \label{eq:scalar-action}
+\end{equation}
+The associated Laplace-type operator is
+\begin{equation}
+  \Delta = -\Boxop + \xi R + m^2
+  = -\bigl(g^{\mu\nu}\nabla_\mu\nabla_\nu + E\bigr),
+  \qquad
+  E = -\xi R - m^2.
+  \label{eq:laplace-operator}
+\end{equation}
+
+At one loop, the curvature-squared sector of the effective action takes the
+Weyl-basis form
+\begin{equation}
+  \Gamma^{(1)}_{\mathcal R^2}
+  = \frac{1}{2}\int \dd^4x\,\sqrt{g}\,
+  \left[
+    h_C^{(0)}\!\left(\frac{\Boxop}{m^2}\right)\Weylsq
+    + h_R^{(0)}\!\left(\frac{\Boxop}{m^2};\xi\right)\Rsq
+  \right].
+  \label{eq:effective-action}
+\end{equation}
+Everything in this note is about the local limit of the two scalar form
+factors $h_C^{(0)}$ and $h_R^{(0)}$.
+
+\subsection{Verified scalar form factors}
+
+The scalar Weyl form factor is
+\begin{equation}
+  h_C^{(0)}(x)
+  = \frac{1}{12x} + \frac{\phi(x)-1}{2x^2}.
+  \label{eq:hC-scalar}
+\end{equation}
+The scalar $R^2$ form factor is
+\begin{equation}
+  h_R^{(0)}(x;\xi)
+  = f_{R,\mathrm{bis}}(x)
+  + \xi\,f_{RU}(x)
+  + \xi^2 f_U(x),
+  \label{eq:hR-scalar}
+\end{equation}
+with
+\begin{align}
+  f_R(x)
+  &= \frac{\phi(x)}{32}
+   + \frac{\phi(x)}{8x}
+   - \frac{7}{48x}
+   - \frac{\phi(x)-1}{8x^2},
+  \label{eq:fR}\\[4pt]
+  f_{RU}(x)
+  &= -\frac{\phi(x)}{4}
+   - \frac{\phi(x)-1}{2x},
+  \label{eq:fRU}\\[4pt]
+  f_U(x)
+  &= \frac{\phi(x)}{2},
+  \label{eq:fU}\\[4pt]
+  f_{R,\mathrm{bis}}(x)
+  &= f_R(x) + \frac{1}{6}f_{RU}(x) + \frac{1}{36}f_U(x).
+  \label{eq:fRbis}
+\end{align}
+
+These expressions are taken here as verified input.  The present derivation
+does not reconstruct them from the full Barvinsky--Vilkovisky heat-kernel
+machinery.  It uses them to expose the local coefficient structure in a way
+that is easy to read and hard to misstate.
+
+\subsection{The master function}
+
+All scalar form factors are built from the single master function
+\begin{equation}
+  \phi(x)
+  = \int_0^1 \dd\alpha\, e^{-\alpha(1-\alpha)x}
+  = e^{-x/4}\sqrt{\frac{\pi}{x}}\,
+    \erfi\!\left(\frac{\sqrt{x}}{2}\right).
+  \label{eq:phi-def}
+\end{equation}
+It is the local expansion of $\phi(x)$ that governs the apparent poles at
+$x=0$.  Once that expansion is in hand, the entire local structure of the
+scalar curvature-squared sector follows by direct substitution.
+
+\section{Local Expansion of the Master Function}
+\label{sec:master}
+
+\begin{lemma}
+The master function has the local expansion
+\begin{equation}
+  \phi(x)
+  = 1 - \frac{x}{6} + \frac{x^2}{60}
+    - \frac{x^3}{840} + \frac{x^4}{15120}
+    + \mathcal O(x^5).
+  \label{eq:phi-series}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Expand the exponential in \eqref{eq:phi-def} termwise:
+\begin{equation}
+  e^{-\alpha(1-\alpha)x}
+  = \sum_{n=0}^{\infty}
+    \frac{[-\alpha(1-\alpha)x]^n}{n!}.
+  \label{eq:expansion-exp}
+\end{equation}
+Then
+\begin{equation}
+  \phi(x)
+  = \sum_{n=0}^{\infty}
+    \frac{(-x)^n}{n!}
+    \int_0^1 \dd\alpha\, \alpha^n(1-\alpha)^n.
+  \label{eq:phi-beta}
+\end{equation}
+The integral is a beta function:
+\begin{equation}
+  \int_0^1 \dd\alpha\, \alpha^n(1-\alpha)^n
+  = \frac{(n!)^2}{(2n+1)!}.
+  \label{eq:beta-integral}
+\end{equation}
+Therefore
+\begin{equation}
+  \phi(x)
+  = \sum_{n=0}^{\infty}
+    (-1)^n\frac{n!}{(2n+1)!}x^n,
+  \label{eq:phi-general-series}
+\end{equation}
+and the first few coefficients give \eqref{eq:phi-series}.
+\end{proof}
+
+\begin{remark}
+The form \eqref{eq:phi-def} contains $\sqrt{x}$, but the Taylor series
+\eqref{eq:phi-general-series} shows that the resulting function is perfectly
+regular at the origin.  The square-root singularity is only apparent.
+\end{remark}
+
+\section{The Local Weyl Coefficient}
+\label{sec:weyl}
+
+\subsection{Cancellation of the apparent pole}
+
+Substituting \eqref{eq:phi-series} into \eqref{eq:hC-scalar} gives
+\begin{align}
+  h_C^{(0)}(x)
+  &= \frac{1}{12x}
+   + \frac{1}{2x^2}
+     \left(
+       -\frac{x}{6} + \frac{x^2}{60}
+       - \frac{x^3}{840} + \frac{x^4}{15120}
+       + \mathcal O(x^5)
+     \right)
+  \notag\\[4pt]
+  &= \frac{1}{12x}
+   - \frac{1}{12x}
+   + \frac{1}{120}
+   - \frac{x}{1680}
+   + \frac{x^2}{30240}
+   + \mathcal O(x^3).
+  \label{eq:hC-series}
+\end{align}
+The pole cancels exactly.  Therefore the scalar Weyl form factor admits a
+finite local limit.
+
+\subsection{Result}
+
+\begin{proposition}
+The scalar contribution to the local Weyl-squared coefficient is
+\begin{equation}
+  \boxed{\beta_W^{(0)} = h_C^{(0)}(0) = \frac{1}{120}.}
+  \label{eq:betaW}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+It is the constant term of the expansion \eqref{eq:hC-series}.
+\end{proof}
+
+This coefficient is independent of $\xi$.  That independence is important.
+The non-minimal coupling affects the scalar response to scalar curvature, but
+it does not deform the local Weyl coefficient.  In the full Standard Model
+sum, the $\xi$-dependence therefore enters only through the $R^2$ channel.
+
+\section{The Local \texorpdfstring{$R^2$}{R2} Coefficient}
+\label{sec:R2}
+
+\subsection{Expansion of the component form factors}
+
+We now expand the three scalar functions entering $h_R^{(0)}(x;\xi)$.
+
+\paragraph{The function $f_R(x)$.}
+Using \eqref{eq:phi-series},
+\begin{align}
+  \frac{\phi(x)}{32}
+  &= \frac{1}{32}
+   - \frac{x}{192}
+   + \frac{x^2}{1920}
+   - \frac{x^3}{26880}
+   + \mathcal O(x^4),
+  \label{eq:phi-over-32}\\[4pt]
+  \frac{\phi(x)}{8x}
+  &= \frac{1}{8x}
+   - \frac{1}{48}
+   + \frac{x}{480}
+   - \frac{x^2}{6720}
+   + \mathcal O(x^3),
+  \label{eq:phi-over-8x}\\[4pt]
+  -\frac{\phi(x)-1}{8x^2}
+  &= \frac{1}{48x}
+   - \frac{1}{480}
+   + \frac{x}{6720}
+   - \frac{x^2}{120960}
+   + \mathcal O(x^3).
+  \label{eq:phi-minus-1}
+\end{align}
+Combining these pieces with $-7/(48x)$,
+\begin{align}
+  f_R(x)
+  &= \left(\frac{1}{8x} + \frac{1}{48x} - \frac{7}{48x}\right)
+   + \left(\frac{1}{32} - \frac{1}{48} - \frac{1}{480}\right)
+  \notag\\
+  &\qquad
+   + \left(-\frac{1}{192} + \frac{1}{480} + \frac{1}{6720}\right)x
+   + \left(\frac{1}{1920} - \frac{1}{6720} - \frac{1}{120960}\right)x^2
+   + \mathcal O(x^3)
+  \notag\\[4pt]
+  &= \frac{1}{120}
+   - \frac{x}{336}
+   + \frac{11x^2}{30240}
+   + \mathcal O(x^3).
+  \label{eq:fR-series}
+\end{align}
+
+\paragraph{The function $f_{RU}(x)$.}
+From \eqref{eq:phi-series},
+\begin{align}
+  -\frac{\phi(x)}{4}
+  &= -\frac{1}{4}
+   + \frac{x}{24}
+   - \frac{x^2}{240}
+   + \frac{x^3}{3360}
+   + \mathcal O(x^4),
+  \label{eq:minus-phi-over-4}\\[4pt]
+  -\frac{\phi(x)-1}{2x}
+  &= \frac{1}{12}
+   - \frac{x}{120}
+   + \frac{x^2}{1680}
+   - \frac{x^3}{30240}
+   + \mathcal O(x^4).
+  \label{eq:phi-1-over-2x}
+\end{align}
+Hence
+\begin{equation}
+  f_{RU}(x)
+  = -\frac{1}{6}
+  + \frac{x}{30}
+  - \frac{x^2}{280}
+  + \frac{x^3}{3780}
+  + \mathcal O(x^4).
+  \label{eq:fRU-series}
+\end{equation}
+
+\paragraph{The function $f_U(x)$.}
+This one is immediate:
+\begin{equation}
+  f_U(x)
+  = \frac{\phi(x)}{2}
+  = \frac{1}{2}
+  - \frac{x}{12}
+  + \frac{x^2}{120}
+  - \frac{x^3}{1680}
+  + \mathcal O(x^4).
+  \label{eq:fU-series}
+\end{equation}
+
+\paragraph{The function $f_{R,\mathrm{bis}}(x)$.}
+Using \eqref{eq:fRbis} together with \eqref{eq:fR-series},
+\eqref{eq:fRU-series}, and \eqref{eq:fU-series}, one finds
+\begin{align}
+  f_{R,\mathrm{bis}}(x)
+  &= \left(\frac{1}{120}\right)
+   + \frac{1}{6}\left(-\frac{1}{6}\right)
+   + \frac{1}{36}\left(\frac{1}{2}\right)
+   + \mathcal O(x)
+  \notag\\
+  &= -\frac{1}{180}
+   + \frac{x}{3780}
+   + \mathcal O(x^2).
+  \label{eq:fRbis-series}
+\end{align}
+Thus the local value is
+\begin{equation}
+  f_{R,\mathrm{bis}}(0) = -\frac{1}{180}.
+  \label{eq:fRbis-local}
+\end{equation}
+
+\subsection{Assembling the scalar \texorpdfstring{$R^2$}{R2} form factor}
+
+Substituting the local values into \eqref{eq:hR-scalar} gives
+\begin{equation}
+  h_R^{(0)}(0;\xi)
+  = -\frac{1}{180}
+  - \frac{\xi}{6}
+  + \frac{\xi^2}{2}.
+  \label{eq:hR-local-raw}
+\end{equation}
+Completing the square yields
+\begin{equation}
+  h_R^{(0)}(0;\xi)
+  = \frac{1}{2}
+    \left(
+      \xi^2 - \frac{\xi}{3} + \frac{1}{36}
+    \right)
+  = \frac{1}{2}\left(\xi - \frac{1}{6}\right)^2.
+  \label{eq:hR-local-square}
+\end{equation}
+
+\begin{proposition}
+The scalar contribution to the local $R^2$ coefficient is
+\begin{equation}
+  \boxed{
+    \beta_R^{(0)}(\xi)
+    = h_R^{(0)}(0;\xi)
+    = \frac{1}{2}\left(\xi - \frac{1}{6}\right)^2.
+  }
+  \label{eq:betaR}
+\end{equation}
+\end{proposition}
+
+\begin{remark}
+Equation \eqref{eq:betaR} is stronger than the statement that the result is
+quadratic in $\xi$.  It says that the local scalar curvature response is a
+perfect square centered at conformal coupling.  That point is the unique
+minimum of the local scalar $R^2$ coefficient.
+\end{remark}
+
+\section{Insertion into the Local Spectral Action}
+\label{sec:spectral}
+
+\subsection{Single real scalar}
+
+For a single real scalar, the local curvature-squared contribution can now be
+written directly as
+\begin{equation}
+  \Gamma^{(1)}_{\mathcal R^2,\mathrm{local}}
+  = \frac{1}{2}\int \dd^4x\,\sqrt{g}\,
+  \left[
+    \frac{1}{120}\Weylsq
+    + \frac{1}{2}\left(\xi - \frac{1}{6}\right)^2 \Rsq
+  \right].
+  \label{eq:local-scalar-action}
+\end{equation}
+This formula is often the most useful local summary of the scalar sector.  It
+states, in one line, which piece is rigid and which piece is controlled by
+the non-minimal coupling.
+
+\subsection{Why the conformal point survives in the full theory}
+
+In the full Standard Model sum, the local $R^2$ coefficient receives no
+contribution from the Dirac or vector sectors.  The scalar sector is
+therefore the entire carrier of the $\xi$-dependence.  For four real scalar
+degrees of freedom, one obtains
+\begin{equation}
+  \alpha_R(\xi)
+  = 4 \times \frac{1}{2}\left(\xi - \frac{1}{6}\right)^2
+  = 2\left(\xi - \frac{1}{6}\right)^2.
+  \label{eq:alphaR-full}
+\end{equation}
+This is precisely the structural reason that the conformal point remains
+visible after the full Standard Model sum.  It is not washed out by the
+fermionic and vector sectors because they carry zero local $R^2$ coefficient.
+
+\section{Conversion to the \texorpdfstring{$\{R^2,\Ricsq\}$}{R2,Ricci2} Basis}
+\label{sec:basis}
+
+The Weyl basis is natural for the heat-kernel derivation, but many
+weak-field discussions of quadratic gravity use the basis
+$\{R^2,\Ricsq\}$.  The relation between the two is standard.  In four
+dimensions,
+\begin{equation}
+  \Weylsq
+  = E_4 + 2\Ricsq - \frac{2}{3}\Rsq,
+  \label{eq:weyl-conversion}
+\end{equation}
+where
+\begin{equation}
+  E_4
+  = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+  - 4R_{\mu\nu}R^{\mu\nu}
+  + R^2
+  \label{eq:euler-density}
+\end{equation}
+is the Euler density.  Up to the topological term, the local quadratic action
+\begin{equation}
+  \Gamma_{\mathrm{loc}}
+  = \int \dd^4x\,\sqrt{g}\,
+  \left[
+    \alpha_C\Weylsq + \alpha_R\Rsq
+  \right]
+  \label{eq:weyl-basis-local}
+\end{equation}
+is therefore equivalent to
+\begin{equation}
+  \Gamma_{\mathrm{loc}}
+  \simeq
+  \int \dd^4x\,\sqrt{g}\,
+  \left[
+    c_1 \Rsq + c_2 \Ricsq
+  \right],
+  \qquad
+  c_1 = \alpha_R - \frac{2}{3}\alpha_C,
+  \quad
+  c_2 = 2\alpha_C.
+  \label{eq:c1c2-conversion}
+\end{equation}
+
+\subsection{Single-scalar coefficients in the Ricci basis}
+
+For one real scalar,
+\begin{equation}
+  \alpha_C^{(0)} = \frac{1}{120},
+  \qquad
+  \alpha_R^{(0)}(\xi) = \frac{1}{2}\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:single-scalar-alphas}
+\end{equation}
+Hence
+\begin{align}
+  c_2^{(0)}
+  &= 2\alpha_C^{(0)}
+   = \frac{1}{60},
+  \label{eq:c2-single}\\[4pt]
+  c_1^{(0)}(\xi)
+  &= \alpha_R^{(0)}(\xi) - \frac{2}{3}\alpha_C^{(0)}
+   = \frac{1}{2}\left(\xi-\frac{1}{6}\right)^2 - \frac{1}{180}.
+  \label{eq:c1-single}
+\end{align}
+The scalar propagating combination becomes
+\begin{equation}
+  3c_1^{(0)} + c_2^{(0)}
+  = \frac{3}{2}\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:single-scalar-prop}
+\end{equation}
+Thus even before the Standard Model sum, the scalar channel is already
+organized around the conformal point.
+
+\section{Limiting Cases}
+\label{sec:limits}
+
+\subsection{Minimal coupling}
+
+At $\xi = 0$ one has
+\begin{equation}
+  \beta_R^{(0)}(0)
+  = \frac{1}{2}\left(-\frac{1}{6}\right)^2
+  = \frac{1}{72}.
+  \label{eq:minimal}
+\end{equation}
+Thus minimal coupling produces a positive local $R^2$ term.
+
+\subsection{Conformal coupling}
+
+At $\xi = 1/6$,
+\begin{equation}
+  \beta_R^{(0)}\!\left(\frac{1}{6}\right) = 0,
+  \qquad
+  \beta_W^{(0)} = \frac{1}{120}.
+  \label{eq:conformal}
+\end{equation}
+Hence the scalar leaves a local Weyl trace but no local $R^2$ trace.
+
+\subsection{Large non-minimal coupling}
+
+For $|\xi| \gg 1$,
+\begin{equation}
+  \beta_R^{(0)}(\xi)
+  = \frac{\xi^2}{2} - \frac{\xi}{6} + \frac{1}{72}
+  \sim \frac{\xi^2}{2}.
+  \label{eq:large-xi}
+\end{equation}
+Therefore the local $R^2$ response is rapidly enhanced when the non-minimal
+coupling is large.  In that regime the scalar curvature coupling is not a
+small correction but the dominant driver of the local scalar channel.
+
+\subsection{Flat-space reading}
+
+When the background is flat, $R=0$ and $C_{\mu\nu\rho\sigma}=0$, so the local
+curvature-squared action vanishes.  The point of the local coefficients is
+therefore not that they survive in flat space, but that they control the
+first response once curvature is turned on.
+
+\section{Physical Interpretation and Domain of Validity}
+\label{sec:interpretation}
+
+The main physical statement of this note is modest but clean:
+\begin{enumerate}[label=(\roman*)]
+  \item the scalar contribution to the Weyl sector is rigid;
+  \item the scalar contribution to the local $R^2$ sector is minimized at
+  $\xi = 1/6$;
+  \item all departure from that point is quadratic in the deviation from
+  conformality.
+\end{enumerate}
+
+This should not be oversold.  The result concerns the local curvature-squared
+sector only.  It does not by itself determine the full nonlocal propagator,
+the entire-function structure, or the complete spectrum of gravitational
+excitations.  Those questions require the corresponding nonlocal analysis.
+
+What the present result does establish is more elementary and more secure:
+the conformal point is already encoded in the verified scalar form factors at
+the local level.  One does not need to invoke extra philosophical arguments
+to see it; the square appears directly in the coefficient.
+
+\section{Cross-Checks and Bridges to the Full Theory}
+\label{sec:checks}
+
+\subsection{Check 1: minimal and conformal values}
+
+Two benchmark points are worth displaying separately because they recur
+throughout the scalar-sector literature:
+\begin{align}
+  h_R^{(0)}(0;0)
+  &= \frac{1}{2}\left(-\frac{1}{6}\right)^2
+   = \frac{1}{72},
+  \label{eq:check-minimal}\\[4pt]
+  h_R^{(0)}\!\left(0;\frac{1}{6}\right)
+  &= \frac{1}{2}\left(\frac{1}{6}-\frac{1}{6}\right)^2
+   = 0.
+  \label{eq:check-conformal}
+\end{align}
+The first benchmark confirms the standard minimal-coupling scalar result. The
+second confirms that the conformal point removes the local $R^2$ term
+completely.
+
+\subsection{Check 2: positivity}
+
+The coefficient \eqref{eq:betaR} is manifestly non-negative:
+\begin{equation}
+  \beta_R^{(0)}(\xi) \geq 0
+  \qquad\text{for all } \xi \in \mathbb R.
+  \label{eq:positivity}
+\end{equation}
+This does not by itself guarantee positivity of the full nonlocal scalar
+channel, but it is the correct local sign check and one of the reasons the
+conformal point is structurally distinguished.
+
+\subsection{Check 3: one real scalar versus the Higgs multiplet}
+
+The local derivation above is for one real scalar degree of freedom.  The
+Higgs doublet contributes four real scalar degrees of freedom.  Therefore the
+local Standard Model scalar contribution is
+\begin{align}
+  \alpha_{C,\mathrm{scalar}}
+  &= 4\times \frac{1}{120}
+   = \frac{1}{30},
+  \label{eq:alphaC-scalar-sector}\\[4pt]
+  \alpha_{R,\mathrm{scalar}}(\xi)
+  &= 4\times \frac{1}{2}\left(\xi-\frac{1}{6}\right)^2
+   = 2\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:alphaR-scalar-sector}
+\end{align}
+Since the local Dirac and vector $R^2$ coefficients vanish, the full Standard
+Model $R^2$ coefficient is exactly the same expression as the Higgs-sector
+contribution.  That statement is one of the most transparent bridges between
+the single-spin derivation and the combined Standard Model result.
+
+\subsection{Check 4: relation to the scalar propagating sector}
+
+In the local quadratic-gravity language, the scalar propagating channel is
+controlled by the combination $3c_1+c_2$.  Once the Weyl-basis coefficients
+are converted into the $\{R^2,\Ricsq\}$ basis, the scalar-sector dependence
+enters through the same square:
+\begin{equation}
+  3c_1 + c_2
+  \propto \left(\xi - \frac{1}{6}\right)^2.
+  \label{eq:3c1c2-bridge}
+\end{equation}
+This is the local bridge from the present derivation note to the
+prediction-style statement that the scalar mode decouples at conformal
+coupling.
+
+\subsection{Check 5: dimensional reading}
+
+The local coefficients $\beta_W^{(0)}$ and $\beta_R^{(0)}$ are dimensionless,
+as they must be in four dimensions when multiplying curvature-squared
+invariants in the one-loop effective action.  This is a trivial check, but it
+is also a useful guard against the most common kind of bookkeeping error in
+curvature expansions: forgetting where the mass scale has been divided out.
+
+\section{Summary of Results}
+\label{sec:summary}
+
+For a single real scalar field with non-minimal coupling $\xi$, the local
+curvature-squared sector of the one-loop spectral action is controlled by
+\begin{align}
+  \beta_W^{(0)} &= \frac{1}{120},
+  \label{eq:summary-betaW}\\[4pt]
+  \beta_R^{(0)}(\xi)
+  &= \frac{1}{2}\left(\xi - \frac{1}{6}\right)^2.
+  \label{eq:summary-betaR}
+\end{align}
+The first coefficient is fixed and $\xi$-independent.  The second is a
+positive semidefinite perfect square centered at conformal coupling.
+
+This pair of facts is the complete local scalar story at quadratic order in
+curvature.  It is small in scope, but it is exactly the piece of the theory
+that later controls why the full Standard Model $R^2$ coefficient carries
+only scalar-sector $\xi$-dependence.
+
+\appendix
+
+\section{Taylor Coefficients of the Master Function}
+\label{app:taylor}
+
+From \eqref{eq:phi-general-series},
+\begin{equation}
+  \phi(x)
+  = \sum_{n=0}^{\infty}
+    (-1)^n\frac{n!}{(2n+1)!}x^n.
+  \label{eq:appendix-series}
+\end{equation}
+The first coefficients are listed in \cref{tab:taylor}.
+
+\begin{table}[ht]
+\centering
+\caption{First coefficients in the local expansion of $\phi(x)$.}
+\label{tab:taylor}
+\begin{tabular}{cc}
+\toprule
+$n$ & coefficient of $x^n$ \\
+\midrule
+0 & $1$ \\
+1 & $-1/6$ \\
+2 & $1/60$ \\
+3 & $-1/840$ \\
+4 & $1/15120$ \\
+5 & $-1/332640$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Benchmark Table for the Local Scalar Sector}
+\label{app:benchmarks}
+
+\begin{table}[ht]
+\centering
+\caption{Local scalar-sector benchmarks collected in one place.}
+\label{tab:benchmarks}
+\begin{tabular}{lll}
+\toprule
+Quantity & Value & Role \\
+\midrule
+$h_C^{(0)}(0)$ & $1/120$ & local Weyl coefficient \\
+$f_R(0)$ & $1/120$ & scalar CZ component \\
+$f_{RU}(0)$ & $-1/6$ & scalar CZ component \\
+$f_U(0)$ & $1/2$ & scalar CZ component \\
+$f_{R,\mathrm{bis}}(0)$ & $-1/180$ & Weyl-basis scalar component \\
+$h_R^{(0)}(0;\xi)$ & $\frac{1}{2}(\xi-1/6)^2$ & local $R^2$ coefficient \\
+$h_R^{(0)}(0;0)$ & $1/72$ & minimal coupling check \\
+$h_R^{(0)}(0;1/6)$ & $0$ & conformal coupling check \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Detailed Algebra for the Local \texorpdfstring{$R^2$}{R2} Coefficient}
+\label{app:detailed-R2}
+
+For ease of later reuse, we collect the local algebra once more in compact
+form.  Starting from \eqref{eq:fR-series}, \eqref{eq:fRU-series}, and
+\eqref{eq:fU-series},
+\begin{align}
+  f_{R,\mathrm{bis}}(0)
+  &= f_R(0) + \frac{1}{6}f_{RU}(0) + \frac{1}{36}f_U(0)
+  \notag\\
+  &= \frac{1}{120} + \frac{1}{6}\left(-\frac{1}{6}\right)
+   + \frac{1}{36}\left(\frac{1}{2}\right)
+  \notag\\
+  &= \frac{1}{120} - \frac{1}{36} + \frac{1}{72}
+   = -\frac{1}{180}.
+  \label{eq:appendix-frbis}
+\end{align}
+Hence
+\begin{align}
+  h_R^{(0)}(0;\xi)
+  &= -\frac{1}{180} - \frac{\xi}{6} + \frac{\xi^2}{2}
+  \notag\\
+  &= \frac{1}{2}
+     \left(
+       \xi^2 - \frac{\xi}{3} + \frac{1}{36}
+     \right)
+  \notag\\
+  &= \frac{1}{2}\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:appendix-complete-square}
+\end{align}
+The two benchmark values used repeatedly in the main text follow
+immediately:
+\begin{equation}
+  h_R^{(0)}(0;0)=\frac{1}{72},
+  \qquad
+  h_R^{(0)}\!\left(0;\frac{1}{6}\right)=0.
+  \label{eq:appendix-benchmarks}
+\end{equation}
+
+\section{Basis Conversion Formulae}
+\label{app:basis}
+
+For completeness, we record the standard quadratic-basis conversion used in
+\cref{sec:basis}.  In four dimensions the Weyl tensor satisfies
+\begin{equation}
+  C_{\mu\nu\rho\sigma}
+  = R_{\mu\nu\rho\sigma}
+  - \frac{1}{2}\left(
+      g_{\mu\rho}R_{\nu\sigma}
+      - g_{\mu\sigma}R_{\nu\rho}
+      - g_{\nu\rho}R_{\mu\sigma}
+      + g_{\nu\sigma}R_{\mu\rho}
+    \right)
+  + \frac{R}{6}\left(
+      g_{\mu\rho}g_{\nu\sigma}
+      - g_{\mu\sigma}g_{\nu\rho}
+    \right).
+  \label{eq:weyl-def-app}
+\end{equation}
+Squaring and contracting gives
+\begin{equation}
+  \Weylsq
+  = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+  - 2\Ricsq + \frac{1}{3}\Rsq.
+  \label{eq:weyl-square-app}
+\end{equation}
+Using the Euler density
+\begin{equation}
+  E_4
+  = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+  - 4\Ricsq + \Rsq,
+  \label{eq:euler-app}
+\end{equation}
+one eliminates the Riemann-squared term and obtains
+\begin{equation}
+  \Weylsq = E_4 + 2\Ricsq - \frac{2}{3}\Rsq,
+  \label{eq:weyl-to-ricci-app}
+\end{equation}
+which is the conversion used in \eqref{eq:c1c2-conversion}.
+
+\begin{thebibliography}{99}
+
+\bibitem{BarvinskyVilkovisky1987}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``Beyond the Schwinger--DeWitt technique: Converting loops into trees and
+in-in currents,''
+\emph{Nucl. Phys. B} \textbf{282} (1987) 163--188.
+
+\bibitem{CodelloZanusso2013}
+A.~Codello and O.~Zanusso,
+``On the non-local heat kernel expansion,''
+\emph{J. Math. Phys.} \textbf{54} (2013) 013513,
+arXiv:\href{https://arxiv.org/abs/1203.2034}{1203.2034}.
+
+\bibitem{Connes1994}
+A.~Connes,
+\emph{Noncommutative Geometry},
+Academic Press, 1994.
+
+\bibitem{ParkerToms2009}
+L.~Parker and D.~Toms,
+\emph{Quantum Field Theory in Curved Spacetime},
+Cambridge University Press, 2009.
+
+\bibitem{Vassilevich2003}
+D.~V.~Vassilevich,
+``Heat kernel expansion: User's manual,''
+\emph{Phys. Rept.} \textbf{388} (2003) 279--360,
+arXiv:\href{https://arxiv.org/abs/hep-th/0306138}{hep-th/0306138}.
+
+\end{thebibliography}
+
+\end{document}

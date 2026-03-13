@@ -1,0 +1,428 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% SCT Theory — NT-1b Phase 3: Combined SM Form Factors and c₁/c₂
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{sctblue}{RGB}{0,51,153}
+\definecolor{verified}{RGB}{0,128,0}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Derivation}}
+\fancyhead[R]{\small\textsc{NT-1b Phase 3}}
+\fancyfoot[C]{\thepage}
+
+\title{%
+  \textbf{NT-1b Phase 3:}\\[6pt]
+  \Large Combined SM Form Factors and $c_1/c_2$ Re-derivation\\[4pt]
+  \large with $E = -R/4$ Correction and Full Particle Content
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{center}
+  \colorbox{verified!15}{\parbox{0.6\textwidth}{\centering
+    \textbf{\color{verified} STATUS: VERIFIED}\\[2pt]
+    \small six-stage review pipeline, 8-layer verification, 354/354 checks PASS
+  }}
+\end{center}
+
+\vspace{1em}
+
+% ============================================================
+\section{Overview}
+% ============================================================
+
+This document assembles the total Standard Model one-loop effective action
+in the curvature-squared sector, using the verified form factors from
+Phases 1 and 2 of NT-1b. We compute:
+
+\begin{itemize}
+  \item Total Weyl-squared form factor $\alpha_C(x)$ and its local limit $\alpha_C \equiv \alpha_C(0)$.
+  \item Total $R^2$ form factor $\alpha_R(x,\xi)$ and its local limit $\alpha_R(\xi)$.
+  \item The $c_1/c_2$ ratio in the $\{R^2, R_{\mu\nu}^2\}$ basis, including $\xi$-dependence.
+  \item Scalar mode decoupling condition.
+  \item UV asymptotic behavior of the total form factor.
+\end{itemize}
+
+% ============================================================
+\section{Input: Verified Form Factors}
+% ============================================================
+
+From NT-1b Phases 1 and 2 (each verified to $\geq 98\%$ confidence via the
+8-layer pipeline), the individual spin-sector form factors are:
+
+\subsection{Spin-0 (Real Scalar)}
+
+\begin{align}
+  h_C^{(0)}(x) &= \frac{1}{12x} + \frac{\varphi - 1}{2x^2}, &
+  \beta_W^{(0)} &= h_C^{(0)}(0) = \frac{1}{120} \\
+  h_R^{(0)}(x,\xi) &= f_{R,\mathrm{bis}}(x) + \xi\,f_{RU}(x) + \xi^2\,f_U(x), &
+  \beta_R^{(0)}(\xi) &= h_R^{(0)}(0,\xi) = \frac{1}{2}\!\left(\xi - \frac{1}{6}\right)^{\!2}
+\end{align}
+
+\subsection{Spin-1/2 (4-Component Dirac Fermion)}
+
+\begin{align}
+  h_C^{(1/2)}(x) &= \frac{3\varphi - 1}{6x} + \frac{2(\varphi - 1)}{x^2}, &
+  \beta_W^{(1/2)} &= -\frac{1}{20} \\
+  h_R^{(1/2)}(x) &= \frac{3\varphi + 2}{36x} + \frac{5(\varphi - 1)}{6x^2}, &
+  \beta_R^{(1/2)} &= 0
+\end{align}
+
+\subsection{Spin-1 (Massive Vector / Proca)}
+
+\begin{align}
+  h_C^{(1)}(x) &= \frac{\varphi}{4} + \frac{6\varphi - 5}{6x} + \frac{\varphi - 1}{x^2}, &
+  \beta_W^{(1)} &= \frac{1}{10} \\
+  h_R^{(1)}(x) &= -\frac{\varphi}{48} + \frac{11 - 6\varphi}{72x} + \frac{5(\varphi - 1)}{12x^2}, &
+  \beta_R^{(1)} &= 0
+\end{align}
+
+Here $\varphi(x) = e^{-x/4}\sqrt{\pi/x}\,\mathrm{erfi}(\sqrt{x}/2)$
+is the master function, with $\varphi(0) = 1$.
+
+% ============================================================
+\section{SM Particle Content and Counting Convention}
+% ============================================================
+
+\subsection{Standard Model Multiplicities}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Species} & \textbf{Count} & \textbf{Notation} \\
+  \midrule
+  Real scalars (Higgs doublet $\to$ 4 real components) & 4 & $N_s = 4$ \\
+  Two-component Weyl spinors & 45 & $N_f = 45$ \\
+  Gauge bosons ($8 + 3 + 1$) & 12 & $N_v = 12$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Critical Convention: Weyl vs.\ Dirac Counting}
+
+The form factors $h_C^{(1/2)}$ and $h_R^{(1/2)}$ are defined \textbf{per
+4-component Dirac fermion}. The SM has $N_f = 45$ two-component Weyl spinors
+(3 generations $\times$ 15 Weyl per generation). The number of Dirac-equivalent
+fermions is:
+\begin{equation}
+  \boxed{N_D = \frac{N_f}{2} = \frac{45}{2} = 22.5}
+  \label{eq:ND}
+\end{equation}
+
+This follows from the fact that each 4-component Dirac spinor contains 2 Weyl
+spinors. The half-integer count is algebraically consistent.
+
+\textbf{Reference:} Codello, Percacci, Rahmede (CPR), 0805.2909, eq.~(3.14),
+which explicitly uses $n_D$ for the number of 4-component Dirac fermions.
+
+\textbf{Bug fixed:} Prior to Phase 3, the code used $N_f \cdot h_C^{(1/2)}$
+(treating $N_f=45$ as the Dirac count), which overestimated the fermionic
+contribution by a factor of 2. This was corrected to $(N_f/2) \cdot h_C^{(1/2)}$.
+
+% ============================================================
+\section{Total Weyl Form Factor $\alpha_C$}
+% ============================================================
+
+\subsection{Full Nonlocal Form Factor}
+
+The total Weyl-squared form factor is:
+\begin{equation}
+  \alpha_C(x) = N_s\,h_C^{(0)}(x) + N_D\,h_C^{(1/2)}(x) + N_v\,h_C^{(1)}(x)
+  \label{eq:alphaC-full}
+\end{equation}
+
+\subsection{Local Limit}
+
+Setting $x = 0$ (using the verified $\beta$ values):
+\begin{align}
+  \alpha_C &= N_s \cdot \beta_W^{(0)} + N_D \cdot \beta_W^{(1/2)} + N_v \cdot \beta_W^{(1)} \nonumber \\
+  &= 4 \cdot \frac{1}{120} + \frac{45}{2} \cdot \left(-\frac{1}{20}\right) + 12 \cdot \frac{1}{10} \nonumber \\
+  &= \frac{4}{120} - \frac{45}{40} + \frac{12}{10} \nonumber \\
+  &= \frac{4}{120} - \frac{135}{120} + \frac{144}{120} \nonumber \\
+  &= \frac{4 - 135 + 144}{120}
+\end{align}
+
+\begin{equation}
+  \boxed{\alpha_C = \frac{13}{120}}
+  \label{eq:alphaC}
+\end{equation}
+
+This is \textbf{positive} and independent of $\xi$. The positivity means the
+massive spin-2 mode in linearized higher-derivative gravity is a ghost
+(negative residue) --- a well-known feature of quadratic gravity (Stelle, 1977).
+
+\subsection{Sign Structure}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Sector} & \textbf{$N_i \cdot \beta_W^{(s_i)}$} & \textbf{Value} & \textbf{Sign} \\
+  \midrule
+  Scalar ($s=0$)     & $4/120$       & $1/30$   & $+$ \\
+  Fermion ($s=1/2$)  & $-45/40$      & $-9/8$   & $-$ \\
+  Vector ($s=1$)     & $12/10$       & $6/5$    & $+$ \\
+  \midrule
+  \textbf{Total}     & $13/120$      & $\approx 0.1083$ & $+$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The fermionic sector opposes the scalar and vector sectors, but the combined
+scalar+vector contribution ($4/120 + 144/120 = 148/120$) outweighs the
+fermionic contribution ($-135/120$) by $13/120$.
+
+% ============================================================
+\section{Total $R^2$ Form Factor $\alpha_R(\xi)$}
+% ============================================================
+
+\subsection{Local Limit}
+
+\begin{align}
+  \alpha_R(\xi) &= N_s \cdot \beta_R^{(0)}(\xi) + N_D \cdot \beta_R^{(1/2)} + N_v \cdot \beta_R^{(1)} \nonumber \\
+  &= 4 \cdot \frac{1}{2}\!\left(\xi - \frac{1}{6}\right)^{\!2} + \frac{45}{2} \cdot 0 + 12 \cdot 0
+\end{align}
+
+\begin{equation}
+  \boxed{\alpha_R(\xi) = 2\!\left(\xi - \frac{1}{6}\right)^{\!2}}
+  \label{eq:alphaR}
+\end{equation}
+
+\begin{itemize}
+  \item $\alpha_R \geq 0$ for all $\xi$ (perfect square).
+  \item $\alpha_R(1/6) = 0$ (conformal coupling).
+  \item $\alpha_R(0) = 2 \cdot (1/6)^2 = 1/18$ (minimal coupling).
+  \item Only the scalar sector contributes; Dirac and vector $\beta_R$ vanish
+        by conformal invariance of spinor and Maxwell fields.
+\end{itemize}
+
+% ============================================================
+\section{Basis Conversion and $c_1/c_2$ Ratio}
+% ============================================================
+
+\subsection{From $\{C^2, R^2\}$ to $\{R^2, R_{\mu\nu}^2\}$}
+
+The Weyl tensor squared in 4D, using the Gauss--Bonnet identity
+($R_{\mu\nu\rho\sigma}^2 = 4R_{\mu\nu}^2 - R^2 + E_4$, with $E_4$ topological):
+\begin{equation}
+  C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma} = 2\,R_{\mu\nu}R^{\mu\nu} - \frac{2}{3}\,R^2
+  \quad \text{(mod $E_4$)}
+\end{equation}
+
+Therefore:
+\begin{equation}
+  \alpha_C\,C^2 + \alpha_R\,R^2
+  = 2\alpha_C\,R_{\mu\nu}^2 + \left(\alpha_R - \frac{2}{3}\alpha_C\right)R^2
+\end{equation}
+
+With our convention $S = \int\!\sqrt{g}\,(c_1\,R^2 + c_2\,R_{\mu\nu}^2)$:
+\begin{equation}
+  c_1 = \alpha_R - \frac{2}{3}\alpha_C, \qquad c_2 = 2\alpha_C
+  \label{eq:c1c2-def}
+\end{equation}
+
+\subsection{The Ratio}
+
+\begin{align}
+  \frac{c_1}{c_2} &= \frac{\alpha_R - \frac{2}{3}\alpha_C}{2\alpha_C}
+  = -\frac{1}{3} + \frac{\alpha_R}{2\alpha_C}
+\end{align}
+
+Substituting $\alpha_C = 13/120$ and $\alpha_R(\xi) = 2(\xi - 1/6)^2$:
+
+\begin{equation}
+  \boxed{
+    \frac{c_1}{c_2} = -\frac{1}{3} + \frac{120\!\left(\xi - \tfrac{1}{6}\right)^{\!2}}{13}
+  }
+  \label{eq:c1c2-ratio}
+\end{equation}
+
+\subsection{Special Cases}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccl}
+  \toprule
+  \textbf{Coupling} & $\xi$ & $c_1/c_2$ & \textbf{Note} \\
+  \midrule
+  Conformal & $1/6$ & $-1/3$ & Reproduces pure-Dirac prediction \\
+  Minimal   & $0$   & $-1/13$ & Small negative ratio \\
+  $\xi = 1$ &       & $-1/3 + 120 \cdot (5/6)^2/13 = 79/13 \approx 6.08$ & Positive ratio (unusual) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+At $\xi = 1/6$, we recover the result $c_1/c_2 = -1/3$ originally derived
+from the pure Dirac operator (prediction\_01), where $\alpha_R = 0$ and only
+$\alpha_C$ contributes. The full SM derivation shows this is a special case
+of the more general $\xi$-dependent formula.
+
+% ============================================================
+\section{Scalar Mode Decoupling}
+% ============================================================
+
+The massive spin-0 gravitational mode in quadratic gravity has mass
+$m_0^2 \propto 1/(3c_1 + c_2)$. Computing:
+
+\begin{align}
+  3c_1 + c_2 &= 3\!\left(\alpha_R - \frac{2}{3}\alpha_C\right) + 2\alpha_C \nonumber \\
+  &= 3\alpha_R - 2\alpha_C + 2\alpha_C \nonumber \\
+  &= 3\alpha_R
+\end{align}
+
+\begin{equation}
+  \boxed{3c_1 + c_2 = 3\alpha_R(\xi) = 6\!\left(\xi - \frac{1}{6}\right)^{\!2}}
+  \label{eq:scalar-mode}
+\end{equation}
+
+The scalar mode decouples ($m_0^2 \to \infty$) if and only if
+$3c_1 + c_2 = 0$, which requires:
+
+\begin{equation}
+  \xi = \frac{1}{6} \qquad \text{(conformal coupling of the Higgs field)}
+\end{equation}
+
+\textbf{Physical interpretation:} The cancellation of $\alpha_C$ in $3c_1 + c_2$
+is a structural consequence of the Gauss--Bonnet identity. The scalar graviton
+sector is controlled entirely by $\alpha_R$, which vanishes at conformal coupling.
+This provides a dynamical mechanism for scalar-mode avoidance: if the Higgs
+field is conformally coupled, the problematic scalar graviton is absent from
+the spectrum.
+
+% ============================================================
+\section{UV Asymptotic Behavior}
+% ============================================================
+
+For $x \to \infty$, $\varphi(x) \to 2/x$ (from the asymptotic expansion of
+$\mathrm{erfi}$). The leading $1/x$ behavior of each form factor:
+
+\begin{align}
+  x \cdot h_C^{(0)}(x) &\to \frac{1}{12} \\
+  x \cdot h_C^{(1/2)}(x) &\to -\frac{1}{6} \\
+  x \cdot h_C^{(1)}(x) &\to -\frac{1}{3}
+\end{align}
+
+Note: for the vector, the $\varphi/4 \to 2/(4x) = 1/(2x)$ term contributes
+at leading order, combining with $(6\varphi-5)/(6x) \to -5/(6x)$ to give
+$1/(2x) - 5/(6x) = -1/(3x)$. This was verified numerically and caught an
+error in the D-R stage derivation.
+
+The total UV coefficient:
+\begin{align}
+  \lim_{x\to\infty} x \cdot \alpha_C(x) &= N_s \cdot \frac{1}{12} + N_D \cdot \left(-\frac{1}{6}\right) + N_v \cdot \left(-\frac{1}{3}\right) \nonumber \\
+  &= \frac{4}{12} - \frac{45}{12} - \frac{48}{12}
+\end{align}
+
+\begin{equation}
+  \boxed{\lim_{x\to\infty} x \cdot \alpha_C(x) = -\frac{89}{12}}
+  \label{eq:uv-asymptotic}
+\end{equation}
+
+The total form factor $\alpha_C(x)$ starts positive at $x=0$ ($13/120 > 0$)
+but becomes negative for large $x$ (the $-89/12$ coefficient is negative).
+Therefore $\alpha_C(x)$ crosses zero at some finite $x_0$, indicating a sign
+change of the effective Weyl-squared coupling in the UV.
+
+% ============================================================
+\section{Complete Phase 3 Effective Action}
+% ============================================================
+
+The one-loop curvature-squared effective action for the full SM is:
+\begin{equation}
+  \Gamma^{(1)}_{\mathrm{curv}} = \frac{1}{16\pi^2}\int d^4x\,\sqrt{g}\left[
+    \alpha_C\!\left(\frac{\Box}{\Lambda^2}\right)\!C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+    + \alpha_R\!\left(\frac{\Box}{\Lambda^2},\xi\right)\!R^2
+  \right]
+\end{equation}
+
+with the local limits:
+\begin{align}
+  \alpha_C &= \frac{13}{120}, &
+  \alpha_R(\xi) &= 2\!\left(\xi - \frac{1}{6}\right)^{\!2}
+\end{align}
+
+In the $\{R^2, R_{\mu\nu}^2\}$ basis:
+\begin{align}
+  c_1 &= \alpha_R - \frac{2}{3}\alpha_C = 2\!\left(\xi - \frac{1}{6}\right)^{\!2} - \frac{13}{180} \\
+  c_2 &= 2\alpha_C = \frac{13}{60}
+\end{align}
+
+% ============================================================
+\section{Summary of Verified Results}
+% ============================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Quantity} & \textbf{Value} & \textbf{Status} \\
+  \midrule
+  $\alpha_C$ & $13/120$ & \textcolor{verified}{VERIFIED} \\
+  $\alpha_R(\xi)$ & $2(\xi - 1/6)^2$ & \textcolor{verified}{VERIFIED} \\
+  $c_1/c_2$ (general) & $-1/3 + 120(\xi-1/6)^2/13$ & \textcolor{verified}{VERIFIED} \\
+  $c_1/c_2|_{\xi=1/6}$ & $-1/3$ & \textcolor{verified}{VERIFIED} \\
+  $c_1/c_2|_{\xi=0}$ & $-1/13$ & \textcolor{verified}{VERIFIED} \\
+  $3c_1 + c_2$ & $6(\xi - 1/6)^2$ & \textcolor{verified}{VERIFIED} \\
+  UV asymptotic ($x \cdot \alpha_C$) & $-89/12$ & \textcolor{verified}{VERIFIED} \\
+  Scalar decoupling condition & $\xi = 1/6$ & \textcolor{verified}{VERIFIED} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+% ============================================================
+\section{Verification Summary}
+% ============================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Layer} & \textbf{Result} & \textbf{Checks} \\
+  \midrule
+  1. Analytic (limits, signs, dimensions) & PASS & 13/13 \\
+  2. Numerical (mpmath, 120 digits) & PASS & 8/8 \\
+  2.5. Property fuzzing (hypothesis) & PASS & 304/304 \\
+  3. Literature (CPR, Avramidi, Stelle) & PASS & 8/8 \\
+  4. Independent dual derivation & PASS & 5/5 \\
+  4.5. Triple CAS (Fraction, mpmath, SymPy) & PASS & 5/5 \\
+  5--6. Formal (rational arithmetic) & PASS & 11/11 \\
+  \midrule
+  \textbf{Total} & \textbf{PASS} & \textbf{354/354} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+One error caught during verification: D-R stage computed the UV asymptotic
+as $-161/12$ (using $\varphi \to 0$ instead of $\varphi \to 2/x$). Error
+confined to UV asymptotic only; all other results independently confirmed.
+
+Full test suite: 2046/2046 passed, 0 failed.
+
+\vspace{1em}
+\noindent
+\textit{This document is part of the SCT Theory derivation archive.
+Phase 3 completes the NT-1b program for the full SM curvature-squared sector.}
+
+\end{document}

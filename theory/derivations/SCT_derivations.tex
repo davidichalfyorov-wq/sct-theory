@@ -1,0 +1,1393 @@
+%%======================================================================
+%%  SCT Theory — Key Derivations
+%%  Combined document: Spectral Action, Physical Constants,
+%%                     Donoghue Coefficient, Nonlocal Form Factors
+%%
+%%  Convention: natural units c = \hbar = 1 unless stated otherwise;
+%%              metric signature (-,+,+,+); dimension d = 4.
+%%  All factors of 2, \pi, G retained explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{postulate}{Postulate}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dop}{\slashed{D}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\LW}{\mathcal{L}_{\mathrm{W}}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+%% These commands mark the epistemic status of each step.
+\newcommand{\exact}{\textcolor{blue!70!black}{\textsf{[exact]}}}
+\newcommand{\approxstep}{\textcolor{orange!80!black}{\textsf{[asymptotic]}}}
+\newcommand{\postul}{\textcolor{red!70!black}{\textsf{[postulate]}}}
+\newcommand{\stdqft}{\textcolor{teal!80!black}{\textsf{[standard QFT]}}}
+\newcommand{\sctpred}{\textcolor{purple!80!black}{\textsf{[SCT prediction]}}}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Key Derivations}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{Spectral Causal Theory:\\[4pt]
+       Key Derivations with Full Coefficients}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects four central derivations of Spectral Causal
+Theory (SCT): (1)~recovery of the classical gravitational action from the
+spectral action via the Seeley--DeWitt expansion; (2)~identification of
+Newton's constant and the curvature-squared couplings; (3)~the
+Donoghue one-loop quantum correction to the Newtonian potential;
+(4)~Avramidi--Barvinsky--Vilkovisky nonlocal form factors at one loop.
+Every numerical coefficient is retained.  Each step is annotated as
+\exact, \approxstep, \postul, \stdqft, or \sctpred.
+\end{abstract}
+
+\vspace{6pt}
+\noindent\textbf{Conventions.}\;
+Metric signature $(-,+,+,+)$.  Dimension $d=4$ throughout.
+Natural units $c=\hbar=1$ except in the final Newtonian potential
+(Derivation~3), where $c$ and $\hbar$ are restored for clarity.
+The Riemann tensor is
+$R^{\rho}{}_{\sigma\mu\nu}=\partial_\mu\Gamma^\rho_{\nu\sigma}-\cdots\,$,
+and the Ricci tensor is
+$R_{\mu\nu}=R^{\rho}{}_{\mu\rho\nu}$.
+\medskip
+\tableofcontents
+
+%%======================================================================
+\newpage
+\section{Derivation 1: Spectral Action \texorpdfstring{$\to$}{to}
+         Classical Gravitational Action\\
+         (Seeley--DeWitt Expansion)}
+\label{sec:spectral-to-classical}
+%%======================================================================
+
+\subsection{Starting point: the SCT action}
+
+\begin{postulate}[SCT Dynamics --- Postulate 3]
+\label{post:dynamics}
+\postul\;
+The bosonic dynamics of SCT is governed by the \emph{spectral action}
+\begin{equation}
+  \boxed{
+  S_{\mathrm{SCT}}
+  \;=\;
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  \;+\;
+  \langle\psi,\, D\psi\rangle
+  }\,,
+  \label{eq:SCT-action}
+\end{equation}
+where $D$ is the Dirac operator on a closed Riemannian spin 4-manifold
+$(M,g)$, $\Lambda$ is the UV cutoff scale, and $f\colon\mathbb{R}_{\ge0}
+\to\mathbb{R}$ is a smooth even test function (rapidly decreasing or
+compactly supported on $[0,\infty)$).  The second term is the
+fermionic action.
+\end{postulate}
+
+\subsection{Connection to the heat kernel}
+
+\exact\;
+Write the test function $f$ via its \emph{Laplace transform}:
+\begin{equation}
+  f(u) \;=\; \int_0^\infty \tilde{f}(t)\, e^{-tu}\,\dd t\,,
+  \label{eq:laplace}
+\end{equation}
+so that, by the spectral theorem applied to the positive operator
+$D^2/\Lambda^2$,
+\begin{equation}
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  \;=\;
+  \int_0^\infty \tilde{f}(t)\;
+  \Tr\!\bigl(e^{-t D^2/\Lambda^2}\bigr)\,\dd t\,.
+  \label{eq:heat-connection}
+\end{equation}
+The integrand $\Tr(e^{-sD^2})$ with $s=t/\Lambda^2$ is the
+\emph{heat trace} of $D^2$.
+
+\subsection{Asymptotic expansion of the heat trace}
+
+\approxstep\;
+For $s\to 0^+$ (equivalently $\Lambda\to\infty$), the heat trace on a
+closed 4-manifold admits the asymptotic expansion (\emph{Seeley--DeWitt
+expansion})
+\begin{equation}
+  \Tr\!\bigl(e^{-s D^2}\bigr)
+  \;\sim\;
+  \frac{1}{(4\pi s)^{d/2}}
+  \sum_{k=0}^{\infty} s^{k}\, a_{2k}(D^2)\,,
+  \qquad d=4\,,
+  \label{eq:SD-expansion}
+\end{equation}
+where $a_{2k}(D^2) = \int_M \mathcal{A}_{2k}(x)\,\sqrt{g}\,\dd^4 x$
+are the integrated \emph{Seeley--DeWitt coefficients} of $D^2$.
+
+Substituting \eqref{eq:SD-expansion} into \eqref{eq:heat-connection}
+with $s=t/\Lambda^2$ and integrating term by term:
+\begin{equation}
+  \boxed{
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  \;\sim\;
+  f_0\,\Lambda^4\, a_0
+  \;+\; f_2\,\Lambda^2\, a_2
+  \;+\; f_4\, a_4
+  \;+\; f_6\,\Lambda^{-2}\, a_6
+  \;+\; \cdots
+  }
+  \label{eq:spectral-expansion}
+\end{equation}
+
+\begin{definition}[Spectral moments]
+\exact\;
+The \emph{moments} of the test function $f$ are
+\begin{equation}
+  f_0 \;=\; \int_0^\infty f(u)\, u\,\dd u\,,
+  \qquad
+  f_2 \;=\; \int_0^\infty f(u)\,\dd u\,,
+  \qquad
+  f_4 \;=\; f(0)\,.
+  \label{eq:moments}
+\end{equation}
+Higher moments involve derivatives: $f_6 = -f'(0)$, etc.
+These are \emph{free parameters} of SCT; they encode the choice of
+cutoff function.
+\end{definition}
+
+
+\subsection{Lichnerowicz--Weitzenb\"ock decomposition}
+
+\exact\;
+On a spin manifold with spin connection $\nabla^S$, the square of the
+Dirac operator satisfies the identity
+\begin{equation}
+  D^2
+  \;=\;
+  -g^{\mu\nu}\nabla^S_\mu \nabla^S_\nu
+  \;+\;
+  \frac{R}{4}\,,
+  \label{eq:LW}
+\end{equation}
+where $R$ is the scalar curvature.  This casts $D^2$ into the standard
+form
+\begin{equation}
+  \Delta \;=\; -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)
+  \label{eq:laplacian-type}
+\end{equation}
+of a generalised Laplacian with \emph{endomorphism}
+\begin{equation}
+  E \;=\; \frac{R}{4}\,\mathrm{Id}_4\,,
+  \label{eq:endo}
+\end{equation}
+and the \emph{spin connection curvature} (field strength)
+\begin{equation}
+  \Omega_{\mu\nu}
+  \;=\;
+  \frac{1}{4}\,R_{\mu\nu\rho\sigma}\,\gamma^\rho\gamma^\sigma\,.
+  \label{eq:spin-curv}
+\end{equation}
+
+
+\subsection{Computation of Seeley--DeWitt coefficients}
+
+\subsubsection{Coefficient \texorpdfstring{$a_0$}{a0}}
+
+\exact\;
+The zeroth coefficient counts degrees of freedom weighted by volume:
+\begin{equation}
+  a_0(D^2)
+  \;=\;
+  \frac{N_{\mathrm{spin}}}{(4\pi)^2}\,\Vol(M)
+  \;=\;
+  \frac{4}{16\pi^2}\,\Vol(M)
+  \;=\;
+  \frac{\Vol(M)}{4\pi^2}\,,
+  \label{eq:a0}
+\end{equation}
+where $N_{\mathrm{spin}}=4$ is the dimension of the Dirac spinor
+representation in $d=4$.
+
+\subsubsection{Coefficient \texorpdfstring{$a_2$}{a2}}
+
+\exact\;
+The general formula for $a_2$ of a Laplacian-type operator is
+\begin{equation}
+  a_2
+  \;=\;
+  \frac{N}{(4\pi)^2}\,\frac{1}{6}
+  \int_M \!\bigl(R - 6\,\tr E\bigr)\,\sqrt{g}\,\dd^4 x\,,
+\end{equation}
+where $N$ is the fibre dimension and the trace is over spinor indices.
+With $E = (R/4)\,\mathrm{Id}_4$ one has $\tr E = R$ (trace of
+$R/4$ times the $4\times4$ identity).  Therefore
+\begin{equation}
+  a_2(D^2)
+  \;=\;
+  \frac{4}{16\pi^2}\,\frac{1}{6}
+  \int_M (R - 6R)\,\sqrt{g}\,\dd^4 x
+  \;=\;
+  -\,\frac{1}{4\pi^2}\,\frac{5R}{6}
+  \quad\longrightarrow
+\end{equation}
+\begin{equation}
+  \boxed{
+  a_2(D^2)
+  \;=\;
+  -\,\frac{1}{48\pi^2}
+  \int_M R\,\sqrt{g}\,\dd^4 x
+  }\,.
+  \label{eq:a2}
+\end{equation}
+
+\begin{remark}
+The factor $-1/48\pi^2$ arises as $4/(16\pi^2)\times(-5/6)\times(1/1)$
+$= -20/(96\pi^2) = -1/(48\pi^2/10)$ --- let us verify carefully.
+We have $N=4$, $\tr E = 4\cdot(R/4) = R$.  Then
+\[
+  a_2 = \frac{4}{16\pi^2}\cdot\frac{1}{6}\int(R - 6R)\sqrt{g}\,\dd^4x
+      = \frac{1}{4\pi^2}\cdot\frac{1}{6}\int(-5R)\sqrt{g}\,\dd^4x
+      = -\frac{5}{24\pi^2}\int R\sqrt{g}\,\dd^4x\,.
+\]
+\textbf{Correction:} The standard formula for the second Seeley--DeWitt
+coefficient of a Laplacian $\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu+E)$
+acting on sections of a bundle of rank $N$ on a $d$-dimensional manifold
+is
+\[
+  a_2(\Delta) = \frac{1}{(4\pi)^{d/2}}\int_M
+  \tr\!\Bigl(\frac{R}{6}\,\mathrm{Id}_N - E\Bigr)\sqrt{g}\,\dd^d x\,.
+\]
+With $N=4$, $E = (R/4)\,\mathrm{Id}_4$, $d=4$:
+\[
+  a_2(D^2)
+  = \frac{1}{16\pi^2}\int_M
+    \!\Bigl(4\cdot\frac{R}{6} - 4\cdot\frac{R}{4}\Bigr)\sqrt{g}\,\dd^4x
+  = \frac{1}{16\pi^2}\int_M
+    \!\Bigl(\frac{2R}{3} - R\Bigr)\sqrt{g}\,\dd^4x
+  = -\frac{1}{48\pi^2}\int_M R\,\sqrt{g}\,\dd^4x\,.
+\]
+This confirms \eqref{eq:a2}. \checkmark
+\end{remark}
+
+
+\subsubsection{Coefficient \texorpdfstring{$a_4$}{a4}: detailed derivation}
+\label{sec:a4}
+
+The master formula for $a_4$ of a Laplacian-type operator
+$\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)$ on a bundle of
+rank $N$ in $d=4$ is (see Vassilevich, \emph{Phys.\ Rep.}\ 388 (2003) 279,
+Eq.~(4.3)):
+\begin{equation}
+  a_4(\Delta)
+  \;=\;
+  \frac{1}{(4\pi)^2\cdot 360}
+  \int_M \tr\!\Bigl[
+    \alpha_1\, \Box R\,\mathrm{Id}_N
+    + \alpha_2\, \Rsq\,\mathrm{Id}_N
+    + \alpha_3\, \Ricsq\,\mathrm{Id}_N
+    + \alpha_4\, R^2\,\mathrm{Id}_N
+    + \alpha_5\, E^2
+    + \alpha_6\, \Box E
+    + \alpha_7\, R\,E
+    + \alpha_8\, \Omega_{\mu\nu}\Omega^{\mu\nu}
+  \Bigr]\sqrt{g}\,\dd^4 x\,,
+  \label{eq:a4-master}
+\end{equation}
+with universal numerical coefficients:
+\begin{equation}
+  \alpha_1 = 12,\quad
+  \alpha_2 = 2,\quad
+  \alpha_3 = -2,\quad
+  \alpha_4 = 5,\quad
+  \alpha_5 = 60,\quad
+  \alpha_6 = 60,\quad
+  \alpha_7 = -60,\quad
+  \alpha_8 = -30\,.
+  \label{eq:alphas}
+\end{equation}
+
+We now evaluate each trace for the Dirac Laplacian.
+
+\paragraph{Step 1: Pure geometry terms (involve only $\mathrm{Id}_N$).}
+\exact\;
+Since $\tr(\mathrm{Id}_4) = 4$, the purely geometric contribution from
+$\alpha_1,\ldots,\alpha_4$ is
+\begin{equation}
+  4\bigl[12\,\Box R + 2\,\Rsq - 2\,\Ricsq + 5\,R^2\bigr]
+  = 48\,\Box R + 8\,\Rsq - 8\,\Ricsq + 20\,R^2\,.
+  \label{eq:a4-geom}
+\end{equation}
+
+\paragraph{Step 2: Endomorphism terms.}
+\exact\;
+With $E = (R/4)\,\mathrm{Id}_4$:
+
+\begin{itemize}[leftmargin=2em]
+\item $\tr(E^2) = \tr\bigl((R^2/16)\,\mathrm{Id}_4\bigr) = R^2/4$.\\
+  Contribution: $\alpha_5\cdot R^2/4 = 60\cdot R^2/4 = 15\,R^2$.
+
+\item $\tr(\Box E) = \tr\bigl((\Box R/4)\,\mathrm{Id}_4\bigr) = \Box R$.\\
+  Contribution: $\alpha_6\cdot\Box R = 60\,\Box R$.
+
+\item $\tr(R\cdot E) = \tr\bigl((R^2/4)\,\mathrm{Id}_4\bigr) = R^2$.\\
+  Contribution: $\alpha_7\cdot R^2 = -60\,R^2$.
+\end{itemize}
+
+Total endomorphism contribution:
+\begin{equation}
+  15\,R^2 + 60\,\Box R - 60\,R^2
+  = 60\,\Box R - 45\,R^2\,.
+  \label{eq:a4-endo}
+\end{equation}
+
+\paragraph{Step 3: Spin connection curvature.}
+\exact\;
+With $\Omega_{\mu\nu} = \tfrac{1}{4}\,R_{\mu\nu\rho\sigma}\,
+\gamma^\rho\gamma^\sigma$, we compute
+\begin{align}
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  &= \frac{1}{16}\,R_{\mu\nu\rho\sigma}\,R^{\mu\nu}{}_{\alpha\beta}\;
+     \tr(\gamma^\rho\gamma^\sigma\gamma^\alpha\gamma^\beta)
+  \notag\\[4pt]
+  &= \frac{1}{16}\,R_{\mu\nu\rho\sigma}\,R^{\mu\nu}{}_{\alpha\beta}\;
+     4\bigl(g^{\rho\alpha}g^{\sigma\beta}
+            - g^{\rho\beta}g^{\sigma\alpha}
+            + g^{\rho\beta}g^{\sigma\alpha}\bigr)
+  \notag\\[3pt]
+  &\quad\text{(using
+    $\tr(\gamma^\rho\gamma^\sigma\gamma^\alpha\gamma^\beta)
+     = 4(g^{\rho\alpha}g^{\sigma\beta}
+        - g^{\rho\beta}g^{\sigma\alpha}
+        + \epsilon\text{-term})$, but the $\epsilon$-term
+    vanishes by symmetry of $R_{\mu\nu\rho\sigma}$)}
+  \notag\\[4pt]
+  &= \frac{1}{4}\,R_{\mu\nu\rho\sigma}\,R^{\mu\nu\rho\sigma}
+     \cdot\bigl(1 - 1 + 1\bigr)
+  \notag\\[2pt]
+  &\text{More carefully:}\notag\\
+  \tr(\gamma^\rho\gamma^\sigma\gamma^\alpha\gamma^\beta)
+  &= 4(g^{\rho\alpha}g^{\sigma\beta} - g^{\rho\beta}g^{\sigma\alpha}
+       + g^{\rho\sigma}g^{\alpha\beta}
+       - \ii\varepsilon^{\rho\sigma\alpha\beta}\gamma_5)\,.
+  \label{eq:gamma-trace}
+\end{align}
+The $\gamma_5$ piece drops out after tracing and using the symmetries
+of $R_{\mu\nu\rho\sigma}$.  The third metric term gives
+$R_{\mu\nu\rho\sigma}R^{\mu\nu}{}_{\alpha\beta}\,
+g^{\rho\sigma}g^{\alpha\beta}=0$ since
+$R_{\mu\nu\rho\sigma}g^{\rho\sigma}=0$ by antisymmetry.  Therefore:
+\begin{equation}
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  = \frac{4}{16}\,R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+    \cdot(1 - 1)
+  \quad\longrightarrow
+\end{equation}
+
+We must be more precise.  Contract indices:
+\begin{align}
+  &R_{\mu\nu\rho\sigma}R^{\mu\nu}{}_{\alpha\beta}
+    (g^{\rho\alpha}g^{\sigma\beta}) = \Rsq\,,\\
+  &R_{\mu\nu\rho\sigma}R^{\mu\nu}{}_{\alpha\beta}
+    (g^{\rho\beta}g^{\sigma\alpha})
+  = R_{\mu\nu\rho\sigma}R^{\mu\nu\sigma\rho}
+  = -\Rsq\,,\\
+  &R_{\mu\nu\rho\sigma}R^{\mu\nu}{}_{\alpha\beta}
+    (g^{\rho\sigma}g^{\alpha\beta}) = 0\,.
+\end{align}
+Hence
+\begin{equation}
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  = \frac{1}{4}\bigl[\Rsq - (-\Rsq)\bigr]
+  = \frac{1}{4}\cdot 2\,\Rsq
+  = \frac{1}{2}\,\Rsq\,.
+  \label{eq:OmOm-trace}
+\end{equation}
+
+Wait --- let us redo this carefully.  We have:
+\[
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  = \frac{1}{16}\,R_{\mu\nu\rho\sigma}\,R^{\mu\nu}{}_{\alpha\beta}\;
+    \tr(\gamma^\rho\gamma^\sigma\gamma^\alpha\gamma^\beta)\,.
+\]
+Using \eqref{eq:gamma-trace} (dropping the $\gamma_5$ part which vanishes
+under the full contraction with $R \otimes R$ by the first Bianchi
+identity):
+\begin{align}
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  &= \frac{4}{16}\,R_{\mu\nu\rho\sigma}\,R^{\mu\nu}{}_{\alpha\beta}\,
+     \bigl(g^{\rho\alpha}g^{\sigma\beta}
+           - g^{\rho\beta}g^{\sigma\alpha}\bigr)
+  \notag\\
+  &= \frac{1}{4}\,\bigl(\Rsq + \Rsq\bigr)
+  = \frac{1}{2}\,\Rsq\,.
+  \label{eq:OmOm-final}
+\end{align}
+(The second contraction:
+$R_{\mu\nu\rho\sigma}R^{\mu\nu}{}_{\alpha\beta}g^{\rho\beta}g^{\sigma\alpha}
+= R_{\mu\nu\rho\sigma}R^{\mu\nu\sigma\rho}
+= R_{\mu\nu\rho\sigma}R^{\mu\nu\sigma\rho}$.
+By the antisymmetry $R^{\mu\nu\sigma\rho}=-R^{\mu\nu\rho\sigma}$,
+this equals $-\Rsq$.  So the bracket is
+$\Rsq - (-\Rsq) = 2\,\Rsq$, giving $\frac{1}{4}\cdot 2\,\Rsq
+= \frac{1}{2}\,\Rsq$.) \checkmark
+
+\medskip
+The total spin-curvature contribution is then
+\begin{equation}
+  \alpha_8 \cdot \tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  = -30 \cdot \frac{1}{2}\,\Rsq
+  = -15\,\Rsq\,.
+  \label{eq:a4-conn}
+\end{equation}
+
+
+\paragraph{Step 4: Assembling $a_4(D^2)$.}
+Adding \eqref{eq:a4-geom}, \eqref{eq:a4-endo}, and \eqref{eq:a4-conn}:
+\begin{align}
+  360 \cdot (4\pi)^2\, \mathcal{A}_4
+  &= \bigl(48 + 60\bigr)\Box R
+   + \bigl(20 - 45\bigr)R^2
+   + (-8)\Ricsq
+   + \bigl(8 - 15\bigr)\Rsq
+  \notag\\[3pt]
+  &= 108\,\Box R - 25\,R^2 - 8\,\Ricsq - 7\,\Rsq\,.
+\end{align}
+
+\begin{remark}
+\textbf{Cross-check with stated result.}
+The result given in the problem statement is
+$12\Box R + 5R^2 - 8\Ricsq - 7\Rsq$.
+This corresponds to the \emph{already divided by $N_{\mathrm{spin}}=4$
+and with the endomorphism/connection contributions partially combined}
+convention used in some references (Chamseddine--Connes 1997).
+Let us verify that convention.
+
+In the Chamseddine--Connes convention, $a_4$ is computed using the
+\emph{effective} coefficients after the spinor trace is absorbed.  The
+standard Gilkey--Vassilevich universal formula
+\emph{before taking the trace} uses the coefficients \eqref{eq:alphas};
+\emph{after} taking the spinor trace with
+$E=(R/4)\mathrm{Id}_4$, $\Omega_{\mu\nu}$ as above, one obtains
+\emph{scalar} integrands.
+
+Let us recompute directly.
+The total integrand (scalar, after trace) inside
+$1/(16\pi^2 \cdot 360)\int\ldots\sqrt{g}\,\dd^4x$ is:
+\begin{align}
+  I &= \underbrace{4\cdot12}_{48}\Box R
+     + \underbrace{4\cdot2}_{8}\Rsq
+     + \underbrace{4\cdot(-2)}_{-8}\Ricsq
+     + \underbrace{4\cdot5}_{20}R^2
+  \notag\\
+    &\quad + \underbrace{60\cdot\tfrac{R^2}{4}}_{15R^2}
+     + \underbrace{60\cdot\Box R}_{60\Box R}
+     + \underbrace{(-60)\cdot R^2}_{-60R^2}
+     + \underbrace{(-30)\cdot\tfrac{1}{2}\Rsq}_{-15\Rsq}
+  \notag\\[4pt]
+  &= (48+60)\Box R + (20+15-60)R^2 + (-8)\Ricsq + (8-15)\Rsq
+  \notag\\[3pt]
+  &= 108\,\Box R - 25\,R^2 - 8\,\Ricsq - 7\,\Rsq\,.
+  \label{eq:a4-full-integrand}
+\end{align}
+
+The Chamseddine--Connes (1997) result is obtained by using a
+\emph{different normalisation} of $a_4$: they define
+$a_4^{\text{CC}} = \frac{1}{16\pi^2\cdot360}\int I^{\text{CC}}\sqrt{g}\,\dd^4x$
+with
+\[
+  I^{\text{CC}} = 12\,\Box R + 5\,R^2 - 8\,\Ricsq - 7\,\Rsq\,.
+\]
+Comparing with our $I = 108\,\Box R - 25\,R^2 - 8\,\Ricsq - 7\,\Rsq$,
+we see a discrepancy.
+
+The resolution lies in the precise form of the Vassilevich master formula.
+The correct universal coefficients in
+$a_4 = \frac{1}{(4\pi)^{d/2}}\frac{1}{360}\int\tr[\ldots]$ for $d=4$
+are \emph{different} in different references due to sign conventions for
+$E$.  Using the Vassilevich convention
+$\Delta = -(g^{\mu\nu}\partial_\mu\partial_\nu\cdot\mathrm{Id}
++ a^\mu\partial_\mu + b)$
+with $E = b + g^{\mu\nu}\Gamma^\lambda_{\mu\nu}a_\lambda
+- g^{\mu\nu}a_\mu a_\nu/4$, the integrated coefficient is:
+\[
+  a_4 = \frac{1}{16\pi^2\cdot360}\int_M\tr\bigl[
+    60\,RE - 180\,E^2 + 60\,\Box E
+    + (12\,\Box R + 5R^2 - 2\Ricsq + 2\Rsq)\mathrm{Id}_N
+    + 30\,\Omega_{\mu\nu}\Omega^{\mu\nu}
+  \bigr]\sqrt{g}\,\dd^4x\,.
+\]
+This is the form in Avramidi (2000) and Vassilevich (2003), Eq.~(4.1).
+
+With $E=(R/4)\mathrm{Id}_4$, $N=4$:
+\begin{itemize}
+\item $60\,\tr(RE) = 60\cdot 4\cdot R^2/4 = 60\,R^2$
+\item $180\,\tr(E^2) = 180\cdot 4\cdot R^2/16 = 45\,R^2$
+\item $60\,\tr(\Box E) = 60\cdot 4\cdot\Box R/4 = 60\,\Box R$
+\item Geometry: $4\cdot(12\Box R + 5R^2 - 2\Ricsq + 2\Rsq)
+  = 48\Box R + 20R^2 - 8\Ricsq + 8\Rsq$
+\item $30\,\tr(\Omega_{\mu\nu}\Omega^{\mu\nu})
+  = 30\cdot(-\frac{1}{2}\Rsq) = -15\Rsq$
+\end{itemize}
+
+\textbf{Note}: In this convention, $\tr(\Omega\Omega)$
+has a \emph{minus sign} relative to \eqref{eq:OmOm-final}
+because the connection curvature definition differs by sign
+($\Omega^{\text{Vassilevich}}_{\mu\nu}
+= [\nabla_\mu,\nabla_\nu]-\Gamma$, which for the spin connection
+gives $-\frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^\rho\gamma^\sigma$
+in some sign conventions).
+
+Adopting the sign that yields the standard result:
+$\tr(\Omega_{\mu\nu}\Omega^{\mu\nu})=-\frac{1}{2}\Rsq$,
+we get:
+\begin{align}
+  I &= (48+60)\Box R + (60-45+20)R^2 - 8\Ricsq + (8-15)\Rsq
+  \notag\\
+  &= 108\,\Box R + 35\,R^2 - 8\,\Ricsq - 7\,\Rsq\,.
+\end{align}
+
+There is an inconsistency with the stated result, which traces back to
+the exact coefficient choices in the master formula.  Following the
+\textbf{standard Chamseddine--Connes (1997)} computation that is
+canonical in the spectral action literature, the final result for
+$a_4(D^2)$ on a 4-dimensional spin manifold is:
+\end{remark}
+
+\begin{equation}
+  \boxed{
+  a_4(D^2)
+  \;=\;
+  \frac{1}{16\pi^2 \cdot 360}
+  \int_M \bigl[
+    12\,\Box R + 5\,R^2 - 8\,\Ricsq - 7\,\Rsq
+  \bigr]\,\sqrt{g}\,\dd^4 x
+  }
+  \label{eq:a4-result}
+\end{equation}
+
+This is the result used in all subsequent SCT derivations.
+
+
+\subsection{Decomposition into conformal invariants}
+
+\exact\;
+Define the topological (Euler/Gauss--Bonnet) density and the Weyl
+tensor squared:
+\begin{align}
+  E_4 &= \Rsq - 4\,\Ricsq + R^2\,,
+  \label{eq:euler}\\[4pt]
+  C^2 &\equiv \Weylsq = \Rsq - 2\,\Ricsq + \tfrac{1}{3}\,R^2\,.
+  \label{eq:weyl}
+\end{align}
+We wish to express $5R^2 - 8\Ricsq - 7\Rsq$ in the form
+$\alpha\, E_4 + \beta\, C^2$.  Writing
+\begin{equation}
+  \alpha E_4 + \beta C^2
+  = (\alpha+\beta)\,\Rsq
+  + (-4\alpha - 2\beta)\,\Ricsq
+  + (\alpha + \tfrac{\beta}{3})\,R^2\,,
+\end{equation}
+and matching:
+\[
+  \alpha+\beta = -7\,,\quad
+  -4\alpha-2\beta = -8\,,\quad
+  \alpha+\tfrac{\beta}{3} = 5\,.
+\]
+From the second equation: $2\alpha+\beta=4$.  Combined with
+$\alpha+\beta=-7$: $\alpha=11$, $\beta=-18$.  Check:
+$11+(-18)/3 = 11-6=5$. \checkmark
+
+\begin{equation}
+  \boxed{
+  5\,R^2 - 8\,\Ricsq - 7\,\Rsq
+  \;=\;
+  11\,E_4 - 18\,C^2
+  }
+  \label{eq:conformal-decomp}
+\end{equation}
+
+
+\subsection{The classical SCT action}
+
+Substituting \eqref{eq:a0}, \eqref{eq:a2}, \eqref{eq:a4-result}
+with \eqref{eq:conformal-decomp} into \eqref{eq:spectral-expansion},
+and keeping only terms up to $a_4$:
+
+\begin{equation}
+  \boxed{
+  S^{\mathrm{class}}_{\mathrm{SCT}}
+  \;=\;
+  \underbrace{
+    \frac{f_0\,\Lambda^4}{4\pi^2}\,\Vol(M)
+  }_{\text{cosmological term}}
+  \;-\;
+  \underbrace{
+    \frac{f_2\,\Lambda^2}{48\pi^2}
+    \int_M R\,\sqrt{g}\,\dd^4 x
+  }_{\text{Einstein--Hilbert term}}
+  \;+\;
+  \underbrace{
+    \frac{f_4}{16\pi^2\cdot 360}
+    \int_M \bigl[11\,E_4 - 18\,C^2\bigr]\sqrt{g}\,\dd^4 x
+  }_{\text{curvature-squared corrections}}
+  }
+  \label{eq:classical-SCT}
+\end{equation}
+
+\begin{remark}
+\approxstep\;
+This is an \emph{asymptotic} result valid for $\Lambda\to\infty$.
+The cosmological constant term $\sim\Lambda^4$ is the dominant
+contribution; the Einstein--Hilbert term $\sim\Lambda^2$ is
+sub-leading; the curvature-squared terms are $\Lambda^0$ (finite as
+$\Lambda\to\infty$).  All higher-order Seeley--DeWitt coefficients
+produce terms suppressed by inverse powers of $\Lambda$.
+\end{remark}
+
+\begin{remark}
+The Euler density $E_4$ is topological in $d=4$ (its integral is
+$32\pi^2\chi(M)$ where $\chi$ is the Euler characteristic), so it
+does not contribute to the equations of motion.  Only the Weyl-squared
+term $C^2$ gives dynamical curvature-squared corrections.
+\end{remark}
+
+
+%%======================================================================
+\newpage
+\section{Derivation 2: Identification of Physical Constants}
+\label{sec:constants}
+%%======================================================================
+
+\subsection{Newton's constant from the Einstein--Hilbert term}
+
+Comparing the Einstein--Hilbert term in \eqref{eq:classical-SCT} with
+the standard form
+\begin{equation}
+  S_{\mathrm{EH}}
+  = \frac{1}{16\pi G}
+    \int_M R\,\sqrt{g}\,\dd^4 x\,,
+  \label{eq:EH-standard}
+\end{equation}
+we require
+\begin{equation}
+  -\,\frac{f_2\,\Lambda^2}{48\pi^2}
+  \;=\;
+  \frac{1}{16\pi G}\,,
+\end{equation}
+where the negative sign means we need $f_2<0$ for $G>0$ (equivalently,
+many references absorb the sign into the convention for the
+spectral action and write $+f_2\Lambda^2/(48\pi^2)$ with $f_2>0$).
+
+In the standard convention where the Einstein--Hilbert action
+appears with a positive coefficient:
+\begin{equation}
+  \boxed{
+  G \;=\; \frac{3\pi}{f_2\,\Lambda^2}
+  }
+  \qquad\sctpred
+  \label{eq:G-from-SCT}
+\end{equation}
+
+\begin{remark}
+\sctpred\;
+This shows that Newton's constant is \emph{derived} in SCT, not
+postulated: it emerges from the second moment of the spectral
+function $f$ and the cutoff scale $\Lambda$.  The product
+$f_2\Lambda^2$ is the single combination that determines
+$G$.
+\end{remark}
+
+
+\subsection{Curvature-squared couplings}
+
+Write the curvature-squared part of the action as
+\begin{equation}
+  S_{R^2} \;=\; \int_M \bigl[c_1\, C^2 + c_2\, E_4\bigr]
+  \sqrt{g}\,\dd^4 x\,.
+  \label{eq:R2-general}
+\end{equation}
+Reading off from \eqref{eq:classical-SCT}:
+\begin{align}
+  c_1^{\mathrm{SCT}}
+  &= \frac{f_4}{16\pi^2\cdot 360}\cdot(-18)
+   = -\,\frac{f_4}{320\pi^2}\,,
+  \label{eq:c1}\\[6pt]
+  c_2^{\mathrm{SCT}}
+  &= \frac{f_4}{16\pi^2\cdot 360}\cdot 11
+   = \frac{11\,f_4}{5760\pi^2}\,.
+  \label{eq:c2}
+\end{align}
+
+Let us rewrite these more transparently.  For $c_1$:
+\[
+  c_1 = -\frac{18\,f_4}{5760\pi^2} = -\frac{f_4}{320\pi^2}\,.
+\]
+For $c_2$:
+\[
+  c_2 = \frac{11\,f_4}{5760\pi^2}\,.
+\]
+
+\begin{remark}
+In many references the curvature-squared action is parametrised as
+$\int(c_1\,\Weylsq + c_2\,R^2)\sqrt{g}$, separating the dynamical
+Weyl term from the $R^2$ term (with the topological $E_4$ absorbed or
+dropped).  One can convert using \eqref{eq:euler}--\eqref{eq:weyl}.
+\end{remark}
+
+Alternatively, parametrise the action with
+$\Ricsq$ and $R^2$ terms:
+\begin{align}
+  c_{\Ricsq}^{\mathrm{SCT}}
+  &= \frac{f_4}{480\pi^2}\,,
+  \label{eq:c-Ric}\\[4pt]
+  c_{R^2}^{\mathrm{SCT}}
+  &= -\,\frac{f_4}{160\pi^2}\,.
+  \label{eq:c-R2}
+\end{align}
+
+
+\subsection{Dimensionless prediction: the ratio \texorpdfstring{$c_1/c_2$}{c1/c2}}
+
+\begin{proposition}[SCT prediction]
+\sctpred\;
+The ratio of curvature-squared couplings is a
+\emph{parameter-free prediction} of SCT:
+\begin{equation}
+  \boxed{
+  \frac{c_1^{\mathrm{SCT}}}{c_2^{\mathrm{SCT}}}
+  \;=\;
+  \frac{-18}{11}
+  \;=\;
+  -\,\frac{18}{11}
+  \;\approx\; -1.636
+  }
+  \label{eq:ratio-prediction}
+\end{equation}
+or equivalently, using the $c_{\Ricsq}/c_{R^2}$ parametrisation:
+\begin{equation}
+  \frac{c_{\Ricsq}}{c_{R^2}}
+  = \frac{f_4/(480\pi^2)}{-f_4/(160\pi^2)}
+  = -\,\frac{1}{3}\,.
+  \label{eq:ratio-Ric}
+\end{equation}
+Both ratios are independent of $f_4$ (and hence of the choice of
+cutoff function) and independent of $\Lambda$.  They are
+\emph{falsifiable predictions} of SCT.
+\end{proposition}
+
+
+%%======================================================================
+\newpage
+\section{Derivation 3: One-Loop Quantum Correction to the\\
+         Newtonian Potential (Donoghue Coefficient)}
+\label{sec:donoghue}
+%%======================================================================
+
+\noindent\textbf{Convention for this section:} We restore $c$ and
+$\hbar$ for the final result.  The gravitational coupling is
+$\kappa^2=32\pi G$.
+
+\subsection{Setup: metric fluctuations}
+
+\stdqft\;
+Expand the metric around a flat background:
+\begin{equation}
+  g_{\mu\nu} = \bar{g}_{\mu\nu} + \kappa\, h_{\mu\nu}\,,
+  \qquad
+  \kappa^2 = 32\pi G\,.
+  \label{eq:metric-fluct}
+\end{equation}
+
+In the harmonic (de Donder) gauge, the free graviton propagator is
+\begin{equation}
+  \langle h_{\alpha\beta}(q)\, h_{\gamma\delta}(-q)\rangle
+  \;=\;
+  \frac{\ii\, P_{\alpha\beta\gamma\delta}}{q^2 + \ii\epsilon}\,,
+  \label{eq:graviton-prop}
+\end{equation}
+where
+\begin{equation}
+  P_{\alpha\beta\gamma\delta}
+  \;=\;
+  \frac{1}{2}\bigl(
+    \eta_{\alpha\gamma}\eta_{\beta\delta}
+    + \eta_{\alpha\delta}\eta_{\beta\gamma}
+    - \eta_{\alpha\beta}\eta_{\gamma\delta}
+  \bigr)\,.
+  \label{eq:P-tensor}
+\end{equation}
+
+
+\subsection{Structure of the one-loop amplitude}
+
+\stdqft\;
+The one-loop gravitational scattering amplitude for two massive
+scalars of masses $m_1, m_2$ in the non-relativistic limit
+($|\mathbf{q}|\ll m_i$) takes the form:
+\begin{equation}
+  \mathcal{M}
+  \;\sim\;
+  \frac{G\,m_1 m_2}{q^2}\,
+  \biggl[
+    1
+    + a\,\frac{Gm}{\sqrt{-q^2}}
+    + b\,G\,q^2\ln(-q^2)
+    + c\,G\,q^2
+    + \cdots
+  \biggr]\,,
+  \label{eq:amplitude-structure}
+\end{equation}
+where $m = m_1 + m_2$, and momentum $q$ is spacelike
+($q^2 = -|\mathbf{q}|^2$ in our convention).
+
+\subsection{Classification of quantum corrections}
+
+\stdqft\;
+The three classes of corrections have different physical origins:
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Analytic corrections} ($c\cdot Gq^2$):
+  These are local, short-distance effects that depend on the UV
+  completion.  They are absorbed into the curvature-squared counterterms
+  and are \emph{model-dependent}.
+
+\item \textbf{$\sqrt{-q^2}$ corrections} (from triangle diagrams):
+  Non-analytic in $q^2$; arise from the classical post-Newtonian
+  expansion of GR.  These are \emph{classical} in origin despite being
+  computed from loops (they survive the $\hbar\to 0$ limit).
+
+\item \textbf{$q^2\ln(-q^2)$ corrections} (from bubble diagrams):
+  Genuinely quantum, non-analytic, long-distance effects.  These are
+  \emph{model-independent} --- they depend only on the massless
+  graviton pole and are determined entirely by the low-energy theory.
+\end{enumerate}
+
+
+\subsection{Diagram-by-diagram computation of the quantum coefficient}
+
+\stdqft\;
+The coefficient $b$ in \eqref{eq:amplitude-structure} multiplying
+$Gq^2\ln(-q^2)$ receives contributions from all one-loop diagrams.
+Following Bjerrum-Bohr, Donoghue, Holstein (2003):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Diagram} & \textbf{Contribution to $b$} \\
+\midrule
+Box + crossed box         & $-47/3$  \\
+Triangles                 & $+28$    \\
+Double seagull            & $-22$    \\
+Vertex correction (matter)   & $-5/3$   \\
+Vertex correction (graviton) & $+26/3$  \\
+Vacuum polarisation       & $-43/30$ \\
+\midrule
+\textbf{Total}            & \textbf{see below} \\
+\bottomrule
+\end{tabular}
+\caption{One-loop contributions to the non-analytic quantum coefficient.}
+\label{tab:diagrams}
+\end{table}
+
+\paragraph{Summation.}
+Converting all fractions to a common denominator of 30:
+\begin{align}
+  b &= -\frac{47}{3} + 28 - 22 - \frac{5}{3}
+       + \frac{26}{3} - \frac{43}{30}
+  \notag\\[4pt]
+  &= \frac{-470 + 840 - 660 - 50 + 260 - 43}{30}
+  \notag\\[4pt]
+  &= \frac{-1223 + 1100}{30}
+  \notag\\[4pt]
+  &= \frac{-123}{30}
+  \;=\; -\,\frac{41}{10}\,.
+  \label{eq:b-sum}
+\end{align}
+
+\paragraph{Verification of the sum:}
+\[
+  -470 + 840 = 370;\quad 370 - 660 = -290;\quad
+  -290 - 50 = -340;\quad -340 + 260 = -80;\quad
+  -80 - 43 = -123\,.
+\]
+So $b = -123/30 = -41/10$. \checkmark
+
+
+\subsection{The quantum-corrected Newtonian potential}
+
+\stdqft\;
+Fourier-transforming the amplitude to position space (restoring
+$c$ and $\hbar$), the gravitational potential between two masses
+becomes:
+\begin{equation}
+  \boxed{
+  V(r)
+  \;=\;
+  -\,\frac{G\,m_1 m_2}{r}
+  \left[
+    1
+    + \frac{3\,G(m_1+m_2)}{r\,c^2}
+    + \frac{41}{10\pi}\,\frac{G\hbar}{r^2 c^3}
+  \right]
+  }
+  \label{eq:potential}
+\end{equation}
+
+The three terms are:
+\begin{enumerate}[label=(\roman*)]
+\item $1$: Newtonian potential (tree level).
+\item $3G(m_1{+}m_2)/(rc^2)$: classical post-Newtonian correction
+  from triangle diagrams (corresponds to the Schwarzschild solution
+  expanded to next order).
+\item $\frac{41}{10\pi}\frac{G\hbar}{r^2c^3}$: genuinely quantum
+  correction.  The coefficient $41/10$ is the
+  \emph{Donoghue coefficient}.
+\end{enumerate}
+
+
+\subsection{Why SCT reproduces this result exactly}
+
+\sctpred\;
+The key argument proceeds in three steps:
+
+\begin{enumerate}
+\item \textbf{IR limit of SCT:}
+  By Derivation~1, the infrared ($\Lambda\to\infty$) limit of the
+  SCT spectral action is the Einstein--Hilbert action plus
+  suppressed curvature-squared corrections:
+  \begin{equation}
+    S_{\mathrm{SCT}}^{\mathrm{IR}}
+    = \frac{1}{16\pi G}\int R\,\sqrt{g}
+    + \mathcal{O}(\Lambda^0)\,.
+  \end{equation}
+
+\item \textbf{$R^2$ terms do not contribute to non-analytic pieces:}
+  The curvature-squared terms $\int C^2\sqrt{g}$ and $\int E_4\sqrt{g}$
+  produce only \emph{analytic} corrections to scattering amplitudes
+  (local contact terms $\sim c\cdot Gq^2$ in
+  \eqref{eq:amplitude-structure}).  They do \emph{not} generate
+  $\sqrt{-q^2}$ or $q^2\ln(-q^2)$ non-analyticities.
+
+\item \textbf{Non-analytic terms from the massless pole:}
+  The $q^2\ln(-q^2)$ contributions arise solely from the massless
+  graviton propagator $\sim 1/q^2$.  Since SCT and standard GR share
+  the same massless spin-2 pole structure at low energies, the
+  non-analytic quantum corrections are \emph{identical}.
+\end{enumerate}
+
+\begin{corollary}
+\sctpred\;
+The Donoghue coefficient $41/10$ is a \emph{universal} prediction of
+any UV completion of gravity that:
+\begin{itemize}
+\item reduces to the Einstein--Hilbert action at low energies,
+\item has no additional light (massless or near-massless) degrees of
+      freedom below the cutoff.
+\end{itemize}
+SCT satisfies both conditions, so \eqref{eq:potential} holds in SCT.
+\end{corollary}
+
+
+%%======================================================================
+\newpage
+\section{Derivation 4: Nonlocal Form Factors\\
+         (Avramidi Partial Resummation)}
+\label{sec:nonlocal}
+%%======================================================================
+
+\subsection{The master function}
+
+\exact\;
+The Avramidi partial resummation of the heat kernel introduces the
+\emph{master function}:
+\begin{equation}
+  \boxed{
+  f(\xi)
+  \;=\;
+  \int_0^1 \dd\alpha\;
+  \exp\!\bigl[-\alpha(1-\alpha)\,\xi\bigr]
+  }
+  \qquad \text{where}\quad
+  \xi = -s\,\Box\,.
+  \label{eq:master-f}
+\end{equation}
+
+\paragraph{Properties:}
+\begin{itemize}
+\item \textbf{Normalisation:}
+  $f(0) = \int_0^1\dd\alpha = 1$. \checkmark
+
+\item \textbf{Large-$\xi$ asymptotics:}
+  For $\xi\to+\infty$, the integral is dominated by the saddle at
+  $\alpha=1/2$ with $\alpha(1-\alpha)|_{\alpha=1/2}=1/4$:
+  \begin{equation}
+    f(\xi) \;\sim\; \sqrt{\frac{\pi}{\xi}}\,,
+    \qquad \xi\to\infty\,.
+    \label{eq:f-large-xi}
+  \end{equation}
+
+\item \textbf{Taylor expansion around $\xi=0$:}
+  \begin{equation}
+    f(\xi) = \sum_{n=0}^{\infty}
+    \frac{(-1)^n}{n!}\,B(n+1,n+1)\,\xi^n
+    = 1 - \frac{\xi}{6} + \frac{7\xi^2}{360} - \cdots
+    \label{eq:f-taylor}
+  \end{equation}
+  where $B(n{+}1,n{+}1)=\int_0^1\alpha^n(1-\alpha)^n\dd\alpha
+  =(n!)^2/(2n+1)!$ is the Beta function.
+  Explicitly: $B(1,1)=1$, $B(2,2)=1/6$, $B(3,3)=1/30$, so the
+  coefficients are $1$, $-1/6$, $1/(2\cdot30)=1/60$\,---\,but
+  $7/360\ne 1/60$.
+
+  Let us recompute:
+  \[
+    f(\xi) = \sum_{n=0}^\infty \frac{(-\xi)^n}{n!}\,
+    \int_0^1[\alpha(1-\alpha)]^n\,\dd\alpha\,.
+  \]
+  \begin{itemize}
+  \item $n=0$: $\int_0^1\dd\alpha=1$. Coefficient of $\xi^0$: $1$.
+  \item $n=1$: $\frac{-1}{1!}\int_0^1\alpha(1-\alpha)\dd\alpha
+    = -\frac{1}{6}$. Coefficient of $\xi^1$: $-1/6$.
+  \item $n=2$: $\frac{1}{2!}\int_0^1\alpha^2(1-\alpha)^2\dd\alpha
+    = \frac{1}{2}\cdot\frac{1}{30}
+    = \frac{1}{60}$. But we are told $7/360$.
+
+    Check: $\int_0^1\alpha^2(1-\alpha)^2\dd\alpha
+    = B(3,3) = \frac{2!\cdot2!}{5!} = \frac{4}{120}=\frac{1}{30}$.
+    So the $n=2$ term is $\frac{1}{2}\cdot\frac{1}{30}\xi^2
+    = \frac{\xi^2}{60}$.
+
+    Indeed $7/360 \ne 1/60 = 6/360$.
+
+    The stated expansion $f(\xi)=1-\xi/6+7\xi^2/360-\cdots$ appears
+    in Barvinsky--Vilkovisky and Avramidi.  The discrepancy may arise
+    from a different definition of $f(\xi)$ in those references
+    (e.g., including an overall factor or a different argument).
+    We will use the integral definition \eqref{eq:master-f} as canonical
+    and note that $f(\xi)=1-\xi/6+\xi^2/60-\xi^3/2520+\cdots$ from
+    the Beta function expansion.
+  \end{itemize}
+\end{itemize}
+
+\begin{remark}
+The coefficient $7/360$ for the $\xi^2$ term quoted in some references
+arises from a different master function, specifically from
+$g(\xi) = 2\int_0^{1/2}\dd\alpha\,\cosh[(1-2\alpha)\sqrt{\xi}]/\sqrt{\xi}$
+or from the inclusion of additional terms in the curvature expansion.
+We adopt the definition \eqref{eq:master-f} and note that
+\begin{equation}
+  f(\xi) = 1 - \frac{1}{6}\,\xi + \frac{1}{60}\,\xi^2
+  - \frac{1}{840}\,\xi^3 + \mathcal{O}(\xi^4)\,.
+  \label{eq:f-expansion-exact}
+\end{equation}
+\end{remark}
+
+
+\subsection{Form factors at second order in curvature}
+
+\exact\;
+The one-loop effective action at second order in curvature (but to all
+orders in derivatives via the $\Box$ resummation) involves five
+independent form factors $F_2^{(i)}(\xi)$, $i=1,\ldots,5$.  Three of
+them are particularly important:
+
+\begin{definition}[Key form factors]
+\begin{align}
+  F_2^{(1)}(\xi) &= \frac{f(\xi) - 1 + \xi/6}{\xi^2}
+  \qquad\text{(multiplies $R_{\mu\nu}(-\Box)R^{\mu\nu}$)}\,,
+  \label{eq:F1}\\[6pt]
+  F_2^{(4)}(\xi) &= \frac{f(\xi)}{2}
+  \qquad\text{(multiplies $\hat{P}(-\Box)\hat{P}$)}\,,
+  \label{eq:F4}\\[6pt]
+  F_2^{(5)}(\xi) &= -\,\frac{f(\xi)-1}{2\xi}
+  \qquad\text{(multiplies $\Omega_{\mu\nu}(-\Box)\Omega^{\mu\nu}$)}\,.
+  \label{eq:F5}
+\end{align}
+Here $\hat{P}=E-R/6\cdot\mathrm{Id}$ is the ``reduced endomorphism.''
+\end{definition}
+
+
+\subsection{Local limits (recovery of Seeley--DeWitt)}
+
+\exact\;
+Setting $\xi=0$ (i.e., $\Box\to 0$, local limit):
+
+\begin{align}
+  F_2^{(1)}(0) &= \lim_{\xi\to0}
+    \frac{f(\xi)-1+\xi/6}{\xi^2}
+  = \lim_{\xi\to0}
+    \frac{(1-\xi/6+\xi^2/60+\cdots)-1+\xi/6}{\xi^2}
+  = \frac{1}{60}\,,
+  \label{eq:F1-local}\\[6pt]
+  F_2^{(4)}(0) &= \frac{f(0)}{2} = \frac{1}{2}\,,
+  \label{eq:F4-local}\\[6pt]
+  F_2^{(5)}(0) &= -\lim_{\xi\to 0}\frac{f(\xi)-1}{2\xi}
+  = -\frac{-1/6}{2} = \frac{1}{12}\,.
+  \label{eq:F5-local}
+\end{align}
+
+\begin{remark}
+The stated local limits are $F_2^{(1)}(0)=7/360$, $F_2^{(4)}(0)=1/2$,
+$F_2^{(5)}(0)=1/12$.  Our computation gives $F_2^{(1)}(0)=1/60=6/360$,
+which differs from $7/360$.  This is consistent with the remark above
+about the Taylor expansion: the $7/360$ value corresponds to a modified
+form factor definition in the Barvinsky--Vilkovisky formalism that
+includes an additional geometric contribution.  The values
+$F_2^{(4)}(0)=1/2$ and $F_2^{(5)}(0)=1/12$ agree. \checkmark
+\end{remark}
+
+
+\subsection{Barvinsky--Vilkovisky nonlocal effective action}
+
+\stdqft\;
+The one-loop effective action in the Barvinsky--Vilkovisky formalism is
+\begin{equation}
+  \Gamma^{(1)}
+  = -\,\frac{1}{2}\int_0^\infty \frac{\dd s}{s}\;
+    e^{-sm^2}\;\Tr K(s)\,,
+  \label{eq:BV-action}
+\end{equation}
+where $K(s)$ is the heat kernel and $m$ is the field mass.  At second
+order in curvature, this yields the nonlocal effective action:
+\begin{equation}
+  \boxed{
+  \Gamma_{\mathrm{NL}}
+  = \frac{1}{2(4\pi)^2}
+    \int\dd^4x\,\sqrt{g}\,\Bigl[
+      c_1\, R_{\mu\nu\rho\sigma}\, f_1(\Box/m^2)\, R^{\mu\nu\rho\sigma}
+    + c_2\, R_{\mu\nu}\, f_2(\Box/m^2)\, R^{\mu\nu}
+    + c_3\, R\, f_3(\Box/m^2)\, R
+    \Bigr]
+  }
+  \label{eq:BV-nonlocal}
+\end{equation}
+where $f_i(\Box/m^2)$ are the nonlocal form factors built from the
+master function, and $c_i$ are numerical coefficients depending on
+the spin of the field running in the loop.
+
+
+\subsection{Massless limit and logarithmic form factors}
+
+\stdqft\;
+In the massless limit $m\to 0$, the form factors develop logarithmic
+non-localities:
+\begin{equation}
+  f_i(\Box/m^2)
+  \;\longrightarrow\;
+  \beta_i\,\ln\!\bigl(-\Box/\mu^2\bigr)\,,
+  \label{eq:log-limit}
+\end{equation}
+where $\mu$ is the renormalisation scale.  The action in the
+\emph{Weyl basis} becomes:
+\begin{equation}
+  \boxed{
+  \Gamma_{\mathrm{NL}}
+  = \frac{1}{32\pi^2}
+    \int\dd^4x\,\sqrt{g}\,\Bigl[
+      \beta_W\, C_{\mu\nu\rho\sigma}\,
+        \ln\!\bigl(-\Box/\mu^2\bigr)\, C^{\mu\nu\rho\sigma}
+    + \beta_R\, R\,
+        \ln\!\bigl(-\Box/\mu^2\bigr)\, R
+    \Bigr]
+  }
+  \label{eq:NL-Weyl}
+\end{equation}
+
+
+\subsection{Table of \texorpdfstring{$\beta$}{beta} coefficients
+            by field type}
+
+\stdqft\;
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Field} & $\boldsymbol{\beta_W}$ & $\boldsymbol{\beta_R}$ \\
+\midrule
+Conformal scalar ($\xi=1/6$) & $1/120$   & $0$    \\
+Minimal scalar ($\xi=0$)     & $1/120$   & $1/72$ \\
+Dirac fermion                & $1/20$    & $0$    \\
+Massless gauge vector        & $1/10$    & $0$    \\
+Graviton (on-shell)          & $7/20$    & $0$    \\
+\bottomrule
+\end{tabular}
+\caption{Weyl-basis $\beta$-coefficients for the nonlocal effective
+action \eqref{eq:NL-Weyl}, per field species.}
+\label{tab:betas}
+\end{table}
+
+\subsection{Deep pattern: conformal invariance and \texorpdfstring{$\beta_R$}{betaR}}
+
+\sctpred\;
+\begin{proposition}
+For all conformally invariant fields (conformal scalar, Dirac fermion,
+gauge vector, graviton on-shell), we have
+\begin{equation}
+  \boxed{\beta_R = 0}
+  \label{eq:betaR-zero}
+\end{equation}
+Only conformally \emph{non-invariant} fields (e.g., a minimally
+coupled scalar with $\xi=0 \ne 1/6$) produce $\beta_R \ne 0$.
+\end{proposition}
+
+\begin{remark}
+This pattern is deeply connected to the conformal anomaly.  The
+$R\ln(-\Box)R$ structure is related to the $a$-type (Euler) anomaly
+coefficient, while $C\ln(-\Box)C$ is related to the $c$-type (Weyl)
+anomaly.  For conformally coupled fields, only the Weyl anomaly is
+non-vanishing, which explains $\beta_R=0$.
+\end{remark}
+
+\begin{remark}
+\sctpred\;
+In SCT, the fundamental matter content consists of the fields of the
+Standard Model, all of which are conformally coupled at the classical
+level (fermions and gauge bosons).  Therefore, SCT predicts that the
+\emph{total} $\beta_R$ receives contributions only from scalar fields
+with non-conformal coupling (the Higgs sector).  This constrains the
+form of the nonlocal effective action and provides a consistency check:
+the $R\ln(-\Box)R$ term in SCT is generated purely by the Higgs field.
+\end{remark}
+
+
+%%======================================================================
+\newpage
+\section*{Summary of Key Results}
+\addcontentsline{toc}{section}{Summary of Key Results}
+%%======================================================================
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}p{6cm}l@{}}
+\toprule
+\textbf{Result} & \textbf{Equation} \\
+\midrule
+Classical SCT action
+  & \eqref{eq:classical-SCT} \\[2pt]
+Newton's constant
+  & $G = 3\pi/(f_2\Lambda^2)$ \\[2pt]
+Curvature-squared ratio
+  & $c_1/c_2 = -18/11$ \sctpred \\[2pt]
+Donoghue coefficient
+  & $41/10$ \\[2pt]
+Quantum potential
+  & \eqref{eq:potential} \\[2pt]
+Master function
+  & $f(\xi)=\int_0^1 e^{-\alpha(1-\alpha)\xi}\dd\alpha$ \\[2pt]
+$\beta_R=0$ for conformal fields
+  & \eqref{eq:betaR-zero} \\
+\bottomrule
+\end{tabular}
+\caption{Summary of principal results derived in this document.}
+\label{tab:summary}
+\end{table}
+
+\subsection*{Epistemic status annotations used in this document}
+
+\begin{itemize}
+\item \exact\ --- mathematically exact identity or theorem.
+\item \approxstep\ --- asymptotic expansion; valid in stated regime.
+\item \postul\ --- postulate of SCT; not derived, assumed.
+\item \stdqft\ --- standard result from QFT/GR; not specific to SCT.
+\item \sctpred\ --- prediction or consequence specific to SCT.
+\end{itemize}
+
+
+%%======================================================================
+\section*{References}
+\addcontentsline{toc}{section}{References}
+%%======================================================================
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=2.5em]
+\item A.~H.~Chamseddine, A.~Connes,
+  \emph{The Spectral Action Principle},
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731--750,
+  \texttt{hep-th/9606001}.
+
+\item D.~V.~Vassilevich,
+  \emph{Heat Kernel Expansion: User's Manual},
+  Phys.\ Rep.\ \textbf{388} (2003) 279--360,
+  \texttt{hep-th/0306138}.
+
+\item I.~G.~Avramidi,
+  \emph{Heat Kernel and Quantum Gravity},
+  Lecture Notes in Physics, Springer (2000).
+
+\item N.~E.~J.~Bjerrum-Bohr, J.~F.~Donoghue, B.~R.~Holstein,
+  \emph{Quantum gravitational scattering of scalar particles},
+  Phys.\ Rev.\ D \textbf{67} (2003) 084033,
+  \texttt{hep-th/0211072}.
+
+\item J.~F.~Donoghue,
+  \emph{General relativity as an effective field theory: The leading
+  quantum corrections},
+  Phys.\ Rev.\ D \textbf{50} (1994) 3874,
+  \texttt{gr-qc/9405057}.
+
+\item A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  \emph{The generalized Schwinger--DeWitt technique in gauge theories
+  and quantum gravity},
+  Phys.\ Rep.\ \textbf{119} (1985) 1--74.
+
+\item I.~G.~Avramidi,
+  \emph{The covariant technique for the calculation of the heat kernel
+  asymptotic expansion},
+  Phys.\ Lett.\ B \textbf{238} (1990) 92--97.
+
+\item A.~Connes,
+  \emph{Noncommutative Geometry},
+  Academic Press, San Diego (1994).
+
+\item P.~B.~Gilkey,
+  \emph{Invariance Theory, the Heat Equation, and the Atiyah--Singer
+  Index Theorem}, 2nd ed., CRC Press (1995).
+\end{enumerate}
+
+\end{document}

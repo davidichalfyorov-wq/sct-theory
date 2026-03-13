@@ -1,0 +1,8 @@
+# SCT Theory — developer and notebook tooling
+# Install: python -m pip install -r requirements-dev.txt
+
+pytest>=9.0
+ruff>=0.15
+ipykernel>=6.31
+notebook>=7.5
+jupyterlab>=4.5

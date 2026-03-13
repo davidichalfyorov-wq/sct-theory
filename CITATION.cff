@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "SCT Theory"
+message: "If you use this repository, please cite it using the metadata below."
+type: software
+authors:
+  - family-names: "Alfyorov"
+    given-names: "David"
+abstract: "Research repository for Spectral Causal Theory derivations, verification workflows, and analysis code."
+version: "0.1.0"
+date-released: "2026-03-13"
+license: "Apache-2.0"

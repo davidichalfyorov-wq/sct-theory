@@ -1,0 +1,346 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% SCT Theory — Prediction 01: Fixed Analytic Coefficients c₁/c₂
+% Status: UNTESTED
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{untested}{RGB}{180,120,0}
+\definecolor{sctblue}{RGB}{0,51,153}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Prediction Card}}
+\fancyhead[R]{\small\textsc{P-01}}
+\fancyfoot[C]{\thepage}
+
+\title{%
+  \textbf{SCT Prediction 01:}\\[6pt]
+  \Large Analytic Coefficients of Curvature-Squared Terms\\[4pt]
+  \large $c_1/c_2 = -\tfrac{1}{3} + \tfrac{120(\xi - 1/6)^2}{13}$
+}
+\author{David Alfyorov}
+\date{March 2026 (Phase 3 revision)}
+
+\begin{document}
+\maketitle
+
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{center}
+  \colorbox{untested!15}{\parbox{0.6\textwidth}{\centering
+    \textbf{\color{untested} STATUS: UNTESTED}\\[2pt]
+    \small Current experiments cannot resolve curvature-squared couplings
+  }}
+\end{center}
+
+\vspace{1em}
+
+% ============================================================
+\section{Source}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Derived from:} SCT Axiom~1 (Spectral Action Principle) applied to the full Standard Model spectral triple, including all SM fields with correct multiplicities.
+  \item \textbf{Derivation chain:}
+    \begin{enumerate}
+      \item Start with the spectral action $S = \mathrm{Tr}\,f(D^2/\Lambda^2)$, summed over all SM particle species.
+      \item Expand via the heat kernel (Seeley--DeWitt) asymptotic expansion:
+        \begin{equation}
+          \mathrm{Tr}\,f(D^2/\Lambda^2) \sim \sum_{n\geq 0} f_{4-n}\,\Lambda^{4-2n}\,a_n(D^2)
+          \label{eq:heat-kernel-expansion}
+        \end{equation}
+        where $f_k = \int_0^\infty f(u)\,u^{k/2-1}\,du$ are the moments of the cutoff function and $a_n$ are the Seeley--DeWitt coefficients.
+      \item The $a_4$ coefficient receives contributions from all SM spin sectors.
+        Using verified form factors (NT-1b Phases~1--3) with the Gauss--Bonnet identity
+        $C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma} = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma} - 2R_{\mu\nu}R^{\mu\nu} + \tfrac{1}{3}R^2$,
+        the curvature-squared effective action decomposes as:
+        \begin{equation}
+          S_{\text{curv}^2} = \frac{1}{16\pi^2}\int_M\!\left[
+            \alpha_C\,C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+            + \alpha_R(\xi)\,R^2
+          \right]\sqrt{g}\,d^4x
+          \label{eq:curv-squared-action}
+        \end{equation}
+      \item The coefficients in the $\{C^2, R^2\}$ basis are (Phase~3 verified):
+        \begin{align}
+          \alpha_C &= N_s\,h_C^{(0)}(0) + N_D\,h_C^{(1/2)}(0) + N_v\,h_C^{(1)}(0)
+          = \frac{4}{120} + \frac{45}{2}\!\cdot\!\left(-\frac{1}{20}\right) + \frac{12}{10}
+          = \frac{13}{120} \label{eq:alphaC}\\[4pt]
+          \alpha_R(\xi) &= N_s\,h_R^{(0)}(0,\xi) + N_D\,h_R^{(1/2)}(0) + N_v\,h_R^{(1)}(0)
+          = 4\!\cdot\!\frac{1}{2}\!\left(\xi - \frac{1}{6}\right)^{\!2}
+          = 2\!\left(\xi - \frac{1}{6}\right)^{\!2} \label{eq:alphaR}
+        \end{align}
+        where $N_s = 4$ (Higgs doublet), $N_D = N_f/2 = 45/2$ (Dirac-equivalent fermions,
+        following Chamseddine--Connes--Marcolli, arXiv:0610241), and $N_v = 12$ (gauge bosons).
+      \item Converting to the $\{R^2, R_{\mu\nu}R^{\mu\nu}\}$ basis via Gauss--Bonnet:
+        \begin{align}
+          c_1 &= \alpha_R - \frac{2}{3}\alpha_C \quad \text{(coefficient of $R^2$)} \label{eq:c1}\\[4pt]
+          c_2 &= 2\alpha_C \quad \text{(coefficient of $R_{\mu\nu}R^{\mu\nu}$)} \label{eq:c2}
+        \end{align}
+    \end{enumerate}
+  \item \textbf{Key references:}
+    \begin{itemize}
+      \item A.~H.~Chamseddine, A.~Connes, \textit{Commun.\ Math.\ Phys.}\ \textbf{186}, 731 (1997), arXiv:\texttt{hep-th/9606001}.
+      \item A.~H.~Chamseddine, A.~Connes, M.~Marcolli, \textit{Adv.\ Theor.\ Math.\ Phys.}\ \textbf{11}, 991 (2007), arXiv:\texttt{hep-th/0610241}.
+      \item A.~O.~Barvinsky, G.~A.~Vilkovisky, \textit{Nucl.\ Phys.~B}\ \textbf{282}, 163 (1987).
+      \item D.~V.~Vassilevich, \textit{Phys.\ Rep.}\ \textbf{388}, 279 (2003), arXiv:\texttt{hep-th/0306138}.
+    \end{itemize}
+\end{itemize}
+
+% ============================================================
+\section{Observable Quantity}
+% ============================================================
+
+\subsection{The Prediction}
+
+The ratio of Wilson coefficients of the curvature-squared operators in the gravitational
+effective action depends on the Higgs non-minimal coupling parameter $\xi$:
+
+\begin{equation}
+  \boxed{
+    \frac{c_1}{c_2} = -\frac{1}{3} + \frac{\alpha_R(\xi)}{2\alpha_C}
+    = -\frac{1}{3} + \frac{120\!\left(\xi - \frac{1}{6}\right)^{\!2}}{13}
+  }
+  \label{eq:ratio}
+\end{equation}
+
+\noindent
+\textbf{Special cases:}
+\begin{itemize}
+  \item \textbf{Conformal coupling} ($\xi = 1/6$): $c_1/c_2 = -1/3$ (parameter-free).
+    Scalar mode decouples. Unique signature of spectral geometry.
+  \item \textbf{Minimal coupling} ($\xi = 0$): $c_1/c_2 = -1/3 + 120/(13\!\cdot\!36) \approx -0.077$.
+  \item \textbf{$\xi = 1$:} $c_1/c_2 = -1/3 + 120\!\cdot\!(25/36)/13 \approx 6.07$.
+\end{itemize}
+
+\noindent
+The ratio is \textbf{independent of the cutoff function} $f$ (the moments cancel).
+The $\alpha_C = 13/120$ contribution is $\xi$-independent; only $\alpha_R(\xi)$ carries
+the dependence on the Higgs--gravity coupling.
+
+\subsection{The Effective Action}
+
+The gravitational effective action at quadratic order in curvature:
+
+\begin{equation}
+  S_{\text{grav}} = \int d^4x\,\sqrt{g}\left[
+    \frac{\Lambda_{\text{cc}}}{8\pi G}
+    - \frac{1}{16\pi G}\,R
+    + c_1\,R^2
+    + c_2\,R_{\mu\nu}R^{\mu\nu}
+    + \ldots
+  \right]
+  \label{eq:effective-action}
+\end{equation}
+
+In standard EFT of gravity, $c_1$ and $c_2$ are \textbf{free parameters} (Wilson coefficients), measured at some reference scale $\mu_0$. Their values depend on the UV completion.
+
+In SCT, the Weyl-squared coefficient $\alpha_C = 13/120$ is \textbf{fixed} by the SM particle
+content (parameter-free prediction). The $R^2$ coefficient $\alpha_R(\xi) = 2(\xi-1/6)^2$
+depends on the single parameter $\xi$. If $\xi$ is fixed by the spectral triple
+structure (e.g., conformal coupling $\xi = 1/6$), the ratio $c_1/c_2 = -1/3$ becomes
+a \textbf{parameter-free} prediction.
+
+% ============================================================
+\section{SCT vs.\ Standard EFT and Other Approaches}
+% ============================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Approach} & $c_1/c_2$ & \textbf{Free?} & \textbf{Reference} \\
+  \midrule
+  \textbf{SCT ($\xi = 1/6$, conformal)} & $\mathbf{-1/3}$ & Fixed & This work (Phase 3) \\
+  SCT (general $\xi$) & $-\frac{1}{3} + \frac{120(\xi-1/6)^2}{13}$ & 1-param & This work (Phase 3) \\
+  Standard EFT of gravity & arbitrary & Free & Donoghue (1994) \\
+  't~Hooft--Veltman (pure gravity) & $+1/42$ & Fixed\textsuperscript{$\dagger$} & 't~Hooft--Veltman (1974) \\
+  $\mathcal{N}=1$ SUGRA & $-1/2$ & Fixed\textsuperscript{$\dagger$} & Deser et al.\ (1977) \\
+  Stelle gravity & arbitrary & Free & Stelle (1977) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\smallskip
+\noindent
+\textsuperscript{$\dagger$} Fixed as counterterm coefficients, not as bare couplings.
+
+\vspace{0.5em}
+\noindent
+\textbf{Important distinction:} The 't~Hooft--Veltman ratio $c_1^{\text{tHV}}/c_2^{\text{tHV}} = 1/42$ refers to the one-loop counterterm in pure gravity (no matter). It describes how these couplings \emph{run} with the renormalization scale, not their absolute values. In contrast, the SCT ratio fixes the \emph{bare values} at the cutoff scale $\Lambda$.
+
+\vspace{0.5em}
+\noindent
+\textbf{Phase 3 update:} The original Chamseddine--Connes (1997) prediction $c_1/c_2 = -1/3$
+corresponds to the pure Dirac operator on a spin manifold. When the full SM particle content
+is included (NT-1b Phases~1--3), the Weyl-squared coefficient $\alpha_C = 13/120$ is
+$\xi$-independent, but $\alpha_R(\xi) = 2(\xi - 1/6)^2$ introduces dependence on the
+Higgs non-minimal coupling. The original prediction is recovered at conformal coupling $\xi = 1/6$.
+
+% ============================================================
+\section{Physical Observables Sensitive to $c_1/c_2$}
+% ============================================================
+
+\subsection{Short-Distance Corrections to Gravitational Potential}
+
+The curvature-squared terms modify the Newtonian potential at short distances:
+\begin{equation}
+  V(r) = -\frac{G m_1 m_2}{r}\left[
+    1
+    + \alpha_1\,e^{-m_0\,r}
+    + \alpha_2\,e^{-m_2\,r}
+  \right]
+\end{equation}
+where $m_0^2 = 1/(32\pi G\,(3c_1 + c_2))$ and $m_2^2 = 1/(32\pi G\,(-c_2))$ are the masses of the scalar and spin-2 massive modes introduced by the $R^2$ and $R_{\mu\nu}^2$ terms respectively. In terms of the $\{C^2, R^2\}$ basis coefficients:
+\begin{equation}
+  3c_1 + c_2 = 3\alpha_R(\xi) = 6\!\left(\xi - \frac{1}{6}\right)^{\!2}
+\end{equation}
+The ratio $c_1/c_2$ determines:
+\begin{itemize}
+  \item The \textbf{relative masses} $m_0/m_2$ of these modes.
+  \item The \textbf{relative strengths} $\alpha_1/\alpha_2$ of the Yukawa corrections.
+  \item For conformal coupling $\xi = 1/6$: $3c_1 + c_2 = 0$, so the scalar mode mass $m_0 \to \infty$ (the scalar decouples). Only the spin-2 massive mode survives.
+  \item For general $\xi$: the scalar mode mass is $m_0^2 = 1/(192\pi G\,(\xi - 1/6)^2)$, finite and $\xi$-dependent.
+\end{itemize}
+
+\subsection{Gravitational Scattering Amplitudes}
+
+At one-loop level, graviton--graviton scattering amplitudes receive contributions proportional to $c_1$ and $c_2$. The ratio determines the relative weight of different tensor structures in the amplitude.
+
+\subsection{Black Hole Quasi-Normal Modes}
+
+Higher-derivative corrections modify the quasi-normal mode (QNM) spectrum of black holes. The ratio $c_1/c_2$ affects:
+\begin{itemize}
+  \item Frequency shifts $\delta\omega_{\ell n}$ of QNMs.
+  \item Isospectrality breaking between polar and axial perturbations.
+  \item The structure of the QNM overtone spectrum.
+\end{itemize}
+Precision gravitational wave spectroscopy of post-merger ringdown signals could in principle probe these corrections (Cardoso et al., 2019).
+
+% ============================================================
+\section{Energy Scale and Regime}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Regime:} UV / trans-Planckian. The prediction originates from the spectral action at the cutoff scale $\Lambda$.
+  \item \textbf{Characteristic energy:} $E \sim \Lambda$, where $\Lambda$ is expected to be of order the Planck mass $M_P \approx 1.22 \times 10^{19}$~GeV.
+  \item \textbf{Where effects become observable:} The curvature-squared corrections to the gravitational potential become important at distances $r \lesssim \ell_P$, or equivalently when spacetime curvature reaches $\mathcal{R} \sim \Lambda^2/M_P^2$.
+  \item \textbf{RG running:} The ratio $c_1/c_2 = -1/3$ is the value at $\mu = \Lambda$. Under RG flow to lower energies, the individual coefficients run (see Prediction~P-02), but the ratio $c_1(\mu)/c_2(\mu)$ generically departs from $-1/3$ for $\mu < \Lambda$.
+\end{itemize}
+
+% ============================================================
+\section{Required Experimental Precision}
+% ============================================================
+
+\subsection{Direct Measurement}
+
+To directly measure the ratio $c_1/c_2$, one would need to:
+\begin{enumerate}
+  \item Resolve the Yukawa-type corrections to Newtonian gravity at distances $r \sim \ell_P \sim 10^{-35}$~m.
+  \item Current sub-millimeter gravity tests (Adelberger et al., 2009) probe $r \sim 10^{-5}$~m, leaving a gap of $\sim 30$ orders of magnitude.
+\end{enumerate}
+
+\subsection{Indirect Measurement via QNMs}
+
+Higher-derivative corrections shift black hole QNM frequencies by:
+\begin{equation}
+  \frac{\delta\omega}{\omega} \sim \frac{c_i}{M_P^2\,r_s^2} \sim \frac{c_i}{M_P^2}\cdot\frac{c^4}{4G^2 M_{\text{BH}}^2}
+\end{equation}
+For stellar-mass black holes ($M_{\text{BH}} \sim 30\,M_\odot$) and $c_i \sim 1/M_P^2$:
+\begin{equation}
+  \frac{\delta\omega}{\omega} \sim \left(\frac{M_P}{M_{\text{BH}}}\right)^2 \sim 10^{-76}
+\end{equation}
+This is beyond any foreseeable gravitational wave detector.
+
+\subsection{Current Best Measurements}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Experiment} & \textbf{What is probed} & \textbf{Precision} \\
+  \midrule
+  LIGO/Virgo/KAGRA (O4) & QNM frequencies & $\delta\omega/\omega \sim 10^{-1}$ \\
+  Sub-mm gravity tests & Yukawa deviations & $r \gtrsim 50\,\mu$m \\
+  LHC (extra dims) & Higher-dim gravity & $\Lambda > 5$~TeV \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+None of these experiments have sensitivity to the curvature-squared Wilson coefficients $c_1, c_2$ individually, let alone their ratio.
+
+% ============================================================
+\section{Special Property: Scalar Mode Decoupling}
+% ============================================================
+
+In the action~\eqref{eq:effective-action}, the $R^2$ term propagates a massive scalar mode
+(spin-0), while $R_{\mu\nu}R^{\mu\nu}$ propagates a massive spin-2 mode (in addition to
+the massless graviton). The scalar mode mass is:
+\begin{equation}
+  m_0^2 = \frac{1}{32\pi G\,(3c_1 + c_2)} = \frac{1}{192\pi G\,(\xi - 1/6)^2}
+\end{equation}
+Using the Phase~3 result $3c_1 + c_2 = 3\alpha_R(\xi) = 6(\xi - 1/6)^2$:
+\begin{itemize}
+  \item For \textbf{conformal coupling} ($\xi = 1/6$): $3c_1 + c_2 = 0$, so $m_0 \to \infty$.
+    \textbf{The scalar mode decouples.} This is a nontrivial structural prediction:
+    at conformal coupling, the spectral action naturally avoids the scalar ghost/tachyon
+    that plagues generic $R^2$ gravity theories. Only the massive spin-2 mode
+    (from $R_{\mu\nu}R^{\mu\nu}$) survives.
+  \item For \textbf{general $\xi$}: the scalar mode has finite mass. Whether $\xi = 1/6$
+    is enforced by the spectral triple structure is an open question (see NT-4b).
+  \item \textbf{Observational consequence:} If the scalar mode is observed in short-distance
+    gravity experiments, its mass directly determines $(\xi - 1/6)^2$. Non-observation
+    at a given energy scale provides an \emph{upper bound} on $|\xi - 1/6|$.
+\end{itemize}
+
+% ============================================================
+\section{Status}
+% ============================================================
+
+\begin{center}
+\colorbox{untested!15}{\parbox{0.85\textwidth}{\centering
+  \textbf{\color{untested}\Large UNTESTED}\\[6pt]
+  No current or near-future experiment can measure the individual\\
+  Wilson coefficients $c_1$, $c_2$ or their ratio.\\[4pt]
+  \textbf{Phase 3 update:} The prediction now has two layers:\\[2pt]
+  (a) \textbf{Parameter-free}: $\alpha_C = 13/120$ (Weyl$^2$ coefficient, $\xi$-independent).\\
+  (b) \textbf{One-parameter}: $c_1/c_2 = -1/3 + 120(\xi-1/6)^2/13$ depends on $\xi$.\\[4pt]
+  \textbf{Distinguishing power:} At conformal coupling ($\xi = 1/6$), the ratio\\
+  $c_1/c_2 = -1/3$ uniquely identifies the spectral action as the UV origin of gravity,\\
+  distinguishing SCT from standard EFT, pure gravity ($+1/42$), and SUGRA ($-1/2$).\\[4pt]
+  \textbf{Structural consequence:} Scalar mode decoupling ($3c_1 + c_2 = 0$)\\
+  requires $\xi = 1/6$. For general $\xi$, the scalar mode is present\\
+  with mass $\propto 1/|\xi - 1/6|$.
+}}
+\end{center}
+
+% ============================================================
+\section{Relation to Other SCT Predictions}
+% ============================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{P-00 (Donoghue coefficient):} Model-independent consistency check that SCT passes. Does \emph{not} probe $c_1/c_2$.
+  \item \textbf{P-02 (Running constants):} Describes how $c_1(\mu)$ evolves from its initial value~\eqref{eq:c1}. The ratio $c_1/c_2(\xi)$ at $\mu = \Lambda$ is the boundary condition for RG flow.
+  \item \textbf{P-03 (Nonlocal form factors):} The full spectral action generates nonlocal corrections $F_1(x)$, $F_2(x,\xi)$ beyond the local $c_1$, $c_2$ coefficients. Phase~3 provides their complete expressions.
+  \item \textbf{Derivation document:} NT-1b Phase~3 combined derivation (theory/derivations/NT1b\_phase3\_combined.tex).
+\end{itemize}
+
+\vspace{1em}
+\noindent
+\textit{This prediction card is part of the SCT Theory prediction catalog.}
+
+\end{document}

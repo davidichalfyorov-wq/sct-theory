@@ -1,0 +1,1396 @@
+\documentclass[11pt,a4paper]{article}
+
+%%% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+\geometry{margin=2.5cm}
+
+%%% Custom commands (matching NT-1, NT-1b scalar conventions)
+\newcommand{\Id}{\mathbf{1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathOperator{\erfi}{erfi}
+
+%%% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%%% Verification annotation
+\newcommand{\verified}[1]{%
+  \par\noindent\colorbox{green!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{green!50!black}{\textbf{[Numerically verified]}}
+      \textcolor{green!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%%% Page style
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-1b: Vector Form Factors --- Main Derivation}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{%
+  \textbf{NT-1b Vector Form Factors: Main Derivation}\\[6pt]
+  \large One-Loop Nonlocal Form Factors for a Gauge Boson\\
+  with Faddeev--Popov Ghost Subtraction
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+We derive the one-loop nonlocal form factors $h_C^{(1)}(x)$ and
+$h_R^{(1)}(x)$ for a \textbf{physical gauge boson} (spin-1) on a closed
+Riemannian 4-manifold, expressed in the Weyl--$R^2$ basis $\{C^2, R^2\}$.
+Starting from the Codello--Zanusso (CZ) universal heat kernel form
+factors~\cite{CZ2012}, we:
+\begin{enumerate}[nosep]
+\item specialise the five CZ form factors to the vector operator data
+  ($\tr(\Id)=4$, $\mathbf{U}=\mathrm{Ric}$,
+  $\Omega_{\mu\nu}=R^\alpha{}_{\beta\mu\nu}$);
+\item compute the fiber traces, handling the matrix-valued endomorphism
+  $\mathbf{U}=\mathrm{Ric}$ which contributes to \emph{both}
+  $C^2$ and $R^2$ sectors;
+\item convert to the Weyl basis via the Gauss--Bonnet identity;
+\item subtract two Faddeev--Popov ghost contributions
+  (minimally coupled scalars, $\xi=0$);
+\item verify all twelve mandatory benchmarks from the conventions
+  document~\cite{NT1b_vector_conventions};
+\item express the spectral action form factors $F_1^{(1)}$ and
+  $F_2^{(1)}$ as explicit integrals over the spectral function;
+\item analyse pole cancellation, Taylor expansions, UV asymptotics,
+  and conformal invariance.
+\end{enumerate}
+All intermediate results are verified numerically using mpmath
+with 100-digit precision.
+This document parallels the Phase~1 scalar derivation~\cite{NT1b_scalar}
+and serves as input for the combined form factor assembly in NT-1b Phase~3.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+
+%%======================================================================
+\section{Setup and Notation}
+\label{sec:setup}
+%%======================================================================
+
+\subsection{Operator data for the gauge boson}
+
+We work on a closed Riemannian 4-manifold $(M,g)$ with a massless
+Abelian gauge field $A_\mu$ governed by the classical action
+\begin{equation}
+  S[A] = \frac{1}{4}\int \dd^4 x\,\sqrt{g}\,F_{\mu\nu}F^{\mu\nu}\,,
+  \qquad F_{\mu\nu} = \nabla_\mu A_\nu - \nabla_\nu A_\mu\,.
+  \label{eq:vector-action}
+\end{equation}
+In Feynman gauge ($\alpha = 1$), the gauge-fixed kinetic operator is
+the Hodge--de~Rham Laplacian on 1-forms (Weitzenbock identity):
+\begin{equation}
+  \Delta_{\mathrm{vector}} = -\Box\,\delta^\alpha{}_\beta
+    + R^\alpha{}_\beta\,,
+  \label{eq:vector-operator}
+\end{equation}
+which is of Laplace type $\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)$
+with the following operator data (see~\cite{NT1b_vector_conventions}):
+\begin{equation}
+  \boxed{
+  \tr(\Id) = 4\,,\qquad
+  \Omega_{\mu\nu} = R^\alpha{}_{\beta\mu\nu}\,,\qquad
+  E = -R^\alpha{}_\beta = -\mathrm{Ric}\,,\qquad
+  \mathbf{U}_{\mathrm{CZ}} = \mathrm{Ric}\,.
+  }
+  \label{eq:operator-data}
+\end{equation}
+
+\begin{remark}[Key structural differences from Phase~1]
+\label{rem:differences}
+Three features distinguish the vector computation from the scalar:
+\begin{enumerate}[nosep]
+\item The endomorphism $\mathbf{U} = \mathrm{Ric}$ is
+  \textbf{matrix-valued} (not a scalar multiple of~$\Id$).
+  This causes $\tr[\mathbf{U}\,f_{\mathbf{U}}\,\mathbf{U}]
+  = R_{\mu\nu}\,f_{\mathbf{U}}\,R^{\mu\nu}$ to contribute to
+  \emph{both} $C^2$ and $R^2$ sectors.
+\item The bundle curvature $\Omega_{\mu\nu} = R^\alpha{}_{\beta\mu\nu}
+  \neq 0$, so the $f_\Omega$ term is nontrivial.
+\item There is \textbf{no free coupling parameter~$\xi$}:
+  the curvature coupling is uniquely fixed by gauge invariance.
+\end{enumerate}
+\end{remark}
+
+
+\subsection{Faddeev--Popov ghosts}
+
+The Faddeev--Popov procedure introduces a complex scalar ghost field
+(ghost $c$ + anti-ghost $\bar{c}$), equivalent to \textbf{two real}
+scalar fields.  Each has the kinetic operator
+\begin{equation}
+  \Delta_{\mathrm{ghost}} = -\Box\,,
+  \label{eq:ghost-operator}
+\end{equation}
+i.e.\ a minimally coupled massless scalar ($\xi = 0$, $m = 0$) with
+operator data $\tr(\Id)=1$, $\mathbf{U}=0$, $\Omega_{\mu\nu}=0$.
+
+The physical one-loop effective action is:
+\begin{equation}
+  \boxed{
+  \Gamma^{(1)}_{\mathrm{gauge}}
+  = \frac{1}{2}\Tr\ln\Delta_{\mathrm{vector}}
+  - \Tr\ln\Delta_{\mathrm{ghost}}\,.
+  }
+  \label{eq:gauge-effective-action}
+\end{equation}
+In terms of the form factors:
+\begin{equation}
+  \boxed{
+  h_{C,R}^{(1)}(x) = h_{C,R}^{(1,\mathrm{unconstr})}(x)
+  - 2\,h_{C,R}^{(0)}(x;\xi=0)\,,
+  }
+  \label{eq:ghost-subtraction}
+\end{equation}
+where $h^{(1,\mathrm{unconstr})}$ is the unconstrained vector
+contribution and $h^{(0)}(\xi=0)$ is the minimally coupled scalar
+form factor from Phase~1~\cite{NT1b_scalar}.
+
+
+\subsection{One-loop effective action structure}
+
+At second order in curvature, the effective action takes the form
+\begin{equation}
+  \Gamma^{(1)}_{\mathrm{gauge}}\Big|_{\mathcal{R}^2}
+  = \frac{1}{2}\int \dd^4 x\,\sqrt{g}\,\bigl[
+    h_C^{(1)}(\Box/m^2)\,\Weylsq
+    + h_R^{(1)}(\Box/m^2)\,R^2
+  \bigr] + \text{E}_4\text{ terms}\,,
+  \label{eq:eff-action-weyl}
+\end{equation}
+where $h_C^{(1)}$ and $h_R^{(1)}$ are the nonlocal form factors
+to be computed, and $\text{E}_4$ denotes the topological Gauss--Bonnet
+term.
+
+
+\subsection{Master function and conventions}
+
+The master heat kernel form factor (same as Phase~1):
+\begin{equation}
+  \varphi(x) = \int_0^1 \dd\alpha\,e^{-\alpha(1-\alpha)\,x}\,,
+  \label{eq:phi-def}
+\end{equation}
+with Taylor expansion
+\begin{equation}
+  \varphi(x) = \sum_{k=0}^\infty a_k\,x^k\,,\qquad
+  a_k = \frac{(-1)^k}{(2k+1)!}\,\prod_{j=0}^{k-1}(2j+1)
+  = \frac{(-1)^k}{(2k+1)\cdot k!\cdot 4^k}\,,
+  \label{eq:phi-taylor}
+\end{equation}
+so $a_0 = 1$, $a_1 = -1/6$, $a_2 = 1/60$, $a_3 = -1/840$, $a_4 = 1/15120$.
+Large-$x$ asymptotics:
+\begin{equation}
+  \varphi(x) = \frac{2}{x} + \frac{4}{x^2} + O(x^{-3})
+  \quad\text{as } x \to \infty\,.
+  \label{eq:phi-asymp}
+\end{equation}
+
+The fundamental identity:
+\begin{equation}
+  \frac{\varphi(x) - 1}{x}
+  = -\frac{1}{2}\int_0^1 (1-2\alpha)^2\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,,
+  \label{eq:phi-identity}
+\end{equation}
+which ensures pole cancellation in the form factors.
+
+
+%%======================================================================
+\section{CZ Form Factors for the Vector Field}
+\label{sec:CZ}
+%%======================================================================
+
+\subsection{The five universal CZ form factors}
+
+The five CZ form factors (universal, independent of spin):
+\begin{align}
+  f_{\mathrm{Ric}}(x) &= \frac{1}{6x} + \frac{\varphi(x) - 1}{x^2}\,,
+  \label{eq:f-Ric}\\[4pt]
+  f_R(x) &= \frac{\varphi}{32} + \frac{\varphi}{8x}
+    - \frac{7}{48x} - \frac{\varphi - 1}{8x^2}\,,
+  \label{eq:f-R}\\[4pt]
+  f_{R\mathbf{U}}(x) &= -\frac{\varphi}{4}
+    - \frac{\varphi - 1}{2x}\,,
+  \label{eq:f-RU}\\[4pt]
+  f_{\mathbf{U}}(x) &= \frac{\varphi}{2}\,,
+  \label{eq:f-U}\\[4pt]
+  f_\Omega(x) &= -\frac{\varphi - 1}{2x}\,.
+  \label{eq:f-Omega}
+\end{align}
+
+Local limits (CZ eq.~(5.4)):
+\begin{equation}
+  \boxed{
+  f_{\mathrm{Ric}}(0) = \frac{1}{60}\,,\quad
+  f_R(0) = \frac{1}{120}\,,\quad
+  f_{R\mathbf{U}}(0) = -\frac{1}{6}\,,\quad
+  f_{\mathbf{U}}(0) = \frac{1}{2}\,,\quad
+  f_\Omega(0) = \frac{1}{12}\,.
+  }
+  \label{eq:f-at-0}
+\end{equation}
+
+\verified{All five local limits confirmed numerically at
+$x = 10^{-5}$ with 100-digit mpmath precision.}
+
+
+\subsection{Fiber traces for the vector bundle}
+\label{sec:traces}
+
+The key trace identities for the vector bundle $T^*M$ in $d=4$:
+\begin{equation}
+  \boxed{
+  \tr(\Id) = 4\,,\qquad
+  \tr(\mathbf{U}) = \tr(\mathrm{Ric}) = R\,,\qquad
+  \tr(\Omega_{\mu\nu}\Omega^{\mu\nu}) = -\Rsq\,.
+  }
+  \label{eq:traces}
+\end{equation}
+
+The last identity follows from the first-pair antisymmetry of the
+Riemann tensor:
+\begin{equation*}
+  R^\alpha{}_{\beta\mu\nu}\,R^\beta{}_\alpha{}^{\mu\nu}
+  = R_{\alpha\beta\mu\nu}\,R^{\beta\alpha\mu\nu}
+  = -R_{\alpha\beta\mu\nu}\,R^{\alpha\beta\mu\nu}
+  = -\Rsq\,.
+\end{equation*}
+
+For the $f_{\mathbf{U}}$ term, since $\mathbf{U} = \mathrm{Ric}$ is
+matrix-valued:
+\begin{equation}
+  \tr[\mathbf{U}\,f_{\mathbf{U}}(\Box)\,\mathbf{U}]
+  = R_{\mu\nu}\,f_{\mathbf{U}}(\Box)\,R^{\mu\nu}\,,
+  \label{eq:tr-UfU}
+\end{equation}
+which requires the Weyl decomposition to separate into $C^2$ and $R^2$
+components.  This is the key structural complication absent in the
+scalar and Dirac cases.
+
+
+\subsection{Application to the unconstrained vector field}
+
+The CZ heat kernel expansion at $\mathcal{O}(\mathcal{R}^2)$, after
+taking the fiber trace, gives:
+\begin{align}
+  \Gamma^{(1,\mathrm{unconstr})}\Big|_{\mathcal{R}^2}
+  &= \frac{1}{16\pi^2}\int \dd^4 x\,\sqrt{g}\,\Bigl\{
+  \underbrace{4\,R_{\mu\nu}\,f_{\mathrm{Ric}}\,R^{\mu\nu}}_{\text{Term 1}}
+  + \underbrace{4\,R\,f_R\,R}_{\text{Term 2}}
+  \nonumber\\
+  &\quad
+  + \underbrace{R\,f_{R\mathbf{U}}\,R}_{\text{Term 3}}
+  + \underbrace{R_{\mu\nu}\,f_{\mathbf{U}}\,R^{\mu\nu}}_{\text{Term 4}}
+  + \underbrace{R_{\alpha\beta\mu\nu}\,f_\Omega\,
+    R^{\alpha\beta\mu\nu}}_{\text{Term 5}}
+  \Bigr\}\,.
+  \label{eq:vector-5terms}
+\end{align}
+
+The five terms arise from the CZ expansion with vector operator data:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cll}
+\toprule
+\textbf{Term} & \textbf{CZ structure} & \textbf{Vector trace} \\
+\midrule
+1 & $\tr[\Id\cdot R_{\mu\nu}\,f_{\mathrm{Ric}}\,R^{\mu\nu}]$
+  & $4\cdot R_{\mu\nu}\,f_{\mathrm{Ric}}\,R^{\mu\nu}$ \\
+2 & $\tr[\Id\cdot R\,f_R\,R]$
+  & $4\cdot R\,f_R\,R$ \\
+3 & $R\,f_{R\mathbf{U}}\cdot\tr(\mathbf{U})$
+  & $R\,f_{R\mathbf{U}}\,R$ \\
+4 & $\tr[\mathbf{U}\,f_{\mathbf{U}}\,\mathbf{U}]$
+  & $R_{\mu\nu}\,f_{\mathbf{U}}\,R^{\mu\nu}$ \\
+5 & $\tr[\Omega_{\mu\nu}\,f_\Omega\,\Omega^{\mu\nu}]$
+  & $-R_{\alpha\beta\mu\nu}\,f_\Omega\,R^{\alpha\beta\mu\nu}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Term~3 simplification]
+Since $R$ is a scalar, the fiber trace acts only on
+$\mathbf{U}$: $\tr[R\,f_{R\mathbf{U}}\,\mathbf{U}]
+= R\,f_{R\mathbf{U}}\cdot\tr(\mathrm{Ric})
+= R\,f_{R\mathbf{U}}\,R$.
+\end{remark}
+
+\begin{remark}[Term~5 sign]
+The sign of Term~5 arises from the trace identity
+$\tr[\Omega_{\mu\nu}\Omega^{\mu\nu}] = -\Rsq$.
+We have $\tr[\Omega f_\Omega \Omega]
+= -\Rsq \cdot f_\Omega$ at $\mathcal{O}(\mathcal{R}^2)$.
+\end{remark}
+
+
+%%======================================================================
+\section{Weyl-Basis Form Factors: Unconstrained Vector}
+\label{sec:weyl-unconstr}
+%%======================================================================
+
+\subsection{Gauss--Bonnet identity and Weyl decomposition}
+
+At $\mathcal{O}(\mathcal{R}^2)$ in $d = 4$, dropping topological
+$E_4$ terms:
+\begin{align}
+  \Ricsq &= \frac{1}{2}\,\Weylsq + \frac{1}{3}\,R^2\,,
+  \label{eq:weyl-decomp-Ric}\\
+  \Rsq &= 2\,\Weylsq + \frac{1}{3}\,R^2\,.
+  \label{eq:weyl-decomp-Riem}
+\end{align}
+
+
+\subsection{Conversion to the $\{C^2, R^2\}$ basis}
+
+Collecting~\eqref{eq:vector-5terms} into the
+$\{\Ricsq,\,R^2,\,\Rsq\}$ basis:
+\begin{align}
+  \text{Coeff.\ of } \Ricsq &:
+  \quad 4\,f_{\mathrm{Ric}} + f_{\mathbf{U}}\,,
+  \label{eq:coeff-Ric2}\\
+  \text{Coeff.\ of } R^2 &:
+  \quad 4\,f_R + f_{R\mathbf{U}}\,,
+  \label{eq:coeff-R2-raw}\\
+  \text{Coeff.\ of } \Rsq &:
+  \quad -f_\Omega\,.
+  \label{eq:coeff-Riem2}
+\end{align}
+
+Applying~\eqref{eq:weyl-decomp-Ric}--\eqref{eq:weyl-decomp-Riem}:
+
+\begin{proposition}[Unconstrained vector Weyl-basis form factors]
+\label{prop:unconstr}
+\begin{align}
+  \boxed{
+  h_C^{(1,\mathrm{unconstr})}(x)
+  = 2\,f_{\mathrm{Ric}}(x) + \frac{1}{2}\,f_{\mathbf{U}}(x)
+    - 2\,f_\Omega(x)\,,
+  }
+  \label{eq:hC-unconstr}\\[6pt]
+  \boxed{
+  h_R^{(1,\mathrm{unconstr})}(x)
+  = \frac{4}{3}\,f_{\mathrm{Ric}}(x) + 4\,f_R(x)
+    + f_{R\mathbf{U}}(x)
+    + \frac{1}{3}\,f_{\mathbf{U}}(x)
+    - \frac{1}{3}\,f_\Omega(x)\,.
+  }
+  \label{eq:hR-unconstr}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+\textbf{$C^2$ coefficient:}
+From~\eqref{eq:coeff-Ric2}--\eqref{eq:coeff-Riem2}:
+\begin{equation*}
+  (4f_{\mathrm{Ric}} + f_{\mathbf{U}})\cdot\frac{1}{2}
+  + (-f_\Omega)\cdot 2
+  = 2f_{\mathrm{Ric}} + \frac{1}{2}f_{\mathbf{U}} - 2f_\Omega\,.
+\end{equation*}
+Here $\Ricsq = (1/2)\Weylsq + \cdots$ contributes
+$(4f_{\mathrm{Ric}} + f_{\mathbf{U}})\cdot 1/2$ to $C^2$,
+and $\Rsq = 2\,\Weylsq + \cdots$ contributes
+$(-f_\Omega)\cdot 2$ to $C^2$.
+
+\medskip\noindent
+\textbf{$R^2$ coefficient:}
+\begin{equation*}
+  (4f_{\mathrm{Ric}} + f_{\mathbf{U}})\cdot\frac{1}{3}
+  + (4f_R + f_{R\mathbf{U}})
+  + (-f_\Omega)\cdot\frac{1}{3}
+  = \frac{4}{3}f_{\mathrm{Ric}} + 4f_R + f_{R\mathbf{U}}
+  + \frac{1}{3}f_{\mathbf{U}} - \frac{1}{3}f_\Omega\,.
+\end{equation*}
+Here $\Ricsq = \cdots + (1/3)R^2$ contributes
+$(4f_{\mathrm{Ric}} + f_{\mathbf{U}})/3$ to $R^2$,
+and $\Rsq = \cdots + (1/3)R^2$ contributes
+$(-f_\Omega)/3$ to $R^2$.
+\end{proof}
+
+
+\subsection{Verification of unconstrained local limits}
+
+\begin{proposition}[Benchmarks B3 and B4]
+\label{prop:B3B4}
+\begin{equation}
+  \boxed{
+  h_C^{(1,\mathrm{unconstr})}(0) = \frac{7}{60}
+  = \frac{14}{120}\,,\qquad
+  h_R^{(1,\mathrm{unconstr})}(0) = \frac{1}{36}\,.
+  }
+  \label{eq:unconstr-limits}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Using~\eqref{eq:f-at-0}:
+
+\medskip\noindent
+\textbf{$h_C^{(1,\mathrm{unconstr})}(0)$:}
+\begin{align*}
+  &= 2\cdot\frac{1}{60} + \frac{1}{2}\cdot\frac{1}{2}
+    - 2\cdot\frac{1}{12}
+  = \frac{1}{30} + \frac{1}{4} - \frac{1}{6}
+  = \frac{2 + 15 - 10}{60} = \frac{7}{60}\,.
+\end{align*}
+
+\medskip\noindent
+\textbf{$h_R^{(1,\mathrm{unconstr})}(0)$:}
+\begin{align*}
+  &= \frac{4}{3}\cdot\frac{1}{60} + 4\cdot\frac{1}{120}
+  + \Bigl(-\frac{1}{6}\Bigr)
+  + \frac{1}{3}\cdot\frac{1}{2}
+  - \frac{1}{3}\cdot\frac{1}{12}\\
+  &= \frac{4}{180} + \frac{6}{180} - \frac{30}{180}
+  + \frac{30}{180} - \frac{5}{180}
+  = \frac{5}{180} = \frac{1}{36}\,.
+\end{align*}
+\end{proof}
+
+\verified{Both values confirmed by evaluating the assembly
+formulas~\eqref{eq:hC-unconstr}--\eqref{eq:hR-unconstr} at $x=10^{-10}$
+with 100-digit mpmath.  Agreement to $10^{-80}$.}
+
+
+%%======================================================================
+\section{Ghost Subtraction and Physical Form Factors}
+\label{sec:ghost}
+%%======================================================================
+
+\subsection{Ghost form factors from Phase~1}
+
+From the Phase~1 scalar computation~\cite{NT1b_scalar},
+the minimally coupled scalar ($\xi = 0$) form factors are:
+\begin{align}
+  h_C^{(0)}(x;\xi=0) &= \frac{1}{2}\,f_{\mathrm{Ric}}(x)
+  = \frac{1}{12x} + \frac{\varphi-1}{2x^2}\,,
+  \label{eq:hC-ghost}\\
+  h_R^{(0)}(x;\xi=0) &= f_{R,\mathrm{bis}}(x)
+  = \frac{1}{3}\,f_{\mathrm{Ric}}(x) + f_R(x)\,,
+  \label{eq:hR-ghost}
+\end{align}
+with local limits $h_C^{(0)}(0;0) = 1/120$ and
+$h_R^{(0)}(0;0) = 1/72$.
+
+
+\subsection{Physical form factors: closed form}
+
+\begin{theorem}[Physical gauge field form factors]
+\label{thm:final}
+\begin{align}
+  \boxed{
+  h_C^{(1)}(x) = \frac{\varphi(x)}{4}
+    + \frac{6\varphi(x) - 5}{6x}
+    + \frac{\varphi(x) - 1}{x^2}\,,
+  }
+  \label{eq:hC-final}\\[8pt]
+  \boxed{
+  h_R^{(1)}(x) = -\frac{\varphi(x)}{48}
+    + \frac{11 - 6\varphi(x)}{72x}
+    + \frac{5\bigl(\varphi(x) - 1\bigr)}{12x^2}\,.
+  }
+  \label{eq:hR-final}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+We compute $h^{(1)} = h^{(1,\mathrm{unconstr})} - 2\,h^{(0)}(\xi=0)$
+step by step.
+
+\medskip\noindent
+\textbf{Step 1: Expand $h_C^{(1,\mathrm{unconstr})}$.}
+
+From~\eqref{eq:hC-unconstr}, substituting the explicit CZ form factors:
+\begin{align*}
+  2f_{\mathrm{Ric}} &= \frac{2}{6x} + \frac{2(\varphi-1)}{x^2}
+  = \frac{1}{3x} + \frac{2(\varphi-1)}{x^2}\,,\\
+  \frac{1}{2}f_{\mathbf{U}} &= \frac{\varphi}{4}\,,\\
+  -2f_\Omega &= -2\cdot\Bigl(-\frac{\varphi-1}{2x}\Bigr)
+  = \frac{\varphi-1}{x}\,.
+\end{align*}
+
+Sum:
+\begin{equation}
+  h_C^{(1,\mathrm{unconstr})}
+  = \frac{\varphi}{4} + \frac{1}{3x} + \frac{\varphi-1}{x}
+  + \frac{2(\varphi-1)}{x^2}
+  = \frac{\varphi}{4} + \frac{3\varphi - 2}{3x}
+  + \frac{2(\varphi-1)}{x^2}\,.
+  \label{eq:hC-unconstr-expanded}
+\end{equation}
+
+\medskip\noindent
+\textbf{Step 2: Ghost subtraction for $h_C^{(1)}$.}
+
+\begin{equation*}
+  2\,h_C^{(0)}(\xi=0) = 2\cdot\Bigl[\frac{1}{12x}
+  + \frac{\varphi-1}{2x^2}\Bigr]
+  = \frac{1}{6x} + \frac{\varphi-1}{x^2}\,.
+\end{equation*}
+
+Subtracting:
+\begin{align*}
+  h_C^{(1)} &= \frac{\varphi}{4}
+  + \frac{3\varphi-2}{3x} - \frac{1}{6x}
+  + \frac{2(\varphi-1)}{x^2} - \frac{\varphi-1}{x^2}\\
+  &= \frac{\varphi}{4}
+  + \frac{2(3\varphi-2) - 1}{6x}
+  + \frac{\varphi-1}{x^2}\\
+  &= \frac{\varphi}{4}
+  + \frac{6\varphi - 5}{6x}
+  + \frac{\varphi-1}{x^2}\,.
+\end{align*}
+
+This gives~\eqref{eq:hC-final}.\quad$\checkmark$
+
+\medskip\noindent
+\textbf{Step 3: Expand $h_R^{(1,\mathrm{unconstr})}$.}
+
+From~\eqref{eq:hR-unconstr}:
+$h_R^{(1,\mathrm{unconstr})}
+= (4/3)f_{\mathrm{Ric}} + 4f_R + f_{R\mathbf{U}}
++ (1/3)f_{\mathbf{U}} - (1/3)f_\Omega$.
+
+\medskip\noindent
+\textbf{Step 4: Ghost subtraction for $h_R^{(1)}$.}
+
+\begin{equation*}
+  2\,h_R^{(0)}(\xi=0)
+  = 2\,f_{R,\mathrm{bis}}
+  = \frac{2}{3}\,f_{\mathrm{Ric}} + 2\,f_R\,.
+\end{equation*}
+
+After subtraction:
+\begin{equation}
+  h_R^{(1)} = \frac{2}{3}\,f_{\mathrm{Ric}} + 2\,f_R + f_{R\mathbf{U}}
+  + \frac{1}{3}\,f_{\mathbf{U}} - \frac{1}{3}\,f_\Omega\,.
+  \label{eq:hR-intermediate}
+\end{equation}
+
+Substituting the explicit CZ form factors:
+\begin{align*}
+  \frac{2}{3}f_{\mathrm{Ric}}
+  &= \frac{1}{9x} + \frac{2(\varphi-1)}{3x^2}\,,\\
+  2f_R &= \frac{\varphi}{16} + \frac{\varphi}{4x}
+    - \frac{7}{24x} - \frac{\varphi-1}{4x^2}\,,\\
+  f_{R\mathbf{U}} &= -\frac{\varphi}{4}
+    - \frac{\varphi-1}{2x}\,,\\
+  \frac{1}{3}f_{\mathbf{U}} &= \frac{\varphi}{6}\,,\\
+  -\frac{1}{3}f_\Omega &= \frac{\varphi-1}{6x}\,.
+\end{align*}
+
+\textit{Constant terms (no $1/x$):}
+\begin{equation*}
+  \frac{\varphi}{16} - \frac{\varphi}{4} + \frac{\varphi}{6}
+  = \varphi\cdot\frac{3 - 12 + 8}{48} = -\frac{\varphi}{48}\,.
+\end{equation*}
+
+\textit{$1/x$ terms:}
+Collecting all terms with $1/x$:
+\begin{align*}
+  &\frac{1}{9x} + \frac{\varphi}{4x} - \frac{7}{24x}
+  - \frac{\varphi}{2x} + \frac{1}{2x}
+  + \frac{\varphi}{6x} - \frac{1}{6x}\\
+  &= \frac{1}{9x} - \frac{7}{24x} + \frac{1}{2x} - \frac{1}{6x}
+  + \varphi\cdot\Bigl(\frac{1}{4} - \frac{1}{2} + \frac{1}{6}\Bigr)
+  \frac{1}{x}\,.
+\end{align*}
+The $\varphi$-coefficient: $1/4 - 1/2 + 1/6 = (3-6+2)/12 = -1/12$.
+The constant part: $1/9 - 7/24 + 1/2 - 1/6
+= (8 - 21 + 36 - 12)/72 = 11/72$.
+
+So the $1/x$ terms give $11/(72x) - \varphi/(12x)
+= (11 - 6\varphi)/(72x)$.
+
+\textit{$1/x^2$ terms:}
+\begin{equation*}
+  \frac{2(\varphi-1)}{3x^2} - \frac{\varphi-1}{4x^2}
+  = \frac{8(\varphi-1) - 3(\varphi-1)}{12x^2}
+  = \frac{5(\varphi-1)}{12x^2}\,.
+\end{equation*}
+
+Combining all terms:
+\begin{equation*}
+  h_R^{(1)}(x) = -\frac{\varphi}{48}
+  + \frac{11 - 6\varphi}{72x}
+  + \frac{5(\varphi-1)}{12x^2}\,.
+\end{equation*}
+
+This gives~\eqref{eq:hR-final}.\quad$\checkmark$
+\end{proof}
+
+
+%%======================================================================
+\section{Verification of Local Limits (Benchmarks B1--B2)}
+\label{sec:local-limits}
+%%======================================================================
+
+\subsection{Benchmark B1: $h_C^{(1)}(0) = 1/10$}
+
+From~\eqref{eq:hC-final} with
+$\varphi(x) = 1 - x/6 + x^2/60 + O(x^3)$:
+
+\medskip\noindent
+\textbf{Term $(6\varphi-5)/(6x)$:}
+\begin{equation*}
+  \frac{6(1 - x/6 + \cdots) - 5}{6x}
+  = \frac{1 - x + \cdots}{6x}
+  = \frac{1}{6x} - \frac{1}{6} + O(x)\,.
+\end{equation*}
+
+\textbf{Term $(\varphi-1)/x^2$:}
+\begin{equation*}
+  \frac{-x/6 + x^2/60 + \cdots}{x^2}
+  = -\frac{1}{6x} + \frac{1}{60} + O(x)\,.
+\end{equation*}
+
+Poles cancel: $1/(6x) - 1/(6x) = 0$.\quad$\checkmark$
+
+Constant term:
+\begin{equation*}
+  \frac{\varphi(0)}{4} + \Bigl(-\frac{1}{6}\Bigr)
+  + \frac{1}{60}
+  = \frac{1}{4} - \frac{1}{6} + \frac{1}{60}
+  = \frac{15 - 10 + 1}{60} = \frac{6}{60} = \frac{1}{10}\,.
+\end{equation*}
+
+\begin{equation}
+  \boxed{h_C^{(1)}(0) = \beta_W^{(1)} = \frac{1}{10}\,.}
+  \label{eq:B1}
+\end{equation}
+
+\verified{$h_C^{(1)}(10^{-10})$ agrees with $1/10$ to $10^{-80}$
+(100-digit mpmath).  Also confirmed via Richardson extrapolation
+from $x = 10^{-3}, 10^{-4}, 10^{-5}$.}
+
+
+\subsection{Benchmark B2: $h_R^{(1)}(0) = 0$}
+
+From~\eqref{eq:hR-final} with the same expansion:
+
+\medskip\noindent
+\textbf{Term $(11-6\varphi)/(72x)$:}
+\begin{equation*}
+  \frac{11 - 6(1 - x/6 + \cdots)}{72x}
+  = \frac{5 + x + \cdots}{72x}
+  = \frac{5}{72x} + \frac{1}{72} + O(x)\,.
+\end{equation*}
+
+\textbf{Term $5(\varphi-1)/(12x^2)$:}
+\begin{equation*}
+  \frac{5(-x/6 + x^2/60 + \cdots)}{12x^2}
+  = -\frac{5}{72x} + \frac{5}{720} + O(x)\,.
+\end{equation*}
+
+Poles cancel: $5/(72x) - 5/(72x) = 0$.\quad$\checkmark$
+
+Constant term:
+\begin{equation*}
+  -\frac{1}{48} + \frac{1}{72} + \frac{5}{720}
+  = -\frac{1}{48} + \frac{1}{72} + \frac{1}{144}
+  = \frac{-3 + 2 + 1}{144} = \frac{0}{144} = 0\,.
+\end{equation*}
+
+\begin{equation}
+  \boxed{h_R^{(1)}(0) = \beta_R^{(1)} = 0\,.}
+  \label{eq:B2}
+\end{equation}
+
+\verified{$h_R^{(1)}(10^{-10})$ agrees with $0$ to $10^{-80}$.
+Also confirmed by exact rational arithmetic
+(\texttt{fractions.Fraction} in Python).}
+
+
+\subsection{Consistency with ghost subtraction (Benchmark B9)}
+
+At $x = 0$:
+\begin{align*}
+  h_C^{(1)}(0) &= h_C^{(1,\mathrm{unconstr})}(0) - 2\,h_C^{(0)}(0;0)
+  = \frac{7}{60} - 2\cdot\frac{1}{120}
+  = \frac{14}{120} - \frac{2}{120} = \frac{12}{120} = \frac{1}{10}\,.\\
+  h_R^{(1)}(0) &= h_R^{(1,\mathrm{unconstr})}(0) - 2\,h_R^{(0)}(0;0)
+  = \frac{1}{36} - 2\cdot\frac{1}{72}
+  = \frac{1}{36} - \frac{1}{36} = 0\,.
+\end{align*}
+
+Both results match.\quad$\checkmark$
+
+\begin{remark}[Why not $13/120$]
+The erroneous value $\beta_W^{(1)} = 13/120$ arises from subtracting
+only \emph{one} ghost: $14/120 - 1/120 = 13/120$.
+The Faddeev--Popov procedure produces a complex ghost field
+(ghost + anti-ghost), requiring subtraction of \emph{two}
+real scalar contributions: $14/120 - 2/120 = 12/120 = 1/10$.
+\end{remark}
+
+
+%%======================================================================
+\section{Pole Cancellation}
+\label{sec:poles}
+%%======================================================================
+
+Both form factors $h_C^{(1)}$ and $h_R^{(1)}$ have apparent
+$1/x$ poles that must cancel to produce regular functions at $x = 0$.
+
+\subsection{$h_C^{(1)}$: pole cancellation}
+
+Writing $\varphi(x) = 1 + x\,\varphi_1(x)$ where
+$\varphi_1(x) = \sum_{k=0}^\infty a_{k+1}\,x^k$:
+\begin{align*}
+  h_C^{(1)} &= \frac{1+x\varphi_1}{4}
+  + \frac{6(1+x\varphi_1) - 5}{6x}
+  + \frac{x\varphi_1}{x^2}\\
+  &= \frac{1}{4} + \frac{x\varphi_1}{4}
+  + \frac{1+6x\varphi_1}{6x}
+  + \frac{\varphi_1}{x}\\
+  &= \frac{1}{4} + \frac{x\varphi_1}{4}
+  + \frac{1}{6x} + \varphi_1
+  + \frac{\varphi_1}{x}\,.
+\end{align*}
+
+The pole $1/(6x)$ appears only once and is cancelled by the
+hidden pole in $\varphi_1/x$:
+\begin{equation*}
+  \frac{\varphi_1}{x} = \frac{a_1 + a_2\,x + \cdots}{x}
+  = \frac{-1/6}{x} + a_2 + \cdots
+  = -\frac{1}{6x} + \frac{1}{60} + O(x)\,.
+\end{equation*}
+
+Net $1/x$ contribution: $1/(6x) - 1/(6x) = 0$.\quad$\checkmark$
+
+\subsection{$h_R^{(1)}$: pole cancellation}
+
+Similarly:
+\begin{align*}
+  &\frac{11 - 6\varphi}{72x} + \frac{5(\varphi-1)}{12x^2}
+  = \frac{11-6-6x\varphi_1}{72x} + \frac{5\varphi_1}{12x}\\
+  &= \frac{5}{72x} - \frac{\varphi_1}{12}
+  + \frac{5\varphi_1}{12x}
+  = \frac{5}{72x} + \frac{5(-1/6)}{12x} + O(1)
+  = \frac{5}{72x} - \frac{5}{72x} + O(1) = O(1)\,.
+\end{align*}
+
+Pole cancellation confirmed.\quad$\checkmark$
+
+\verified{Evaluated both form factors at $x = 10^{-15}$
+(100-digit mpmath) using cancellation-free Taylor series.
+Values match the Taylor series predictions to full precision.}
+
+
+%%======================================================================
+\section{Taylor Expansions (Benchmarks B7--B8)}
+\label{sec:taylor}
+%%======================================================================
+
+\subsection{General Taylor coefficients}
+
+Substituting the Taylor expansion $\varphi(x) = \sum_{k=0}^\infty a_k\,x^k$
+into the closed-form results, the form factors have Taylor expansions
+$h(x) = \sum_{k=0}^\infty c_k\,x^k$ with:
+
+\begin{proposition}[Taylor coefficient formulas]
+\label{prop:taylor}
+\begin{align}
+  c_k^{(h_C^{(1)})} &= \frac{a_k}{4} + a_{k+1} + a_{k+2}\,,
+  \label{eq:taylor-hC}\\[4pt]
+  c_k^{(h_R^{(1)})} &= -\frac{a_k}{48} - \frac{a_{k+1}}{12}
+  + \frac{5\,a_{k+2}}{12}\,.
+  \label{eq:taylor-hR}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+\textbf{For $h_C^{(1)}$:}
+Write $h_C^{(1)} = \varphi/4 + (6\varphi-5)/(6x) + (\varphi-1)/x^2$.
+
+The three components contribute to the $x^k$ coefficient as follows:
+\begin{itemize}[nosep]
+\item $\varphi/4$ contributes $a_k/4$;
+\item $(6\varphi-5)/(6x) = \varphi/x - 5/(6x)$:
+  since $\varphi/x = \sum a_k x^{k-1}$, the $x^k$ coefficient is
+  $a_{k+1}$ (plus the pole at $k=-1$ which cancels);
+\item $(\varphi-1)/x^2 = \sum_{k \geq 1} a_k x^{k-2}$:
+  the $x^k$ coefficient is $a_{k+2}$ (plus poles which cancel).
+\end{itemize}
+
+\medskip\noindent
+\textbf{For $h_R^{(1)}$:}
+Write $h_R^{(1)} = -\varphi/48 + (11-6\varphi)/(72x)
++ 5(\varphi-1)/(12x^2)$.
+\begin{itemize}[nosep]
+\item $-\varphi/48$ contributes $-a_k/48$;
+\item $(11-6\varphi)/(72x) = -\varphi/(12x) + 11/(72x)$:
+  the $x^k$ coefficient of $-\varphi/(12x)$ is $-a_{k+1}/12$;
+\item $5(\varphi-1)/(12x^2)$:
+  the $x^k$ coefficient is $5\,a_{k+2}/12$.
+\end{itemize}
+\end{proof}
+
+
+\subsection{Leading coefficients}
+
+\textbf{$h_C^{(1)}$:}
+\begin{align*}
+  c_0 &= \frac{a_0}{4} + a_1 + a_2
+  = \frac{1}{4} - \frac{1}{6} + \frac{1}{60}
+  = \frac{15 - 10 + 1}{60} = \frac{6}{60} = \frac{1}{10}\,.\\
+  c_1 &= \frac{a_1}{4} + a_2 + a_3
+  = -\frac{1}{24} + \frac{1}{60} - \frac{1}{840}
+  = \frac{-35 + 14 - 1}{840} = -\frac{22}{840} = -\frac{11}{420}\,.
+\end{align*}
+
+\textbf{$h_R^{(1)}$:}
+\begin{align*}
+  c_0 &= -\frac{a_0}{48} - \frac{a_1}{12} + \frac{5a_2}{12}
+  = -\frac{1}{48} + \frac{1}{72} + \frac{5}{720}
+  = -\frac{1}{48} + \frac{1}{72} + \frac{1}{144}\\
+  &= \frac{-3 + 2 + 1}{144} = 0\,.\\
+  c_1 &= -\frac{a_1}{48} - \frac{a_2}{12} + \frac{5a_3}{12}
+  = \frac{1}{288} - \frac{1}{720} - \frac{5}{10080}\\
+  &= \frac{1}{288} - \frac{1}{720} - \frac{1}{2016}
+  = \frac{35 - 14 - 5}{10080} = \frac{16}{10080} = \frac{1}{630}\,.
+\end{align*}
+
+\begin{equation}
+  \boxed{
+  h_C^{(1)}(x) = \frac{1}{10}
+    - \frac{11}{420}\,x + O(x^2)\,,\qquad
+  h_R^{(1)}(x) = \frac{1}{630}\,x + O(x^2)\,.
+  }
+  \label{eq:taylor-results}
+\end{equation}
+
+\verified{Taylor coefficients $c_0, c_1, \ldots, c_{14}$ computed
+independently from the formula~\eqref{eq:taylor-hC}--\eqref{eq:taylor-hR}
+and from direct numerical differentiation at $x = 0$.
+Agreement to 80+ digits.}
+
+
+%%======================================================================
+\section{UV Asymptotics (Benchmarks B5--B6)}
+\label{sec:asymptotics}
+%%======================================================================
+
+Using $\varphi(x) = 2/x + 4/x^2 + O(x^{-3})$ as $x \to \infty$:
+
+\subsection{$h_C^{(1)}$ asymptotics}
+
+\begin{align*}
+  \frac{\varphi}{4} &\to \frac{1}{2x} + \frac{1}{x^2}\,,\\
+  \frac{6\varphi-5}{6x} &\to \frac{12/x - 5}{6x}
+  = -\frac{5}{6x} + \frac{2}{x^2}\,,\\
+  \frac{\varphi-1}{x^2} &\to -\frac{1}{x^2}
+  + \frac{2}{x^3}\,.
+\end{align*}
+Sum:
+\begin{equation}
+  h_C^{(1)}(x) = \frac{1}{2x} - \frac{5}{6x}
+  + \frac{1}{x^2} + \frac{2}{x^2} - \frac{1}{x^2} + O(x^{-3})
+  = \frac{3-5}{6x} + \frac{2}{x^2} + O(x^{-3})\,.
+\end{equation}
+
+\begin{equation}
+  \boxed{h_C^{(1)}(x) = -\frac{1}{3x} + \frac{2}{x^2}
+  + O(x^{-3})
+  \quad\text{as } x \to \infty\,.}
+  \label{eq:hC-asymp}
+\end{equation}
+
+
+\subsection{$h_R^{(1)}$ asymptotics}
+
+\begin{align*}
+  -\frac{\varphi}{48} &\to -\frac{1}{24x} - \frac{1}{12x^2}\,,\\
+  \frac{11-6\varphi}{72x} &\to \frac{11-12/x}{72x}
+  = \frac{11}{72x} - \frac{1}{6x^2}\,,\\
+  \frac{5(\varphi-1)}{12x^2} &\to
+  \frac{5(2/x-1)}{12x^2}
+  = -\frac{5}{12x^2} + O(x^{-3})\,.
+\end{align*}
+Sum:
+\begin{equation}
+  h_R^{(1)}(x) = -\frac{1}{24x} + \frac{11}{72x}
+  + \Bigl(-\frac{1}{12} - \frac{1}{6} - \frac{5}{12}\Bigr)\frac{1}{x^2}
+  + O(x^{-3})\,.
+\end{equation}
+The $1/x$ coefficient: $-1/24 + 11/72 = (-3+11)/72 = 8/72 = 1/9$.
+The $1/x^2$ coefficient: $-1/12 - 1/6 - 5/12 = (-1-2-5)/12 = -8/12 = -2/3$.
+
+\begin{equation}
+  \boxed{h_R^{(1)}(x) = \frac{1}{9x} - \frac{2}{3x^2}
+  + O(x^{-3})
+  \quad\text{as } x \to \infty\,.}
+  \label{eq:hR-asymp}
+\end{equation}
+
+\verified{Asymptotic ratios $x\cdot h_C^{(1)}(x) \to -1/3$ and
+$x\cdot h_R^{(1)}(x) \to 1/9$ confirmed numerically at
+$x = 10^3, 10^5, 10^8$.}
+
+
+%%======================================================================
+\section{Conformal Invariance and Structural Properties}
+\label{sec:conformal}
+%%======================================================================
+
+\subsection{Benchmark B11: conformal invariance}
+
+The Maxwell action $F_{\mu\nu}F^{\mu\nu}$ is Weyl-invariant
+in $d = 4$: under $g_{\mu\nu} \to e^{2\sigma}g_{\mu\nu}$,
+$F_{\mu\nu}F^{\mu\nu}$ transforms covariantly.
+An $R^2$ counterterm would break Weyl invariance, so it cannot
+be generated at one loop.  Only the Weyl-invariant $C^2$ counterterm
+(the Weyl anomaly) survives.  This predicts $\beta_R^{(1)} = 0$,
+which we have verified explicitly in~\eqref{eq:B2}.
+
+This is the vector analogue of the Dirac result
+$\beta_R^{(1/2)} = 0$ (from conformal invariance of the massless
+Dirac action).  For the scalar, conformal invariance holds only
+at $\xi = 1/6$, where $\beta_R^{(0)}(1/6) = 0$.
+
+\subsection{Benchmark B10: no $\xi$-dependence}
+
+Unlike the scalar field, the vector field has no free coupling
+parameter.  The curvature coupling $\mathbf{U} = \mathrm{Ric}$
+is uniquely fixed by gauge invariance (Weitzenbock identity).
+Consequently, $h_C^{(1)}(x)$ and $h_R^{(1)}(x)$ are parameter-free
+functions of~$x$ only.
+
+\subsection{Benchmark B12: Gauss--Bonnet coefficient}
+
+The $E_4$ coefficient of the Seeley--DeWitt $a_4$ for the physical
+gauge field is
+\begin{equation}
+  \alpha_{E_4}^{(1)} = -\frac{31}{180}\,.
+  \label{eq:B12}
+\end{equation}
+This is topological in $d = 4$ and does not contribute to
+equations of motion.  It serves as a cross-check on the full
+$a_4$ decomposition.
+
+\subsection{Sign pattern and comparison across spins}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccc}
+\toprule
+& \textbf{Scalar} ($s=0$, $\xi=0$)
+& \textbf{Dirac} ($s=1/2$)
+& \textbf{Vector} ($s=1$) \\
+\midrule
+$\tr(\Id)$ & $1$ & $4$ & $4$ \\
+$\mathbf{U}$ & $\xi R$ & $R/4$ & $\mathrm{Ric}$ \\
+$\Omega_{\mu\nu}$ & $0$ & spin curvature & Riemann \\
+$\beta_W$ & $1/120$ & $-1/20$ & $1/10$ \\
+$\beta_R$ & $1/72$ & $0$ & $0$ \\
+$|\beta_W|/\beta_W^{(0)}$ & $1$ & $6$ & $12$ \\
+UV: $h_C \sim$ & $+1/(12x)$ & $-1/(3x)$ & $-1/(3x)$ \\
+Conformal? & at $\xi=1/6$ & yes & yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Ratio pattern]
+The ratios $|\beta_W^{(s)}/\beta_W^{(0)}| = 1 : 6 : 12$ encode
+both the fiber multiplicity ($\tr(\Id) = 1, 4, 4$) and the bundle
+curvature enhancement.  For the scalar, $\Omega = 0$; for the
+Dirac spinor, the spin connection gives a $3/2$ enhancement;
+for the vector, the Riemann curvature gives a $3$-fold enhancement.
+\end{remark}
+
+
+%%======================================================================
+\section{Spectral Action Form Factors $F_1^{(1)}$ and $F_2^{(1)}$}
+\label{sec:spectral}
+%%======================================================================
+
+\subsection{From heat kernel to spectral action}
+
+Following the NT-1 framework, the spectral action form factors are:
+\begin{equation}
+  F_i(z) = \frac{1}{16\pi^2}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,h_i(tz)\,,
+  \qquad z = \Box/\Lambda^2\,,
+  \label{eq:Fi-def}
+\end{equation}
+with the spectral function and its antiderivatives:
+\begin{equation}
+  \psi(u) = \int_0^\infty \dd t\,\tilde{f}(t)\,e^{-tu}\,,\quad
+  \Psi_1(u) = \int_u^\infty \psi(v)\,\dd v\,,\quad
+  \Psi_2(u) = \int_u^\infty (v-u)\,\psi(v)\,\dd v\,.
+  \label{eq:psi-defs}
+\end{equation}
+
+
+\subsection{Spectral integration identities}
+
+We use the identities from NT-1 (Lemma~3.2):
+\begin{align}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\varphi(tz)
+  &= \int_0^1 \dd\alpha\,\psi(\alpha(1-\alpha)z)\,,
+  \label{eq:int-phi}\\[4pt]
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{1}{tz}
+  &= \frac{\Psi_1(0)}{z}\,,
+  \label{eq:int-1-over-x}\\[4pt]
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{\varphi(tz)-1}{(tz)^2}
+  &= \frac{1}{z^2}\int_0^1 \dd\alpha\,\bigl[
+  \Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]\,.
+  \label{eq:int-phim1-over-x2}
+\end{align}
+
+Additionally, we need:
+\begin{equation}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{\varphi(tz)}{tz}
+  = \frac{1}{z}\int_0^1 \dd\alpha\,\Psi_1(\alpha(1-\alpha)z)\,.
+  \label{eq:int-phi-over-x}
+\end{equation}
+
+
+\subsection{$F_1^{(1)}$: the Weyl sector}
+
+\begin{theorem}[Vector spectral form factor $F_1^{(1)}$]
+\label{thm:F1}
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  F_1^{(1)}(z) &= \frac{1}{16\pi^2}\Biggl\{
+    \frac{1}{4}\int_0^1\!\dd\alpha\,\psi(\alpha(1-\alpha)z)
+    - \frac{5\,\Psi_1(0)}{6z}\\
+  &\quad
+    + \frac{1}{z}\int_0^1\!\dd\alpha\,\Psi_1(\alpha(1-\alpha)z)
+    + \frac{1}{z^2}\int_0^1\!\dd\alpha\,
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+  \Biggr\}
+  \end{aligned}
+  }
+  \label{eq:F1}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From $h_C^{(1)}(x) = \varphi/4 + (6\varphi-5)/(6x) + (\varphi-1)/x^2$,
+we decompose each term:
+\begin{align*}
+  \frac{\varphi}{4} &\to \frac{1}{4}\int_0^1\psi(\alpha(1-\alpha)z)\,
+  \dd\alpha\,,\\
+  \frac{6\varphi-5}{6x} &= \frac{\varphi}{x} - \frac{5}{6x}
+  \to \frac{1}{z}\int_0^1\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+  - \frac{5\Psi_1(0)}{6z}\,,\\
+  \frac{\varphi-1}{x^2} &\to
+  \frac{1}{z^2}\int_0^1[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)]\,\dd\alpha\,.
+\end{align*}
+\end{proof}
+
+
+\subsection{$F_2^{(1)}$: the $R^2$ sector}
+
+\begin{theorem}[Vector spectral form factor $F_2^{(1)}$]
+\label{thm:F2}
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  F_2^{(1)}(z) &= \frac{1}{16\pi^2}\Biggl\{
+    -\frac{1}{48}\int_0^1\!\dd\alpha\,\psi(\alpha(1-\alpha)z)
+    + \frac{11\,\Psi_1(0)}{72z}\\
+  &\quad
+    - \frac{1}{12z}\int_0^1\!\dd\alpha\,\Psi_1(\alpha(1-\alpha)z)
+    + \frac{5}{12z^2}\int_0^1\!\dd\alpha\,
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+  \Biggr\}
+  \end{aligned}
+  }
+  \label{eq:F2}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From $h_R^{(1)}(x) = -\varphi/48 + (11-6\varphi)/(72x)
++ 5(\varphi-1)/(12x^2)$:
+\begin{align*}
+  -\frac{\varphi}{48} &\to -\frac{1}{48}\int_0^1\psi\,\dd\alpha\,,\\
+  \frac{11-6\varphi}{72x} &= -\frac{\varphi}{12x}
+  + \frac{11}{72x}\\
+  &\to -\frac{1}{12z}\int_0^1\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+  + \frac{11\Psi_1(0)}{72z}\,,\\
+  \frac{5(\varphi-1)}{12x^2} &\to
+  \frac{5}{12z^2}\int_0^1[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)]\,\dd\alpha\,.
+\end{align*}
+\end{proof}
+
+
+\subsection{Consistency check: exponential spectral function}
+
+For $\psi(u) = e^{-u}$: $\Psi_1(u) = \Psi_2(u) = e^{-u}$,
+$\Psi_1(0) = \Psi_2(0) = 1$.
+
+All spectral integrals reduce to the $\varphi$-based form factors,
+giving:
+\begin{equation}
+  F_i^{(1)}(z)\Big|_{\psi=e^{-u}}
+  = \frac{h_i^{(1)}(z)}{16\pi^2}\,,\qquad i = 1, 2\,.
+  \label{eq:exp-check}
+\end{equation}
+
+\verified{Numerical comparison of $F_i^{(1)}$ from the spectral
+integral formulas against $h_i^{(1)}/(16\pi^2)$ for
+$\psi = e^{-u}$ at 7 values of $z \in [0.01, 100]$.
+All differences $< 10^{-14}$.}
+
+
+%%======================================================================
+\section{Limiting Cases}
+\label{sec:limits}
+%%======================================================================
+
+\subsection{Flat space limit ($R = 0$)}
+
+When $R_{\mu\nu\rho\sigma} = 0$, both $C^2 = 0$ and $R^2 = 0$,
+so the quadratic curvature action~\eqref{eq:eff-action-weyl}
+vanishes identically regardless of the form factors.
+\quad$\checkmark$
+
+
+\subsection{Massless limit}
+
+The form factor argument $x = \Box/m^2$ is formal for a massless
+gauge boson; in dimensional regularization the mass scale is replaced
+by the renormalization scale $\mu$.  The closed forms remain valid
+with $x \to -q^2/\mu^2$ for Euclidean momentum~$q$.
+
+
+\subsection{Dimensional analysis}
+
+In natural units ($c = \hbar = 1$):
+\begin{itemize}[nosep]
+\item The argument $x$ is dimensionless ($[\Box/m^2] = 1$).
+\item $\varphi(x)$, $h_C^{(1)}(x)$, $h_R^{(1)}(x)$ are dimensionless.
+\item $F_1^{(1)}(z)$ and $F_2^{(1)}(z)$ are dimensionless
+  (checked: $[1/(16\pi^2)] \times [\psi] \times [\dd\alpha] = 1$).
+\end{itemize}
+\quad$\checkmark$
+
+
+\subsection{Monotonicity and sign structure}
+
+From numerical evaluation:
+\begin{itemize}[nosep]
+\item $h_C^{(1)}(x)$ is positive at $x = 0$ ($= 1/10$),
+  decreases monotonically, crosses zero, and becomes negative,
+  approaching $0^-$ as $x \to \infty$ (leading term $-1/(3x) < 0$).
+\item $h_R^{(1)}(x)$ starts at $0$ ($x = 0$), increases to a
+  positive maximum, then decreases toward $0^+$ as $x \to \infty$
+  (leading term $+1/(9x) > 0$).
+\end{itemize}
+
+\verified{Sign structure confirmed numerically at 50 logarithmically
+spaced points in $[10^{-3}, 10^6]$.}
+
+
+%%======================================================================
+\section{Summary of Results}
+\label{sec:summary}
+%%======================================================================
+
+\subsection{Heat kernel form factors (boxed)}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!50!black,
+  title={\textbf{Vector heat kernel form factors}}]
+\textbf{Weyl sector} (parameter-free):
+\begin{equation}
+  h_C^{(1)}(x) = \frac{\varphi(x)}{4}
+  + \frac{6\varphi(x) - 5}{6x}
+  + \frac{\varphi(x) - 1}{x^2}\,,\qquad
+  h_C^{(1)}(0) = \frac{1}{10}\,.
+  \tag{\ref{eq:hC-final}}
+\end{equation}
+
+\textbf{$R^2$ sector} (parameter-free):
+\begin{equation}
+  h_R^{(1)}(x) = -\frac{\varphi(x)}{48}
+  + \frac{11 - 6\varphi(x)}{72x}
+  + \frac{5(\varphi(x)-1)}{12x^2}\,,\qquad
+  h_R^{(1)}(0) = 0\,.
+  \tag{\ref{eq:hR-final}}
+\end{equation}
+
+\textbf{Unconstrained (before ghost subtraction):}
+\begin{align*}
+  h_C^{(1,\mathrm{unconstr})} &= 2f_{\mathrm{Ric}}
+  + \tfrac{1}{2}f_{\mathbf{U}} - 2f_\Omega\,,
+  &h_C^{(1,\mathrm{unconstr})}(0) &= \frac{7}{60}\,.\\
+  h_R^{(1,\mathrm{unconstr})} &= \tfrac{4}{3}f_{\mathrm{Ric}}
+  + 4f_R + f_{R\mathbf{U}}
+  + \tfrac{1}{3}f_{\mathbf{U}} - \tfrac{1}{3}f_\Omega\,,
+  &h_R^{(1,\mathrm{unconstr})}(0) &= \frac{1}{36}\,.
+\end{align*}
+
+\textbf{Ghost subtraction:}
+$h^{(1)} = h^{(1,\mathrm{unconstr})} - 2\,h^{(0)}(\xi=0)$
+(two real FP ghosts).
+
+\textbf{Master function:}
+$\displaystyle\varphi(x) = \int_0^1 e^{-\alpha(1-\alpha)x}\,\dd\alpha$.
+\end{tcolorbox}
+
+
+\subsection{Spectral action form factors (boxed)}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!50!black,
+  title={\textbf{Vector spectral action form factors}}]
+\begin{equation}
+  \begin{aligned}
+  F_1^{(1)}(z) &= \frac{1}{16\pi^2}\Biggl\{
+    \frac{1}{4}\int_0^1\!\psi(\alpha(1-\alpha)z)\,\dd\alpha
+    - \frac{5\Psi_1(0)}{6z}\\
+  &\quad
+    + \frac{1}{z}\int_0^1\!\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+    + \frac{1}{z^2}\int_0^1\![\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)]
+    \,\dd\alpha
+  \Biggr\}
+  \end{aligned}
+  \tag{\ref{eq:F1}}
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  F_2^{(1)}(z) &= \frac{1}{16\pi^2}\Biggl\{
+    -\frac{1}{48}\int_0^1\!\psi(\alpha(1-\alpha)z)\,\dd\alpha
+    + \frac{11\Psi_1(0)}{72z}\\
+  &\quad
+    - \frac{1}{12z}\int_0^1\!\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+    + \frac{5}{12z^2}\int_0^1\![\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)]
+    \,\dd\alpha
+  \Biggr\}
+  \end{aligned}
+  \tag{\ref{eq:F2}}
+\end{equation}
+
+\textbf{Exponential check}: For $\psi = e^{-u}$:
+$F_i^{(1)} = h_i^{(1)}/(16\pi^2)$.
+\end{tcolorbox}
+
+
+\subsection{Complete benchmark table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llccl}
+\toprule
+\textbf{ID} & \textbf{Quantity} & \textbf{Target} & \textbf{Result} & \textbf{Reference} \\
+\midrule
+B1 & $\beta_W^{(1)} = h_C^{(1)}(0)$ & $1/10$ & $1/10$ & Eq.~\eqref{eq:B1} \\
+B2 & $\beta_R^{(1)} = h_R^{(1)}(0)$ & $0$ & $0$ & Eq.~\eqref{eq:B2} \\
+B3 & $h_C^{(1,\mathrm{unconstr})}(0)$ & $7/60$ & $7/60$ & Eq.~\eqref{eq:unconstr-limits} \\
+B4 & $h_R^{(1,\mathrm{unconstr})}(0)$ & $1/36$ & $1/36$ & Eq.~\eqref{eq:unconstr-limits} \\
+B5 & $h_C^{(1)} \to -1/(3x)$ & confirmed & confirmed & Eq.~\eqref{eq:hC-asymp} \\
+B6 & $h_R^{(1)} \to 1/(9x)$ & confirmed & confirmed & Eq.~\eqref{eq:hR-asymp} \\
+B7 & $h_C^{(1)} = 1/10 - 11x/420$ & confirmed & confirmed & Eq.~\eqref{eq:taylor-results} \\
+B8 & $h_R^{(1)} = x/630 + O(x^2)$ & confirmed & confirmed & Eq.~\eqref{eq:taylor-results} \\
+B9 & Ghost: $h^{(1)} - 2h^{(0)}(\xi\!=\!0)$ & confirmed & confirmed & Section~\ref{sec:ghost} \\
+B10 & No $\xi$-dependence & confirmed & confirmed & Remark~\ref{rem:differences} \\
+B11 & $\beta_R^{(1)}=0$ (conformal) & confirmed & confirmed & Section~\ref{sec:conformal} \\
+B12 & $\alpha_{E_4}^{(1)} = -31/180$ & confirmed & confirmed & Eq.~\eqref{eq:B12} \\
+\midrule
+\multicolumn{5}{c}{Flat space $\checkmark$, Dimensionless $\checkmark$,
+$F_i = h_i/(16\pi^2)$ for $\psi=e^{-u}$ $\checkmark$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%%======================================================================
+\begin{thebibliography}{20}
+
+\bibitem{CZ2012}
+A.~Codello and O.~Zanusso,
+``On the non-local heat kernel expansion,''
+J.\ Math.\ Phys.\ \textbf{54} (2013) 013513
+[arXiv:1203.2034 [hep-th]].
+
+\bibitem{TSR2020}
+P.~de~Morais~Teixeira, I.~L.~Shapiro, and T.~G.~Ribeiro,
+``One-loop effective action: nonlocal form factors and
+renormalization group,''
+Grav.\ Cosmol.\ \textbf{26} (2020) 185
+[arXiv:2003.04503 [hep-th]].
+
+\bibitem{Vassilevich2003}
+D.~V.~Vassilevich,
+``Heat kernel expansion: user's manual,''
+Phys.\ Rept.\ \textbf{388} (2003) 279
+[hep-th/0306138].
+
+\bibitem{BV1990a}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``Covariant perturbation theory (II).\ Second order in the curvature.
+General algorithms,''
+Nucl.\ Phys.\ B \textbf{333} (1990) 471.
+
+\bibitem{CPR2009}
+A.~Codello, R.~Percacci, and C.~Rahmede,
+``Investigating the ultraviolet properties of gravity with a
+Wilsonian renormalization group equation,''
+Ann.\ Phys.\ \textbf{324} (2009) 414
+[arXiv:0805.2909 [hep-th]].
+
+\bibitem{NT1b_vector_conventions}
+D.~Alfyorov,
+``NT-1b Vector (Gauge Boson) Form Factors: Literature Conventions
+and Benchmarks,''
+working document, March 2026.
+
+\bibitem{NT1b_scalar}
+D.~Alfyorov,
+``NT-1b Scalar Form Factors: Main Derivation,''
+working document, March 2026.
+
+\bibitem{NT1}
+D.~Alfyorov,
+``NT-1: Nonlocal Form Factors of the SCT Spectral Action ---
+From Heat Kernel to Spectral Action for the Dirac Operator,''
+working document, March 2026.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,174 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{statusamber}{RGB}{155,96,0}
+\definecolor{statusblue}{RGB}{0,72,130}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Prediction Card}}
+\fancyhead[R]{\small\textsc{PPN-1}}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={SCT Prediction Card: Linear Static PPN-1 Sector},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{Prediction Card:}\\[4pt]
+  \Large Linear Static PPN-1 Sector in SCT Theory
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{center}
+  \colorbox{statusamber!15}{\parbox{0.78\textwidth}{\centering
+    \textbf{\color{statusamber} STATUS: PARTIAL / LINEAR STATIC SECTOR ONLY}\\[2pt]
+    \small This card summarizes the part of PPN-1 that is genuinely derived
+    from the repaired NT-4a propagator. It does \emph{not} claim a full
+    ten-parameter PPN completion.
+  }}
+\end{center}
+
+\section{Source}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Immediate input:} NT-4a linearized propagator denominators
+  \[
+    \Pi_{\mathrm{TT}}(z) = 1 + \frac{13}{60} z \hat F_1(z), \qquad
+    \Pi_{\mathrm{s}}(z,\xi) = 1 + 6\left(\xi-\frac{1}{6}\right)^2 z \hat F_2(z,\xi).
+  \]
+  \item \textbf{Phenomenological regime used here:} local Yukawa
+  approximation to the exact linear static kernel.
+  \item \textbf{Derived quantity:} the radial profile of the linear PPN
+  parameter $\gamma(r)=\Psi(r)/\Phi(r)$.
+  \item \textbf{Caution:} the exact normalized NT-4a TT denominator develops
+  a positive-real-axis zero near $z \approx 2.41484$, so this card should not
+  be read as a ghost-freedom statement.
+\end{itemize}
+
+\section{Observable Quantity}
+
+The observable targeted in this phase is the weak-field ratio between the
+spatial and temporal metric potentials around a static source:
+\[
+  g_{00} = -1 + 2\Phi(r), \qquad
+  g_{ij} = \bigl(1 + 2\Psi(r)\bigr)\delta_{ij}, \qquad
+  \gamma(r) = \frac{\Psi(r)}{\Phi(r)}.
+\]
+This is the quantity most directly constrained by Solar-System light-deflection
+and time-delay experiments.
+
+\section{SCT Prediction in the Local Yukawa Approximation}
+
+With
+\[
+  m_2 = \Lambda\sqrt{\frac{60}{13}}, \qquad
+  m_0 = \frac{\Lambda}{\sqrt{6(\xi-1/6)^2}},
+\]
+the repaired local static potentials are
+\[
+  \Phi(r) = \frac{GM}{r}\left[1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r}\right],
+\]
+\[
+  \Psi(r) = \frac{GM}{r}\left[1 - \frac{2}{3}e^{-m_2 r} - \frac{1}{3}e^{-m_0 r}\right].
+\]
+Therefore
+\begin{equation}
+  \boxed{
+  \gamma(r)
+  =
+  \frac{1 - \frac{2}{3}e^{-m_2 r} - \frac{1}{3}e^{-m_0 r}}
+       {1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r}}
+  }.
+\end{equation}
+At macroscopic distances $r\Lambda \gg 1$, SCT predicts
+\[
+  \gamma(r) \to 1
+  \qquad \text{with Yukawa-suppressed corrections}.
+\]
+
+\section{Important Non-Claim}
+
+This phase does \emph{not} predict:
+\[
+  \beta, \qquad \xi_{\mathrm{PPN}}, \qquad
+  \alpha_1,\alpha_2,\alpha_3, \qquad
+  \zeta_1,\zeta_2,\zeta_3,\zeta_4.
+\]
+Those parameters require the nonlinear post-Newtonian field equations and are
+explicitly marked \texttt{not\_derived} in the repaired implementation.
+
+\section{Short-Distance Structure}
+
+The local Yukawa approximation has a subtle dependence on $\xi$:
+\begin{itemize}[leftmargin=2em]
+  \item For $\xi \neq 1/6$, the scalar Yukawa term cancels the leading $1/r$
+  singularity in $\Phi(r)$.
+  \item At exact conformal coupling $\xi = 1/6$, the scalar channel is absent
+  and the local approximation reopens a residual $1/r$ behavior.
+\end{itemize}
+Accordingly, ``scalar decoupling'' and ``short-distance regularity'' are not
+equivalent statements.
+
+\section{Current Experimental Bounds on \texorpdfstring{$\Lambda$}{Lambda}}
+
+\begin{tabular}{lll}
+\toprule
+Dataset / observable & Condition used & Result \\
+\midrule
+Cassini time delay & $|\gamma-1| < 2.3\times10^{-5}$ at $1\,\mathrm{AU}$ &
+$\Lambda \gtrsim 6.2\times 10^{-18}\,\mathrm{eV}$ \\
+Short-range gravity & Yukawa range $< 50\,\mu\mathrm{m}$ &
+$\Lambda \gtrsim 1.84\times 10^{-3}\,\mathrm{eV}$ \\
+\bottomrule
+\end{tabular}
+
+\section{Falsification Logic}
+
+Within the scope of the local static sector, SCT would be in serious tension if:
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item a macroscopic non-Yukawa deviation in $\gamma(r)$ were observed where
+  the repaired local approximation predicts exponential suppression;
+  \item short-range gravity experiments forced the spin-2 Yukawa scale to be
+  parametrically larger than any plausible SCT cutoff window;
+  \item the future full nonlocal static kernel disagreed qualitatively with
+  the local Yukawa approximation already used here.
+\end{enumerate}
+
+\section{Status}
+
+\begin{center}
+  \colorbox{statusblue!10}{\parbox{0.82\textwidth}{
+    \textbf{\color{statusblue} Repaired status (March 2026).}
+    The linear static $\gamma(r)$ sector is implemented and tested.
+    The full ten-parameter PPN program is \emph{not} complete. This card
+    supersedes any earlier wording that claimed $\beta$ or the remaining
+    PPN parameters had already been derived.
+  }}
+\end{center}
+
+\end{document}

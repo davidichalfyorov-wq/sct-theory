@@ -1,0 +1,598 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\geometry{margin=2.5cm}
+
+\newtheoremstyle{postulate}
+  {12pt}{12pt}{\itshape}{0pt}{\bfseries}{.}{.5em}{}
+\theoremstyle{postulate}
+\newtheorem{postulate}{Postulate}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\Alg}{\mathcal{A}}
+\newcommand{\Dirac}{D}
+\newcommand{\Cut}{\Lambda}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Causal}{\mathcal{C}}
+\newcommand{\Kset}{\mathfrak{K}}
+\newcommand{\planck}{\ell_{\mathrm P}}
+\newcommand{\zetaD}{\zeta_D}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Axiom Probe}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={Decorated Causal Order as Kinematics in SCT},
+  pdfauthor={David Alfyorov},
+}
+
+\title{\textbf{Decorated Causal Order as Kinematics in SCT}\\[6pt]
+\large An Axiom-Style Probe on Spectral Data over a Locally Finite Causal Set}
+\author{David Alfyorov}
+\date{March 2026\\[4pt]\small Working Note}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This note is written as an axiom-style probe in the house style of the SCT
+foundational corpus.  The aim is not to enlarge the canonical postulate list,
+but to test one kinematic statement in the same register: a bare causal set
+is too poor to support the full geometric and internal content expected of a
+quantum-gravitational theory, while a smooth manifold is too rich to be
+assumed at the fundamental level.  A natural intermediate kinematic object is
+a locally finite causal order whose events carry spectral data.
+
+We formulate this idea as a single postulate, define the required
+mathematical objects, explain the physical motivation, and describe the
+limiting regimes in which ordinary spacetime geometry may emerge.  The text
+is intentionally conservative.  It does not claim that the full microscopic
+dynamics is already known.  It isolates only the kinematic content that would
+make such a dynamics meaningful.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Preliminary Definitions}
+\label{sec:prelim}
+
+Before stating the postulate, we fix the objects that will appear in it.
+
+\begin{definition}[Locally finite causal set]
+A causal set is a pair $(\Causal,\preceq)$ where $\Causal$ is a set and
+$\preceq$ is a partial order such that:
+\begin{enumerate}[label=(\roman*)]
+  \item $x \preceq x$ for all $x \in \Causal$;
+  \item $x \preceq y$ and $y \preceq x$ imply $x=y$;
+  \item $x \preceq y$ and $y \preceq z$ imply $x \preceq z$;
+  \item for any $x,z\in\Causal$, the interval
+  \[
+    I(x,z)=\{y\in\Causal\mid x\preceq y\preceq z\}
+  \]
+  is finite.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Spectral triple]
+A spectral triple is a datum $(\Alg,\Hil,\Dirac)$ consisting of an algebra
+$\Alg$ represented on a Hilbert space $\Hil$ together with a self-adjoint
+operator $\Dirac$ with compact resolvent and bounded commutators
+$[\Dirac,a]$ for all $a\in\Alg$.
+\end{definition}
+
+\begin{definition}[Spectral zeta function]
+Given a Dirac operator $\Dirac$ with nonzero eigenvalues $\{\lambda_n\}$, its
+spectral zeta function is
+\begin{equation}
+  \zetaD(s) = \sum_{\lambda_n\neq 0} |\lambda_n|^{-s},
+  \label{eq:zeta}
+\end{equation}
+for $\operatorname{Re}(s)$ large enough, with meromorphic continuation
+elsewhere when such continuation exists.
+\end{definition}
+
+\begin{definition}[Connes distance]
+For a commutative spectral triple, the spectral distance is
+\begin{equation}
+  d_{\mathrm C}(p,q)
+  = \sup\left\{
+      |a(p)-a(q)|
+      \;\middle|\;
+      a\in\Alg,\ \|[\Dirac,a]\|\leq 1
+    \right\}.
+  \label{eq:connes-distance}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Spectral dimension]
+If the heat trace of $\Dirac^2$ is available, one defines the scale-dependent
+spectral dimension by
+\begin{equation}
+  d_S(\sigma)
+  = -2\,\frac{\dd \ln \Tr(e^{-\sigma \Dirac^2})}{\dd \ln \sigma}.
+  \label{eq:spectral-dimension}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Decorated event]
+A decorated event is an element $x\in\Causal$ endowed with local spectral
+data
+\begin{equation}
+  \mathfrak{s}(x) = (\Alg_x,\Hil_x,\Dirac_x).
+  \label{eq:decorated-event}
+\end{equation}
+\end{definition}
+
+\section{Postulate 1 --- Decorated Causal Kinematics}
+\label{sec:postulate}
+
+\begin{postulate}[Decorated causal kinematics]
+The fundamental kinematic data of SCT is a quadruple
+\begin{equation}
+  \Kset
+  = \left(
+      \Causal,\preceq,
+      \{\mathfrak{s}(x)\}_{x\in\Causal},
+      \{\Phi_{x\to y}\}_{x\prec y}
+    \right),
+  \label{eq:kset}
+\end{equation}
+where:
+\begin{enumerate}[label=(\roman*)]
+  \item $(\Causal,\preceq)$ is a locally finite causal set;
+  \item each event $x\in\Causal$ carries a spectral triple
+  $\mathfrak{s}(x)=(\Alg_x,\Hil_x,\Dirac_x)$;
+  \item each causal relation $x\prec y$ carries a comparison map
+  $\Phi_{x\to y}:\Hil_x\to\Hil_y$;
+  \item smooth spacetime geometry is not fundamental but emergent from the
+  collective spectral-causal data in an appropriate continuum limit.
+\end{enumerate}
+\end{postulate}
+
+\paragraph{Immediate reading.}
+The postulate says that neither causal order alone nor spectral geometry
+alone is taken as the whole microscopic story.  Order captures precedence and
+local finiteness; spectral data carries the local geometric, matter, and
+operator-theoretic content from which metric notions may later emerge.
+
+\paragraph{Kinematic rather than dynamical status.}
+No dynamical law has yet been stated.  The postulate concerns the space of
+microscopic configurations, not their weighting.  That distinction is
+essential.  In the logic of the theory, one must specify the kinematic arena
+before assigning a spectral action or renormalization-group flow on it.
+
+\paragraph{Immediate formal consequence.}
+If an effective commutative limit exists, the postulate already singles out
+the correct kind of data from which both causal and spectral notions of
+distance might be reconstructed.  It therefore has mathematical substance
+even before a microscopic action is written down.
+
+\section{Mathematical Content}
+\label{sec:math-content}
+
+\subsection{Why causal order alone is insufficient}
+
+A pure causal set furnishes chronology and local finiteness, but it does not
+by itself specify:
+\begin{enumerate}[label=(\alph*)]
+  \item internal gauge structure,
+  \item fermionic data,
+  \item spectral dimension,
+  \item the operatorial information required for a spectral action.
+\end{enumerate}
+Thus a causal set by itself is an ordering structure, not yet a geometric or
+field-theoretic object in the sense required by SCT.
+
+\subsection{Why a smooth manifold is too strong}
+
+At the opposite extreme, a differentiable manifold with metric already
+assumes the existence of the continuum geometry that quantum gravity is meant
+to explain.  Near the Planck scale, where one expects discreteness,
+nonlocality, or a change of effective dimension, starting from a smooth
+metric manifold builds too much infrared structure into the ultraviolet
+foundation.
+
+\subsection{Role of the comparison maps}
+
+The maps $\Phi_{x\to y}$ are not introduced as a finished microscopic
+propagator.  They are the minimal kinematic glue needed to compare spectral
+data across causally related events.  At the very least, one expects some
+compatibility with causal composition,
+\begin{equation}
+  \Phi_{x\to z}
+  \sim \Phi_{y\to z}\circ \Phi_{x\to y}
+  \qquad\text{whenever } x\prec y\prec z,
+  \label{eq:composition}
+\end{equation}
+though the precise relation may be modified by coarse-graining, stochastic
+structure, or quantum interference in the full microscopic theory.
+
+\subsection{Spectral reconstruction target}
+
+The continuum target of the postulate is not arbitrary.  In a commutative
+limit one expects the effective algebra to approach
+\begin{equation}
+  \Alg_{\mathrm{eff}} \simeq C^\infty(M),
+  \label{eq:commutative}
+\end{equation}
+so that ordinary geometric quantities are reconstructed spectrally from an
+effective Dirac operator.  The postulate therefore names not only the
+microscopic arena but also the shape of the desired infrared recovery.
+
+\section{What the Postulate Does and Does Not Claim}
+\label{sec:nonclaims}
+
+It is important to state explicitly what is and is not being asserted.
+
+\begin{enumerate}[label=(\alph*)]
+  \item The postulate \emph{does} propose a candidate microscopic kinematic
+  arena.
+  \item It \emph{does not} yet provide the weighting of microscopic
+  configurations.
+  \item It \emph{does not} provide a rigorous continuum-limit theorem.
+  \item It \emph{does} require that any later dynamics act on or be
+  equivalent to some decorated causal-spectral structure of this kind.
+\end{enumerate}
+
+The point of such explicit discipline is methodological.  Foundational texts
+in quantum gravity often become ambiguous precisely where kinematics and
+dynamics are allowed to blur.  The SCT methodology requires keeping them
+separate.
+
+\section{Physical Motivation}
+\label{sec:motivation}
+
+\subsection{General relativity points toward causal primacy}
+
+Lorentzian geometry teaches that causal structure is not a minor decoration
+of spacetime.  In many settings, the conformal class of the metric is already
+encoded in the causal order.  This suggests that any ultraviolet completion
+which ignores causal structure at the foundational level is discarding
+something too important.
+
+\subsection{Noncommutative geometry points toward spectral primacy}
+
+Connes' noncommutative geometry teaches a complementary lesson: geometry can
+be encoded in operator spectra rather than in coordinate charts.  Distances,
+dimensions, and curvature information are read from $\Dirac$ and the algebra
+acting on its Hilbert space.
+
+\subsection{SCT reads both lessons together}
+
+The kinematic wager of SCT is therefore not to choose between causal order
+and spectral data, but to hold them together from the start.  Causal order
+without spectral content is too poor.  Spectral content without causal order
+risks losing the Lorentzian backbone required for spacetime physics.
+
+\paragraph{Discipline about status.}
+This is not yet a theorem.  It is a foundational proposal motivated by
+structural pressure from both sides.  Its seriousness depends on whether it
+makes the later dynamical and phenomenological questions sharper rather than
+vaguer.
+
+\section{Formal Consequences if the Postulate is Accepted}
+\label{sec:consequences}
+
+Accepting the postulate commits the later theory to several downstream
+requirements.
+
+\begin{proposition}[Continuum compatibility requirement]
+Any acceptable dynamics on $\Kset$ must admit an infrared regime in which the
+effective spectral data defines distances, dimensions, and curvature notions
+compatible with known low-energy geometry.
+\end{proposition}
+
+\begin{proof}
+If no such regime exists, the postulate fails the correspondence test with
+established gravitational physics.  Since SCT is intended as a candidate UV
+completion rather than a rejection of the infrared world, such a regime is
+mandatory.
+\end{proof}
+
+\begin{proposition}[Observability requirement]
+Any physically meaningful realization of the postulate must ultimately define
+observables built from either spectral invariants, causal-order invariants,
+or mixed quantities derived from both.
+\end{proposition}
+
+\begin{proof}
+A kinematic construction with no observable sector would not qualify as a
+physical theory candidate.  The postulate therefore imposes an observability
+burden on every later dynamical completion.
+\end{proof}
+
+\section{Limiting Cases}
+\label{sec:limits}
+
+Any foundational postulate should be judged by the limiting regimes it makes
+plausible.  Four are especially relevant.
+
+\subsection{Classical geometric limit}
+
+In a suitable coarse-grained regime, one expects an effective commutative
+spectral triple
+\begin{equation}
+  (\Alg_{\mathrm{eff}},\Hil_{\mathrm{eff}},\Dirac_{\mathrm{eff}})
+  \simeq
+  \bigl(C^\infty(M),L^2(S),\Dirac_M\bigr),
+  \label{eq:classical-limit}
+\end{equation}
+from which ordinary Riemannian geometry can be reconstructed.  The postulate
+is acceptable only if such a recovery channel exists.
+
+\subsection{Weak-field, low-curvature regime}
+
+At scales far above the microscopic discreteness length and in a regime of
+weak curvature, the spectral action built from the emergent Dirac operator
+must reduce to the Einstein--Hilbert term plus controlled higher-curvature
+corrections:
+\begin{equation}
+  \Tr f\!\left(\frac{\Dirac_{\mathrm{eff}}^2}{\Cut^2}\right)
+  \Longrightarrow
+  \int \sqrt{g}\,
+  \left(
+    \frac{R-2\Lambda}{16\pi G}
+    + \alpha R^2 + \beta R_{\mu\nu}R^{\mu\nu}
+    + \cdots
+  \right)\dd^4x.
+  \label{eq:weak-field-limit}
+\end{equation}
+If the postulate cannot support this passage, it does not connect to known
+gravitational physics.
+
+\subsection{Large-distance regime}
+
+At sufficiently large scales one expects the microscopic discreteness to be
+washed out.  The causal order should approximate the causal structure of a
+smooth Lorentzian manifold, while the local spectral data should glue
+together into the familiar infrared geometry and matter content.
+
+\subsection{Planckian regime}
+
+Near the Planck scale, one expects the opposite tendency.  The discrete
+nature of $\Causal$ and the genuinely spectral nature of the geometry should
+become visible.  In that regime it is natural to expect scale-dependent
+spectral dimension, breakdown of naive manifold locality, and a more
+primitive operatorial notion of geometry than the metric tensor.
+
+\subsection{Interpretive consequence of the four limits}
+
+Taken together, the four limits say something restrictive.  The postulate is
+not free to remain a purely abstract combinatorial construction.  It must
+interpolate between a genuinely non-manifold ultraviolet regime and a
+recognizable low-energy geometric regime.  That is exactly the type of
+tension any viable quantum-gravitational kinematics should be able to
+survive.
+
+\section{Constructive Hints from Experiment and Established Physics}
+\label{sec:hints}
+
+The postulate is motivated not only by mathematical aesthetics but by a set
+of convergent hints from known physics.
+
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{0.40\textwidth}p{0.10\textwidth}p{0.40\textwidth}@{}}
+\toprule
+\textbf{Hint} & \textbf{Use} & \textbf{Structural push} \\
+\midrule
+Causal structure already controls large parts of Lorentzian geometry & causal & take order seriously at the kinematic level \\
+\addlinespace
+Connes reconstruction and spectral geometry & spectral & encode geometry through operator data rather than coordinates \\
+\addlinespace
+Area/entropy relations in gravity & mixed & support non-metric geometric primitives at fundamental level \\
+\addlinespace
+Dimensional flow in quantum-gravity approaches & UV & make room for a non-manifold microscopic regime \\
+\addlinespace
+Entanglement/geometry connections in holography and QFT & relational & suggest that geometric proximity should emerge from deeper quantum structure \\
+\bottomrule
+\end{tabular}
+\caption{Constructive hints that make decorated causal kinematics a serious
+candidate starting point rather than a purely decorative proposal.}
+\label{tab:hints}
+\end{table}
+
+These hints do not amount to a proof of the postulate.  Their role is
+different: they show that the postulate is not arbitrary.  It sits at a
+crossing point of several independent lessons from established physics and
+quantum-gravity research.
+
+\section{Relation to the Rest of the Theory}
+\label{sec:relation}
+
+This postulate is upstream of several later tasks.
+\begin{enumerate}[label=(\roman*)]
+  \item One still needs a dynamical principle, for instance a spectral action
+  or equivalent weighting functional on the decorated causal data.
+  \item One still needs a coarse-graining map that identifies the emergent
+  continuum observables.
+  \item One still needs a precise relation between the comparison maps
+  $\Phi_{x\to y}$ and any microscopic entanglement or transport structure.
+\end{enumerate}
+
+That incompleteness is not a flaw of the postulate itself.  It is simply the
+normal boundary between kinematics and dynamics.  What matters is that the
+kinematic proposal makes those later questions meaningful rather than
+ill-posed.
+
+\paragraph{Relation to spectral action dynamics.}
+If one later assigns an effective spectral action of the form
+\begin{equation}
+  S_{\mathrm{sp}} = \Tr f\!\left(\frac{\Dirac^2}{\Cut^2}\right),
+  \label{eq:spectral-action}
+\end{equation}
+then the present postulate supplies the natural microscopic arena on which
+such a dynamics may be interpreted after coarse graining.
+
+\section{Consistency and Falsifiability Burden}
+\label{sec:burden}
+
+Any foundational postulate must carry a burden, not only an ambition.  For
+the present proposal, at least four consistency requirements are unavoidable.
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Lorentz-compatibility burden.} The causal order must admit an
+  infrared regime compatible with Lorentzian spacetime rather than secretly
+  selecting a rigid preferred lattice frame.
+  \item \textbf{Spectral-reconstruction burden.} The decorated data must be
+  rich enough to recover effective distances, dimension, and curvature in a
+  controlled continuum limit.
+  \item \textbf{Dynamics burden.} There must exist a natural action or
+  transition rule on $\Kset$, or the postulate remains a purely static
+  ontology.
+  \item \textbf{Observability burden.} The theory must identify observables
+  that depend on the spectral-causal data and can, at least in principle, be
+  confronted with experiment or observation.
+\end{enumerate}
+
+These burdens are not objections.  They are the proper scientific price of a
+serious foundational proposal.
+
+\paragraph{What could falsify the kinematic picture.}
+The postulate would be in grave difficulty if it turned out that:
+\begin{enumerate}[label=(\alph*)]
+  \item no continuum regime with acceptable infrared geometry exists,
+  \item the spectral-causal data cannot reproduce known low-energy matter and
+  gravitational structure,
+  \item the required observables remain permanently undefined,
+  \item the microscopic construction necessarily violates empirical
+  Lorentz-invariance bounds.
+\end{enumerate}
+In that sense the postulate is not protected by vagueness; it remains open to
+failure on concrete physical grounds.
+
+\section{Summary and Open Problems}
+\label{sec:summary}
+
+\subsection{Summary}
+
+The content of the note can be stated in one sentence: the fundamental
+kinematic arena of SCT may be taken to be a locally finite causal order whose
+events carry spectral triples and are connected by comparison maps.
+
+This proposal tries to preserve, at once, two lessons:
+\begin{enumerate}[label=(\roman*)]
+  \item causal order is too fundamental to be demoted to a derived afterthought;
+  \item spectral data is rich enough to encode geometry and matter.
+\end{enumerate}
+The point of the postulate is therefore not ornamental complexity.  It is the
+attempt to avoid choosing too little structure on one side and too much
+structure on the other.
+
+\subsection{Postulate summary table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{3.0cm}p{10.0cm}@{}}
+\toprule
+\textbf{Component} & \textbf{Content} \\
+\midrule
+Causal substrate & Locally finite partially ordered set $(\Causal,\preceq)$ \\
+Local geometric data & Spectral triple $\mathfrak{s}(x)=(\Alg_x,\Hil_x,\Dirac_x)$ at each event \\
+Inter-event structure & Comparison maps $\Phi_{x\to y}$ along causal relations \\
+Continuum target & Effective commutative spectral geometry in the infrared \\
+Scientific burden & Must support dynamics, observables, and low-energy recovery \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Constructive program}
+
+If one takes the postulate seriously, the next mathematical tasks are also
+clear:
+\begin{enumerate}[label=\arabic*.]
+  \item define an admissible class of comparison maps $\Phi_{x\to y}$,
+  \item specify a coarse-graining prescription from $\Kset$ to an effective
+  spectral triple,
+  \item identify invariant observables on the microscopic decorated causal
+  data,
+  \item formulate a dynamics that acts naturally on that kinematic arena.
+\end{enumerate}
+This constructive program is exactly what separates a promising foundational
+ansatz from a merely evocative slogan.
+
+\subsection{Open problems}
+
+Several problems remain genuinely open:
+\begin{enumerate}[label=\arabic*.]
+  \item What is the best Lorentzian analogue of the spectral-triple language
+  in the fully causal microscopic regime?
+  \item Are the comparison maps $\Phi_{x\to y}$ fundamental objects, or only
+  effective summaries of a deeper entanglement structure?
+  \item Which universality classes of decorated causal sets flow to the same
+  infrared geometry?
+  \item Can one derive the continuum spectral action and its field content
+  from a microscopic dynamics on $\Kset$ rather than imposing that relation
+  from above?
+  \item Which observables most directly falsify the decorated-causal
+  kinematic picture?
+\end{enumerate}
+
+These are not marginal details.  They determine whether the postulate remains
+an interesting kinematic ansatz or grows into a genuine candidate framework.
+
+\begin{thebibliography}{99}
+
+\bibitem{Bombelli1987}
+L.~Bombelli, J.~Lee, D.~Meyer and R.~Sorkin,
+``Space-time as a causal set,''
+\emph{Phys. Rev. Lett.} \textbf{59} (1987) 521--524.
+
+\bibitem{Connes1994Axiom}
+A.~Connes,
+\emph{Noncommutative Geometry},
+Academic Press, 1994.
+
+\bibitem{Connes2008Reconstruction}
+A.~Connes,
+``On the spectral characterization of manifolds,''
+\emph{J. Noncommut. Geom.} \textbf{7} (2013) 1--82,
+arXiv:\href{https://arxiv.org/abs/0810.2088}{0810.2088}.
+
+\bibitem{Sorkin2003}
+R.~D.~Sorkin,
+``Causal sets: Discrete gravity,''
+in \emph{Lectures on Quantum Gravity}, edited by A.~Gomberoff and
+D.~Marolf, Springer, 2005,
+arXiv:\href{https://arxiv.org/abs/gr-qc/0309009}{gr-qc/0309009}.
+
+\bibitem{Vassilevich2003Axiom}
+D.~V.~Vassilevich,
+``Heat kernel expansion: User's manual,''
+\emph{Phys. Rept.} \textbf{388} (2003) 279--360,
+arXiv:\href{https://arxiv.org/abs/hep-th/0306138}{hep-th/0306138}.
+
+\end{thebibliography}
+
+\end{document}

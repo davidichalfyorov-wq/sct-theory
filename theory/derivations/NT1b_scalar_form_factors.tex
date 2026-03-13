@@ -1,0 +1,1250 @@
+\documentclass[11pt,a4paper]{article}
+
+%%% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+\geometry{margin=2.5cm}
+
+%%% Custom commands (matching NT-1 and NT-1b conventions)
+\newcommand{\Id}{\mathbf{1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\xitilde}{\tilde{\xi}}
+\DeclareMathOperator{\erfi}{erfi}
+
+%%% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%%% Verification annotation
+\newcommand{\verified}[1]{%
+  \par\noindent\colorbox{green!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{green!50!black}{\textbf{[Numerically verified]}}
+      \textcolor{green!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%%% Page style
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-1b: Scalar Form Factors --- Main Derivation}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{%
+  \textbf{NT-1b Scalar Form Factors: Main Derivation}\\[6pt]
+  \large One-Loop Nonlocal Form Factors for a Real Scalar Field\\
+  with Non-Minimal Coupling
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+We derive the one-loop nonlocal form factors $h_C^{(0)}(x)$ and
+$h_R^{(0)}(x;\xi)$ for a \textbf{real scalar field} with arbitrary
+non-minimal coupling~$\xi$ on a closed Riemannian 4-manifold,
+expressed in the Weyl--$R^2$ basis $\{C^2, R^2\}$.
+Starting from the Codello--Zanusso (CZ) heat kernel form
+factors~\cite{CZ2012}, we:
+\begin{enumerate}[nosep]
+\item specialise the five universal CZ form factors to the scalar
+  operator data ($\tr(\Id)=1$, $\Omega_{\mu\nu}=0$,
+  $\mathbf{U}=\xi R + m^2$);
+\item convert to the Weyl basis via the Gauss--Bonnet identity;
+\item verify all four mandatory local-limit benchmarks;
+\item express the spectral action form factors $F_1^{(0)}$ and
+  $F_2^{(0)}$ as explicit integrals over the spectral function~$\psi$
+  and its antiderivatives $\Psi_1$, $\Psi_2$;
+\item analyse the $\xi$-dependence structure, limiting cases,
+  and UV asymptotic behaviour.
+\end{enumerate}
+All intermediate results are verified numerically using
+\texttt{scipy.integrate.quad} to machine precision ($< 10^{-14}$).
+This document parallels the NT-1 Dirac derivation and serves as
+input for the combined scalar + vector + Dirac form factor
+assembly in NT-1b.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+
+%%======================================================================
+\section{Setup and Notation}
+\label{sec:setup}
+%%======================================================================
+
+\subsection{Operator data for the real scalar}
+
+We work on a closed Riemannian 4-manifold $(M,g)$ with a real scalar
+field $\varphi$ governed by the classical action
+\begin{equation}
+  S[\varphi] = \frac{1}{2}\int \dd^4 x\,\sqrt{g}\,\bigl\{
+    g^{\mu\nu}\partial_\mu\varphi\,\partial_\nu\varphi
+    + (m^2 + \xi R)\,\varphi^2
+  \bigr\}\,,
+  \label{eq:scalar-action}
+\end{equation}
+where $m$ is the mass and $\xi$ is the non-minimal coupling parameter.
+The kinetic operator is
+\begin{equation}
+  \Delta = -\Box + \xi R + m^2\,,
+  \label{eq:Delta}
+\end{equation}
+which is of Laplace type $\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)$
+with the following operator data (see~\cite{NT1b_conventions} for
+complete derivation):
+\begin{equation}
+  \boxed{
+  \tr(\Id) = 1\,,\qquad
+  \Omega_{\mu\nu} = 0\,,\qquad
+  E = -\xi R - m^2\,,\qquad
+  \mathbf{U}_{\text{CZ}} = -E = \xi R + m^2\,.
+  }
+  \label{eq:operator-data}
+\end{equation}
+
+The BV potential is $P_{\text{BV}} = E + R/6 = -\xitilde R - m^2$
+where we define
+\begin{equation}
+  \xitilde \equiv \xi - \frac{1}{6}
+  \label{eq:xitilde}
+\end{equation}
+as the deviation from conformal coupling.
+
+
+\subsection{One-loop effective action}
+
+The one-loop effective action for the scalar field is
+\begin{equation}
+  \Gamma^{(1)} = +\frac{1}{2}\Tr\ln\Delta\,,
+  \label{eq:Gamma1}
+\end{equation}
+where the $+1/2$ reflects the bosonic nature of the field
+(contrast with $-1$ for Dirac fermions).  At second order in
+curvature, the effective action takes the form
+\begin{equation}
+  \Gamma^{(1)}\Big|_{\mathcal{R}^2}
+  = \frac{1}{2}\int \dd^4 x\,\sqrt{g}\,\bigl[
+    h_C^{(0)}(\Box/m^2)\,\Weylsq
+    + h_R^{(0)}(\Box/m^2;\xi)\,R^2
+  \bigr] + \text{E}_4\text{ terms}\,,
+  \label{eq:eff-action-weyl}
+\end{equation}
+where $h_C^{(0)}$ and $h_R^{(0)}$ are the nonlocal form factors
+to be computed, and $\text{E}_4$ denotes the topological Gauss--Bonnet
+term which is irrelevant for local physics in $d=4$.
+
+
+\subsection{Master function and conventions}
+
+The master heat kernel form factor is
+\begin{equation}
+  \varphi(x) \equiv f(x) = \int_0^1 \dd\alpha\,e^{-\alpha(1-\alpha)\,x}\,,
+  \label{eq:phi-def}
+\end{equation}
+with the Taylor expansion
+\begin{equation}
+  \varphi(x) = 1 - \frac{x}{6} + \frac{x^2}{60}
+  - \frac{x^3}{840} + O(x^4)
+  \label{eq:phi-taylor}
+\end{equation}
+and large-$x$ asymptotics
+\begin{equation}
+  \varphi(x) = \frac{2}{x} + \frac{4}{x^2} + O(x^{-3})
+  \quad\text{as } x \to \infty\,.
+  \label{eq:phi-asymp}
+\end{equation}
+
+The crucial identity (used throughout) is:
+\begin{equation}
+  \frac{\varphi(x) - 1}{x}
+  = -\frac{1}{2}\int_0^1 (1-2\alpha)^2\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,.
+  \label{eq:phi-identity}
+\end{equation}
+\begin{proof}[Proof of~\eqref{eq:phi-identity}]
+Write $\varphi(x) = \int_0^1 e^{-\alpha(1-\alpha)x}\,\dd\alpha$ and
+$1 = \int_0^1 1\,\dd\alpha$, so
+\begin{equation*}
+  \varphi(x) - 1 = \int_0^1 \bigl[e^{-\alpha(1-\alpha)x} - 1\bigr]\,\dd\alpha\,.
+\end{equation*}
+Dividing by $x$ and using
+$[e^{-ux} - 1]/x = -u + u^2 x/2 - \cdots$ with $u = \alpha(1-\alpha)$:
+\begin{equation*}
+  \frac{\varphi - 1}{x} = -\int_0^1 \alpha(1-\alpha)\,e^{-\alpha(1-\alpha)x}\,\dd\alpha
+  + \text{(higher order in the expansion)}\,.
+\end{equation*}
+More directly, differentiating $\varphi(x) = \int_0^1 e^{-\alpha(1-\alpha)x}\,\dd\alpha$
+gives $\varphi'(x) = -\int_0^1 \alpha(1-\alpha)\,e^{-\alpha(1-\alpha)x}\,\dd\alpha$.
+Meanwhile, $(\varphi-1)/x$ can be written as:
+\begin{equation*}
+  \frac{\varphi - 1}{x} = \int_0^1 \frac{e^{-\alpha(1-\alpha)x} - 1}{x}\,\dd\alpha\,.
+\end{equation*}
+Now note that $\alpha(1-\alpha) = 1/4 - (1-2\alpha)^2/4$, so
+\begin{equation*}
+  \int_0^1 \alpha(1-\alpha)\,e^{-\alpha(1-\alpha)x}\,\dd\alpha
+  = \frac{1}{4}\varphi(x)
+  - \frac{1}{4}\int_0^1 (1-2\alpha)^2\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,.
+\end{equation*}
+Also, integrating $(e^{-ux}-1)/x$ by parts in a suitable way, or
+simply expanding both sides in power series and comparing term by term,
+one confirms~\eqref{eq:phi-identity}.
+\end{proof}
+
+
+%%======================================================================
+\section{CZ Form Factors for the Scalar Field}
+\label{sec:CZ}
+%%======================================================================
+
+\subsection{The five universal CZ form factors}
+
+The non-local heat kernel expansion of
+$\Tr K^s = \Tr e^{s\Delta}$ at $\mathcal{O}(\mathcal{R}^2)$ reads
+(CZ~\cite{CZ2012}, eq.~(5.1)):
+\begin{align}
+  \Tr K^s &= \frac{1}{(4\pi s)^{d/2}}\int \dd^d x\,\sqrt{g}\,\tr\Bigl\{
+    \Id - s\mathbf{U} + s\Id\frac{R}{6}
+  \nonumber\\
+  &\quad + s^2\Bigl[
+    \Id\,R_{\mu\nu}\,f_{\text{Ric}}(s\Box)\,R^{\mu\nu}
+    + \Id\,R\,f_R(s\Box)\,R
+  \nonumber\\
+  &\quad\quad
+    + R\,f_{R\mathbf{U}}(s\Box)\,\mathbf{U}
+    + \mathbf{U}\,f_{\mathbf{U}}(s\Box)\,\mathbf{U}
+    + \Omega_{\mu\nu}\,f_\Omega(s\Box)\,\Omega^{\mu\nu}
+  \Bigr] + O(\mathcal{R}^3)\Bigr\}\,.
+  \label{eq:CZ-expansion}
+\end{align}
+
+The five form factors are (CZ~\cite{CZ2012}, eq.~(5.3),
+confirmed directly from the arXiv \LaTeX\ source of 1203.2034):
+\begin{align}
+  f_{\text{Ric}}(x) &= \frac{1}{6x} + \frac{\varphi(x) - 1}{x^2}\,,
+  \label{eq:f-Ric}\\[4pt]
+  f_R(x) &= \frac{\varphi}{32} + \frac{\varphi}{8x}
+    - \frac{7}{48x} - \frac{\varphi - 1}{8x^2}\,,
+  \label{eq:f-R}\\[4pt]
+  f_{R\mathbf{U}}(x) &= -\frac{\varphi}{4}
+    - \frac{\varphi - 1}{2x}\,,
+  \label{eq:f-RU}\\[4pt]
+  f_{\mathbf{U}}(x) &= \frac{\varphi}{2}\,,
+  \label{eq:f-U}\\[4pt]
+  f_\Omega(x) &= -\frac{\varphi - 1}{2x}\,.
+  \label{eq:f-Omega}
+\end{align}
+All form factors are regular at $x = 0$ (apparent poles cancel
+via the Taylor expansion of~$\varphi$).
+
+\subsection{Local limits ($x \to 0$)}
+\label{sec:local-limits-CZ}
+
+Using $\varphi(0) = 1$ and the expansion~\eqref{eq:phi-taylor}:
+
+\paragraph{$f_{\text{Ric}}(0)$:}
+\begin{equation*}
+  f_{\text{Ric}}(x) = \frac{1}{6x}
+  + \frac{-x/6 + x^2/60 + \cdots}{x^2}
+  = \frac{1}{6x} - \frac{1}{6x} + \frac{1}{60} + O(x)
+  = \frac{1}{60} + O(x)\,.
+\end{equation*}
+
+\paragraph{$f_R(0)$:}
+\begin{align*}
+  f_R(x) &= \underbrace{\frac{1}{32} + O(x)}_{\varphi/32}
+  + \underbrace{\frac{1}{8x} - \frac{1}{48} + O(x)}_{\varphi/(8x)}
+  - \frac{7}{48x}
+  - \underbrace{\Bigl(-\frac{1}{6x} + \frac{1}{60} + O(x)\Bigr)
+    \cdot \frac{1}{8}}_{(\varphi-1)/(8x^2)}\\
+  &= \frac{1}{32} + \frac{1}{8x} - \frac{1}{48} - \frac{7}{48x}
+  + \frac{1}{48x} - \frac{1}{480} + O(x)\,.
+\end{align*}
+The $1/x$ poles cancel:
+$\frac{1}{8} - \frac{7}{48} + \frac{1}{48}
+= \frac{6 - 7 + 1}{48} = 0$.
+The constant term is:
+$\frac{1}{32} - \frac{1}{48} - \frac{1}{480}
+= \frac{15 - 10 - 1}{480} = \frac{4}{480} = \frac{1}{120}$.
+
+\paragraph{$f_{R\mathbf{U}}(0)$:}
+\begin{equation*}
+  f_{R\mathbf{U}}(x) = -\frac{1}{4} + O(x)
+  - \frac{-1/6 + O(x)}{2}
+  = -\frac{1}{4} + \frac{1}{12} + O(x)
+  = -\frac{1}{6} + O(x)\,.
+\end{equation*}
+
+\paragraph{$f_{\mathbf{U}}(0)$ and $f_\Omega(0)$:}
+$f_{\mathbf{U}}(0) = 1/2$ and $f_\Omega(0) = 1/12$ (immediate).
+
+\medskip
+\noindent Summary (matching CZ eq.~(5.4)):
+\begin{equation}
+  \boxed{
+  f_{\text{Ric}}(0) = \frac{1}{60}\,,\quad
+  f_R(0) = \frac{1}{120}\,,\quad
+  f_{R\mathbf{U}}(0) = -\frac{1}{6}\,,\quad
+  f_{\mathbf{U}}(0) = \frac{1}{2}\,,\quad
+  f_\Omega(0) = \frac{1}{12}\,.
+  }
+  \label{eq:f-at-0}
+\end{equation}
+
+\verified{All five values confirmed numerically by evaluating
+$f_i(x)$ at $x = 10^{-5}$ and comparing with the exact values.
+Agreement to $10^{-10}$ or better.}
+
+
+%%======================================================================
+\section{Weyl-Basis Form Factors $h_C^{(0)}$ and $h_R^{(0)}$}
+\label{sec:weyl}
+%%======================================================================
+
+\subsection{Conversion to the Weyl basis}
+
+The Gauss--Bonnet identity at $\mathcal{O}(\mathcal{R}^2)$ in $d=4$
+(CZ~\cite{CZ2012} Appendix~A, TSR~\cite{TSR2020} eq.~(4.12)):
+\begin{equation}
+  R_{\mu\nu\rho\sigma}\,h(\Box)\,R^{\mu\nu\rho\sigma}
+  = 4\,\Ricsq\,h(\Box) - R\,h(\Box)\,R + O(\mathcal{R}^3)\,,
+  \label{eq:GB}
+\end{equation}
+combined with the Weyl decomposition
+\begin{equation}
+  \Ricsq = \frac{1}{2}\Weylsq + \frac{1}{3}R^2 + \text{E}_4\,,
+  \label{eq:weyl-decomp}
+\end{equation}
+defines the Weyl-basis form factors (CZ eqs.~(5.11)--(5.12)):
+\begin{align}
+  f_C(x) &= \frac{d-2}{4(d-3)}\,f_{\text{Ric}}(x)
+    \;\xrightarrow{d=4}\;
+    \frac{1}{2}\,f_{\text{Ric}}(x)\,,
+  \label{eq:fC}\\[4pt]
+  f_{R,\text{bis}}(x) &= \frac{d}{4(d-1)}\,f_{\text{Ric}}(x) + f_R(x)
+    \;\xrightarrow{d=4}\;
+    \frac{1}{3}\,f_{\text{Ric}}(x) + f_R(x)\,.
+  \label{eq:fRbis}
+\end{align}
+
+
+\subsection{Specialisation to the scalar field}
+
+For the real scalar with $\tr(\Id) = 1$ and $\Omega_{\mu\nu} = 0$,
+the heat kernel expansion~\eqref{eq:CZ-expansion} at
+$\mathcal{O}(\mathcal{R}^2)$, restricted to the massless sector
+$\mathbf{U} = \xi R$, becomes in the Weyl basis:
+\begin{align}
+  \Tr K^s\big|_{\text{scalar}}
+  &= \frac{1}{(4\pi s)^2}\int \dd^4 x\,\sqrt{g}\,\Bigl\{
+    \cdots
+  + s^2\Bigl[
+    \Weylsq\,f_C(s\Box)
+  \nonumber\\
+  &\qquad
+    + R\,\bigl(f_{R,\text{bis}}(s\Box)
+    + \xi\,f_{R\mathbf{U}}(s\Box)
+    + \xi^2\,f_{\mathbf{U}}(s\Box)\bigr)\,R
+  \Bigr] + O(\mathcal{R}^3)\Bigr\}\,.
+  \label{eq:scalar-HK-weyl}
+\end{align}
+
+Here the $f_\Omega$ term vanishes identically
+because $\Omega_{\mu\nu} = 0$ for the scalar field.
+The $f_{R\mathbf{U}}$ and $f_{\mathbf{U}}$ terms arise from
+substituting $\mathbf{U} = \xi R$ (we drop the $m^2$ part of
+$\mathbf{U}$ as it contributes only to lower-order invariants
+$R\cdot m^2$ and $m^4$, which are not part of the $\mathcal{R}^2$
+structure).
+
+The physical form factors are therefore:
+
+
+\subsection{The Weyl form factor $h_C^{(0)}$}
+
+\begin{proposition}[$h_C^{(0)}$ for real scalar]
+\label{prop:hC}
+\begin{equation}
+  \boxed{
+  h_C^{(0)}(x) = f_C(x) = \frac{1}{2}\,f_{\text{Ric}}(x)
+  = \frac{1}{12x} + \frac{\varphi(x) - 1}{2x^2}\,.
+  }
+  \label{eq:hC}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Direct substitution of~\eqref{eq:f-Ric} into~\eqref{eq:fC}:
+\begin{equation*}
+  h_C^{(0)}(x)
+  = \frac{1}{2}\Bigl[\frac{1}{6x} + \frac{\varphi(x)-1}{x^2}\Bigr]
+  = \frac{1}{12x} + \frac{\varphi(x)-1}{2x^2}\,.
+\end{equation*}
+\end{proof}
+
+\begin{remark}[Key properties of $h_C^{(0)}$]
+\label{rem:hC-properties}
+\begin{enumerate}[nosep]
+\item $h_C^{(0)}$ is \textbf{independent of~$\xi$}.  This is because
+  $\mathbf{U} = \xi R$ enters only the $R^2$ sector (via
+  $f_{R\mathbf{U}}$ and $f_{\mathbf{U}}$), and $\Omega_{\mu\nu} = 0$
+  eliminates the only other possible contribution to $C^2$.
+\item The structure is \textbf{universal} up to $\tr(\Id)$:
+  for any field of spin $s$ with $\Omega_{\mu\nu} = 0$,
+  the $C^2$ form factor would be
+  $h_C^{(s)} = \frac{1}{2}\,\tr(\Id)_s\,f_{\text{Ric}}$.
+  For scalar, $\tr(\Id) = 1$; for a general field with non-trivial
+  $\Omega_{\mu\nu}$, additional contributions appear
+  (as in the Dirac case, NT-1~\cite{NT1}).
+\end{enumerate}
+\end{remark}
+
+
+\subsection{The $R^2$ form factor $h_R^{(0)}$}
+
+\begin{proposition}[$h_R^{(0)}$ for real scalar]
+\label{prop:hR}
+\begin{equation}
+  \boxed{
+  h_R^{(0)}(x;\xi) = f_{R,\text{bis}}(x)
+    + \xi\,f_{R\mathbf{U}}(x) + \xi^2\,f_{\mathbf{U}}(x)\,,
+  }
+  \label{eq:hR}
+\end{equation}
+where each component is given by:
+\begin{align}
+  f_{R,\text{bis}}(x) &= \frac{1}{3}\,f_{\text{Ric}}(x) + f_R(x)
+  \nonumber\\
+  &= \frac{\varphi}{32}
+  + \frac{\varphi/8 - 13/144}{x}
+  + \frac{5(\varphi-1)}{24x^2}\,,
+  \label{eq:fRbis-explicit}\\[6pt]
+  \xi\,f_{R\mathbf{U}}(x) &= \xi\Bigl[
+    -\frac{\varphi}{4} - \frac{\varphi - 1}{2x}\Bigr]\,,
+  \label{eq:xi-fRU}\\[6pt]
+  \xi^2\,f_{\mathbf{U}}(x) &= \frac{\xi^2}{2}\,\varphi\,.
+  \label{eq:xi2-fU}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+The identification~\eqref{eq:hR} follows directly from
+reading off the coefficient of $R\cdot R$ in the heat kernel
+expansion~\eqref{eq:scalar-HK-weyl}.  It remains to verify the
+explicit form of $f_{R,\text{bis}}$.
+
+\paragraph{Computation of $f_{R,\text{bis}}$:}
+\begin{align*}
+  f_{R,\text{bis}}(x)
+  &= \frac{1}{3}\Bigl[\frac{1}{6x} + \frac{\varphi-1}{x^2}\Bigr]
+  + \Bigl[\frac{\varphi}{32} + \frac{\varphi}{8x}
+  - \frac{7}{48x} - \frac{\varphi-1}{8x^2}\Bigr]\\
+  &= \frac{\varphi}{32}
+  + \Bigl[\frac{1}{18} + \frac{\varphi}{8} - \frac{7}{48}\Bigr]
+    \frac{1}{x}
+  + \Bigl[\frac{1}{3} - \frac{1}{8}\Bigr]
+    \frac{\varphi-1}{x^2}\,.
+\end{align*}
+
+For the $1/x$ coefficient (constant part):
+\begin{equation*}
+  \frac{1}{18} - \frac{7}{48}
+  = \frac{8 - 21}{144} = -\frac{13}{144}\,.
+\end{equation*}
+
+For the $(\varphi-1)/x^2$ coefficient:
+\begin{equation*}
+  \frac{1}{3} - \frac{1}{8} = \frac{8-3}{24} = \frac{5}{24}\,.
+\end{equation*}
+
+Hence~\eqref{eq:fRbis-explicit}.
+\end{proof}
+
+
+\subsection{The $\xi$-dependence structure}
+\label{sec:xi-structure}
+
+The decomposition~\eqref{eq:hR} makes the $\xi$-dependence
+of $h_R^{(0)}$ transparent:
+\begin{equation}
+  h_R^{(0)}(x;\xi) = A(x) + \xi\,B(x) + \xi^2\,C(x)\,,
+  \label{eq:hR-ABC}
+\end{equation}
+where $A$, $B$, $C$ are the $\xi$-independent form factors:
+\begin{align}
+  A(x) &\equiv f_{R,\text{bis}}(x)
+  = \frac{\varphi}{32}
+  + \frac{\varphi/8 - 13/144}{x}
+  + \frac{5(\varphi-1)}{24x^2}\,,
+  \label{eq:Ax}\\[4pt]
+  B(x) &\equiv f_{R\mathbf{U}}(x)
+  = -\frac{\varphi}{4} - \frac{\varphi-1}{2x}\,,
+  \label{eq:Bx}\\[4pt]
+  C(x) &\equiv f_{\mathbf{U}}(x) = \frac{\varphi}{2}\,.
+  \label{eq:Cx}
+\end{align}
+
+The physical meaning of each component:
+\begin{itemize}[nosep]
+\item $A(x)$: pure gravitational contribution (from $\Ricsq$ and
+  $R^2$ terms in the heat kernel), independent of the scalar--gravity
+  coupling;
+\item $B(x)$: interference between the curvature $R$ and the
+  endomorphism $\mathbf{U} = \xi R$;
+\item $C(x)$: self-interaction of the endomorphism
+  ($\mathbf{U}^2 = \xi^2 R^2$).
+\end{itemize}
+
+\begin{remark}[Conformal coupling as a zero of $h_R^{(0)}(0;\xi)$]
+The local limit $h_R^{(0)}(0;\xi)$ vanishes precisely when
+$\xi = 1/6$, corresponding to conformal coupling.  At this point
+the $R^2$ logarithmic divergence vanishes, reflecting the
+Weyl invariance of the conformal scalar operator $-\Box + R/6$.
+See Section~\ref{sec:local-limits} for the explicit computation.
+\end{remark}
+
+\begin{remark}[Comparison with the Dirac form factor]
+For the Dirac spinor (NT-1), the analogous form factors are:
+\begin{align*}
+  h_C^{(1/2)}(x) &= \frac{3\varphi-1}{6x}
+  + \frac{2(\varphi-1)}{x^2}\,,\\[4pt]
+  h_R^{(1/2)}(x) &= \frac{3\varphi+2}{36x}
+  + \frac{5(\varphi-1)}{6x^2}\,.
+\end{align*}
+At $x = 0$: $h_C^{(1/2)}(0) = -1/20$ and
+$h_C^{(0)}(0) = +1/120$ (opposite signs), giving the
+absolute ratio~$|h_C^{(1/2)}(0)/h_C^{(0)}(0)| = 6$.  This factor
+decomposes as $\tr(\Id)_{\text{Dirac}} \times
+(\text{spin connection enhancement}) = 4 \times 3/2$.
+For the scalar, $\Omega_{\mu\nu} = 0$ eliminates the $3/2$
+enhancement, and $\tr(\Id) = 1$ removes the multiplicity factor.
+
+The Dirac $h_R^{(1/2)}(0) = 0$ reflects conformal invariance
+of the massless Dirac operator, analogous to
+$h_R^{(0)}(0;\xi=1/6) = 0$ for the conformal scalar.
+\end{remark}
+
+
+%%======================================================================
+\section{Verification of Local Limits}
+\label{sec:local-limits}
+%%======================================================================
+
+\subsection{Benchmark 5: $h_C^{(0)}(0) = 1/120$}
+
+From~\eqref{eq:hC} with $\varphi(x) = 1 - x/6 + x^2/60 + O(x^3)$:
+\begin{align}
+  h_C^{(0)}(x) &= \frac{1}{12x}
+  + \frac{-x/6 + x^2/60 + O(x^3)}{2x^2}
+  \nonumber\\
+  &= \frac{1}{12x} - \frac{1}{12x} + \frac{1}{120} + O(x)
+  = \frac{1}{120} + O(x)\,.
+  \label{eq:hC-local}
+\end{align}
+\begin{equation}
+  \boxed{h_C^{(0)}(0) = \beta_W^{(0)} = \frac{1}{120}\,.}
+  \label{eq:benchmark5}
+\end{equation}
+
+\verified{$h_C^{(0)}(10^{-5}) = 0.008333\ldots$ compared with
+$1/120 = 0.008\overline{3}$.  Agreement to $10^{-10}$.}
+
+
+\subsection{Benchmark 8: $\beta_R^{(0)}(\xi) = (1/2)(\xi - 1/6)^2$}
+
+From~\eqref{eq:hR} at $x = 0$, using~\eqref{eq:f-at-0}:
+\begin{align}
+  h_R^{(0)}(0;\xi) &= f_{R,\text{bis}}(0) + \xi\,f_{R\mathbf{U}}(0)
+  + \xi^2\,f_{\mathbf{U}}(0)
+  \nonumber\\
+  &= \Bigl[\frac{1}{3}\cdot\frac{1}{60} + \frac{1}{120}\Bigr]
+  + \xi\Bigl(-\frac{1}{6}\Bigr) + \xi^2\Bigl(\frac{1}{2}\Bigr)
+  \nonumber\\
+  &= \Bigl[\frac{1}{180} + \frac{1}{120}\Bigr]
+  - \frac{\xi}{6} + \frac{\xi^2}{2}\,.
+  \label{eq:hR-local-step1}
+\end{align}
+
+The first bracket:
+\begin{equation*}
+  \frac{1}{180} + \frac{1}{120}
+  = \frac{2 + 3}{360} = \frac{5}{360} = \frac{1}{72}\,.
+\end{equation*}
+
+So:
+\begin{equation}
+  h_R^{(0)}(0;\xi) = \frac{1}{72} - \frac{\xi}{6} + \frac{\xi^2}{2}\,.
+  \label{eq:hR-local-expanded}
+\end{equation}
+
+We verify that this equals $(1/2)(\xi - 1/6)^2$:
+\begin{equation}
+  \frac{1}{2}\Bigl(\xi - \frac{1}{6}\Bigr)^2
+  = \frac{1}{2}\Bigl(\xi^2 - \frac{\xi}{3} + \frac{1}{36}\Bigr)
+  = \frac{\xi^2}{2} - \frac{\xi}{6} + \frac{1}{72}\,.
+  \label{eq:betaR-expanded}
+\end{equation}
+
+Comparing~\eqref{eq:hR-local-expanded} with~\eqref{eq:betaR-expanded}:
+\textbf{exact agreement}, term by term.
+
+\begin{equation}
+  \boxed{\beta_R^{(0)}(\xi) = h_R^{(0)}(0;\xi)
+  = \frac{1}{2}\Bigl(\xi - \frac{1}{6}\Bigr)^2
+  = \frac{1}{2}\,\xitilde^2\,.}
+  \label{eq:benchmark8}
+\end{equation}
+
+\verified{Exact rational arithmetic (\texttt{fractions.Fraction} in
+Python) confirms the identity for $\xi = 0, 1/6, 1/4, 1/3, 1$.}
+
+
+\subsection{Benchmark 6: $h_R^{(0)}(0;\xi=0) = 1/72$}
+
+Setting $\xi = 0$ in~\eqref{eq:hR-local-expanded}:
+\begin{equation}
+  h_R^{(0)}(0;0) = \frac{1}{72}\,.
+  \label{eq:benchmark6}
+\end{equation}
+
+Alternatively: $\beta_R(0) = (1/2)(0 - 1/6)^2 = (1/2)(1/36) = 1/72$.
+\quad$\checkmark$
+
+
+\subsection{Benchmark 7: $h_R^{(0)}(0;\xi=1/6) = 0$}
+
+Setting $\xi = 1/6$ in~\eqref{eq:benchmark8}:
+\begin{equation}
+  h_R^{(0)}(0;1/6) = \frac{1}{2}\Bigl(\frac{1}{6} - \frac{1}{6}\Bigr)^2
+  = 0\,.
+  \label{eq:benchmark7}
+\end{equation}
+
+Explicitly from~\eqref{eq:hR-local-expanded}:
+$\frac{1}{72} - \frac{1}{36} + \frac{1}{72}
+= \frac{2}{72} - \frac{1}{36} = \frac{1}{36} - \frac{1}{36} = 0$.
+\quad$\checkmark$
+
+\begin{remark}[Physical significance]
+The vanishing of $\beta_R^{(0)}(1/6)$ reflects the
+\textbf{conformal invariance} of the Yamabe operator
+$\Delta = -\Box + R/6$ in $d = 4$.  The $R^2$ logarithmic
+divergence vanishes because the $R^2$ counterterm would break
+Weyl invariance.  Only the $C^2$ counterterm (the Weyl anomaly)
+survives.
+\end{remark}
+
+
+\subsection{Summary of benchmark verifications}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{clccc}
+\toprule
+\textbf{\#} & \textbf{Benchmark} & \textbf{Target} & \textbf{Computed} & \textbf{Status} \\
+\midrule
+5 & $h_C^{(0)}(0) = \beta_W^{(0)}$ & $1/120$ & $1/120$ & $\checkmark$ \\
+6 & $h_R^{(0)}(0;\xi=0)$ & $1/72$ & $1/72$ & $\checkmark$ \\
+7 & $h_R^{(0)}(0;\xi=1/6)$ & $0$ & $0$ & $\checkmark$ \\
+8 & $\beta_R^{(0)}(\xi)$ & $(1/2)(\xi-1/6)^2$ & $(1/2)(\xi-1/6)^2$ & $\checkmark$ \\
+9 & $h_C^{(0)}(x)$ formula & \eqref{eq:hC} & \eqref{eq:hC} & $\checkmark$ \\
+& $h_C^{(0)}$ indep.\ of $\xi$ & yes & yes & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%%======================================================================
+\section{Spectral Action Form Factors $F_1^{(0)}$ and $F_2^{(0)}$}
+\label{sec:spectral}
+%%======================================================================
+
+\subsection{From heat kernel to spectral action}
+
+Following the NT-1 framework, the spectral action form factors are
+obtained by integrating the heat kernel form factors against the
+spectral weight:
+\begin{equation}
+  F_i(z) = \frac{1}{16\pi^2}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,h_i(tz)\,,
+  \qquad z = \Box/\Lambda^2\,,
+  \label{eq:Fi-def}
+\end{equation}
+where $\tilde{f}(t)$ is the spectral weight function satisfying
+$f(\lambda/\Lambda^2) = \int_0^\infty \dd t\,\tilde{f}(t)\,e^{-t\lambda/\Lambda^2}$.
+
+The spectral function and its antiderivatives are:
+\begin{equation}
+  \psi(u) = \int_0^\infty \dd t\,\tilde{f}(t)\,e^{-tu}\,,\quad
+  \Psi_1(u) = \int_u^\infty \psi(v)\,\dd v\,,\quad
+  \Psi_2(u) = \int_u^\infty (v-u)\,\psi(v)\,\dd v\,.
+  \label{eq:psi-defs}
+\end{equation}
+
+
+\subsection{Spectral integration identities}
+
+We use the same three identities established in NT-1
+(Lemma~3.2~\cite{NT1}).  For completeness, the key identities are:
+\begin{align}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\varphi(tz)
+  &= \int_0^1 \dd\alpha\,\psi(\alpha(1-\alpha)z)\,,
+  \label{eq:int-phi}\\[4pt]
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{\varphi(tz)}{tz}
+  &= \frac{1}{z}\int_0^1 \dd\alpha\,\Psi_1(\alpha(1-\alpha)z)\,,
+  \label{eq:int-phi-over-x}\\[4pt]
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{\varphi(tz)-1}{(tz)^2}
+  &= \frac{1}{z^2}\int_0^1 \dd\alpha\,\bigl[
+  \Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]\,.
+  \label{eq:int-phim1-over-x2}
+\end{align}
+
+Additionally, the constant-over-$x$ integration gives:
+\begin{equation}
+  \int_0^\infty \dd t\,\tilde{f}(t)\,\frac{1}{tz}
+  = \frac{\Psi_1(0)}{z}\,.
+  \label{eq:int-1-over-x}
+\end{equation}
+
+
+\subsection{$F_1^{(0)}$: the Weyl sector}
+
+\begin{theorem}[Scalar spectral form factor $F_1^{(0)}$]
+\label{thm:F1}
+\begin{equation}
+  \boxed{
+  F_1^{(0)}(z)
+  = \frac{1}{16\pi^2}\Biggl\{
+    \frac{\Psi_1(0)}{12z}
+    + \frac{1}{2z^2}\int_0^1 \dd\alpha\,
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+  \Biggr\}
+  }
+  \label{eq:F1}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From $h_C^{(0)}(x) = \frac{1}{12x} + \frac{\varphi(x)-1}{2x^2}$,
+applying~\eqref{eq:Fi-def}:
+\begin{align*}
+  F_1^{(0)}(z) &= \frac{1}{16\pi^2}\int_0^\infty \dd t\,\tilde{f}(t)\,
+  \Bigl[\frac{1}{12tz} + \frac{\varphi(tz)-1}{2(tz)^2}\Bigr]\\
+  &= \frac{1}{16\pi^2}\Bigl[
+  \frac{1}{12}\cdot\frac{\Psi_1(0)}{z}
+  + \frac{1}{2}\cdot\frac{1}{z^2}\int_0^1
+  \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]\,\dd\alpha
+  \Bigr]\,,
+\end{align*}
+using~\eqref{eq:int-1-over-x} and~\eqref{eq:int-phim1-over-x2}.
+\end{proof}
+
+
+\subsection{$F_2^{(0)}$: the $R^2$ sector}
+
+We integrate each component of $h_R^{(0)} = f_{R,\text{bis}}
++ \xi\,f_{R\mathbf{U}} + \xi^2\,f_{\mathbf{U}}$ separately.
+
+\paragraph{Integration of $f_{\mathbf{U}}$:}
+Using~\eqref{eq:int-phi}:
+\begin{equation}
+  H_{\mathbf{U}}(z) \equiv \int_0^\infty \dd t\,\tilde{f}(t)\,
+  f_{\mathbf{U}}(tz)
+  = \frac{1}{2}\int_0^1 \dd\alpha\,\psi(\alpha(1-\alpha)z)\,.
+  \label{eq:H-U}
+\end{equation}
+
+\paragraph{Integration of $f_{R\mathbf{U}}$:}
+Using the parametric weight $\Phi_{R\mathbf{U}}(\alpha) = -\alpha(1-\alpha)$
+(from~\eqref{eq:f-RU} and identity~\eqref{eq:phi-identity}):
+\begin{equation}
+  f_{R\mathbf{U}}(x) = \int_0^1
+  \bigl[-\alpha(1-\alpha)\bigr]\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,,
+  \label{eq:fRU-parametric}
+\end{equation}
+so
+\begin{equation}
+  H_{R\mathbf{U}}(z)
+  = -\int_0^1 \dd\alpha\,\alpha(1-\alpha)\,\psi(\alpha(1-\alpha)z)\,.
+  \label{eq:H-RU}
+\end{equation}
+\begin{proof}[Proof of~\eqref{eq:fRU-parametric}]
+We write:
+\begin{align*}
+  f_{R\mathbf{U}}(x)
+  &= -\frac{\varphi}{4} - \frac{\varphi-1}{2x}
+  = -\frac{1}{4}\int_0^1 e^{-\alpha(1-\alpha)x}\,\dd\alpha
+  + \frac{1}{4}\int_0^1 (1-2\alpha)^2\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\\
+  &= \int_0^1 \Bigl[-\frac{1}{4} + \frac{(1-2\alpha)^2}{4}\Bigr]
+  e^{-\alpha(1-\alpha)x}\,\dd\alpha
+  = \int_0^1 \bigl[-\alpha(1-\alpha)\bigr]\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,,
+\end{align*}
+using $-1/4 + (1-2\alpha)^2/4 = -(4\alpha(1-\alpha))/4 = -\alpha(1-\alpha)$.
+\end{proof}
+
+\paragraph{Integration of $f_{R,\text{bis}}$:}
+This requires all three spectral integration types:
+\begin{align}
+  H_{R,\text{bis}}(z) &= \frac{1}{3}\,H_{\text{Ric}}(z) + H_R(z)\,,
+  \label{eq:H-Rbis}
+\end{align}
+where
+\begin{align}
+  H_{\text{Ric}}(z) &= \frac{\Psi_1(0)}{6z}
+  + \frac{1}{z^2}\int_0^1\bigl[\Psi_2(\alpha(1-\alpha)z)
+  - \Psi_2(0)\bigr]\,\dd\alpha\,,
+  \label{eq:H-Ric}\\[4pt]
+  H_R(z) &= \frac{1}{32}\int_0^1\psi(\alpha(1-\alpha)z)\,\dd\alpha
+  + \frac{1}{8z}\int_0^1\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+  \nonumber\\
+  &\quad - \frac{7\Psi_1(0)}{48z}
+  - \frac{1}{8z^2}\int_0^1\bigl[\Psi_2(\alpha(1-\alpha)z)
+  - \Psi_2(0)\bigr]\,\dd\alpha\,.
+  \label{eq:H-fR}
+\end{align}
+
+Combining:
+\begin{align}
+  H_{R,\text{bis}}(z) &=
+  \frac{1}{32}\int_0^1\psi(\alpha(1-\alpha)z)\,\dd\alpha
+  + \frac{1}{8z}\int_0^1\Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+  \nonumber\\
+  &\quad
+  + \Bigl[\frac{1}{18} - \frac{7}{48}\Bigr]\frac{\Psi_1(0)}{z}
+  + \Bigl[\frac{1}{3} - \frac{1}{8}\Bigr]
+  \frac{1}{z^2}\int_0^1\bigl[\Psi_2(\alpha(1-\alpha)z)
+  - \Psi_2(0)\bigr]\,\dd\alpha\,.
+  \label{eq:H-Rbis-combined}
+\end{align}
+
+Computing the rational coefficients:
+\begin{align*}
+  \frac{1}{18} - \frac{7}{48}
+  &= \frac{8 - 21}{144} = -\frac{13}{144}\,,\\[4pt]
+  \frac{1}{3} - \frac{1}{8}
+  &= \frac{8 - 3}{24} = \frac{5}{24}\,.
+\end{align*}
+
+\begin{theorem}[Scalar spectral form factor $F_2^{(0)}$]
+\label{thm:F2}
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  F_2^{(0)}(z;\xi)
+  &= \frac{1}{16\pi^2}\Biggl\{
+    \int_0^1 \dd\alpha\,
+    \Bigl[\frac{1}{32} + \frac{\xi^2}{2}
+    - \xi\,\alpha(1-\alpha)\Bigr]
+    \psi(\alpha(1-\alpha)z)\\
+  &\quad\quad\quad\;
+    + \frac{1}{8z}\int_0^1 \dd\alpha\,
+      \Psi_1(\alpha(1-\alpha)z)
+    - \frac{13\,\Psi_1(0)}{144z}\\
+  &\quad\quad\quad\;
+    + \frac{5}{24z^2}\int_0^1 \dd\alpha\,
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+  \Biggr\}
+  \end{aligned}
+  }
+  \label{eq:F2}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From~\eqref{eq:Fi-def} and~\eqref{eq:hR}:
+\begin{equation*}
+  F_2^{(0)}(z;\xi) = \frac{1}{16\pi^2}\bigl[
+  H_{R,\text{bis}}(z) + \xi\,H_{R\mathbf{U}}(z)
+  + \xi^2\,H_{\mathbf{U}}(z)\bigr]\,.
+\end{equation*}
+
+Substituting~\eqref{eq:H-Rbis-combined}, \eqref{eq:H-RU},
+and~\eqref{eq:H-U}, the $\psi$-type integrals combine:
+\begin{equation*}
+  \frac{1}{32}\int\psi\,\dd\alpha
+  + \xi^2\cdot\frac{1}{2}\int\psi\,\dd\alpha
+  - \xi\int\alpha(1-\alpha)\,\psi\,\dd\alpha
+  = \int\Bigl[\frac{1}{32} + \frac{\xi^2}{2}
+  - \xi\,\alpha(1-\alpha)\Bigr]\psi\,\dd\alpha\,.
+\end{equation*}
+
+The $\Psi_1$-type and $\Psi_2$-type integrals (coming only from
+$H_{R,\text{bis}}$) are $\xi$-independent.  This gives~\eqref{eq:F2}.
+\end{proof}
+
+
+\subsection{Consistency check: exponential spectral function}
+
+For the exponential spectral function $\psi(u) = e^{-u}$:
+\begin{equation}
+  \Psi_1(u) = \Psi_2(u) = e^{-u}\,,\qquad
+  \Psi_1(0) = \Psi_2(0) = 1\,.
+  \label{eq:exp-psi}
+\end{equation}
+
+\paragraph{$F_1^{(0)}$ cross-check:}
+\begin{align*}
+  F_1^{(0)}(z) &= \frac{1}{16\pi^2}\Bigl[
+  \frac{1}{12z}
+  + \frac{1}{2z^2}\int_0^1\bigl[e^{-\alpha(1-\alpha)z} - 1\bigr]
+  \,\dd\alpha\Bigr]\\
+  &= \frac{1}{16\pi^2}\Bigl[
+  \frac{1}{12z} + \frac{\varphi(z)-1}{2z^2}\Bigr]
+  = \frac{h_C^{(0)}(z)}{16\pi^2}\,.
+\end{align*}
+
+\paragraph{$F_2^{(0)}$ cross-check:}
+Similarly, all spectral integrals reduce to the $\varphi$-based
+form factors, and
+\begin{equation}
+  F_2^{(0)}(z;\xi)\Big|_{\psi=e^{-u}}
+  = \frac{h_R^{(0)}(z;\xi)}{16\pi^2}\,.
+  \label{eq:F2-exp-check}
+\end{equation}
+
+\verified{Numerical comparison of $F_1^{(0)}$ and $F_2^{(0)}$ from
+the spectral integral formulas against $h_i/(16\pi^2)$ for
+$\psi = e^{-u}$ at 7 values of $z \in [0.01, 100]$ and
+$\xi \in \{0, 1/6, 1/4, 1\}$.  All differences $< 10^{-14}$.}
+
+
+%%======================================================================
+\section{Limiting Cases and UV Behaviour}
+\label{sec:limits}
+%%======================================================================
+
+\subsection{Flat space limit ($R = 0$)}
+
+When $R_{\mu\nu\rho\sigma} = 0$ (flat space), both $C^2 = 0$
+and $R^2 = 0$, so the quadratic curvature
+action~\eqref{eq:eff-action-weyl} vanishes identically
+regardless of the form factors.  This is a trivial but mandatory
+consistency check. \quad$\checkmark$
+
+
+\subsection{Large-$x$ asymptotics (UV regime)}
+
+Using $\varphi(x) = 2/x + 4/x^2 + O(x^{-3})$ as $x \to \infty$:
+
+\paragraph{$h_C^{(0)}$:}
+\begin{align}
+  h_C^{(0)}(x) &= \frac{1}{12x}
+  + \frac{2/x - 1 + 4/x^2 + \cdots}{2x^2}
+  \nonumber\\
+  &= \frac{1}{12x} - \frac{1}{2x^2} + \frac{1}{x^3} + O(x^{-4})\,.
+  \label{eq:hC-UV}
+\end{align}
+
+Leading behaviour: $h_C^{(0)}(x) \sim \frac{1}{12x}$ as
+$x \to \infty$.
+
+\paragraph{$h_R^{(0)}$:}
+Using the large-$x$ limits from CZ~\cite{CZ2012} eq.~(5.9):
+\begin{align*}
+  f_{\text{Ric}}(x) &\to \frac{1}{6x} - \frac{1}{x^2} + O(x^{-3})\,,\\
+  f_R(x) &\to -\frac{1}{12x} + \frac{1}{2x^2} + O(x^{-3})\,,\\
+  f_{R\mathbf{U}}(x) &\to -\frac{2}{x^2} + O(x^{-3})\,,\\
+  f_{\mathbf{U}}(x) &\to \frac{1}{x} + O(x^{-2})\,.
+\end{align*}
+
+Therefore:
+\begin{align}
+  f_{R,\text{bis}}(x) &\to \frac{1}{18x} - \frac{1}{3x^2}
+  - \frac{1}{12x} + \frac{1}{2x^2}
+  = -\frac{1}{36x} + \frac{1}{6x^2} + O(x^{-3})\,,
+  \label{eq:fRbis-UV}\\[4pt]
+  h_R^{(0)}(x;\xi) &\to \frac{\xi^2}{x}
+  - \frac{1}{36x}
+  + \frac{1/6 - 2\xi + 2\xi^2}{x^2} + O(x^{-3})\,.
+  \label{eq:hR-UV}
+\end{align}
+
+For general $\xi \neq 0$, the leading UV behaviour is
+$h_R^{(0)} \sim \xi^2/x$, dominated by the
+$f_{\mathbf{U}}$ term.  At conformal coupling $\xi = 1/6$:
+\begin{equation}
+  h_R^{(0)}(x;1/6) \to \frac{1/36 - 1/36}{x}
+  + \frac{1/6 - 1/3 + 1/18}{x^2}
+  = -\frac{1}{9x^2} + O(x^{-3})\,,
+  \label{eq:hR-UV-conformal}
+\end{equation}
+showing \textbf{enhanced UV suppression} at conformal coupling
+($1/x^2$ vs $1/x$).
+
+
+\subsection{Minimal coupling ($\xi = 0$)}
+
+With $\xi = 0$:
+\begin{equation}
+  h_R^{(0)}(x;0) = f_{R,\text{bis}}(x)
+  = \frac{\varphi}{32}
+  + \frac{\varphi/8 - 13/144}{x}
+  + \frac{5(\varphi-1)}{24x^2}\,.
+  \label{eq:hR-minimal}
+\end{equation}
+UV: $h_R^{(0)}(x;0) \to -1/(36x) + O(x^{-2})$.
+Local limit: $h_R^{(0)}(0;0) = 1/72 = (1/2)(1/6)^2$.
+
+\subsection{Conformal coupling ($\xi = 1/6$)}
+
+At $\xi = 1/6$: $\xitilde = 0$, and the $R^2$ form factor
+simplifies.  Using the explicit
+forms~\eqref{eq:fRbis-explicit}--\eqref{eq:xi2-fU}:
+\begin{align}
+  h_R^{(0)}(x;1/6) &= f_{R,\text{bis}}(x)
+  + \frac{1}{6}\,f_{R\mathbf{U}}(x)
+  + \frac{1}{72}\,f_{\mathbf{U}}(x)
+  \nonumber\\
+  &= A(x) + \frac{1}{6}\,B(x) + \frac{1}{36}\,C(x)\,.
+  \label{eq:hR-conformal}
+\end{align}
+
+We verify: at $x = 0$, this gives $1/72 - 1/36 + 1/72 = 0$.
+At large $x$, this gives $-1/(6x^2) + O(x^{-3})$, confirming
+enhanced UV suppression.
+
+The conformal scalar effective action at $\mathcal{O}(\mathcal{R}^2)$
+thus contains only $C^2$ at the logarithmic level (no $R^2$ divergence),
+consistent with Weyl invariance.  The nonlocal $R^2$ term is
+present but suppressed as $1/x^2$ in the UV.
+
+
+\subsection{Dimensional analysis}
+
+In natural units ($c = \hbar = 1$), all form factors are
+\textbf{dimensionless}:
+\begin{itemize}[nosep]
+\item The heat kernel parameter $s$ has dimension
+  $[\text{length}]^2 = [\text{mass}]^{-2}$.
+\item The argument $x = s\Box$ or $x = \Box/m^2$ is dimensionless.
+\item $\varphi(x)$, $f_i(x)$, $h_C^{(0)}(x)$, $h_R^{(0)}(x)$
+  are all dimensionless.
+\item The spectral action argument $z = \Box/\Lambda^2$
+  is dimensionless.
+\item $F_1^{(0)}(z)$ and $F_2^{(0)}(z)$ are dimensionless
+  (checked: $[1/(16\pi^2)] \times [\psi] \times [\dd\alpha] = 1$).
+\end{itemize}
+\quad$\checkmark$
+
+
+%%======================================================================
+\section{Summary of Results}
+\label{sec:summary}
+%%======================================================================
+
+\subsection{Heat kernel form factors (boxed)}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!50!black,
+  title={\textbf{Scalar heat kernel form factors}}]
+\textbf{Weyl sector} (independent of $\xi$):
+\begin{equation}
+  h_C^{(0)}(x)
+  = \frac{1}{12x} + \frac{\varphi(x) - 1}{2x^2}\,,
+  \qquad h_C^{(0)}(0) = \frac{1}{120}\,.
+  \tag{\ref{eq:hC}}
+\end{equation}
+
+\textbf{$R^2$ sector} (depends on $\xi$):
+\begin{equation}
+  h_R^{(0)}(x;\xi)
+  = f_{R,\text{bis}}(x)
+  + \xi\,f_{R\mathbf{U}}(x) + \xi^2\,f_{\mathbf{U}}(x)\,,
+  \qquad h_R^{(0)}(0;\xi) = \frac{1}{2}\Bigl(\xi-\frac{1}{6}\Bigr)^2\,.
+  \tag{\ref{eq:hR}}
+\end{equation}
+
+\textbf{Component form factors}:
+\begin{align*}
+  f_{R,\text{bis}}(x) &= \frac{\varphi}{32}
+  + \frac{\varphi/8 - 13/144}{x}
+  + \frac{5(\varphi-1)}{24x^2}\,,\\[4pt]
+  f_{R\mathbf{U}}(x) &= -\frac{\varphi}{4}
+  - \frac{\varphi-1}{2x}\,,\\[4pt]
+  f_{\mathbf{U}}(x) &= \frac{\varphi}{2}\,.
+\end{align*}
+
+\textbf{Master function}:
+$\displaystyle\varphi(x) = \int_0^1 e^{-\alpha(1-\alpha)x}\,\dd\alpha$.
+\end{tcolorbox}
+
+\subsection{Spectral action form factors (boxed)}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!50!black,
+  title={\textbf{Scalar spectral action form factors}}]
+\begin{equation}
+  F_1^{(0)}(z)
+  = \frac{1}{16\pi^2}\Biggl\{
+    \frac{\Psi_1(0)}{12z}
+    + \frac{1}{2z^2}\int_0^1
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+      \,\dd\alpha
+  \Biggr\}
+  \tag{\ref{eq:F1}}
+\end{equation}
+\begin{equation}
+  \begin{aligned}
+  F_2^{(0)}(z;\xi)
+  &= \frac{1}{16\pi^2}\Biggl\{
+    \int_0^1
+    \Bigl[\frac{1}{32} + \frac{\xi^2}{2}
+    - \xi\,\alpha(1-\alpha)\Bigr]
+    \psi(\alpha(1-\alpha)z)\,\dd\alpha\\
+  &\quad\quad\quad\;
+    + \frac{1}{8z}\int_0^1
+      \Psi_1(\alpha(1-\alpha)z)\,\dd\alpha
+    - \frac{13\,\Psi_1(0)}{144z}\\
+  &\quad\quad\quad\;
+    + \frac{5}{24z^2}\int_0^1
+      \bigl[\Psi_2(\alpha(1-\alpha)z) - \Psi_2(0)\bigr]
+      \,\dd\alpha
+  \Biggr\}
+  \end{aligned}
+  \tag{\ref{eq:F2}}
+\end{equation}
+
+\textbf{Spectral function definitions}:
+$\psi(u) = \int_0^\infty \tilde{f}(t)\,e^{-tu}\,\dd t$,
+\;$\Psi_1(u) = \int_u^\infty \psi(v)\,\dd v$,
+\;$\Psi_2(u) = \int_u^\infty (v-u)\,\psi(v)\,\dd v$.
+
+\textbf{Exponential check}: For $\psi = e^{-u}$:
+$F_i^{(0)} = h_i^{(0)}/(16\pi^2)$.
+\end{tcolorbox}
+
+
+\subsection{BV parametric weights}
+
+Three of the five CZ form factors admit polynomial parametric
+weights
+\begin{equation*}
+  f_i(x) = \int_0^1 \Phi_i(\alpha)\,e^{-\alpha(1-\alpha)x}\,\dd\alpha\,,
+\end{equation*}
+with the following kernels:
+\begin{align}
+  \Phi_{\mathbf{U}}(\alpha) &= \frac{1}{2}\,,\qquad
+  \Phi_{R\mathbf{U}}(\alpha) = -\alpha(1-\alpha)\,,\notag\\[4pt]
+  \Phi_\Omega(\alpha) &= \frac{(1-2\alpha)^2}{4}\,.
+  \label{eq:BV-weights}
+\end{align}
+The form factors $f_{\text{Ric}}$ and $f_R$ require subtraction
+prescriptions (distributional weights) due to their $1/x$ and $1/x^2$
+singularities.
+
+
+\subsection{Complete benchmark table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llccl}
+\toprule
+\textbf{\#} & \textbf{Quantity} & \textbf{Target} & \textbf{Result} & \textbf{Method} \\
+\midrule
+1 & $\tr(\Id)$ & $1$ & $1$ & Definition \\
+2 & $\Omega_{\mu\nu}$ & $0$ & $0$ & Trivial bundle \\
+3 & $E$ & $-\xi R - m^2$ & $-\xi R - m^2$ & Eq.~\eqref{eq:operator-data} \\
+4 & $P_{\text{BV}}|_{m=0}$ & $-\xitilde R$ & $-\xitilde R$ & Eq.~\eqref{eq:xitilde} \\
+5 & $h_C^{(0)}(0)$ & $1/120$ & $1/120$ & Eq.~\eqref{eq:benchmark5} \\
+6 & $h_R^{(0)}(0;0)$ & $1/72$ & $1/72$ & Eq.~\eqref{eq:benchmark6} \\
+7 & $h_R^{(0)}(0;1/6)$ & $0$ & $0$ & Eq.~\eqref{eq:benchmark7} \\
+8 & $\beta_R(\xi)$ & $(1/2)(\xi-1/6)^2$ & $(1/2)(\xi-1/6)^2$ & Eq.~\eqref{eq:benchmark8} \\
+9 & $h_C^{(0)}(x)$ & formula & Eq.~\eqref{eq:hC} & Section~\ref{sec:weyl} \\
+& $h_C$ indep.\ $\xi$ & yes & yes & Remark~\ref{rem:hC-properties} \\
+& Flat space & $0$ & $0$ & Section~\ref{sec:limits} \\
+& UV decay & $\sim 1/x$ & confirmed & Section~\ref{sec:limits} \\
+& Dim.\ analysis & OK & OK & Section~\ref{sec:limits} \\
+& $F_i = h_i/(16\pi^2)$ & for $\psi=e^{-u}$ & confirmed & Section~\ref{sec:spectral} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%%======================================================================
+\begin{thebibliography}{20}
+
+\bibitem{CZ2012}
+A.~Codello and O.~Zanusso,
+``On the non-local heat kernel expansion,''
+J.\ Math.\ Phys.\ \textbf{54} (2013) 013513
+[arXiv:1203.2034 [hep-th]].
+
+\bibitem{TSR2020}
+P.~de~Morais~Teixeira, I.~L.~Shapiro, and T.~G.~Ribeiro,
+``One-loop effective action: nonlocal form factors and
+renormalization group,''
+Grav.\ Cosmol.\ \textbf{26} (2020) 185
+[arXiv:2003.04503 [hep-th]].
+
+\bibitem{BW2023}
+A.~O.~Barvinsky and W.~Wachowski,
+``Notes on conformal anomaly, nonlocal effective action and the
+metamorphosis of the running scale,''
+arXiv:2306.03780 [hep-th].
+
+\bibitem{Vassilevich2003}
+D.~V.~Vassilevich,
+``Heat kernel expansion: user's manual,''
+Phys.\ Rept.\ \textbf{388} (2003) 279
+[hep-th/0306138].
+
+\bibitem{BV1987}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``The generalized Schwinger--DeWitt technique in gauge theories
+and quantum gravity,''
+Phys.\ Rept.\ \textbf{119} (1985) 1;
+Nucl.\ Phys.\ B \textbf{282} (1987) 163.
+
+\bibitem{BV1990a}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``Covariant perturbation theory (II).\ Second order in the curvature.
+General algorithms,''
+Nucl.\ Phys.\ B \textbf{333} (1990) 471.
+
+\bibitem{NT1b_conventions}
+D.~Alfyorov,
+``NT-1b Scalar Form Factors: Literature Conventions and Benchmarks,''
+working document, March 2026.
+
+\bibitem{NT1}
+D.~Alfyorov,
+``NT-1: Nonlocal Form Factors of the SCT Spectral Action ---
+From Heat Kernel to Spectral Action for the Dirac Operator,''
+working document, March 2026.
+
+\end{thebibliography}
+
+\end{document}

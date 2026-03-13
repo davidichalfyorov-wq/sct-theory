@@ -1,0 +1,1559 @@
+%%======================================================================
+%%  NT-1: Literature Extraction & Convention Fixing
+%%        for SCT Nonlocal Form Factor Computation
+%%
+%%  This document collects formulas from the literature needed to
+%%  explicitly compute F_1(\Box/\Lambda^2) and F_2(\Box/\Lambda^2)
+%%  from the SCT spectral action Tr(f(D^2/\Lambda^2)).
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs sign check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\approxlit}{\textcolor{orange!70!black}{\textsf{[approximate]}}}
+
+%% ---- sign correction annotation -------------------------------------
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-1: Literature \& Conventions for Form Factors}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-1: Literature Extraction \& Convention Fixing\\[4pt]
+       for SCT Nonlocal Form Factor Computation}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all formulas, conventions, and computational
+recipes needed to explicitly derive the nonlocal form factors
+$F_1(\Box/\Lambda^2)$ and $F_2(\Box/\Lambda^2)$ from the SCT spectral
+action $\Tr(f(D^2/\Lambda^2))$.  All formulas are extracted from the
+literature; no original derivations are performed.  Each formula is
+annotated with its source, equation number, and whether it matches our
+sign conventions.  Gaps are noted explicitly.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item Barvinsky--Vilkovisky (BV): Nucl.\ Phys.\ B \textbf{282} (1987) 163;
+  B \textbf{333} (1990) 471, 512; arXiv:0911.1168.
+\item Avramidi: Phys.\ Lett.\ B \textbf{236} (1990) 443;
+  B \textbf{238} (1990) 92; hep-th/9704166.
+\item Codello--Zanusso (CZ): arXiv:1203.2034.
+\item Vassilevich: Phys.\ Rept.\ \textbf{388} (2003) 279
+  [hep-th/0306138].
+\item Iochum--Levy--Vassilevich (ILV): arXiv:1108.3749; 1201.6637.
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Conventions}
+\label{sec:conventions}
+%%======================================================================
+
+All conventions are fixed here and \textbf{must be used consistently}
+throughout the NT-1 computation.  Where references differ, we note the
+conversion.
+
+\subsection{Spacetime and metric}
+
+\begin{convention}[Metric signature]
+\oursign\;
+We use the \textbf{mostly-plus} Lorentzian signature:
+\begin{equation}
+  \eta_{\mu\nu} = \operatorname{diag}(-1,+1,+1,+1)\,.
+  \label{eq:signature}
+\end{equation}
+For the heat kernel computation we Wick-rotate to \textbf{Euclidean
+signature} $(+,+,+,+)$.  The Euclidean metric is denoted $g_{\mu\nu}$
+(positive definite).
+\end{convention}
+
+\begin{remark}
+Vassilevich~\cite{Vassilevich2003}, Codello--Zanusso~\cite{CZ2012},
+and the BV series~\cite{BV1987,BV1990a} all work in Euclidean
+signature.  No sign adjustment needed for formulas extracted from
+these sources (they are already Euclidean).  The Wick rotation from
+our Lorentzian convention is
+$t \to -\ii\tau$, $g^{00}_L = -1 \to g^{00}_E = +1$.
+\end{remark}
+
+\begin{convention}[Spacetime dimension]
+$d = 4$ for all final results.  Intermediate formulas are kept
+general in $d$ where possible.
+\end{convention}
+
+
+\subsection{Curvature tensors}
+
+\begin{convention}[Riemann tensor]
+\oursign\;
+\begin{equation}
+  R^{\rho}{}_{\sigma\mu\nu}
+  = \partial_\mu \Gamma^\rho_{\nu\sigma}
+  - \partial_\nu \Gamma^\rho_{\mu\sigma}
+  + \Gamma^\rho_{\mu\lambda}\Gamma^\lambda_{\nu\sigma}
+  - \Gamma^\rho_{\nu\lambda}\Gamma^\lambda_{\mu\sigma}\,.
+  \label{eq:riemann}
+\end{equation}
+This is the ``$+--+$'' convention in the MTW classification
+(same as Wald, Vassilevich, Avramidi).
+\end{convention}
+
+\begin{convention}[Ricci tensor]
+\oursign\;
+Contraction on \textbf{first and third} indices:
+\begin{equation}
+  R_{\mu\nu} = R^{\rho}{}_{\mu\rho\nu}\,.
+  \label{eq:ricci}
+\end{equation}
+This matches Vassilevich~\cite{Vassilevich2003} and
+Codello--Zanusso~\cite{CZ2012} (who write
+$R_{\mu\nu} \equiv R_{\alpha\mu}{}^{\alpha}{}_{\nu}$, which is
+the same thing).
+\end{convention}
+
+\begin{convention}[Scalar curvature]
+\begin{equation}
+  R = g^{\mu\nu} R_{\mu\nu}\,.
+\end{equation}
+Positive for a round sphere in Euclidean signature.
+\end{convention}
+
+\begin{convention}[Weyl tensor]
+In $d$ dimensions:
+\begin{equation}
+  C_{\mu\nu\rho\sigma}
+  = R_{\mu\nu\rho\sigma}
+  - \frac{2}{d-2}\bigl(
+    g_{\mu[\rho}R_{\sigma]\nu} - g_{\nu[\rho}R_{\sigma]\mu}
+  \bigr)
+  + \frac{2}{(d-1)(d-2)}\,R\,g_{\mu[\rho}g_{\sigma]\nu}\,.
+  \label{eq:weyl}
+\end{equation}
+Its square satisfies \fromlit{CZ~(A.3)}:
+\begin{equation}
+  \Weylsq = \Rsq - \frac{4}{d-2}\Ricsq + \frac{2}{(d-1)(d-2)}\,R^2\,.
+  \label{eq:weyl-sq}
+\end{equation}
+In $d=4$: $\Weylsq = \Rsq - 2\Ricsq + \frac{1}{3}R^2$.
+\end{convention}
+
+\begin{convention}[Gauss--Bonnet / Euler density]
+\begin{equation}
+  E_4 = \Rsq - 4\Ricsq + R^2\,.
+  \label{eq:euler}
+\end{equation}
+Topological in $d=4$: $\int E_4\sqrt{g}\,\dd^4x = 32\pi^2\chi(M)$.
+\end{convention}
+
+
+\subsection{Differential operators}
+
+\begin{convention}[Covariant derivative and d'Alembertian]
+\oursign\;
+The covariant d'Alembertian (Laplace--Beltrami operator) on scalars:
+\begin{equation}
+  \Box \equiv g^{\mu\nu}\nabla_\mu\nabla_\nu\,.
+  \label{eq:box}
+\end{equation}
+In Lorentzian signature this is the wave operator ($\Box\phi =
+-\partial_t^2\phi + \nabla^2\phi$ in flat space).
+In \textbf{Euclidean signature} this becomes:
+\begin{equation}
+  \Box_E = g^{\mu\nu}\nabla_\mu\nabla_\nu = \nabla^2
+  \quad\text{(positive spectrum on compact manifold)}\,.
+\end{equation}
+\end{convention}
+
+\begin{convention}[Generalised Laplacian]
+\label{conv:laplacian}
+\oursign\;
+A Laplace-type operator on sections of a vector bundle:
+\begin{equation}
+  \boxed{
+  \Delta = -(g^{\mu\nu}D_\mu D_\nu + E)
+  = -D^2 - E
+  }
+  \label{eq:laplacian}
+\end{equation}
+where $D_\mu = \nabla_\mu + A_\mu$ is the full covariant derivative
+(including gauge/spin connection) and $E$ is the endomorphism (potential
+term).
+
+This matches Vassilevich~\cite{Vassilevich2003} Eq.~(1.1) and
+Codello--Zanusso~\cite{CZ2012} Eq.~(2).
+
+\medskip\noindent
+\textbf{Sign note:} CZ define $\Delta = -D^2 + \mathbf{U}$ with
+$\mathbf{U}$ their endomorphism.  Comparing with our convention
+$\Delta = -D^2 - E$, we identify:
+\begin{equation}
+  \mathbf{U}_{\text{CZ}} = -E\,.
+  \label{eq:U-vs-E}
+\end{equation}
+This sign difference is critical when translating form factors.
+\end{convention}
+
+\begin{convention}[Bundle curvature]
+The curvature of the connection $A_\mu$ on the vector bundle:
+\begin{equation}
+  \Omega_{\mu\nu} \equiv [D_\mu, D_\nu]
+  = \partial_\mu A_\nu - \partial_\nu A_\mu + [A_\mu, A_\nu]\,.
+  \label{eq:bundle-curv}
+\end{equation}
+This matches both CZ Eq.~(1) and Vassilevich.
+\end{convention}
+
+\begin{convention}[BV endomorphism $\hat{P}$]
+\label{conv:Phat}
+The BV papers use $\hat{P} \equiv E + \frac{R}{6}\Id$
+(equivalently $\hat{P} = -\mathbf{U}_{\text{CZ}} + \frac{R}{6}\Id$)
+\fromlit{Vassilevich Eq.~(4.3); CZ App.~A}.
+In our conventions for the Dirac operator:
+\begin{equation}
+  E = -\frac{R}{4}\Id_4
+  \quad\Longrightarrow\quad
+  \hat{P} = -\frac{R}{4}\Id_4 + \frac{R}{6}\Id_4
+  = -\frac{R}{12}\Id_4\,.
+  \label{eq:Phat-dirac}
+\end{equation}
+The CZ relation is $\mathbf{U}_{\text{CZ}} = -\hat{P} + \frac{R}{6}\Id = -E$,
+so $\hat{P} = -\mathbf{U}_{\text{CZ}} + \frac{R}{6}\Id$ \fromlit{CZ App.~A}.
+
+\signcorrection{Convention~2.11 corrected 2026-03-09: the BV endomorphism
+is $\hat{P} = E + R/6$ (not $E - R/6$ as stated in the original version).
+The original error gave $\hat{P} = -5R/12$ instead of the correct
+$\hat{P} = -R/12$ for Dirac.  This error was \emph{contained}:
+the NT-1 derivation pipeline (Proposition~3.2, Theorem~4.1 of
+\texttt{NT1\_form\_factors.tex}) works entirely through CZ form factors
+and never uses $\hat{P}$ in the computational chain.  See the failed
+derivation in Appendix~A of \texttt{NT1\_form\_factors.tex} for the
+consequences of the wrong $\hat{P}$.}
+\end{convention}
+
+\begin{remark}[$\hat{P}$-independence of NT-1]
+\label{rem:Phat-independence}
+The NT-1 derivation of the nonlocal form factors $F_1$, $F_2$
+is \emph{structurally independent} of the BV endomorphism~$\hat{P}$.
+The computational pipeline proceeds as follows:
+\begin{enumerate}[nosep]
+  \item Extract operator data $(E, \Omega_{\mu\nu})$ from the
+        Lichnerowicz formula (Convention~\ref{eq:lichnerowicz}).
+  \item Map to the CZ universal form factors
+        $f_{\mathrm{Ric}}, f_R, f_{R\mathbf{U}}, f_\mathbf{U}, f_\Omega$
+        using the CZ notation
+        $\mathbf{U}_{\mathrm{CZ}} = -E$ (Convention~2.10).
+  \item Contract CZ form factors with Dirac traces
+        $\tr(\Id)$, $\tr(E)$, $\tr(E^2)$,
+        $\tr(\Omega_{\mu\nu}\Omega^{\mu\nu})$
+        to obtain $h_C(x)$ and $h_R(x)$.
+\end{enumerate}
+At no point does $\hat{P}$ or its traces appear in this chain.
+The BV form factors $f_1,\dots,f_5$ (which do involve $\hat{P}$)
+are used only in \S3 of \texttt{NT1\_form\_factors.tex} as an
+alternative cross-check pathway, which was found to be algebraically
+more cumbersome and is not part of the main derivation.
+\end{remark}
+
+
+\subsection{Dirac operator specifics}
+
+\begin{convention}[SCT Dirac operator]
+On a closed Riemannian spin 4-manifold $(M,g)$:
+\begin{equation}
+  D = \ii\gamma^\mu\nabla^S_\mu\,,
+  \label{eq:dirac}
+\end{equation}
+where $\nabla^S_\mu = \nabla_\mu + \frac{1}{4}\omega_\mu^{ab}\gamma_a\gamma_b$
+is the spin connection covariant derivative.
+\end{convention}
+
+\begin{convention}[Lichnerowicz formula]
+\begin{equation}
+  D^2 = -g^{\mu\nu}\nabla^S_\mu\nabla^S_\nu + \frac{R}{4}\,.
+  \label{eq:lichnerowicz}
+\end{equation}
+So $D^2$ is of Laplace type \eqref{eq:laplacian} with:
+\begin{equation}
+  \boxed{E = -\frac{R}{4}\Id_4\,,
+  \qquad
+  \Omega_{\mu\nu}^{(\text{spin})}
+  = \frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^\rho\gamma^\sigma}
+  \label{eq:dirac-data}
+\end{equation}
+and $\mathbf{U}_{\text{CZ}} = -E = \frac{R}{4}\Id_4$.
+
+\begin{remark}[\textbf{Sign of $E$ --- critical}]
+\label{rem:E-sign}
+The Lichnerowicz formula gives $D^2 = -g^{\mu\nu}\nabla\nabla + R/4$.
+Comparing with the generalized Laplacian $\Delta = -(g^{\mu\nu}\nabla\nabla + E)$,
+we identify $E = -R/4$ (\textbf{not} $+R/4$).
+Cross-check: $E = -R/4$ gives $h_R(0) = 0$, confirming conformal invariance
+of the massless Dirac field. The wrong sign $E = +R/4$ would give $h_R(0) \neq 0$.
+\end{remark}
+\end{convention}
+
+\begin{convention}[Spin connection curvature trace identities]
+\exactlit\;
+\begin{align}
+  \tr(\Omega_{\mu\nu}^{(\text{spin})}\Omega^{(\text{spin})\mu\nu})
+  &= \frac{1}{16}\,R_{\mu\nu\rho\sigma}R_{\alpha\beta\gamma\delta}\,
+    \tr(\gamma^\rho\gamma^\sigma\gamma^\gamma\gamma^\delta)\,
+    g^{\mu\alpha}g^{\nu\beta}
+  \notag\\
+  &= -\frac{1}{2}\,\Rsq\,.
+  \label{eq:OmOm-trace}
+\end{align}
+(The factor $N_{\text{spin}}=\tr\Id_4=4$ in $d=4$.)
+\end{convention}
+
+
+\subsection{Heat kernel and spectral action}
+
+\begin{convention}[Heat kernel]
+\begin{equation}
+  K(s;x,y) = \langle x|e^{-s\Delta}|y\rangle\,,
+  \qquad
+  \Tr\, K(s) = \Tr\, e^{-s\Delta}\,.
+  \label{eq:heat-kernel}
+\end{equation}
+Here $s > 0$ is the proper-time parameter.
+The heat kernel satisfies $(\partial_s + \Delta_x)K(s;x,y)=0$
+with $K(0;x,y) = \delta(x,y)$.
+This matches CZ~\eqref{eq:laplacian}--\cite{CZ2012} Eqs.~(3)--(4).
+\end{convention}
+
+\begin{convention}[SCT spectral action and heat kernel]
+\label{conv:spectral}
+The spectral action is
+\begin{equation}
+  S_{\text{SCT}} = \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)\,.
+  \label{eq:spectral-action}
+\end{equation}
+Using the Laplace transform $f(u) = \int_0^\infty \tilde{f}(t)\,
+e^{-tu}\dd t$:
+\begin{equation}
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  = \int_0^\infty \tilde{f}(t)\,
+    \Tr\!\bigl(e^{-t D^2/\Lambda^2}\bigr)\dd t\,.
+  \label{eq:spectral-heat}
+\end{equation}
+With $s = t/\Lambda^2$:
+\begin{equation}
+  \boxed{
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  = \Lambda^2\int_0^\infty \tilde{f}(s\Lambda^2)\,
+    \Tr\!\bigl(e^{-s D^2}\bigr)\dd s
+  }
+  \label{eq:spectral-heat-s}
+\end{equation}
+Note $D^2 = \Delta$ (our Laplace-type operator for the Dirac case).
+\end{convention}
+
+\begin{convention}[Relation to one-loop effective action]
+The standard one-loop effective action for a field with operator $\Delta$
+and mass $m$:
+\begin{equation}
+  \Gamma^{(1)} = \mp\frac{1}{2}\ln\det\Delta
+  = \pm\frac{1}{2}\int_0^\infty \frac{\dd s}{s}\,
+    e^{-sm^2}\,\Tr\,e^{-s\Delta}\,,
+  \label{eq:eff-action}
+\end{equation}
+where $-$ for bosons, $+$ for fermions (Dirac).
+Compare with \eqref{eq:spectral-heat-s}: the spectral action replaces
+the $1/s$ weight with a smooth cutoff function.
+\end{convention}
+
+
+%%======================================================================
+\newpage
+\section{Avramidi Covariant Technique for Off-Diagonal Heat Kernel}
+\label{sec:avramidi}
+%%======================================================================
+
+\subsection{The problem: local vs.\ nonlocal}
+
+The Seeley--DeWitt expansion gives the heat trace as a series in
+powers of proper time $s$:
+\begin{equation}
+  \Tr\,e^{-s\Delta} \sim \frac{1}{(4\pi s)^{d/2}}
+  \sum_{k=0}^\infty s^k\, a_{2k}(\Delta)\,,
+  \qquad s \to 0^+\,.
+  \label{eq:SD-expansion}
+\end{equation}
+This is \textbf{local}: each $a_{2k}$ is a spacetime integral of local
+curvature invariants.  It captures only the \textbf{coincidence limit}
+$x=y$ of the heat kernel diagonal.
+
+To obtain the \textbf{nonlocal form factors} $F_1(\Box/\Lambda^2)$,
+$F_2(\Box/\Lambda^2)$ we need the heat kernel expanded to second
+order in curvature but to \textbf{all orders in derivatives}
+(i.e., all orders in $s$, not just the $s\to 0$ asymptotics).
+
+\subsection{Avramidi's partial summation}
+\label{subsec:avramidi-partial}
+
+\fromlit{Avramidi, Phys.\ Lett.\ B \textbf{236} (1990) 443;
+         Phys.\ Lett.\ B \textbf{238} (1990) 92;
+         hep-th/9704166}
+
+Avramidi's key insight: decompose the heat kernel expansion not by
+powers of $s$ (local) but by \textbf{powers of curvature}, while
+keeping all powers of $\nabla$ (i.e., all powers of $s\Box$).
+This ``partial summation'' resums the Seeley--DeWitt series into
+nonlocal form factors.
+
+\begin{definition}[Avramidi form factor basis]
+At second order in curvature, the nonlocal heat trace on a
+boundaryless manifold takes the form
+\fromlit{Avramidi (1990); CZ Eq.~(23)}:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  \Tr\,e^{-s\Delta}
+  &= \frac{1}{(4\pi s)^{d/2}}
+  \int\dd^d x\,\sqrt{g}\,\tr\Bigl\{
+  \Id + s\hat{P}
+  + s^2\Bigl[
+  \Id\,R_{\mu\nu}\, f_1(s\Box)\, R^{\mu\nu}\\
+  &\quad+ \Id\,R\,f_2(s\Box)\,R
+  + R\,f_3(s\Box)\,\hat{P}
+  + \hat{P}\,f_4(s\Box)\,\hat{P}
+  + \Omega_{\mu\nu}\,f_5(s\Box)\,\Omega^{\mu\nu}
+  \Bigr]
+  + \mathcal{O}(\mathcal{R}^3)
+  \Bigr\}
+  \end{aligned}
+  }
+  \label{eq:BV-heat-trace}
+\end{equation}
+where $\hat{P} = E - \frac{R}{6}\Id$ (Convention~\ref{conv:Phat}),
+$\Box = -D^2$ (\textbf{without} the endomorphism),
+and $f_i$ are the five BV form factors.
+\end{definition}
+
+\begin{remark}
+This expansion is valid under the \textbf{covariant perturbation theory
+condition} \fromlit{CZ~(24)}:
+\begin{equation}
+  \nabla\nabla\mathcal{R} \gg \mathcal{R}^2\,,
+  \label{eq:cpt-condition}
+\end{equation}
+where $\mathcal{R}$ represents any curvature.  Physically: curvatures
+are weak but may vary rapidly.  This is complementary to the
+Seeley--DeWitt regime (strong/slowly varying fields).
+\end{remark}
+
+
+\subsection{The basic form factor (master function)}
+
+\begin{definition}[Master form factor]
+\exactlit\;
+\fromlit{CZ Eq.~(36); Avramidi (1990); BV (1987)}
+\begin{equation}
+  \boxed{
+  f(x) = \int_0^1 \dd\xi\; e^{-\xi(1-\xi)x}
+  }
+  \label{eq:master-f}
+\end{equation}
+where $x = s\Box$ (or $x = sp^2$ in momentum space).
+\end{definition}
+
+\paragraph{Properties:}
+\begin{itemize}
+\item \textbf{Normalisation:} $f(0) = 1$.
+\item \textbf{Small-$x$ expansion} \fromlit{CZ below Eq.~(37)}:
+  \begin{equation}
+    f(x) = 1 - \frac{x}{6} + \frac{x^2}{60} - \frac{x^3}{840}
+    + \mathcal{O}(x^4)\,.
+    \label{eq:f-small}
+  \end{equation}
+  The general coefficient is
+  $\frac{(-1)^n}{n!}B(n+1,n+1)$ where $B$ is the Beta function.
+\item \textbf{Large-$x$ expansion} \fromlit{CZ below Eq.~(39)}:
+  \begin{equation}
+    f(x) = \frac{2}{x} + \frac{4}{x^2}
+    + \mathcal{O}\!\left(\frac{1}{x^3}\right)\,,
+    \qquad x\to+\infty\,.
+    \label{eq:f-large}
+  \end{equation}
+\item \textbf{Saddle point:} For $x\to+\infty$,
+  $f(x) \sim \sqrt{\pi/x}\,e^{-x/4}$
+  (the saddle at $\xi=1/2$ gives the exponential tail).
+\item \textbf{Useful identity} \fromlit{CZ Sec.~4.2}:
+  \begin{equation}
+    \frac{1}{2}\int_0^1\dd\xi\, e^{-\xi(1-\xi)x}(1-2\xi)^2
+    = -\frac{1}{x}[f(x)-1]\,.
+    \label{eq:f-identity}
+  \end{equation}
+\end{itemize}
+
+
+%%======================================================================
+\newpage
+\section{Form Factor Construction: Heat Kernel}
+\label{sec:form-factors-hk}
+%%======================================================================
+
+\subsection{The five BV form factors}
+
+\fromlit{CZ Eqs.~(37)--(38); BV (1987) Eqs.~(3.44)--(3.48)}
+
+\exactlit\;
+In the ``Ricci basis'' $\{R_{\mu\nu}, R, \mathbf{U}, \Omega_{\mu\nu}\}$
+used by CZ, the nonlocal heat trace at $\mathcal{O}(\mathcal{R}^2)$ is:
+\begin{equation}
+  \Tr\,e^{-s\Delta}
+  = \frac{1}{(4\pi s)^{d/2}}
+  \int\dd^d x\,\sqrt{g}\,\tr\Bigl\{
+  \Id - s\mathbf{U} + s\Id\frac{R}{6}
+  + s^2[\text{form factor terms}]
+  + \mathcal{O}(\mathcal{R}^3)
+  \Bigr\}
+  \label{eq:CZ-heat-trace}
+\end{equation}
+with form factor terms:
+\begin{equation}
+  \Id\,R_{\mu\nu}\,f_{\text{Ric}}(s\Box)\,R^{\mu\nu}
+  + \Id\,R\,f_R(s\Box)\,R
+  + R\,f_{R\mathbf{U}}(s\Box)\,\mathbf{U}
+  + \mathbf{U}\,f_\mathbf{U}(s\Box)\,\mathbf{U}
+  + \Omega_{\mu\nu}\,f_\Omega(s\Box)\,\Omega^{\mu\nu}\,.
+\end{equation}
+
+The form factors in terms of the master function $f(x)$:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  f_{\text{Ric}}(x)
+    &= \frac{1}{6x} + \frac{1}{x^2}[f(x)-1]\\[4pt]
+  f_R(x)
+    &= \frac{1}{32}f(x) + \frac{1}{8x}f(x) - \frac{7}{48x}
+       - \frac{1}{8x^2}[f(x)-1]\\[4pt]
+  f_{R\mathbf{U}}(x)
+    &= -\frac{1}{4}f(x) - \frac{1}{2x}[f(x)-1]\\[4pt]
+  f_\mathbf{U}(x)
+    &= \frac{1}{2}f(x)\\[4pt]
+  f_\Omega(x)
+    &= -\frac{1}{2x}[f(x)-1]
+  \end{aligned}
+  }
+  \label{eq:CZ-form-factors}
+\end{equation}
+
+\fromlit{CZ Eq.~(37), confirmed to match BV (1987, 1990) via
+basis change in CZ App.~A}
+
+
+\subsection{Conversion to BV basis}
+
+The BV papers use $\hat{P} = E - \frac{R}{6}\Id$ instead of $\mathbf{U}$,
+with $\mathbf{U} = -E$ (Convention~\ref{conv:laplacian}).
+The conversion \fromlit{CZ Eq.~(50)} is:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  f_1 &= f_{\text{Ric}}\,,\\
+  f_2 &= f_R + \frac{1}{6}f_{R\mathbf{U}} + \frac{1}{36}f_\mathbf{U}\,,\\
+  f_3 &= -f_{R\mathbf{U}} - \frac{1}{3}f_\mathbf{U}\,,\\
+  f_4 &= f_\mathbf{U}\,,\\
+  f_5 &= f_\Omega\,.
+  \end{aligned}
+  }
+  \label{eq:BV-conversion}
+\end{equation}
+
+Substituting \eqref{eq:CZ-form-factors} into \eqref{eq:BV-conversion}
+gives the explicit BV form factors.  This can be verified against
+BV~(1987) Table~1.
+
+
+\subsection{Conversion to Weyl basis}
+
+\fromlit{CZ Eqs.~(41)--(42); Barvinsky--Mirzabekian--Zhytnikov gr-qc/9510037}
+
+For the Weyl basis $\{C_{\mu\nu\rho\sigma}, R, \hat{P}, \Omega_{\mu\nu}\}$:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  f_C(x) &= \frac{d-2}{4(d-3)}\,f_{\text{Ric}}(x)
+  \qquad\text{(in $d=4$: $f_C = \tfrac{1}{2}f_{\text{Ric}}$)}\\[4pt]
+  f_{R,\text{bis}}(x) &= \frac{d}{4(d-1)}\,f_{\text{Ric}}(x) + f_R(x)
+  \qquad\text{(in $d=4$: $f_{R,\text{bis}} = \tfrac{1}{3}f_{\text{Ric}} + f_R$)}
+  \end{aligned}
+  }
+  \label{eq:Weyl-conversion}
+\end{equation}
+
+The heat trace in the Weyl basis \fromlit{CZ Eq.~(40)}:
+\begin{equation}
+  \Tr\,e^{-s\Delta}
+  = \frac{1}{(4\pi s)^{d/2}}
+  \int\dd^d x\,\sqrt{g}\,\tr\Bigl\{
+  \Id - s\mathbf{U} + s\frac{R}{6}\Id
+  + s^2\Bigl[
+  \Id\,C_{\mu\nu\rho\sigma}\,f_C\,C^{\mu\nu\rho\sigma}
+  + \Id\,R\,f_{R,\text{bis}}\,R
+  + \cdots
+  \Bigr]\Bigr\}
+  \label{eq:Weyl-heat-trace}
+\end{equation}
+where $\cdots$ contains $\hat{P}$ and $\Omega$ terms unchanged.
+
+\begin{remark}[Universality]
+In the Ricci basis, the form factors are \textbf{universal} (independent
+of $d$ apart from the overall $(4\pi s)^{-d/2}$ prefactor).
+The Weyl basis spoils universality by introducing explicit $d$-dependent
+prefactors.
+\end{remark}
+
+
+\subsection{Short-time (local) limits}
+
+\fromlit{CZ Eq.~(38)}
+
+Setting $x=0$ in \eqref{eq:CZ-form-factors}:
+\begin{equation}
+  \begin{aligned}
+  f_{\text{Ric}}(0) &= \frac{1}{60}\,,\\
+  f_R(0) &= \frac{1}{120}\,,\\
+  f_{R\mathbf{U}}(0) &= -\frac{1}{6}\,,\\
+  f_\mathbf{U}(0) &= \frac{1}{2}\,,\\
+  f_\Omega(0) &= \frac{1}{12}\,.
+  \end{aligned}
+  \label{eq:local-limits}
+\end{equation}
+These values reproduce the Seeley--DeWitt coefficient $a_4$ when
+inserted into the heat trace.
+
+\begin{remark}[Cross-check with $a_4$]
+The local limit of \eqref{eq:CZ-heat-trace} must reproduce the
+standard $a_4$ coefficient \fromlit{Vassilevich Eq.~(4.1)}:
+\begin{equation}
+  a_4 = \frac{1}{360}\int\dd^d x\,\sqrt{g}\,\tr\Bigl[
+  60\,RE + 180\,E^2 + 60\,\Box E
+  + (5R^2 - 2\Ricsq + 2\Rsq)\Id
+  + 30\,\Omega_{\mu\nu}\Omega^{\mu\nu}
+  \Bigr]\,.
+  \label{eq:a4-vassilevich}
+\end{equation}
+This is identical to \eqref{eq:a4-V} in Appendix~\ref{sec:V}.
+Note: Vassilevich uses $\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)$
+which is the \textbf{same} as our convention \eqref{eq:laplacian},
+so his $E$ is the same as our $E$.
+The CZ convention has $\mathbf{U} = -E$, so the signs of the $E$ terms
+need careful tracking when converting.  The signs $+60\Box E$ and
+$+30\,\Omega\Omega$ in Vassilevich's convention yield $-15\Rsq$
+for the Dirac operator since
+$\tr(\Omega^{\text{spin}}\Omega^{\text{spin}}) = -\frac{1}{2}\Rsq$.
+\end{remark}
+
+
+\subsection{Late-time (IR) limits}
+
+\fromlit{CZ Eq.~(39)}
+
+\begin{equation}
+  \begin{aligned}
+  f_{\text{Ric}}(x) &= \frac{1}{6x} - \frac{1}{x^2}
+    + \mathcal{O}(x^{-3})\,,\\
+  f_R(x) &= -\frac{1}{12x} + \frac{1}{2x^2}
+    + \mathcal{O}(x^{-3})\,,\\
+  f_{R\mathbf{U}}(x) &= -\frac{2}{x^2} + \mathcal{O}(x^{-3})\,,\\
+  f_\mathbf{U}(x) &= \frac{1}{x} + \frac{2}{x^2}
+    + \mathcal{O}(x^{-3})\,,\\
+  f_\Omega(x) &= \frac{1}{2x} - \frac{1}{2x^2}
+    + \mathcal{O}(x^{-3})\,.
+  \end{aligned}
+  \label{eq:late-time}
+\end{equation}
+
+These control the UV behavior of the effective action (large $\Box$).
+
+
+%%======================================================================
+\newpage
+\section{BV Nonlocal Effective Action}
+\label{sec:BV-action}
+%%======================================================================
+
+\subsection{From heat kernel to effective action}
+
+\fromlit{BV (1987) Sec.~4; CZ Sec.~6}
+
+The one-loop effective action for a field with Laplace-type operator
+$\Delta$ and mass $m$:
+\begin{equation}
+  \Gamma^{(1)} = \frac{1}{2}\int_0^\infty\frac{\dd s}{s}\,
+  e^{-sm^2}\,\Tr\,e^{-s\Delta}
+  \label{eq:eff-action-heat}
+\end{equation}
+(sign for bosons; the mass term provides IR regularisation).
+
+Substituting the nonlocal heat trace \eqref{eq:CZ-heat-trace} and
+performing the $s$-integration converts the heat kernel form factors
+$f_i(s\Box)$ into effective action form factors $\mathcal{F}_i(\Box/m^2)$:
+\begin{equation}
+  \mathcal{F}_i(\Box/m^2)
+  = \int_0^\infty \frac{\dd s}{s}\,e^{-sm^2}\,(4\pi s)^{-d/2}\,
+  s^2\, f_i(s\Box)\,.
+  \label{eq:eff-action-ff}
+\end{equation}
+
+\begin{remark}
+The factor $s^2$ comes from the fact that the form factor terms in
+\eqref{eq:CZ-heat-trace} carry an explicit $s^2$ prefactor at
+$\mathcal{O}(\mathcal{R}^2)$.  The $1/s$ from
+\eqref{eq:eff-action-heat} combines with this to give $s$.
+\end{remark}
+
+
+\subsection{Canonical form of the nonlocal effective action}
+
+\fromlit{BV (1990) Eq.~(1.1); Barvinsky--Gusev--Vilkovisky--Zhytnikov
+hep-th/9404187}
+
+At $\mathcal{O}(\mathcal{R}^2)$, the one-loop effective action takes
+the canonical form in the Weyl basis:
+\begin{equation}
+  \boxed{
+  \Gamma^{(1)}_{\text{NL}}
+  = \frac{1}{2(4\pi)^2}\int\dd^4 x\,\sqrt{g}\,\Bigl[
+  C_{\mu\nu\rho\sigma}\,\mathcal{F}_W(\Box/\mu^2)\,C^{\mu\nu\rho\sigma}
+  + R\,\mathcal{F}_R(\Box/\mu^2)\,R
+  \Bigr]
+  }
+  \label{eq:BV-eff-action}
+\end{equation}
+(dropping the topological Gauss--Bonnet term in $d=4$, and the $\hat{P}$
+and $\Omega$ terms which are absorbed into the Weyl/Ricci structures
+for specific field content).
+
+
+\subsection{Massless limit: logarithmic form factors}
+
+\fromlit{BV (1990) Sec.~6; Barvinsky--Wachowski 2306.03780 Sec.~2}
+
+In the massless limit, the effective action form factors develop
+logarithmic behaviour:
+\begin{equation}
+  \mathcal{F}_i(\Box/\mu^2)
+  \to \beta_i\,\ln(-\Box/\mu^2)
+  + \text{finite local terms}\,.
+  \label{eq:log-ff}
+\end{equation}
+The coefficients $\beta_i$ are scheme-independent and related to the
+conformal anomaly.  This gives:
+\begin{equation}
+  \boxed{
+  \Gamma^{(1)}_{\text{NL,massless}}
+  = \frac{1}{32\pi^2}\int\dd^4 x\,\sqrt{g}\,\Bigl[
+  \beta_W\, C_{\mu\nu\rho\sigma}\,
+    \ln(-\Box/\mu^2)\, C^{\mu\nu\rho\sigma}
+  + \beta_R\, R\,\ln(-\Box/\mu^2)\, R
+  \Bigr]
+  }
+  \label{eq:log-action}
+\end{equation}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Field type} & $\boldsymbol{\beta_W}$ & $\boldsymbol{\beta_R}$ \\
+\midrule
+Conformal scalar  & $1/120$  & $0$    \\
+Dirac fermion     & $1/20$   & $0$    \\
+Gauge vector      & $1/10$   & $0$    \\
+Graviton          & $7/20$   & $0$    \\
+\bottomrule
+\end{tabular}
+\caption{$\beta$-coefficients for conformally invariant fields.
+\fromlit{BV (1990); Barvinsky--Vilkovisky--Zhytnikov hep-th/9404187}}
+\label{tab:betas}
+\end{table}
+
+\begin{remark}
+For all conformally invariant fields, $\beta_R = 0$.
+This is the deep connection between conformal symmetry
+and the structure of the nonlocal effective action.
+\end{remark}
+
+
+\subsection{The key formula: spectral action to form factors}
+
+\gap\; \textbf{This is the central gap that NT-1 must bridge.}
+
+The SCT spectral action $\Tr(f(D^2/\Lambda^2))$ gives a different
+weight than the one-loop effective action $\frac{1}{2}\int\frac{\dd s}{s}
+e^{-sm^2}\Tr\,e^{-sD^2}$.  Specifically:
+\begin{equation}
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)
+  = \int_0^\infty \tilde{f}(t)\,\Tr\!\bigl(e^{-tD^2/\Lambda^2}\bigr)\dd t\,.
+  \label{eq:spectral-vs-eff}
+\end{equation}
+
+Using \eqref{eq:BV-heat-trace}, the $\mathcal{O}(\mathcal{R}^2)$
+contribution to the spectral action is:
+\begin{equation}
+  \Tr\!\bigl(f(D^2/\Lambda^2)\bigr)\Big|_{\mathcal{R}^2}
+  = \int_0^\infty \tilde{f}(t)\,\frac{1}{(4\pi t/\Lambda^2)^2}
+  \int\dd^4x\sqrt{g}\,\tr\bigl[
+  \cdots\, s^2 f_i(s\Box)\,\cdots
+  \bigr]_{s=t/\Lambda^2}\dd t
+  \label{eq:spectral-R2}
+\end{equation}
+where the form factors $f_i$ are those of \eqref{eq:CZ-form-factors}.
+
+The SCT form factors $F_1(\Box/\Lambda^2)$ and $F_2(\Box/\Lambda^2)$
+are then obtained by performing the $t$-integration against the spectral
+weight $\tilde{f}(t)$:
+\begin{equation}
+  \boxed{
+  F_i^{\text{SCT}}(\Box/\Lambda^2)
+  = \frac{\Lambda^4}{(4\pi)^2}\int_0^\infty \dd t\,
+    \tilde{f}(t)\, (t/\Lambda^2)^{2-d/2}\,
+    f_i(t\Box/\Lambda^2)
+  }
+  \label{eq:SCT-form-factor}
+\end{equation}
+where $f_i$ are the heat kernel form factors from
+\eqref{eq:CZ-form-factors} or \eqref{eq:Weyl-conversion}.
+
+\begin{remark}[Notation for the target]
+In the Weyl basis, the final result is written as:
+\begin{equation}
+  S_{\text{SCT}}\Big|_{\mathcal{R}^2}
+  = \int\dd^4x\,\sqrt{g}\,\Bigl[
+  F_1(\Box/\Lambda^2)\,\Weylsq
+  + F_2(\Box/\Lambda^2)\,R^2
+  \Bigr]\,,
+  \label{eq:target}
+\end{equation}
+where $F_1 \propto f_C$ integrated against $\tilde{f}$,
+and $F_2 \propto f_{R,\text{bis}}$ integrated against $\tilde{f}$
+(plus contributions from $\hat{P}$ and $\Omega$ terms traced for
+the Dirac operator).
+\end{remark}
+
+
+%%======================================================================
+\newpage
+\section{Computational Recipe}
+\label{sec:recipe}
+%%======================================================================
+
+The step-by-step procedure for computing $F_1(\Box/\Lambda^2)$ and
+$F_2(\Box/\Lambda^2)$ from the SCT spectral action.
+
+\subsection{Step 1: Identify the operator}
+
+The SCT Dirac operator gives $D^2 = \Delta$ with:
+\begin{itemize}
+\item Endomorphism: $E = -\frac{R}{4}\Id_4$
+  $\;\Longrightarrow\;$ $\mathbf{U}_{\text{CZ}} = -E = \frac{R}{4}\Id_4$
+\item Bundle curvature:
+  $\Omega_{\mu\nu} = \frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^\rho\gamma^\sigma$
+\item BV endomorphism:
+  $\hat{P} = E - \frac{R}{6}\Id_4 = -\frac{5R}{12}\Id_4$
+\item Spin dimension: $N = \tr\Id_4 = 4$
+\end{itemize}
+
+
+\subsection{Step 2: Write the nonlocal heat trace for $D^2$}
+
+Using \eqref{eq:BV-heat-trace} with the Dirac data above.
+The CZ form factors $f_1, \ldots, f_5$ act on the CZ endomorphism
+$\mathbf{U}_{\text{CZ}} = -E = \frac{R}{4}\Id_4$, \textbf{not} on
+$\hat{P}$.  Writing the heat trace in CZ notation:
+\begin{equation}
+  \begin{aligned}
+  \Tr\,e^{-sD^2}
+  &= \frac{1}{(4\pi s)^2}
+  \int\dd^4 x\,\sqrt{g}\,\Bigl\{
+  4 - s\,\frac{5R}{3}\\
+  &\quad+ s^2\Bigl[
+  4\,R_{\mu\nu}\,f_1(s\Box)\,R^{\mu\nu}
+  + 4\,R\,f_2(s\Box)\,R\\
+  &\quad+ R\,f_3(s\Box)\,\tr(\mathbf{U}_{\text{CZ}})
+  + f_4(s\Box)\,\tr(\mathbf{U}_{\text{CZ}}^2)
+  + f_5(s\Box)\,\tr(\Omega\Omega)
+  \Bigr]
+  + \mathcal{O}(\mathcal{R}^3)
+  \Bigr\}
+  \end{aligned}
+  \label{eq:heat-trace-dirac}
+\end{equation}
+
+After taking the trace over spinor indices (with $E = -R/4$,
+$\mathbf{U}_{\text{CZ}} = R/4$, $\hat{P} = -5R/12$):
+\begin{itemize}
+\item $\tr(\mathbf{U}_{\text{CZ}}) = 4\cdot R/4 = R$
+\item $\tr(\mathbf{U}_{\text{CZ}}^2) = 4\cdot R^2/16 = R^2/4$
+\item $\tr(\hat{P}) = 4\cdot(-5R/12) = -5R/3$
+\item $\tr(\hat{P}^2) = 4\cdot 25R^2/144 = 25R^2/36$
+\item $\tr(\Omega_{\mu\nu}\Omega^{\mu\nu}) = -\frac{1}{2}\Rsq$
+\end{itemize}
+
+So the $\mathcal{O}(\mathcal{R}^2)$ part becomes:
+\begin{equation}
+  \begin{aligned}
+  \Tr\,e^{-sD^2}\Big|_{\mathcal{R}^2}
+  &= \frac{s^2}{(4\pi s)^2}\int\dd^4x\,\sqrt{g}\,\Bigl[
+  4\,R_{\mu\nu}\,f_1(s\Box)\,R^{\mu\nu}\\
+  &\quad+ \Bigl(4f_2 + f_3 + \frac{1}{4}f_4\Bigr)\,
+    R\,(s\Box)\,R
+  - \frac{1}{2}\,\Rsq\,f_5(s\Box)
+  \Bigr]
+  \end{aligned}
+  \label{eq:heat-trace-dirac-R2}
+\end{equation}
+
+
+\subsection{Step 3: Convert to Weyl basis}
+
+Using the Gauss--Bonnet identity at $\mathcal{O}(\mathcal{R}^2)$
+\fromlit{CZ App.~A; Avramidi (2000)}:
+\begin{equation}
+  \int\dd^4x\,\sqrt{g}\, R_{\mu\nu\rho\sigma}\,h(\Box)\,R^{\mu\nu\rho\sigma}
+  = \int\dd^4x\,\sqrt{g}\,\bigl[
+  4\,R_{\mu\nu}\,h(\Box)\,R^{\mu\nu} - R\,h(\Box)\,R
+  \bigr] + \mathcal{O}(\mathcal{R}^3)\,.
+  \label{eq:GB-nonlocal}
+\end{equation}
+This means the $\Rsq$ term from $\tr(\Omega\Omega)$ can be absorbed
+into $\Ricsq$ and $R^2$ terms.
+
+Then convert $\Ricsq \to \Weylsq + \frac{2}{d-2}\Ricsq_{\text{tracefree}} + \ldots$
+using \eqref{eq:weyl-sq}.
+
+The final result should take the form:
+\begin{equation}
+  \Tr\,e^{-sD^2}\Big|_{\mathcal{R}^2}
+  = \frac{s^2}{(4\pi s)^2}\int\dd^4x\,\sqrt{g}\,\Bigl[
+  h_C(s\Box)\,\Weylsq + h_R(s\Box)\,R^2
+  \Bigr]
+  \label{eq:heat-trace-weyl}
+\end{equation}
+where $h_C$ and $h_R$ are combinations of the $f_i$ with the
+appropriate Dirac trace coefficients.
+
+
+\subsection{Step 4: Integrate against spectral weight}
+
+The SCT form factors are:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  F_1(\Box/\Lambda^2) &= \frac{\Lambda^4}{(4\pi)^2}
+    \int_0^\infty\dd t\,\tilde{f}(t)\,
+    h_C(t\Box/\Lambda^2)\\[6pt]
+  F_2(\Box/\Lambda^2) &= \frac{\Lambda^4}{(4\pi)^2}
+    \int_0^\infty\dd t\,\tilde{f}(t)\,
+    h_R(t\Box/\Lambda^2)
+  \end{aligned}
+  }
+  \label{eq:F1F2-integral}
+\end{equation}
+where the $t$-integration converts heat kernel form factors to spectral
+action form factors.
+
+\begin{remark}[Difference from one-loop effective action]
+In the standard one-loop computation, the weight is
+$\frac{1}{s}e^{-sm^2}$ (gives logarithmic form factors in massless limit).
+In SCT, the weight is $\tilde{f}(t)$ (the inverse Laplace transform
+of the spectral function $f$), which provides UV regularisation at
+scale $\Lambda$.  The SCT form factors are therefore
+\textbf{manifestly finite} --- no renormalisation needed.
+\end{remark}
+
+
+\subsection{Step 5: Check limiting cases}
+
+\begin{enumerate}
+\item \textbf{Local limit} ($\Box \to 0$):
+  $F_1(0)$ and $F_2(0)$ should reproduce the $c_1$ and $c_2$ coefficients
+  from the Seeley--DeWitt computation (Derivation~1 in
+  \texttt{SCT\_derivations.tex}).
+
+\item \textbf{Flat space limit} ($R \to 0$):
+  Both $F_1$ and $F_2$ should vanish trivially.
+
+\item \textbf{Large-$\Box$ limit} ($\Box/\Lambda^2 \gg 1$):
+  Form factors should decay (UV behaviour controlled by the spectral
+  function $f$).
+
+\item \textbf{Comparison with $\beta$-coefficients}:
+  In the limit where $f$ approaches a sharp cutoff, the form factors
+  should reproduce the logarithmic running with the correct
+  $\beta_W = 1/20$ for the Dirac field.
+\end{enumerate}
+
+
+%%======================================================================
+\newpage
+\section{Key Formulas from Literature}
+\label{sec:key-formulas}
+%%======================================================================
+
+\subsection{Codello--Zanusso diagrammatic computation}
+
+\fromlit{arXiv:1203.2034, Secs.~3--5}
+
+The CZ paper provides an independent re-derivation of the BV form
+factors using a diagrammatic expansion of the heat kernel.  Key results:
+
+\begin{enumerate}
+\item \textbf{Perturbative expansion of heat kernel}
+\fromlit{CZ Eq.~(16)}:
+\begin{equation}
+  K_{xy}^s = K_{0,xy}^s
+  - s\int_0^1\dd t\int_z K_{0,xz}^{s(1-t)}V_z K_{0,zy}^{st}
+  + \mathcal{O}(V^2)
+  \label{eq:CZ-perturbative}
+\end{equation}
+where $K_{0,xy}^s = (4\pi s)^{-d/2}e^{-(x-y)^2/4s}$ is the flat
+space heat kernel, and $V$ contains all interactions
+(metric fluctuation $h_{\mu\nu}$, connection $A_\mu$, and
+endomorphism $\mathbf{U}$).
+
+\item \textbf{General $n$-th order term} \fromlit{CZ Eq.~(17)}:
+\begin{equation}
+  (-s)^n \int_0^1\dd t_1\cdots\int_0^{t_{n-1}}\dd t_n
+  \int_{z_1\cdots z_n}
+  K_{0,xz_1}^{s(1-t_1)}V_{z_1}\cdots V_{z_n}K_{0,z_ny}^{st_n}
+  \label{eq:CZ-nth-order}
+\end{equation}
+
+\item \textbf{Master function from momentum integral}
+\fromlit{CZ Eq.~(36)}:
+
+The basic form factor emerges from the sunset diagram:
+\begin{equation}
+  f(sp^2) = \int_0^1\dd\xi\,e^{-\xi(1-\xi)sp^2}
+  \label{eq:CZ-master-from-diagram}
+\end{equation}
+where $\xi = t_1 - t_2$ is a reparametrisation of the proper-time
+integration variables.
+
+\item \textbf{All five form factors confirmed} \fromlit{CZ Sec.~5}:
+The CZ computation reproduces the BV form factors in
+\eqref{eq:CZ-form-factors} by explicit diagrammatic evaluation
+of 1-point and 2-point functions of the heat trace.
+\end{enumerate}
+
+
+\subsection{Avramidi generating function method}
+
+\fromlit{Avramidi, hep-th/9704166 Secs.~2--4;
+         Phys.\ Lett.\ B \textbf{238} (1990) 92}
+
+\begin{enumerate}
+\item \textbf{Covariantly constant curvature:}
+Avramidi obtains closed-form heat kernel for covariantly constant
+backgrounds ($\nabla_\mu R_{\nu\rho\sigma\tau} = 0$,
+$\nabla_\mu\Omega_{\nu\rho} = 0$, $\nabla_\mu E = 0$)
+using a Lie-algebraic method.  The heat kernel diagonal is expressed
+as an average over a Lie group with Gaussian measure
+\fromlit{gr-qc/9408028, hep-th/9602169}.
+
+\item \textbf{Partial summation:}
+By expanding around the covariantly constant case and keeping
+all orders in $s\Box$ while truncating at second order in curvature,
+Avramidi obtains the same form factor structure as BV, confirming
+the five universal form factors $f_1,\ldots,f_5$.
+
+\item \textbf{Off-diagonal heat kernel:}
+\fromlit{CZ App.~B; Avramidi (2000) Ch.~9}
+
+The off-diagonal heat kernel (before taking the coincidence limit)
+has additional form factors $g_{\mathbf{U}}(x)$ and $g_R(x)$:
+\begin{equation}
+  K^s(x,x) = \frac{\sqrt{g}}{(4\pi s)^{d/2}}\bigl\{
+  \Id + s\,g_{\mathbf{U}}(s\Box)\,\mathbf{U}
+  + s\,\Id\,g_R(s\Box)\,R
+  + \mathcal{O}(\mathcal{R}^2)\bigr\}
+  \label{eq:offdiag-hk}
+\end{equation}
+with \fromlit{CZ App.~B}:
+\begin{equation}
+  g_{\mathbf{U}}(x) = -f(x)\,,
+  \qquad
+  g_R(x) = -\frac{1}{2x} + \frac{1}{4x}(x+2)f(x)\,.
+  \label{eq:offdiag-ff}
+\end{equation}
+These satisfy $g_{\mathbf{U}}(0) = -1$ and $g_R(0) = 1/6$.
+\end{enumerate}
+
+
+\subsection{Vassilevich: Seeley--DeWitt coefficients}
+
+\fromlit{Vassilevich, hep-th/0306138, Sec.~4}
+
+The standard Seeley--DeWitt coefficients for a Laplace-type operator
+$\Delta = -(g^{\mu\nu}\nabla_\mu\nabla_\nu + E)$ on a closed manifold:
+
+\begin{align}
+  a_0 &= \frac{1}{(4\pi)^{d/2}}\int\dd^d x\,\sqrt{g}\,\tr\Id
+  \label{eq:a0-V}\\[6pt]
+  a_2 &= \frac{1}{(4\pi)^{d/2}}\frac{1}{6}
+  \int\dd^d x\,\sqrt{g}\,\tr\bigl(6E + R\Id\bigr)
+  \label{eq:a2-V}\\[6pt]
+  a_4 &= \frac{1}{(4\pi)^{d/2}}\frac{1}{360}
+  \int\dd^d x\,\sqrt{g}\,\tr\bigl[
+  60\,RE + 180\,E^2 + 60\,\Box E
+  \notag\\
+  &\qquad + (5R^2 - 2\Ricsq + 2\Rsq)\Id
+  + 30\,\Omega_{\mu\nu}\Omega^{\mu\nu}
+  \bigr]
+  \label{eq:a4-V}
+\end{align}
+
+\begin{remark}[Sign in $a_4$]
+\needscheck\;
+Vassilevich Eq.~(4.1) writes $a_4$ with $+180E^2$ and $+30\,\Omega\Omega$.
+Some references (e.g., Gilkey) write $-180E^2$ and $-30\,\Omega\Omega$
+due to a different sign convention for $E$.  Our
+$E_{\text{Vassilevich}} = E_{\text{ours}}$ (both use $\Delta = -\nabla^2 - E$),
+so \eqref{eq:a4-V} applies directly.
+However, the sign of the $\Omega\Omega$ term depends on the convention
+for the bundle curvature: if $\Omega_{\mu\nu} = [D_\mu,D_\nu]$
+(our convention, same as CZ and Vassilevich), then
+$\tr(\Omega\Omega)$ for the spin connection is \textbf{negative}:
+$\tr(\Omega^{\text{spin}}\Omega^{\text{spin}}) = -\frac{1}{2}\Rsq$.
+So $+30\times(-\frac{1}{2}\Rsq) = -15\Rsq$ enters $a_4$.
+\end{remark}
+
+
+\subsection{Iochum--Levy--Vassilevich: Spectral action beyond weak field}
+
+\fromlit{arXiv:1108.3749; arXiv:1201.6637}
+
+ILV compute the spectral action $\Tr\,f(D^2/\Lambda^2)$ covariantly
+to second order in the gauge connection, going beyond the weak-field
+(Seeley--DeWitt) approximation.  Key results:
+
+\begin{enumerate}
+\item They confirm that the covariant perturbation theory (BV technique)
+applies to the spectral action: the form factors are the same as
+those in the heat kernel, just integrated against a different weight.
+
+\item For a commutative spectral triple on a torus, they compute
+the spectral action to second order in $A_\mu$ and find
+\fromlit{1108.3749 abstract}:
+in the UV regime $p\to\infty$, the action decays as $1/p^4$ in any
+even dimension.
+
+\item The convergence of the nonlocal expansion is controlled by the
+smoothness of $f$: for Schwartz-class $f$, the expansion converges
+for all $\Box$.
+\end{enumerate}
+
+\gap\; \textbf{The explicit form of the spectral action form factors
+(as opposed to the heat kernel form factors) for a general spectral
+function $f$ and the full Dirac operator on a curved manifold has
+not been computed in the literature.}  This is precisely the gap
+NT-1 aims to fill.
+
+
+\subsection{Barvinsky--Vilkovisky: parametric integral representation}
+
+\fromlit{BV (1987) Eq.~(3.44) ff.; BV (1990) Eqs.~(3.1)--(3.4)}
+
+The BV form factors have the parametric integral representation:
+\begin{equation}
+  f_i(x) = \int_0^1\dd\xi\,\Phi_i(\xi)\,e^{-\xi(1-\xi)x}
+  \label{eq:BV-parametric}
+\end{equation}
+where the $\Phi_i(\xi)$ are polynomial weight functions.  For the
+five form factors at $\mathcal{O}(\mathcal{R}^2)$:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  \Phi_1(\xi) &= \frac{1}{6} + (1-6\xi+6\xi^2)\frac{1}{[\xi(1-\xi)]^2}
+    \cdot\text{(subtracted)}\\
+  \Phi_4(\xi) &= \frac{1}{2}\\
+  \Phi_5(\xi) &= \frac{1}{2}\cdot\frac{(1-2\xi)^2}{[\text{from identity \eqref{eq:f-identity}}]}
+  \end{aligned}
+  }
+  \label{eq:BV-weights}
+\end{equation}
+
+\gap\; \textbf{The exact polynomial weight functions $\Phi_1$, $\Phi_2$,
+$\Phi_3$ from BV~(1987) are needed.}  The forms given above are
+incomplete.  The original BV papers (Nucl.\ Phys.\ B \textbf{282}
+and \textbf{333}) should be consulted for the precise expressions.
+The arXiv paper 0911.1168 (BV~IV) contains the complete results
+through third order in curvature.
+
+\begin{remark}
+The parametric representation \eqref{eq:BV-parametric} is particularly
+useful for the NT-1 computation because it allows the $s$-integration
+(Step~4 in Sec.~\ref{sec:recipe}) to be performed by interchanging
+the order of integration:
+\begin{equation}
+  F_i^{\text{SCT}} \propto \int_0^1\dd\xi\,\Phi_i(\xi)
+  \int_0^\infty\dd t\,\tilde{f}(t)\,e^{-\xi(1-\xi)t\Box/\Lambda^2}\,.
+  \label{eq:interchange}
+\end{equation}
+The inner integral is then a function of $\xi(1-\xi)\Box/\Lambda^2$
+determined by the spectral function $f$.
+\end{remark}
+
+
+%%======================================================================
+\newpage
+\section{Known Results for Cross-Checks}
+\label{sec:cross-checks}
+%%======================================================================
+
+\subsection{Seeley--DeWitt limit}
+
+In the local limit $\Box/\Lambda^2 \to 0$, the form factors $F_1$ and
+$F_2$ should reduce to the curvature-squared coefficients obtained
+from the $a_4$ Seeley--DeWitt coefficient.
+
+From \texttt{SCT\_derivations.tex} Eq.~(1.22):
+\begin{equation}
+  a_4(D^2) = \frac{1}{16\pi^2\cdot 360}\int_M\bigl[
+  12\,\Box R + 5R^2 - 8\Ricsq - 7\Rsq
+  \bigr]\sqrt{g}\,\dd^4x
+  \label{eq:a4-check}
+\end{equation}
+
+In the Weyl basis: $5R^2 - 8\Ricsq - 7\Rsq = 11\,E_4 - 18\,C^2$.
+
+So the local limit of the spectral action at $\mathcal{O}(\mathcal{R}^2)$ gives:
+\begin{equation}
+  F_1(0) = -\frac{18\,f_4}{5760\pi^2} = -\frac{f_4}{320\pi^2}\,,
+  \qquad
+  F_2(0) = 0\,,
+  \label{eq:local-check}
+\end{equation}
+where $f_4 = f(0)$ is the zeroth moment of the spectral function.
+The vanishing $F_2(0) = 0$ is a consequence of conformal invariance of the
+massless Dirac field: $\beta_R = 0$ (verified independently in
+NT1\_form\_factors, Sec.~5).
+
+\begin{remark}
+The $E_4$ (topological) part does not contribute to $F_1$ or $F_2$
+in the equations of motion, but enters the action.  When checking
+the local limit, one should compare with the full $a_4$ including
+$E_4$.  The $\Box R$ term integrates to zero on a closed manifold.
+\end{remark}
+
+
+\subsection{Conformal flatness limit}
+
+On a conformally flat manifold ($C_{\mu\nu\rho\sigma}=0$), only
+the $F_2\,R^2$ term survives.  This should be consistent with the
+known spectral action on spaces like $S^4$.
+
+
+\subsection{Weak-field flat-space limit}
+
+Expanding around flat space $g_{\mu\nu} = \delta_{\mu\nu} + h_{\mu\nu}$,
+the form factors in momentum space should reproduce the 2-point
+functions computed by CZ:
+\begin{equation}
+  \left.\frac{\delta^2\Tr K^s}{\delta h_{p;\mu\nu}\delta h_{-p;\alpha\beta}}
+  \right|_{\Phi=0}
+  = \frac{1}{(4\pi s)^{d/2}}\bigl\{
+  \text{known tensor structure from CZ~(32)}
+  \bigr\}
+  \label{eq:flat-check}
+\end{equation}
+
+
+\subsection{Two-dimensional limit}
+
+In $d=2$, the heat kernel expansion terminates at second order in
+curvature \fromlit{CZ Sec.~5.1; BV (1990)}.
+The combined form factor is \fromlit{CZ Eq.~(43)}:
+\begin{equation}
+  f_{R,2d}(x) = \frac{1}{32}f(x)
+  + \frac{1}{16x}[2f(x)-1]
+  + \frac{3}{8x^2}[f(x)-1]\,.
+  \label{eq:2d-ff}
+\end{equation}
+This has the late-time expansion $f_{R,2d}(x) = 2/x^3 + \mathcal{O}(x^{-4})$,
+with both $x^{-1}$ and $x^{-2}$ coefficients vanishing --- a nontrivial
+check.
+
+
+\subsection{Comparison with logarithmic running}
+
+For a sharp cutoff spectral function (step function), the spectral
+action form factors should reduce in the UV to:
+\begin{equation}
+  F_i(\Box/\Lambda^2)
+  \xrightarrow{\Box/\Lambda^2 \to 0}
+  \beta_i\,\ln(\Lambda^2/\Box) + \text{const}\,,
+  \label{eq:log-check}
+\end{equation}
+matching the standard running with the correct $\beta$-coefficients
+from Table~\ref{tab:betas}.
+
+For the Dirac field: $\beta_W = 1/20$.  This provides a critical
+cross-check of the final result.
+
+
+\subsection{UV decay}
+
+\fromlit{ILV 1108.3749}
+
+For a smooth spectral function $f$ (Schwartz class), the spectral
+action should decay in the UV ($p \to \infty$) as $1/p^4$ in $d=4$:
+\begin{equation}
+  F_i(p^2/\Lambda^2) \sim \frac{1}{p^4}\,,
+  \qquad p^2/\Lambda^2 \to \infty\,.
+  \label{eq:UV-decay}
+\end{equation}
+This is a consequence of the smoothness of $f$ and is specific to the
+spectral action (the one-loop effective action has logarithmic growth
+instead).
+
+
+%%======================================================================
+\newpage
+\section*{Summary of Gaps}
+\addcontentsline{toc}{section}{Summary of Gaps}
+%%======================================================================
+
+The following items are \textbf{not available} in the extracted
+literature and must be computed in the NT-1 derivation:
+
+\begin{enumerate}
+\item \textbf{Explicit Dirac trace reduction:}
+  The spinor trace of the five form factor terms in
+  \eqref{eq:heat-trace-dirac-R2}, converting from the
+  $\{R_{\mu\nu},R,\hat{P},\Omega_{\mu\nu}\}$ basis to the
+  Weyl basis $\{C_{\mu\nu\rho\sigma},R\}$ with all Dirac-specific
+  coefficients computed.
+
+\item \textbf{The $s$-integration against the spectral weight:}
+  The explicit integral \eqref{eq:F1F2-integral} converting
+  heat kernel form factors $h_C$, $h_R$ into spectral action
+  form factors $F_1$, $F_2$ for a general spectral function $f$.
+  \emph{This is the core new computation.}
+
+\item \textbf{BV parametric weights $\Phi_1$, $\Phi_2$, $\Phi_3$:}
+  The exact polynomial weight functions in the parametric
+  representation \eqref{eq:BV-parametric} for $f_1$, $f_2$, $f_3$.
+  These are available in BV~(1987) Nucl.\ Phys.\ B \textbf{282}
+  but were not extracted here.
+
+\item \textbf{Closed-form result for specific $f$:}
+  For common choices of spectral function (e.g., $f(u)=e^{-u}$,
+  or $f(u)=\chi_{[0,1]}(u)$), the integrals in
+  \eqref{eq:F1F2-integral} can be evaluated in closed form.
+  These are not in the literature.
+\end{enumerate}
+
+
+%%======================================================================
+\section*{References}
+\addcontentsline{toc}{section}{References}
+%%======================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{BV1985}
+  A.~O.~Barvinsky and G.~A.~Vilkovisky,
+  \emph{The generalized Schwinger--DeWitt technique in gauge theories
+  and quantum gravity},
+  Phys.\ Rept.\ \textbf{119} (1985) 1--74.
+
+\bibitem{BV1987}
+  A.~O.~Barvinsky and G.~A.~Vilkovisky,
+  \emph{Beyond the Schwinger--DeWitt technique: converting loops into
+  trees and in-in currents},
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163--188.
+
+\bibitem{BV1990a}
+  A.~O.~Barvinsky and G.~A.~Vilkovisky,
+  \emph{Covariant perturbation theory (II). Second order in the
+  curvature. General algorithms},
+  Nucl.\ Phys.\ B \textbf{333} (1990) 471--511.
+
+\bibitem{BV1990b}
+  A.~O.~Barvinsky and G.~A.~Vilkovisky,
+  \emph{Covariant perturbation theory (III). Spectral representations
+  of the third-order form factors},
+  Nucl.\ Phys.\ B \textbf{333} (1990) 512--524.
+
+\bibitem{BGVZ2009}
+  A.~O.~Barvinsky, Yu.~V.~Gusev, V.~V.~Zhytnikov, and
+  G.~A.~Vilkovisky,
+  \emph{Covariant perturbation theory (IV). Third order in the
+  curvature},
+  arXiv:0911.1168 [hep-th].
+
+\bibitem{BGVZ1994}
+  A.~O.~Barvinsky, Yu.~V.~Gusev, G.~A.~Vilkovisky, and
+  V.~V.~Zhytnikov,
+  \emph{Asymptotic behaviours of the heat kernel in covariant
+  perturbation theory},
+  gr-qc/9404063.
+
+\bibitem{Barvinsky2014}
+  A.~O.~Barvinsky,
+  \emph{Aspects of nonlocality in quantum field theory, quantum gravity
+  and cosmology},
+  arXiv:1408.6112 [hep-th].
+
+\bibitem{BW2023}
+  A.~O.~Barvinsky and W.~Wachowski,
+  \emph{Notes on conformal anomaly, nonlocal effective action and the
+  metamorphosis of the running scale},
+  arXiv:2306.03780 [hep-th].
+
+\bibitem{Avramidi1990a}
+  I.~G.~Avramidi,
+  \emph{The nonlocal structure of the one-loop effective action via
+  partial summation of the asymptotic expansion},
+  Phys.\ Lett.\ B \textbf{236} (1990) 443--449.
+
+\bibitem{Avramidi1990b}
+  I.~G.~Avramidi,
+  \emph{The covariant technique for calculation of the heat kernel
+  asymptotic expansion},
+  Phys.\ Lett.\ B \textbf{238} (1990) 92--97.
+
+\bibitem{Avramidi1997}
+  I.~G.~Avramidi,
+  \emph{Covariant techniques for computation of the heat kernel},
+  arXiv:hep-th/9704166.
+
+\bibitem{Avramidi2000}
+  I.~G.~Avramidi,
+  \emph{Heat Kernel and Quantum Gravity},
+  Lect.\ Notes Phys.\ Monogr.\ \textbf{64}, Springer (2000).
+
+\bibitem{Vassilevich2003}
+  D.~V.~Vassilevich,
+  \emph{Heat kernel expansion: user's manual},
+  Phys.\ Rept.\ \textbf{388} (2003) 279--360,
+  arXiv:hep-th/0306138.
+
+\bibitem{CZ2012}
+  A.~Codello and O.~Zanusso,
+  \emph{On the non-local heat kernel expansion},
+  J.\ Math.\ Phys.\ \textbf{54} (2013) 013513,
+  arXiv:1203.2034 [math-ph].
+
+\bibitem{CPR2009}
+  A.~Codello, R.~Percacci, and C.~Rahmede,
+  \emph{Investigating the ultraviolet properties of gravity with a
+  Wilsonian renormalization group equation},
+  Ann.\ Phys.\ \textbf{324} (2009) 414--469,
+  arXiv:0805.2909 [hep-th].
+
+\bibitem{ILV2011}
+  B.~Iochum, C.~Levy, and D.~Vassilevich,
+  \emph{Spectral action beyond the weak-field approximation},
+  Commun.\ Math.\ Phys.\ \textbf{316} (2012) 595--613,
+  arXiv:1108.3749 [hep-th].
+
+\bibitem{ILV2012}
+  B.~Iochum, C.~Levy, and D.~Vassilevich,
+  \emph{Global and local aspects of spectral actions},
+  J.\ Phys.\ A \textbf{45} (2012) 374020,
+  arXiv:1201.6637 [math-ph].
+
+\bibitem{BMZ1995}
+  A.~O.~Barvinsky, A.~G.~Mirzabekian, and V.~V.~Zhytnikov,
+  \emph{Conformal decomposition of the effective action and covariant
+  curvature expansion},
+  gr-qc/9510037.
+
+\bibitem{BG1995}
+  A.~O.~Barvinsky and Yu.~V.~Gusev,
+  \emph{Heat kernel and loop currents by the generating function method},
+  gr-qc/9507026.
+
+\bibitem{BGVZ1994b}
+  A.~O.~Barvinsky, Yu.~V.~Gusev, G.~A.~Vilkovisky, and
+  V.~V.~Zhytnikov,
+  \emph{The one-loop effective action and trace anomaly in four
+  dimensions},
+  arXiv:hep-th/9404187.
+
+\bibitem{CC1997}
+  A.~H.~Chamseddine and A.~Connes,
+  \emph{The spectral action principle},
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731--750,
+  arXiv:hep-th/9606001.
+
+\end{thebibliography}
+
+\end{document}
