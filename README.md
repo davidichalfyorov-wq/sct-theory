@@ -98,10 +98,12 @@ Hard derivations fail for boring reasons — wrong signs, mismatched conventions
 
 ## Published Work
 
-| Paper | DOI |
-|-------|-----|
-| Nonlocal one-loop form factors of the spectral action with Standard Model content | [10.5281/zenodo.19039242](https://doi.org/10.5281/zenodo.19039242) |
-| Solar system and laboratory tests of the spectral action scale | [10.5281/zenodo.19045796](https://doi.org/10.5281/zenodo.19045796) |
+| # | Paper | DOI |
+|---|-------|-----|
+| 1 | Nonlocal one-loop form factors of the spectral action with Standard Model content | [10.5281/zenodo.19039242](https://doi.org/10.5281/zenodo.19039242) |
+| 2 | Solar system and laboratory tests of the spectral action scale | [10.5281/zenodo.19045796](https://doi.org/10.5281/zenodo.19045796) |
+| 3 | Chirality of the Seeley-DeWitt coefficients and quartic Weyl structure in the spectral action | [10.5281/zenodo.19056295](https://doi.org/10.5281/zenodo.19056295) |
+| 4 | Nonlinear field equations and FLRW cosmology of the spectral action with Standard Model content | [10.5281/zenodo.19056349](https://doi.org/10.5281/zenodo.19056349) |
 
 ## Quick Start
 
@@ -122,7 +124,7 @@ It is a serious research workspace built to make derivations **reproducible**, *
 
 ## Author
 
-Formal theory documents and papers are authored by **David Alfyorov**.
+Formal theory documents and papers are authored by **David Alfyorov** ([ORCID](https://orcid.org/0009-0003-6027-7837)).
 
 ## Credits
 
