@@ -1,0 +1,261 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\dd}{\mathrm{d}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  pdftitle={Ghost Inevitability in the Spectral Action},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{Ghost Inevitability Theorem}\\[4pt]
+  \large Structural Ghost Poles in the Spectral Action
+  with Standard Model Matter Content
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\begin{abstract}
+We prove that the one-loop graviton propagator in Spectral Causal Theory
+(SCT) necessarily contains ghost poles for any spectral action
+$S = \mathrm{Tr}\,f(D^2/\Lambda^2)$ with Standard Model matter content.
+The result follows from three facts:
+(i)~the master function $\varphi(z)$ and the normalized form factor
+$\Fhat_1(z)$ depend only on the heat-kernel structure, not on the
+choice of~$f$;
+(ii)~the Weyl${}^2$ coefficient $\alpha_C = 13/120$ is positive and
+determined solely by SM multiplicities;
+(iii)~the intermediate value theorem applied to the entire function
+$\PiTT(z)$, which satisfies $\PiTT(0) = 1 > 0$ while
+$\PiTT(z) \to -83/6 < 0$ as $z \to +\infty$ and
+$\PiTT(z) \to -\infty$ as $z \to -\infty$.
+No modification of~$f$ can eliminate the ghost poles.  The only escape
+is to change the matter content such that
+$N_s + 12\,N_v \leq 6\,N_D$, which fails for the SM by a margin of~13
+degrees of freedom.
+\end{abstract}
+
+\section{Setup}
+
+The one-loop graviton propagator denominator in SCT is
+\begin{equation}\label{eq:PiTT}
+  \PiTT(z) = 1 + \frac{13}{60}\,z\,\Fhat_1(z),
+\end{equation}
+where $z = \Box/\Lambda^2$ is the dimensionless d'Alembertian and
+$\Fhat_1(z) = F_1(z)/F_1(0)$ is the normalized spin-2 form factor.
+
+The form factor $F_1(z)$ is constructed from the heat-kernel master
+function
+\begin{equation}\label{eq:phi}
+  \varphi(z)
+  = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi
+  = e^{-z/4}\sqrt{\frac{\pi}{z}}\,\mathrm{erfi}\!\left(
+    \frac{\sqrt{z}}{2}\right),
+\end{equation}
+which is an entire function of~$z$ with $\varphi(0) = 1$.
+
+The coefficient $13/60 = 2\,\alpha_C$, where
+\begin{equation}\label{eq:alphaC}
+  \alpha_C
+  = N_s\,\beta_W^{(0)}
+    + N_D\,\beta_W^{(1/2)}
+    + N_v\,\beta_W^{(1)}
+  = \frac{N_s}{120} - \frac{N_D}{20} + \frac{N_v}{10},
+\end{equation}
+with the SM multiplicities $N_s = 4$, $N_D = 45/2$, $N_v = 12$,
+giving $\alpha_C = 13/120$.
+
+\begin{remark}[$f$-independence]
+The function $\varphi(z)$ in~\eqref{eq:phi} depends only on the
+eigenvalue distribution of $D^2$ through the heat kernel
+$K(t) = \mathrm{Tr}\,e^{-tD^2}$, not on the spectral function
+$f(x)$ in $S = \mathrm{Tr}\,f(D^2/\Lambda^2)$.
+The per-spin form factors $h_C^{(s)}(z)$ and $h_R^{(s)}(z)$ are
+algebraic functions of $\varphi(z)$ and~$z$.
+The choice of $f$ affects only the overall normalization $F_1(0)$,
+which cancels in the ratio $\Fhat_1(z) = F_1(z)/F_1(0)$.
+Therefore, $\PiTT(z)$ is entirely determined by the heat-kernel
+structure and the SM particle content, independently of~$f$.
+\end{remark}
+
+
+\section{Ghost Inevitability Theorem}
+
+\begin{theorem}[Ghost inevitability]
+\label{thm:main}
+For any spectral function $f(x)$ and any matter content with
+$\alpha_C > 0$ (equivalently, $N_s + 12\,N_v > 6\,N_D$),
+the propagator denominator $\PiTT(z)$ has at least two real zeros:
+one at some $z_0 > 0$ (Euclidean/spacelike ghost) and one at some
+$z_L < 0$ (Lorentzian/timelike ghost).
+\end{theorem}
+
+\begin{proof}
+We establish three properties of $\PiTT(z)$:
+
+\textbf{(i)~$\PiTT(0) = 1 > 0$.}
+At $z = 0$: $\Fhat_1(0) = 1$ by normalization, so
+$\PiTT(0) = 1 + 0 = 1$.
+
+\textbf{(ii)~$\PiTT(z) \to -83/6 < 0$ as $z \to +\infty$.}
+From the verified Phase~3 UV asymptotic
+$z\,\alpha_C(z) \to -89/12$ as $z \to +\infty$
+(where $\alpha_C(z) = \sum_s N_s\,h_C^{(s)}(z)$ is the
+$z$-dependent Weyl${}^2$ coefficient), we obtain
+\begin{equation}
+  \PiTT(z) = 1 + 2\,z\,\alpha_C(z)
+  \;\xrightarrow{z \to +\infty}\;
+  1 - \frac{89}{6} = -\frac{83}{6} \approx -13.83.
+\end{equation}
+Numerically verified: $\PiTT(10^4) = -13.833$ to 4~significant
+figures.
+
+\textbf{(iii)~$\PiTT(z) \to -\infty$ as $z \to -\infty$.}
+For $z < 0$, $\varphi(z) = \int_0^1 e^{|z|\xi(1-\xi)}\,\dd\xi$
+grows as $\varphi(z) \sim e^{|z|/4}\sqrt{2\pi/|z|}$ (dominated by
+the saddle point at $\xi = 1/2$).  The form factors $h_C^{(s)}(z)$
+inherit this exponential growth, so $F_1(z)$ grows exponentially for
+$z \ll 0$.  Since $z < 0$ and $F_1(z) > 0$ for $z < 0$, the product
+$z \cdot \Fhat_1(z) \to -\infty$, and therefore
+$\PiTT(z) \to -\infty$.
+Numerically: $\PiTT(-10) = -182$, $\PiTT(-50) \approx -1.7 \times 10^7$.
+
+\medskip
+Since $\PiTT(z)$ is an entire function (hence continuous on~$\mathbb{R}$)
+satisfying
+\[
+  \PiTT(0) = 1 > 0,
+  \qquad
+  \lim_{z \to +\infty} \PiTT(z) = -\frac{83}{6} < 0,
+  \qquad
+  \lim_{z \to -\infty} \PiTT(z) = -\infty,
+\]
+the intermediate value theorem guarantees:
+\begin{itemize}
+  \item $\exists\, z_0 \in (0, +\infty)$ with $\PiTT(z_0) = 0$
+    \quad (Euclidean ghost, $k^2 < 0$, spacelike),
+  \item $\exists\, z_L \in (-\infty, 0)$ with $\PiTT(z_L) = 0$
+    \quad (Lorentzian ghost, $k^2 > 0$, timelike).
+\end{itemize}
+Neither zero can be removed by modifying~$f$, since $\PiTT(z)$ is
+$f$-independent.
+\end{proof}
+
+
+\begin{corollary}[SM ghost margin]
+\label{cor:margin}
+For the Standard Model, $N_s + 12\,N_v = 148$ and $6\,N_D = 135$.
+The ghost-inevitability condition $N_s + 12\,N_v > 6\,N_D$ is
+satisfied with a margin of~$13$ degrees of freedom.  To achieve
+$\alpha_C \leq 0$ would require adding at least $\lceil 13/6 \rceil + 1
+= 3$ Dirac fermion doublets ($\approx 5$ Weyl fermions) beyond the SM
+content.
+\end{corollary}
+
+
+\section{Matter Content Analysis}
+
+\begin{center}
+\begin{tabular}{lcccl}
+\toprule
+Theory & $N_s + 12\,N_v$ & $6\,N_D$ & $\alpha_C$ & Ghost? \\
+\midrule
+Standard Model & 148 & 135 & $13/120 > 0$ & \textbf{Yes} \\
+Pure scalar ($N_s > 0$) & $N_s$ & 0 & $> 0$ & Yes \\
+Pure vector ($N_v > 0$) & $12\,N_v$ & 0 & $> 0$ & Yes \\
+Pure fermion ($N_D > 0$) & 0 & $6\,N_D$ & $< 0$ & \textbf{No} \\
+SM + 3 Dirac doublets & 148 & 153 & $-5/120 < 0$ & No \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Physical interpretation]
+Fermions contribute \emph{negatively} to $\alpha_C$ because the
+one-loop fermion determinant carries an overall minus sign (closed
+fermion loop).  A theory with sufficiently many fermions relative to
+bosons can have $\alpha_C \leq 0$, in which case
+$\PiTT(z \to +\infty) \geq 1$ and the positive-axis ghost is absent.
+Whether a negative-axis ghost survives in this case depends on the
+detailed structure of $\Fhat_1(z)$ and requires separate analysis.
+\end{remark}
+
+
+\section{Numerical Verification}
+
+\begin{center}
+\begin{tabular}{rcc}
+\toprule
+$z$ & $\PiTT(z)$ & Sign \\
+\midrule
+$-50$ & $-1.72 \times 10^7$ & $-$ \\
+$-10$ & $-182.4$ & $-$ \\
+$-5$ & $-19.64$ & $-$ \\
+$-2$ & $-1.395$ & $-$ \\
+$-1.281$ & $-4.3 \times 10^{-4}$ & $\approx 0$ \\
+$-1$ & $+0.361$ & $+$ \\
+$0$ & $+1.000$ & $+$ \\
+$+0.5$ & $+1.023$ & $+$ \\
+$+2$ & $+0.328$ & $+$ \\
+$+2.415$ & $-1.4 \times 10^{-4}$ & $\approx 0$ \\
+$+3$ & $-0.524$ & $-$ \\
+$+10$ & $-7.314$ & $-$ \\
+$+10^4$ & $-13.833$ & $-$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The zeros are located at $z_L = -1.28070\ldots$ (Lorentzian ghost)
+and $z_0 = +2.41484\ldots$ (Euclidean ghost), matching the MR-2 ghost
+catalogue to 15+ significant figures.
+
+
+\section{Implications}
+
+\begin{enumerate}
+  \item \textbf{No escape via $f$:} The ghost poles are a structural
+    consequence of the spectral action with SM matter, not an artifact
+    of a particular choice of spectral function.
+
+  \item \textbf{The ghost problem is real:} Any resolution must come
+    from the quantum treatment of the ghost degrees of freedom (fakeon,
+    Donoghue--Menezes, PT symmetry), not from modifying the classical
+    action.
+
+  \item \textbf{Predictivity:} The inevitability of ghosts is the
+    flip side of SCT's high predictivity.  The form factors are
+    \emph{derived}, not \emph{postulated}.  A theory that postulates
+    ghost-free form factors (e.g., infinite-derivative gravity with
+    $e^{-\Box/\Lambda^2}$) avoids ghosts but loses predictivity.
+
+  \item \textbf{BSM sensitivity:} The ghost margin ($148 - 135 = 13$)
+    is remarkably small.  Adding $\sim 5$ Weyl fermions to the SM
+    would eliminate $\alpha_C > 0$.  This makes the ghost problem
+    sensitive to BSM physics near the Planck scale.
+\end{enumerate}
+
+\end{document}

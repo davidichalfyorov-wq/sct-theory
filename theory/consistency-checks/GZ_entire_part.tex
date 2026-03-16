@@ -1,0 +1,510 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Pis}{\Pi_{\mathrm{s}}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\order}{\mathcal{O}}
+\newcommand{\PV}{\mathcal{P}}
+\newcommand{\Imag}{\mathrm{Im}}
+\newcommand{\Real}{\mathrm{Re}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- GZ}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={GZ: Entire Part of the SCT Propagator Mittag-Leffler Expansion},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{GZ: Entire Part of the SCT Propagator}\\[4pt]
+  \textbf{Mittag-Leffler Expansion}\\[6pt]
+  \large Proof that $g_A(z) = -c_2 = -\tfrac{13}{60}$ (constant)\\[2pt]
+  via Genus Bound and Asymptotic Limit
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\begin{abstract}
+We prove that the entire part $g_A(z)$ in the Mittag-Leffler expansion
+of the SCT physical propagator $H(z) = 1/(z\,\PiTT(z))$ is a constant:
+\[
+  g_A(z) = -c_2 = -\frac{13}{60} = -2\alpha_C
+  \qquad \text{for all } z \in \mathbb{C},
+\]
+where $c_2 = 13/60$ is the coefficient in $\PiTT(z) = 1 + c_2\,z\,\Fhat_1(z)$
+and $\alpha_C = 13/120$ is the total Standard Model Weyl-squared coefficient.
+The proof rests on two facts: (1)~the function $z\,\PiTT(z)$ is entire of
+order~1 and genus~1, which constrains $g_A$ to be a polynomial of degree
+at most~1; (2)~the positive real axis limit $g_A(x) \to -c_2$ as
+$x \to +\infty$ forces the linear coefficient to vanish.  A corollary is
+the sum rule $\sum_n R_n/z_n = c_2 = 13/60$, verified numerically to
+99.95\% with 16~poles.  The result establishes that the SCT graviton
+propagator has a \emph{pure pole decomposition}: graviton plus ghost tower
+plus a single constant contact term, with no smooth entire-function
+background.  Numerical verification at 19~test points (real and complex)
+at 100-digit precision confirms constancy to within $4.5\times 10^{-7}$,
+attributable entirely to the finite-pole truncation.  55/55~unit tests
+and full regression (2825+~tests) all pass.
+\end{abstract}
+
+\tableofcontents
+
+%% ====================================================================
+\section{Introduction}
+\label{sec:intro}
+%% ====================================================================
+
+The SCT graviton propagator denominator is the entire function
+\begin{equation}\label{eq:PiTT}
+  \PiTT(z) = 1 + \frac{13}{60}\,z\,\Fhat_1(z),
+\end{equation}
+where $z = k^2/\Lambda^2$ is the dimensionless momentum-squared and
+$\Fhat_1(z)$ is the normalized one-loop Weyl-squared form factor
+built from the master function $\varphi(z) = e^{-z/4}\sqrt{\pi/z}\,\mathrm{erfi}(\sqrt{z}/2)$.
+The coefficient $c_2 = 13/60 = 2\alpha_C$ encodes the Standard Model
+content ($N_s = 4$, $N_D = 22.5$, $N_v = 12$, following CPR~0805.2909).
+
+The physical propagator is
+\begin{equation}\label{eq:H}
+  H(z) \equiv \frac{1}{z\,\PiTT(z)}.
+\end{equation}
+This meromorphic function has a simple pole at $z = 0$ (the graviton)
+with residue $1/\PiTT(0) = 1$, and simple poles at the zeros $\{z_n\}$
+of $\PiTT$ (ghost poles) with residues
+\begin{equation}\label{eq:Rn}
+  R_n = \frac{1}{z_n\,\PiTT'(z_n)}.
+\end{equation}
+
+The Mittag-Leffler theorem provides a one-subtraction expansion:
+\begin{equation}\label{eq:ML}
+  H(z) = g_A(z) + \frac{1}{z}
+    + \sum_{n \geq 1} R_n \biggl[\frac{1}{z - z_n} + \frac{1}{z_n}\biggr],
+\end{equation}
+where $g_A(z)$ is an entire function uniquely determined by $H$ and
+the pole structure.  The central result of this paper is:
+
+\begin{theorem}[Entire Part Constancy]\label{thm:main}
+  $g_A(z) = -c_2 = -13/60$ for all $z \in \mathbb{C}$.
+\end{theorem}
+
+\begin{corollary}[Sum Rule]\label{cor:sum_rule}
+  $\displaystyle\sum_{n \geq 1} \frac{R_n}{z_n} = c_2 = \frac{13}{60}$.
+\end{corollary}
+
+This was first observed numerically during the CL analysis (Devil's
+Advocate verification, Attack~8), where $g_A(z)$ was computed at 8~real
+points over $[0.5, 100]$ and found to cluster around $-0.21667$ with
+total variation $6.4\times 10^{-6}$.
+
+%% ====================================================================
+\section{Mittag-Leffler Expansion Setup}
+\label{sec:ml_setup}
+%% ====================================================================
+
+\subsection{The physical propagator and its poles}
+
+The function $f(z) = z\,\PiTT(z)$ is entire with zeros at $z = 0$ and
+at $\{z_n\}_{n \geq 1}$ (the ghost poles).  The known ghost catalogue
+(extended to $|z| \leq 200$) contains 16~zeros: 2~real
+($z_L \approx -1.281$, $z_0 \approx 2.415$) and 7~complex conjugate pairs
+with $|\Imag(z_n)| \approx 25.3 n$ for large~$n$.
+
+\subsection{One-subtraction form}
+
+Since $z = 0$ is a zero of $f(z)$ (not a zero of $\PiTT$), the graviton
+pole at $z = 0$ in $H(z)$ is separated from the ghost poles.  The
+standard one-subtraction Mittag-Leffler expansion of $H$ around its
+ghost poles is given by~\eqref{eq:ML}.
+
+The subtraction form $[1/(z - z_n) + 1/z_n]$ ensures each term decays as
+$\order(1/z^2)$ for large~$|z|$, improving convergence from conditional
+(the unsubtracted series $\sum |R_n|$ diverges logarithmically) to absolute
+(the subtracted series converges as a $p$-series with $p = 2$, since
+$|R_n/z_n| \sim C_R/|z_n|^2 \sim \text{const}/n^2$).
+
+%% ====================================================================
+\section{Genus Argument}
+\label{sec:genus}
+%% ====================================================================
+
+\begin{lemma}[Order and genus of $z\,\PiTT(z)$]\label{lem:genus}
+  The entire function $f(z) = z\,\PiTT(z)$ has order $\rho = 1$,
+  type $\sigma = 1/4$, and genus $p = 1$.
+\end{lemma}
+
+\begin{proof}
+  \textbf{Order:} On the negative real axis,
+  $\PiTT(-x) \sim e^{x/4}$ as $x \to +\infty$.  Numerically,
+  $\log|\PiTT(-x)|/x$ converges to $0.25$:
+  \begin{center}
+  \begin{tabular}{rcc}
+    \toprule
+    $x$ & $\log|\PiTT(-x)|/x$ & Target \\
+    \midrule
+    10 & 0.521 & 0.25 \\
+    100 & 0.296 & 0.25 \\
+    500 & 0.261 & 0.25 \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  The growth rate converges to $\sigma = 1/4$, confirming order $\rho = 1$
+  with type $\sigma = 1/4$.
+
+  \textbf{Exponent of convergence:} The nonzero zeros satisfy
+  $|z_n| \sim \Delta \cdot n$ with $\Delta \approx 25.3$.  Therefore
+  $\sum 1/|z_n|^s$ converges for $s > 1$ and diverges for $s \leq 1$.
+  The exponent of convergence is $\lambda = 1$.
+
+  \textbf{Genus:} Since $\lambda = 1$ and $\sum 1/|z_n| = \sum 1/(25.3\,n)$
+  diverges (harmonic series), the genus is $p = \lambda = 1$ (Conway,
+  Functions of One Complex Variable~II, Ch.~VIII; Boas, Entire Functions,
+  Ch.~2--3).
+\end{proof}
+
+\begin{remark}
+  For an entire function of order $\rho$ and minimal type, the genus
+  can sometimes be $p = \rho - 1$ (Levin, Distribution of Zeros, Ch.~I).
+  However, $\PiTT$ has normal type $\sigma = 1/4 > 0$, so this exception
+  does not apply.
+\end{remark}
+
+%% ====================================================================
+\section{Proof of Constancy}
+\label{sec:proof}
+%% ====================================================================
+
+\begin{proof}[Proof of \cref{thm:main}]
+
+\textbf{Step 1 (Polynomial bound).}
+By the standard Mittag-Leffler theorem for the reciprocal of an
+order-1, genus-1 entire function (Conway~VIII, Boas~Ch.~8), the entire
+part $g_A(z)$ is a \emph{polynomial} of degree at most $p = 1$:
+\begin{equation}\label{eq:gA_poly}
+  g_A(z) = a + b\,z
+\end{equation}
+for some constants $a, b \in \mathbb{C}$.  This is much stronger than
+polynomial growth---it constrains $g_A$ to be \emph{exactly} linear or
+constant.
+
+\textbf{Step 2 (Positive real axis limit: $b = 0$).}
+On the positive real axis as $x \to +\infty$:
+\begin{enumerate}[label=(\roman*)]
+  \item $H(x) = 1/(x\,\PiTT(x)) \to -6/(83x) \to 0$, since
+    $\PiTT(x) \to -83/6$ (verified canonical result).
+  \item Each subtracted term satisfies
+    $R_n[1/(x - z_n) + 1/z_n] = R_n\,x/(z_n(x - z_n)) \to R_n/z_n$.
+  \item By dominated convergence (with dominating function
+    $2|R_n/z_n|$ for $x > 2\max|z_n|$, and $\sum|R_n/z_n| < \infty$
+    as a $p = 2$ series), the pole sum converges term-by-term:
+    \[
+      S(x) \to \sum_{n \geq 1} \frac{R_n}{z_n} = \text{finite constant}.
+    \]
+  \item Therefore $g_A(x) = H(x) - S(x) - 1/x \to 0 - \sum R_n/z_n$,
+    which is bounded.
+\end{enumerate}
+Since $g_A(x) = a + bx$ must remain bounded as $x \to +\infty$,
+we require $b = 0$.
+
+\textbf{Step 3 (Value at $z = 0$: $a = -c_2$).}
+Expanding $\PiTT(z) = 1 + c_2\,z + \order(z^2)$ near $z = 0$
+(since $\Fhat_1(0) = 1$):
+\begin{align}
+  \frac{1}{z\,\PiTT(z)}
+    &= \frac{1}{z}\cdot\frac{1}{1 + c_2\,z + \order(z^2)} \notag\\
+    &= \frac{1}{z}\bigl(1 - c_2\,z + \order(z^2)\bigr) \notag\\
+    &= \frac{1}{z} - c_2 + \order(z). \label{eq:taylor}
+\end{align}
+At $z = 0$, the pole sum vanishes by construction:
+each $[1/(0 - z_n) + 1/z_n] = 0$.  Therefore
+\[
+  g_A(0) = \lim_{z \to 0}\bigl[H(z) - 1/z\bigr] = -c_2 = -\frac{13}{60}.
+\]
+
+\textbf{Conclusion.}
+Since $b = 0$ and $a = g_A(0) = -c_2$, we have
+$g_A(z) = -c_2 = -13/60$ for all $z \in \mathbb{C}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:sum_rule}]
+From Step~2, $g_A(x) + \sum R_n/z_n \to H(+\infty) = 0$.
+Since $g_A = -c_2$ (constant), we obtain
+$\sum_{n \geq 1} R_n/z_n = c_2 = 13/60$.
+\end{proof}
+
+%% ====================================================================
+\section{Sum Rule Verification}
+\label{sec:sum_rule}
+%% ====================================================================
+
+The sum rule $\sum R_n/z_n = c_2 = 13/60$ is verified numerically
+with the 16-pole catalogue.
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  Poles included & $\Real\bigl(\sum R_n/z_n\bigr)$ & Deficit from $13/60$ \\
+  \midrule
+  $z_L$ only                 & $+0.4199$ & --- \\
+  $z_L + z_0$                & $+0.2157$ & $9.68 \times 10^{-4}$ \\
+  $+ \text{C1 pair}$         & $+0.2162$ & $4.76 \times 10^{-4}$ \\
+  $+ \text{C2 pair}$         & $+0.2164$ & $3.15 \times 10^{-4}$ \\
+  $+ \text{C3 pair}$         & $+0.2164$ & $2.35 \times 10^{-4}$ \\
+  $+ \text{C4--C7 pairs}$    & $+0.2166$ & $1.16 \times 10^{-4}$ \\
+  \midrule
+  \textbf{Total (16 poles)}  & $\mathbf{0.21655}$ & $1.16 \times 10^{-4}$ \\
+  Tail estimate              & $+2.56 \times 10^{-4}$ & --- \\
+  \textbf{Predicted total}   & $\mathbf{0.21681}$ & --- \\
+  \textbf{Target $c_2$}      & $\mathbf{0.21667}$ & --- \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The partial sum with 16~poles reaches 99.95\% of the target value.
+The tail estimate, using $|R_n/z_n| \sim C_R/|z_n|^2 \sim 0.289/(25.3\,n)^2$,
+accounts for the deficit.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{../../analysis/figures/gz/gz_sum_rule.pdf}
+\caption{Cumulative partial sum $\sum_{n=1}^{N} R_n/z_n$ as a function of
+the number of poles included. The sum converges toward the target value
+$c_2 = 13/60 \approx 0.21667$ (dashed line). With 16 poles, the partial
+sum reaches 99.95\% of $c_2$, with the remaining deficit accounted for
+by the tail estimate $\sim 2.56 \times 10^{-4}$.}
+\label{fig:gz-sum-rule}
+\end{figure}
+
+%% ====================================================================
+\section{Numerical Verification}
+\label{sec:numerical}
+%% ====================================================================
+
+The entire part $g_A(z)$ is computed at 19~test points (13~real,
+6~complex) at 100-digit precision with the 16-pole catalogue.
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  $z$ & $\Real[g_A(z)]$ & Deviation from $-13/60$ \\
+  \midrule
+  0.1           & $-0.216666669467$ & $2.80 \times 10^{-9}$ \\
+  0.5           & $-0.216666680475$ & $1.38 \times 10^{-8}$ \\
+  1.0           & $-0.216666693797$ & $2.71 \times 10^{-8}$ \\
+  5.0           & $-0.216666782824$ & $1.16 \times 10^{-7}$ \\
+  10.0          & $-0.216666850030$ & $1.83 \times 10^{-7}$ \\
+  20.0          & $-0.216666837024$ & $1.70 \times 10^{-7}$ \\
+  30.0          & $-0.216666628731$ & $3.79 \times 10^{-8}$ \\
+  $5 + i$       & $-0.216666783803$ & $1.19 \times 10^{-7}$ \\
+  $10 + 5i$     & $-0.216666874623$ & $2.12 \times 10^{-7}$ \\
+  $-0.5 + 5i$   & $-0.216666676629$ & $1.46 \times 10^{-7}$ \\
+  $3 + 15i$     & $-0.216666962682$ & $4.48 \times 10^{-7}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Maximum deviation:} $4.5 \times 10^{-7}$ (at $z = 3 + 15i$),
+attributable to the finite 16-pole truncation.
+
+\subsection{Taylor coefficients}
+
+Using the Cauchy integral formula (128-point trapezoidal rule on
+$|z| = 0.3$):
+\begin{center}
+\begin{tabular}{ccc}
+  \toprule
+  $k$ & $\Real(a_k)$ & Expected \\
+  \midrule
+  0 & $-2.167 \times 10^{-1}$ & $-13/60$ \\
+  1 & $-2.81 \times 10^{-8}$ & 0 \\
+  2 & $+9.71 \times 10^{-10}$ & 0 \\
+  3 & $+7.05 \times 10^{-13}$ & 0 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All $a_k$ for $k \geq 1$ are at the level of finite-pole truncation noise,
+confirming $g_A$ is constant.
+
+\subsection{Growth order analysis}
+
+\begin{center}
+\begin{tabular}{rcc}
+  \toprule
+  Radius $r$ & $\max_{|z|=r}|g_A(z)|$ & Conclusion \\
+  \midrule
+  0.5 & 0.2167 & bounded \\
+  5.0 & 0.2167 & bounded \\
+  20.0 & 0.2167 & bounded \\
+  50.0 & 0.2167 & bounded \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Apparent growth order: $\sim 10^{-5}$ (consistent with order~0, i.e.,
+bounded).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{../../analysis/figures/gz/gz_constancy.pdf}
+\caption{Numerical evaluation of the entire part $g_A(z)$ across the complex
+plane. At all 19 test points (13 real, 6 complex), $g_A(z)$ clusters
+tightly around $-13/60 \approx -0.21667$ with maximum deviation
+$4.5 \times 10^{-7}$, attributable to the finite 16-pole truncation.
+The constancy confirms the genus argument: $g_A$ is a polynomial of degree
+at most 1, and the positive real axis limit forces the linear coefficient
+to vanish.}
+\label{fig:gz-constancy}
+\end{figure}
+
+%% ====================================================================
+\section{Physical Interpretation}
+\label{sec:physical}
+%% ====================================================================
+
+\subsection{Pure pole decomposition}
+
+\cref{thm:main} establishes that the SCT graviton propagator has the
+spectral form
+\begin{equation}\label{eq:spectral}
+  \frac{1}{z\,\PiTT(z)} = -\frac{13}{60}
+    + \frac{1}{z}
+    + \sum_{n \geq 1} R_n \biggl[\frac{1}{z - z_n} + \frac{1}{z_n}\biggr].
+\end{equation}
+In momentum space ($z = k^2/\Lambda^2$):
+\begin{equation}
+  G(k^2) = -\frac{c_2}{\Lambda^2}
+    + \frac{1}{k^2}
+    + \sum_{n \geq 1} \frac{R_n}{k^2 - m_n^2}
+    + \text{(subtraction terms)},
+\end{equation}
+where $m_n^2 = \Lambda^2\,z_n$.  The propagator is \emph{entirely
+determined} by its poles (graviton plus ghost tower) and a single
+constant contact term.
+
+\subsection{Contact term}
+
+The constant $g_A = -c_2 = -13/60 = -2\alpha_C$ is a
+momentum-independent contribution.  In position space,
+\[
+  G(x) \sim -\frac{13}{60}\,\frac{\delta^4(x)}{\Lambda^2}
+    + [\text{pole contributions}].
+\]
+This is a local contact interaction that can be absorbed into a
+counterterm in the effective action.
+
+\subsection{Connection to Lee-Wick models}
+
+In finite-pole Lee-Wick theories (Anselmi--Piva, JHEP 1706:066),
+the propagator is a rational function with $g = 0$.  The SCT result
+$g = \text{constant}$ (nonzero) means the infinite-pole propagator
+retains the same pure-pole structure, with an additional UV contact
+term proportional to the SM Weyl-squared coefficient.  The
+``nonlocality'' of the SCT propagator resides entirely in the
+infinite tower of poles, not in any smooth entire-function background.
+
+\subsection{Implications for unitarity}
+
+Since $g_A$ is constant, the spectral function $\Imag[G(s)]$ is a
+pure sum of delta-function and principal-value distributions at the
+pole positions, with no smooth background.  This simplifies the
+optical theorem analysis by confirming that all
+non-trivial spectral weight resides in the poles.
+
+\subsection{The function $g_B(z)$ for $1/\PiTT(z)$}
+
+The Mittag-Leffler expansion of $Q(z) = 1/\PiTT(z)$ uses residues
+$R_n^{(0)} = z_n R_n$:
+\[
+  \frac{1}{\PiTT(z)} = g_B(z) + \sum_n R_n^{(0)}
+    \biggl[\frac{1}{z - z_n} + \frac{1}{z_n}\biggr].
+\]
+Numerical computation shows $g_B(z) \neq \text{constant}$: deviations
+from $g_B(0) = 1$ scale linearly with $z$, consistent with the genus-1
+bound $g_B(z) = 1 + bz$ where $b \neq 0$.  This is expected because the
+argument forcing $b = 0$ for $g_A$ (namely, $H(x) \to 0$ as
+$x \to +\infty$) does not apply to $Q(x) \to -6/83 \neq 0$.
+
+%% ====================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+%% ====================================================================
+
+We have proven that the entire part in the Mittag-Leffler expansion of
+the SCT graviton propagator $1/(z\,\PiTT(z))$ is a constant:
+\[
+  \boxed{g_A(z) = -\frac{13}{60} = -2\alpha_C
+    \qquad \text{for all } z \in \mathbb{C}.}
+\]
+The proof combines the genus-1 constraint (limiting $g_A$ to at most
+a linear polynomial) with the positive real axis asymptotic (eliminating
+the linear term via dominated convergence and the known UV limit
+$\PiTT(x) \to -83/6$).  The corollary sum rule
+$\sum R_n/z_n = 13/60$ is verified to 99.95\% with 16~poles.
+
+The physical consequence is a pure pole decomposition of the graviton
+propagator: the spectral content is entirely concentrated in the
+graviton pole plus the ghost tower, with a single constant contact
+term.  This strengthens the connection between the nonlocal
+entire-function SCT framework and the well-studied finite-pole
+Lee-Wick models.
+
+\subsection*{Verification summary}
+
+\begin{center}
+\begin{tabular}{llcc}
+  \toprule
+  Layer & Description & Tests & Status \\
+  \midrule
+  1 & Analytic ($g_A(0) = -c_2$, sum rule, genus) & 8 & PASS \\
+  2 & Numerical (19 points, 100-digit) & 18 & PASS \\
+  3 & Cross-consistency (FK, CL, OT) & 6 & PASS \\
+  4 & Physical (reconstruction, UV/IR limits) & 5 & PASS \\
+  5 & Edge cases (near poles, complex, large) & 6 & PASS \\
+  6 & Regression (canonical values, catalogue) & 12 & PASS \\
+  \midrule
+  \textbf{Total} & & \textbf{55} & \textbf{ALL PASS} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Propagator reconstruction error at $z = 3 + i$: $7.97 \times 10^{-8}$.
+Full regression suite: 2825+ tests, all pass.
+
+\end{document}

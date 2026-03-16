@@ -1,0 +1,337 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[shortlabels]{enumitem}
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Lam}{\Lambda}
+
+\definecolor{proven}{RGB}{0,100,0}
+\definecolor{near}{RGB}{0,0,160}
+\definecolor{long}{RGB}{160,0,0}
+
+\hypersetup{
+  pdftitle={FUND Program: Five Fundamental Investigations into UV Completeness of the Spectral Action},
+  pdfauthor={David Alfyorov},
+  colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue
+}
+
+\title{\textbf{FUND Program: Five Fundamental Investigations\\[4pt]
+into UV Completeness of the Spectral Action}}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+We report the results of five fundamental investigations (FUND-FRG, FUND-FK3,
+FUND-NCG, FUND-SYM, FUND-LAT) probing all known structural escape routes from
+the three-loop finiteness obstruction identified in MR-5/MR-5b.  Each
+investigation was executed through a full literature--derivation--verification
+pipeline with independent re-derivation and adversarial audit.  Two
+investigations yield certified negative results (FK3, NCG), one yields a partial
+structural finding (SYM), one establishes no quantitative connection (FRG), and
+one provides informative benchmarks (LAT).  The three-loop obstruction---$P(4)=3$
+independent parity-even quartic Weyl invariants versus one spectral
+parameter---is confirmed and strengthened.  The revised survival probability for
+UV completeness is 56--64\%.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%===========================================================================
+\section{Introduction and Motivation}
+%===========================================================================
+
+The MR-5 and MR-5b investigations established that Spectral Causal Theory (SCT)
+achieves perturbative finiteness ($D=0$) at one loop (MR-7, background field
+method) and at two loops (MR-5b, on-shell CCC reduction).  At three loops,
+however, the Molien series for the invariant ring of parity-even quartic Weyl
+scalars gives $P(4) = 3$ independent structures, while the spectral function
+deformation $\delta\psi$ provides exactly one adjustable parameter ($\delta f_8$).
+This $3{:}1$ overdetermination makes all-orders perturbative finiteness
+structurally untenable for the exponential spectral function $\psi(u) = e^{-u}$.
+
+This paper reports five systematic investigations into whether any structural
+principle---from asymptotic safety, the fakeon prescription, noncommutative
+geometry, hidden algebraic symmetries, or non-perturbative lattice
+methods---could resolve or circumvent this obstruction.
+
+%===========================================================================
+\section{FUND-FRG: Asymptotic Safety Compatibility}
+\label{sec:frg}
+%===========================================================================
+
+\subsection{Question}
+Does SCT possess a UV fixed point in the functional renormalization group (FRG)
+sense, making the perturbative loop expansion irrelevant?
+
+\subsection{Method}
+Literature survey of 24 papers spanning the Reuter program, Benedetti--Machado--Saueressig
+(BMS) higher-derivative truncation, Knorr--Ripken--Saueressig form factor program,
+and Dona--Eichhorn--Percacci (DEP) matter bounds.  Numerical computation of SM
+matter contributions to gravity beta functions.
+
+\subsection{Results}
+\begin{enumerate}[(a)]
+  \item $\alpha_C = 13/120 = 0.1083$ (confirmed, exact rational).
+  \item DEP matter parameter $b = N_s - 4N_D + 2N_v = 4 - 90 + 24 = -62$,
+    outside the Einstein--Hilbert truncation bound but inside the $R^2$-extended
+    bound (Dona et al.\ 1311.2898).
+  \item Newton's constant is asymptotically free ($b_{PP} < 0$).
+  \item $\alpha_C = 0.108$ is $5$--$20\times$ larger than typical NGFP values
+    ($\alpha_C^* \sim 0.005$--$0.030$), indicating significant non-perturbative
+    running would be needed above~$\Lam$.
+\end{enumerate}
+
+\subsection{Verdict}
+\textbf{No quantitative connection established} (90\% confidence).  SCT and AS
+share structural features (AF Newton constant, $R^2$ terms, form factors) but no
+FRG computation has been performed for the SCT spectral action.  The $\alpha_C$
+magnitude mismatch remains unresolved.
+
+%===========================================================================
+\section{FUND-FK3: Fakeon Mechanism at Three Loops}
+\label{sec:fk3}
+%===========================================================================
+
+\subsection{Question}
+Does the Anselmi--Piva fakeon prescription impose additional constraints on the
+three-loop counterterm structure?
+
+\subsection{Method}
+Analysis of Anselmi's diagrammatic theorem (arXiv:2203.02516), computation of the
+full $\mathrm{SO}(4) \cong (\mathrm{SU}(2)_L \times \mathrm{SU}(2)_R)/\mathbb{Z}_2$
+Molien series for the Weyl tensor invariant ring, and systematic enumeration of
+on-shell quartic Weyl invariants.
+
+\subsection{Results}
+\begin{enumerate}[(a)]
+  \item \textbf{Anselmi's theorem}: the divergent part of fakeon amplitudes
+    coincides with Euclidean diagrammatics.  The fakeon prescription modifies
+    unitarity (absorptive parts), not UV divergences.
+  \item \textbf{Corrected Molien count}: the full parity-even Molien series
+    $P(t) = \bigl(M(t)^2 + M(t^2)\bigr)/2$ with
+    $M(t) = (1+t^6)/\bigl((1-t^2)(1-t^3)(1-t^4)\bigr)$ gives:
+    \begin{center}
+    \begin{tabular}{c|cccccccc}
+    \toprule
+    Loop $L$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+    \midrule
+    $P(\deg)$ & 1 & 1 & \textbf{3} & 2 & 7 & 5 & 13 & 12 \\
+    Params & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    \bottomrule
+    \end{tabular}
+    \end{center}
+    At $L=3$: three independent quartic Weyl invariants
+    $K_1 = (C^2)^2$, $K_2 = C^4_{\mathrm{box}}$, $K_3 = ({}^*\!CC)^2$
+    versus one parameter $\delta f_8$.  This corrects the MR-5b count of $P(4)=2$
+    (which used the single-$\mathrm{SU}(2)$ Molien series).
+  \item \textbf{All $L \geq 3$ are overdetermined}, with the overdetermination
+    ratio growing monotonically.
+\end{enumerate}
+
+\subsection{Verdict}
+\textcolor{long}{\textbf{CERTIFIED NEGATIVE}} (95\% confidence).  The fakeon
+prescription ensures unitarity but cannot render SCT perturbatively finite beyond
+two loops.
+
+%===========================================================================
+\section{FUND-NCG: Constraints on the Spectral Function}
+\label{sec:ncg}
+%===========================================================================
+
+\subsection{Question}
+Do the axioms of noncommutative geometry constrain the spectral function $f$ in a
+way that resolves the three-loop overdetermination?
+
+\subsection{Method}
+Comprehensive survey of 14 papers from Chamseddine--Connes (1996) through
+Eckstein--Iochum (2019).  Computation of entropy function moments
+(Chamseddine--Connes--van Suijlekom 2018).  Non-perturbative spectral action
+comparison on~$S^4$.
+
+\subsection{Results}
+\begin{enumerate}[(a)]
+  \item The NCG axioms (real structure~$J$, first-order condition, KO-dimension)
+    constrain the algebra~$\mathcal{A}$, Hilbert space~$\mathcal{H}$, and Dirac
+    operator~$D$---\emph{not} the spectral function~$f$.  This is a 30-year
+    consensus (Chamseddine--Connes 1996, Eckstein--Iochum 2019).
+  \item The entropy function $h(x) = x/(1+e^x) + \log(1+e^{-x})$ gives
+    $h(0) = \log 2$, $h''(0) = -1/4$.  It provides one number ($f_8$) versus
+    three independent invariants at $L=3$.
+  \item The Connes cutoff argument ($f^{(k)}(0) = 0$ for $k > 0$) gives
+    $f_8 = 0$, which \emph{worsens} the problem (zero free parameters).
+  \item The non-perturbative correction to the spectral action on~$S^4$ is
+    $\sim e^{-c\Lam^2 a^2}$ (exponentially suppressed), which cannot cancel
+    power-law three-loop divergences.
+\end{enumerate}
+
+\subsection{Verdict}
+\textcolor{long}{\textbf{CERTIFIED NEGATIVE}} (95\% confidence).  The
+three-loop obstruction is structural and independent of the choice of spectral
+function.
+
+%===========================================================================
+\section{FUND-SYM: Hidden Symmetry Search}
+\label{sec:sym}
+%===========================================================================
+
+\subsection{Question}
+Does any algebraic identity or symmetry principle reduce the number of
+independent quartic Weyl invariants from~3 to~1?
+
+\subsection{Method}
+Systematic search across seven directions: spectral zeta function, multiplicative
+anomaly, modular forms (Fan--Fathizadeh--Marcolli), Hopf algebra (van Suijlekom),
+anomaly cancellation, spectral dimension, and algebraic $K$-theory.  Symbolic and
+numerical computation of the Cayley--Hamilton identity for the Weyl spinor and
+the spinor trace $\Tr(\Omega^4)$.
+
+\subsection{Results}
+\begin{enumerate}[(a)]
+  \item \textbf{Cayley--Hamilton identity (verified numerically):}
+    For the traceless $3\times 3$ self-dual/anti-self-dual Weyl spinors $W^\pm$,
+    the Cayley--Hamilton theorem gives $\Tr(W^4) = \frac{1}{2}(\Tr W^2)^2$.
+    Defining $p = |C^+|^2$, $q = |C^-|^2$:
+    \begin{equation}
+      C^4_{\mathrm{chain}} = \tfrac{1}{2}(p^2 + q^2)
+      = \tfrac{1}{4}\bigl[(C^2)^2 + ({}^*\!CC)^2\bigr].
+    \end{equation}
+    This reduces the three quartic Weyl invariants to two independent ones:
+    $(C^2)^2$ and $({}^*\!CC)^2$.
+  \item \textbf{Spinor trace $\Tr(\Omega^4_{\mathrm{chain}})$:}
+    For the Dirac spin connection curvature
+    $\Omega_{\mu\nu} = \frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^{\rho\sigma}$,
+    the chain contraction gives
+    \begin{equation}
+      \Tr_{\mathrm{spin}}(\Omega^4_{\mathrm{chain}})
+      = \tfrac{1}{16}(p^2 + q^2),
+    \end{equation}
+    with \emph{zero} $pq$ cross-term (verified to $10^{-15}$).  The ratio
+    $(C^2)^2 : ({}^*\!CC)^2 = 1:1$ is exact, arising from the chiral
+    block-diagonal structure $\Omega = \Omega_L \oplus \Omega_R$.
+  \item \textbf{Critical limitation:} The full Seeley--DeWitt coefficient~$a_8$
+    also contains $[\Tr_{\mathrm{spin}}(\Omega^2)]^2 = \frac{1}{4}(p+q)^2$,
+    which \emph{does} contribute a $pq$ cross-term.  Unless this term's
+    coefficient in~$a_8$ vanishes, the full quartic Weyl ratio is not~$1{:}1$.
+  \item The full $a_8$ for the Dirac operator on a general 4-manifold has not
+    been computed in the literature.  This remains the key open computation.
+\end{enumerate}
+
+\subsection{Verdict}
+\textcolor{near}{\textbf{CERTIFIED WITH CORRECTIONS}} (85\% confidence).  The
+three-loop problem is \emph{reduced} (from $3{:}1$ to $2{:}1$ by CH, and the
+dominant spin-dependent term gives $1{:}1$) but \emph{not resolved}.
+
+%===========================================================================
+\section{FUND-LAT: Exact Spectral Action on $S^4$}
+\label{sec:lat}
+%===========================================================================
+
+\subsection{Question}
+Does the non-perturbative spectral action exhibit UV finiteness properties not
+visible in the asymptotic Seeley--DeWitt expansion?
+
+\subsection{Method}
+Exact computation of $S = \Tr(f(D^2/\Lam^2))$ on the round $S^4$ using the
+analytically known Dirac eigenvalues $\lambda_n = \pm(n+2)/a$ with degeneracy
+$d_n = \frac{4}{3}(n+1)(n+2)(n+3)$ (Bar 1996, Camporesi--Higuchi 1996).
+Comparison with the Seeley--DeWitt expansion at 100-digit precision.
+
+\subsection{Results}
+\begin{enumerate}[(a)]
+  \item For $\psi(u) = e^{-u}$, the Seeley--DeWitt expansion \emph{converges}
+    (the moment factor $1/(k-2)!$ suppresses the factorial Bernoulli growth).
+  \item The exact sum versus the converged SD series differs by a
+    non-perturbative floor:
+    \begin{equation}
+      \Delta = S_{\mathrm{exact}} - S_{\mathrm{SD}}(\text{converged})
+      = \frac{41}{15120} \cdot \frac{1}{\Lam^4 a^4}
+      + \mathcal{O}(\Lam^{-6}),
+    \end{equation}
+    verified by Richardson extrapolation to relative precision $4.2 \times 10^{-15}$.
+  \item $S^4$ is conformally flat ($C_{\mu\nu\rho\sigma} = 0$), so all
+    Weyl-dependent physics is invisible on this background.
+\end{enumerate}
+
+\subsection{Verdict}
+\textcolor{near}{\textbf{CERTIFIED (informative)}} (92\% confidence).  The
+computation confirms Seeley--DeWitt expansion behavior and provides a precise
+non-perturbative benchmark, but cannot address the three-loop Weyl-sector
+obstruction.
+
+%===========================================================================
+\section{Synthesis: Impact on UV Completeness}
+\label{sec:synthesis}
+%===========================================================================
+
+\subsection{Summary of verdicts}
+
+\begin{center}
+\begin{tabular}{llcl}
+\toprule
+Task & Verdict & Confidence & Impact \\
+\midrule
+FUND-FRG & No connection & 90\% & Neutral \\
+FUND-FK3 & \textcolor{long}{Negative} & 95\% & Negative \\
+FUND-NCG & \textcolor{long}{Negative} & 95\% & Negative \\
+FUND-SYM & Reduced, not resolved & 85\% & Slightly positive \\
+FUND-LAT & Informative & 92\% & Neutral \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Corrections to MR-5/MR-5b}
+
+\begin{enumerate}
+  \item The Molien count at $L=3$ is $P(4) = 3$ (not~2).
+    Three independent parity-even quartic Weyl invariants: $(C^2)^2$,
+    $C^4_{\mathrm{box}}$, and $({}^*\!CC)^2$.  Cayley--Hamilton reduces to~2.
+  \item All loops $L \geq 3$ are overdetermined: $P(5)=2$, $P(6)=7$,
+    $P(7)=5$, $P(8)=13$, with the ratio growing monotonically.
+  \item The fakeon prescription does not modify the UV divergence structure.
+  \item No NCG axiom, spectral function choice, or non-perturbative correction
+    resolves the structural mismatch.
+\end{enumerate}
+
+\subsection{Surviving escape routes}
+\begin{enumerate}
+  \item \textbf{Full $a_8$ ratio match} (15--25\%): If the complete Dirac $a_8$
+    coefficient happens to produce quartic Weyl invariants in a ratio matching
+    the three-loop counterterm, the problem reduces to~$1{:}1$.
+  \item \textbf{Non-perturbative FRG fixed point} (poorly constrained):
+    A genuine UV fixed point would render perturbative divergence counting
+    irrelevant.
+  \item \textbf{SCT as effective theory} ($\sim$50\%): Valid through $L=2$,
+    requiring UV completion beyond.  This is a scientifically honest and
+    publishable position.
+\end{enumerate}
+
+\subsection{Revised survival probability}
+Accounting for the FUND program results:
+\[
+  P_{\mathrm{survival}} = 56\text{--}64\%.
+\]
+
+\subsection{Position statement}
+SCT achieves perturbative finiteness at one loop (proven, MR-7) and at two loops
+on-shell (proven, MR-5b).  At three loops and beyond, the number of independent
+quartic Weyl invariants exceeds the single adjustable spectral parameter, making
+all-orders finiteness structurally untenable for $\psi(u) = e^{-u}$.  SCT is
+classified as a well-structured effective framework for quantum gravity with
+improved perturbative reliability compared to GR.
+
+\end{document}

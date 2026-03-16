@@ -292,7 +292,7 @@ so $\hat{P} = -\mathbf{U}_{\text{CZ}} + \frac{R}{6}\Id$ \fromlit{CZ App.~A}.
 is $\hat{P} = E + R/6$ (not $E - R/6$ as stated in the original version).
 The original error gave $\hat{P} = -5R/12$ instead of the correct
 $\hat{P} = -R/12$ for Dirac.  This error was \emph{contained}:
-the NT-1 derivation pipeline (Proposition~3.2, Theorem~4.1 of
+the NT-1 derivation (Proposition~3.2, Theorem~4.1 of
 \texttt{NT1\_form\_factors.tex}) works entirely through CZ form factors
 and never uses $\hat{P}$ in the computational chain.  See the failed
 derivation in Appendix~A of \texttt{NT1\_form\_factors.tex} for the
@@ -303,7 +303,7 @@ consequences of the wrong $\hat{P}$.}
 \label{rem:Phat-independence}
 The NT-1 derivation of the nonlocal form factors $F_1$, $F_2$
 is \emph{structurally independent} of the BV endomorphism~$\hat{P}$.
-The computational pipeline proceeds as follows:
+The computational procedure proceeds as follows:
 \begin{enumerate}[nosep]
   \item Extract operator data $(E, \Omega_{\mu\nu})$ from the
         Lichnerowicz formula (Convention~\ref{eq:lichnerowicz}).
@@ -495,7 +495,7 @@ boundaryless manifold takes the form
   }
   \label{eq:BV-heat-trace}
 \end{equation}
-where $\hat{P} = E - \frac{R}{6}\Id$ (Convention~\ref{conv:Phat}),
+where $\hat{P} = E + \frac{R}{6}\Id$ (Convention~\ref{conv:Phat}),
 $\Box = -D^2$ (\textbf{without} the endomorphism),
 and $f_i$ are the five BV form factors.
 \end{definition}
@@ -615,7 +615,7 @@ basis change in CZ App.~A}
 
 \subsection{Conversion to BV basis}
 
-The BV papers use $\hat{P} = E - \frac{R}{6}\Id$ instead of $\mathbf{U}$,
+The BV papers use $\hat{P} = E + \frac{R}{6}\Id$ instead of $\mathbf{U}$,
 with $\mathbf{U} = -E$ (Convention~\ref{conv:laplacian}).
 The conversion \fromlit{CZ Eq.~(50)} is:
 \begin{equation}
@@ -924,7 +924,7 @@ The SCT Dirac operator gives $D^2 = \Delta$ with:
 \item Bundle curvature:
   $\Omega_{\mu\nu} = \frac{1}{4}R_{\mu\nu\rho\sigma}\gamma^\rho\gamma^\sigma$
 \item BV endomorphism:
-  $\hat{P} = E - \frac{R}{6}\Id_4 = -\frac{5R}{12}\Id_4$
+  $\hat{P} = E + \frac{R}{6}\Id_4 = -\frac{R}{12}\Id_4$
 \item Spin dimension: $N = \tr\Id_4 = 4$
 \end{itemize}
 
@@ -955,12 +955,12 @@ $\hat{P}$.  Writing the heat trace in CZ notation:
 \end{equation}
 
 After taking the trace over spinor indices (with $E = -R/4$,
-$\mathbf{U}_{\text{CZ}} = R/4$, $\hat{P} = -5R/12$):
+$\mathbf{U}_{\text{CZ}} = R/4$, $\hat{P} = -R/12$):
 \begin{itemize}
 \item $\tr(\mathbf{U}_{\text{CZ}}) = 4\cdot R/4 = R$
 \item $\tr(\mathbf{U}_{\text{CZ}}^2) = 4\cdot R^2/16 = R^2/4$
-\item $\tr(\hat{P}) = 4\cdot(-5R/12) = -5R/3$
-\item $\tr(\hat{P}^2) = 4\cdot 25R^2/144 = 25R^2/36$
+\item $\tr(\hat{P}) = 4\cdot(-R/12) = -R/3$
+\item $\tr(\hat{P}^2) = 4\cdot R^2/144 = R^2/36$
 \item $\tr(\Omega_{\mu\nu}\Omega^{\mu\nu}) = -\frac{1}{2}\Rsq$
 \end{itemize}
 

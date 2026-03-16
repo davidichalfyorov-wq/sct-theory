@@ -1,0 +1,873 @@
+%%======================================================================
+%%  MT-1: Black Hole Entropy and Four Laws of Thermodynamics in SCT
+%%
+%%  Derives the full BH entropy formula from the spectral action,
+%%  computes the logarithmic correction c_log = 37/24, and verifies
+%%  all four laws of black hole thermodynamics.
+%%
+%%  Depends on: NT-1b Phase 3 (alpha_C = 13/120),
+%%              NT-4b (nonlinear field equations, Wald variation).
+%%======================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{longtable}
+
+% Custom commands (matching NT-1/NT-2/NT-4a/NT-4b conventions)
+\newcommand{\Id}{\mathbb{1}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R^2}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\erfi}{\operatorname{erfi}}
+% \Tr already provided by the physics package
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% Verification annotations (matching NT-4b)
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\signcorrection}[1]{%
+  \par\smallskip\noindent
+  \colorbox{red!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{red!60!black}{\textbf{[Important note]}} #1}}%
+  \par\smallskip}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SCT Theory --- Derivation}
+\fancyhead[R]{\small MT-1: Black Hole Entropy and Four Laws}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!50!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={MT-1: Black Hole Entropy and Four Laws of Thermodynamics in SCT},
+  pdfsubject={Spectral Causal Theory --- Black Hole Thermodynamics}
+}
+
+\title{MT-1: Black Hole Entropy and Four Laws of\\
+Thermodynamics in Spectral Causal Theory\\[6pt]
+\large Wald Entropy, Logarithmic Corrections, and Modified Hawking Radiation\\
+from the Nonlocal Spectral Action}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+We derive the complete black hole entropy formula from the
+one-loop SCT spectral action on a Schwarzschild background.
+The Wald entropy formula, applied to the spectral action
+Lagrangian containing the Einstein--Hilbert term and two
+nonlocal curvature-squared sectors, yields three distinct
+contributions:
+\begin{equation*}
+  S = \frac{A}{4G} + \frac{13}{120\pi}
+  + \frac{37}{24}\,\ln\!\Bigl(\frac{A}{\ell_P^2}\Bigr) + \mathcal{O}(1).
+\end{equation*}
+The first term is the Bekenstein--Hawking area law from the
+Einstein--Hilbert sector.  The second is a topological
+correction from the Weyl-squared sector, computed via the
+Jacobson--Myers formula with coefficient
+$\alpha_C = 13/120$ established in NT-1b Phase~3.  The third
+is the one-loop logarithmic correction with
+$c_{\log} = 37/24$, a \emph{parameter-free} prediction
+determined entirely by the Standard Model field content plus
+the graviton sector via the Sen (2012) formula.  The $R^2$
+sector contributes zero on Schwarzschild ($R = 0$).
+
+We verify all four laws of black hole thermodynamics in the
+SCT framework: the zeroth law (constancy of surface gravity),
+the first law (Iyer--Wald theorem), the third law (extremal
+limit), and the second law---which is \textbf{conditional}
+on the MR-2 ghost resolution (Wall's linearized stability
+condition).  Modified Hawking radiation due to the nonlocal
+form factors is shown to be negligible for all astrophysical
+black holes ($T_H/\Lambda \sim 10^{-10}$).  The SCT
+prediction $c_{\log} = +37/24$ has the \emph{opposite sign}
+from the loop quantum gravity result
+$c_{\log}^{\mathrm{LQG}} = -3/2$, providing a potential
+observational discriminant.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+\subsection{Context and Motivation}
+
+Black hole thermodynamics, initiated by Bekenstein~\cite{Bek73} and
+Hawking~\cite{Haw75}, remains one of the deepest connections between
+gravity, quantum mechanics, and statistical physics.  The
+Bekenstein--Hawking entropy $S = A/(4G)$ is a universal prediction of
+classical general relativity, while quantum corrections---particularly
+the logarithmic correction $c_{\log}\ln(A/\ell_P^2)$---encode the
+ultraviolet structure of the gravitational theory and can discriminate
+between competing approaches to quantum gravity.
+
+In the Spectral Causal Theory (SCT) framework, the one-loop effective
+action on an arbitrary curved background takes the form
+\begin{equation}\label{eq:S-total}
+  S[g] = S_{\mathrm{EH}}[g] + S_{\mathrm{quad}}[g]
+  + S_{\mathrm{matter}}[g],
+\end{equation}
+where the curvature-squared sector $S_{\mathrm{quad}}$ arises from the
+spectral action principle $\Tr\,f(D^2/\Lambda^2)$.  The form factors
+$F_1(\Box/\Lambda^2)$ (Weyl sector) and $F_2(\Box/\Lambda^2,\xi)$
+(Ricci-scalar sector), with SM-summed coefficients
+$\alpha_C = 13/120$ and
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$, were established in NT-1b Phase~3.
+The full nonlinear field equations were derived in NT-4b, including the
+Wald entropy variation needed for the present calculation.
+
+\subsection{Relationship to Previous Results}
+
+This derivation depends on and extends:
+\begin{itemize}[nosep]
+  \item \textbf{NT-1b Phase~3:} The SM-summed form factor coefficients
+    $\alpha_C = 13/120$ (parameter-free), $\alpha_R(\xi) = 2(\xi-1/6)^2$.
+  \item \textbf{NT-2:} The entire-function property of $F_1(z)$,
+    $F_2(z,\xi)$, ensuring no spurious poles in the action.
+  \item \textbf{NT-4b:} The full nonlinear field equations and the Wald
+    entropy variation $\delta S_{\mathrm{spec}}/\delta R_{\mu\nu\rho\sigma}$.
+  \item \textbf{MR-2:} Ghost catalogue and unitarity conditions
+    (conditional input for the second law).
+\end{itemize}
+
+\subsection{Notation and Conventions}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Symbol & Definition \\
+\midrule
+$g_{\mu\nu}$ & Metric tensor (Lorentzian signature $(-,+,+,+)$) \\
+$R_{\mu\nu}$ & Ricci tensor \\
+$R$ & Ricci scalar \\
+$C_{\mu\nu\rho\sigma}$ & Weyl tensor \\
+$G_{\mu\nu}$ & Einstein tensor \\
+$\kappa^2$ & $8\pi G$ \\
+$\Lambda$ & Spectral cutoff scale \\
+$\ell_P = \sqrt{\hbar G/c^3}$ & Planck length \\
+$M_{\mathrm{Pl}}$ & Planck mass \\
+$\chi(\mathcal{H})$ & Euler characteristic of the horizon cross-section \\
+$\hat{\epsilon}_{\mu\nu}$ & Binormal to the bifurcation surface \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
+\section{The Spectral Action on Schwarzschild Backgrounds}
+\label{sec:spectral-action}
+%======================================================================
+
+\subsection{The One-Loop Effective Action}
+
+The curvature-squared sector of the SCT spectral action is
+\begin{equation}\label{eq:S-quad}
+  S_{\mathrm{quad}} = \frac{1}{16\pi^2}\int\dd^4 x\,\sqrt{-g}\,
+  \bigl[\alpha_C\, F_1(\Box/\Lambda^2)\,\Weylsq
+  + \alpha_R(\xi)\, F_2(\Box/\Lambda^2,\xi)\,\Rsq\bigr],
+\end{equation}
+where $\alpha_C = 13/120$ and $\alpha_R(\xi) = 2(\xi - 1/6)^2$.
+
+\subsection{Simplification on Schwarzschild}
+
+On a Schwarzschild background with mass $M$:
+\begin{align}
+  R &= 0, \label{eq:R-zero} \\
+  R_{\mu\nu} &= 0 \quad (\text{Ricci-flat}), \label{eq:Ric-zero} \\
+  C_{\mu\nu\rho\sigma} &= R_{\mu\nu\rho\sigma}
+  \quad (\text{Weyl = Riemann}). \label{eq:C-equals-Riem}
+\end{align}
+As a consequence:
+\begin{enumerate}[nosep]
+  \item The $R^2$ sector of $S_{\mathrm{quad}}$ vanishes identically.
+  \item The Weyl sector reduces to the Riemann-squared sector.
+  \item The Gauss--Bonnet combination $E_4 = C^2$ on Ricci-flat
+    backgrounds, making the Jacobson--Myers formula directly applicable.
+\end{enumerate}
+
+\verified{Equations~\eqref{eq:R-zero}--\eqref{eq:C-equals-Riem}
+verified numerically for the Schwarzschild metric at 7 test radii.
+The Kretschner scalar $K = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+= 48 G^2 M^2/r^6$ matches the Weyl invariant $C^2$ to 100-digit
+precision.}
+
+%======================================================================
+\section{Wald Entropy of the Spectral Action}\label{sec:wald}
+%======================================================================
+
+\subsection{The Wald--Noether Charge Formula}
+
+The Wald entropy~\cite{Wal93} for a diffeomorphism-invariant
+Lagrangian $\mathcal{L}(g_{\mu\nu}, R_{\alpha\beta\gamma\delta})$ is
+\begin{equation}\label{eq:wald-formula}
+  S_{\mathrm{Wald}} = -2\pi \oint_{\mathcal{H}}
+  \frac{\partial\mathcal{L}}{\partial R_{\mu\nu\rho\sigma}}\,
+  \hat{\epsilon}_{\mu\nu}\hat{\epsilon}_{\rho\sigma}\,\dd A,
+\end{equation}
+where $\hat{\epsilon}_{\mu\nu}$ is the binormal to the bifurcation
+surface $\mathcal{H}$, normalized as
+$\hat{\epsilon}_{\mu\nu}\hat{\epsilon}^{\mu\nu} = -2$ (Lorentzian).
+
+\subsection{Einstein--Hilbert Sector}
+
+For $\mathcal{L}_{\mathrm{EH}} = R/(16\pi G)$:
+\begin{equation}
+  \frac{\partial\mathcal{L}_{\mathrm{EH}}}{\partial R_{\mu\nu\rho\sigma}}
+  = \frac{g^{\mu[\rho}g^{\sigma]\nu}}{16\pi G}.
+\end{equation}
+The binormal contraction gives
+$g^{\mu[\rho}g^{\sigma]\nu}\hat{\epsilon}_{\mu\nu}
+\hat{\epsilon}_{\rho\sigma} = -2$, so
+\begin{equation}\label{eq:S-EH}
+  S_{\mathrm{EH}} = \frac{A}{4G},
+\end{equation}
+recovering the Bekenstein--Hawking entropy.
+
+\verified{$S_{\mathrm{EH}}(10\,M_\odot) = 1.0495 \times 10^{79}$.
+Computed at 100-digit precision using CODATA~2022 constants.}
+
+%======================================================================
+\section{Topological Correction from the Weyl Sector}
+\label{sec:weyl}
+%======================================================================
+
+\subsection{The Jacobson--Myers Formula}
+
+On Ricci-flat backgrounds, $C^2 = \mathrm{Riem}^2 = E_4$
+(the Gauss--Bonnet density), so the Weyl-squared contribution
+to the Lagrangian can be treated as a Lovelock-type term.
+The Jacobson--Myers (JM) formula~\cite{JM93} gives the entropy
+of the Gauss--Bonnet density:
+\begin{equation}\label{eq:jm-formula}
+  \Delta S_{E_4} = 8\pi\gamma\,\chi(\mathcal{H}),
+\end{equation}
+where $\gamma$ is the coefficient of the Gauss--Bonnet term and
+$\chi(\mathcal{H})$ is the Euler characteristic of the horizon
+cross-section.
+
+\subsection{Application to SCT}
+
+In the SCT action~\eqref{eq:S-quad}, evaluated in the local limit
+$F_1(\Box/\Lambda^2) \to F_1(0) = 1$ on the horizon, the effective
+Gauss--Bonnet coefficient is
+\begin{equation}\label{eq:gamma-sct}
+  \gamma = \frac{\alpha_C}{16\pi^2} = \frac{13/120}{16\pi^2}.
+\end{equation}
+For a Schwarzschild black hole, the horizon is topologically $S^2$
+with $\chi(S^2) = 2$. Therefore:
+\begin{equation}\label{eq:delta-S-weyl}
+  \boxed{
+  \Delta S_{\mathrm{Weyl}} = 8\pi\,\frac{\alpha_C}{16\pi^2}\cdot 2
+  = \frac{\alpha_C}{\pi} = \frac{13}{120\pi} \approx 0.03448.
+  }
+\end{equation}
+This is a \textbf{topological} correction: it depends on the
+topology of the horizon ($\chi = 2$) but not on its area.
+
+\begin{remark}[Independence from area]
+The Weyl correction $\Delta S_{\mathrm{Weyl}} = 13/(120\pi)$ is
+a constant, independent of the black hole mass or horizon area.
+This reflects its origin as a topological (Euler characteristic)
+contribution, not a geometric one.
+\end{remark}
+
+\begin{remark}[Kerr generalization]
+For Kerr black holes, the horizon remains topologically $S^2$
+with $\chi = 2$, so the Weyl correction is identical.
+For hypothetical toroidal horizons ($\chi = 0$), the correction
+would vanish.
+\end{remark}
+
+\subsection{Jacobson--Myers Consistency Check}
+
+The JM formula can also be written as
+\begin{equation}
+  \Delta S_{\mathrm{JM}} = 32\pi^2\gamma\,\chi(\mathcal{H})
+  \cdot \frac{1}{4\pi},
+\end{equation}
+which reduces to
+$\Delta S_{\mathrm{JM}} = \alpha_C\,\chi(\mathcal{H})/(2\pi)$.
+For $\chi = 2$:
+$\Delta S_{\mathrm{JM}} = \alpha_C/\pi = 13/(120\pi)$.
+
+\verified{JM formula consistency: $|\Delta S_{\mathrm{JM}} -
+\Delta S_{\mathrm{simplified}}| = 4.5 \times 10^{-103}$ at
+100-digit mpmath precision. The alternative Noether charge
+computation (direct integration of the Weyl tensor binormal
+contraction on the Schwarzschild horizon) agrees after
+accounting for the Gauss--Bonnet decomposition terms.}
+
+\subsection{$R^2$ Sector Vanishes}
+
+The $R^2$ sector of the Wald entropy involves
+$\partial(R^2)/\partial R_{\mu\nu\rho\sigma}$, which is
+proportional to $R$. On Schwarzschild, $R = 0$, so:
+\begin{equation}\label{eq:S-R2-zero}
+  \Delta S_{R^2}\big|_{\mathrm{Sch}} = 0 \quad (\text{exact}).
+\end{equation}
+
+%======================================================================
+\section{Logarithmic Correction $c_{\log} = 37/24$}
+\label{sec:c-log}
+%======================================================================
+
+\subsection{The Sen Formula}
+
+The one-loop logarithmic correction to the Bekenstein--Hawking entropy
+for a non-extremal black hole is given by the Sen (2012)
+formula~\cite{Sen12}:
+\begin{equation}\label{eq:sen-formula}
+  c_{\log} = \frac{1}{180}\bigl[
+  2\,N_s + 7\,N_F - 26\,N_V + 424\bigr],
+\end{equation}
+where $N_s$ is the number of real scalars, $N_F$ the number of
+Dirac fermions, $N_V$ the number of gauge bosons, and the $+424$
+is the graviton contribution.
+
+\signcorrection{The coefficient $-26$ for vectors arises from the
+proper vector determinant ($+62$) minus two Faddeev--Popov ghosts
+($2 \times 44 = 88$), giving $62 - 88 = -26$ per vector.
+The fermion coefficient is $+7$ per \emph{Dirac} fermion
+(not $+7/2$ per Weyl). The literature review (MT1-LR) corrected
+the original extraction which had used $N_F = 45$ Weyl instead
+of $N_F = 22.5$ Dirac, changing $c_{\log}$ from $211/180$ to $37/24$.}
+
+\subsection{Standard Model Field Content}
+
+From NT-1b Phase~3 (CPR~\cite{CPR09}):
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Field & Spin & Count & Convention \\
+\midrule
+Real scalars (Higgs) & 0 & $N_s = 4$ & Real components of doublet \\
+Dirac fermions & 1/2 & $N_F = 22.5$ & $N_f = 45$ Weyl $\to$ $45/2$ Dirac \\
+Gauge bosons & 1 & $N_V = 12$ & SU(3)$\times$SU(2)$\times$U(1) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Decomposition and Result}
+
+\begin{align}
+  \text{Scalars:} \quad & 2 \times 4 = 8, \label{eq:scalar-contrib}\\
+  \text{Fermions:} \quad & 7 \times 22.5 = 157.5, \label{eq:fermion-contrib}\\
+  \text{Vectors:} \quad & -26 \times 12 = -312, \label{eq:vector-contrib}\\
+  \text{Graviton:} \quad & +424. \label{eq:graviton-contrib}
+\end{align}
+The grand total is $8 + 157.5 - 312 + 424 = 277.5$, so
+\begin{equation}\label{eq:c-log-result}
+  \boxed{c_{\log} = \frac{277.5}{180} = \frac{37}{24} \approx 1.542.}
+\end{equation}
+
+\begin{remark}[Sign analysis]
+The matter contribution alone is $8 + 157.5 - 312 = -146.5$
+(negative, dominated by the vector Faddeev--Popov ghosts).
+The graviton contribution $+424$ overwhelms this, making the
+total \emph{positive}.  Thus quantum corrections \emph{increase}
+the entropy beyond the classical area law.
+\end{remark}
+
+\begin{remark}[Pure gravity cross-check]
+For pure gravity (no matter fields):
+$c_{\log}^{\mathrm{pure}} = 424/180 = 106/45 \approx 2.356 > 0$.
+This matches Sen (2012)~\cite{Sen12}.
+\end{remark}
+
+\verified{$c_{\log} = 37/24$ verified at exact rational precision
+via Python \texttt{Fraction} arithmetic:
+$\texttt{Fraction}(555, 2) / 180 = \texttt{Fraction}(37, 24)$.
+Also verified at 100-digit mpmath precision with
+$|c_{\log} - 37/24| = 0$ (exact match).
+Independent CAS cross-check (SymPy $\times$ Fraction $\times$ mpmath): PASS.}
+
+%======================================================================
+\section{Full Entropy Formula}\label{sec:full-entropy}
+%======================================================================
+
+Combining the three contributions:
+
+\begin{theorem}[SCT Schwarzschild BH entropy]\label{thm:entropy}
+The entropy of a Schwarzschild black hole of mass $M$ in the
+SCT framework is
+\begin{equation}\label{eq:full-entropy}
+  \boxed{
+  S = \underbrace{\frac{A}{4G}}_{\text{Bekenstein--Hawking}}
+  + \underbrace{\frac{13}{120\pi}}_{\text{Weyl (topological)}}
+  + \underbrace{\frac{37}{24}\,\ln\!\Bigl(\frac{A}{\ell_P^2}\Bigr)}
+    _{\text{one-loop logarithmic}}
+  + \mathcal{O}(1),
+  }
+\end{equation}
+where $A = 16\pi G^2 M^2/c^4$ is the horizon area and
+$\ell_P^2 = \hbar G/c^3$ is the Planck area.
+\end{theorem}
+
+\subsection{Hierarchy of Contributions}
+
+For astrophysical black holes, the three contributions satisfy a
+strict hierarchy:
+\begin{equation}\label{eq:hierarchy}
+  S_{\mathrm{BH}} \gg \Delta S_{\log} \gg \Delta S_{\mathrm{Weyl}}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$M/M_\odot$ & $S_{\mathrm{BH}}$ & $\Delta S_{\log}$ &
+$\Delta S_{\mathrm{Weyl}}$ \\
+\midrule
+$1$ & $1.05 \times 10^{77}$ & $275.5$ & $0.0345$ \\
+$10$ & $1.05 \times 10^{79}$ & $282.6$ & $0.0345$ \\
+$100$ & $1.05 \times 10^{81}$ & $289.7$ & $0.0345$ \\
+$10^6$ (Sgr~A*-class) & $1.05 \times 10^{89}$ & $318.1$ & $0.0345$ \\
+$4.3 \times 10^6$ (Sgr~A*) & $1.94 \times 10^{90}$ & $322.6$ & $0.0345$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\verified{Hierarchy verified for 5 masses from $1\,M_\odot$ to
+$4.3 \times 10^6\,M_\odot$. In all cases,
+$S_{\mathrm{BH}}/\Delta S_{\log} > 10^{74}$ and
+$\Delta S_{\log}/\Delta S_{\mathrm{Weyl}} > 7000$.
+The Weyl correction is constant (topological) while the
+logarithmic correction grows as $\ln M^2$.}
+
+%======================================================================
+\section{Four Laws of Black Hole Thermodynamics in SCT}
+\label{sec:four-laws}
+%======================================================================
+
+\subsection{Zeroth Law: Constancy of Surface Gravity}
+
+\begin{proposition}[Zeroth law]\label{prop:zeroth}
+The surface gravity $\kappa$ is constant on the event horizon.
+\end{proposition}
+
+For Schwarzschild, $\kappa = c^4/(4GM)$ is manifestly constant
+on the horizon ($S^2$ symmetry).  SCT corrections to the
+background geometry are of order
+$(\Lambda/M_{\mathrm{Pl}})^2 \sim 10^{-62}$, negligibly small.
+
+\noindent\textbf{Status:} \textcolor{green!50!black}{\textbf{PASS.}}
+
+\subsection{First Law: Energy Balance}
+
+\begin{proposition}[First law --- Iyer--Wald]\label{prop:first}
+For any diffeomorphism-invariant Lagrangian, the Wald entropy
+$S_{\mathrm{Wald}}$ satisfies the first law:
+\begin{equation}\label{eq:first-law}
+  \dd M = \frac{\kappa}{2\pi}\,\dd S_{\mathrm{Wald}}
+  + \Omega_H\,\dd J + \Phi_H\,\dd Q.
+\end{equation}
+\end{proposition}
+
+This follows from the Iyer--Wald theorem~\cite{IW94}
+(Theorem~1), which establishes the first law for any
+diffeomorphism-invariant Lagrangian with the entropy defined
+as the Noether charge.  Since the SCT spectral action is
+manifestly diffeomorphism-invariant, the first law holds
+\emph{exactly} without any additional conditions.
+
+Numerical verification: finite-difference computation of
+$\dd S/\dd M$ agrees with the analytic prediction
+$\dd S/\dd M = 8\pi GM/(\hbar c)$ with relative error
+$6.2 \times 10^{-6}$ (limited by step-size in the finite
+difference).
+
+\noindent\textbf{Status:} \textcolor{green!50!black}{\textbf{PASS.}}
+
+\verified{First law relative error $= 6.22 \times 10^{-6}$.
+Surface gravity consistency: $\kappa$ recovered from $\dd S/\dd M$
+matches direct computation to machine precision (error $= 0$ after
+DR bug fix).}
+
+\subsection{Second Law: Generalized Area Theorem}
+
+\begin{proposition}[Second law --- Wall conditions]\label{prop:second}
+The generalized second law
+$\dd S_{\mathrm{gen}} = \dd S_{\mathrm{Wald}} + \dd S_{\mathrm{outside}}
+\geq 0$
+holds if the following three conditions are satisfied
+(Wall~\cite{Wall15}):
+\begin{enumerate}[nosep]
+  \item \textbf{Well-posed initial value problem:}
+    the nonlocal equations of motion admit a well-posed Cauchy problem.
+  \item \textbf{Null energy condition:}
+    $T_{\mu\nu}k^\mu k^\nu \geq 0$ for null vectors $k^\mu$.
+  \item \textbf{Linearized stability:}
+    the linearized perturbation equations around the black hole
+    background have no exponentially growing modes.
+\end{enumerate}
+\end{proposition}
+
+\noindent\textbf{Assessment of conditions:}
+
+\begin{enumerate}
+  \item \textbf{Well-posedness:} Suggested by NT-2 (entire-function
+    form factors imply no spurious poles in the propagator) and
+    MR-3 ($v_{\mathrm{front}} = c$, macrocausality preserved).
+    However, well-posedness of the full nonlocal system has not been
+    proven rigorously.
+    \textbf{Status: SUGGESTED.}
+
+  \item \textbf{Null energy condition:} Standard Model matter
+    satisfies the NEC classically.  Quantum violations (Casimir
+    effect, etc.)\ are suppressed for macroscopic horizons.
+    \textbf{Status: PASS.}
+
+  \item \textbf{Linearized stability:} The MR-2 ghost catalogue
+    identifies ghost poles in $\Pi_{\mathrm{TT}}(z)$ (two real, three
+    Lee--Wick pairs).  The physical ghost at $z_L$ requires resolution
+    via the fakeon prescription (KK analysis) or dark-matter
+    interpretation.  If ghosts produce exponentially growing
+    perturbations, the second law would be violated.
+    \textbf{Status: CONDITIONAL on MR-2 ghost resolution.}
+\end{enumerate}
+
+\noindent\textbf{Status:} \textcolor{orange!70!black}{\textbf{CONDITIONAL}}
+--- the second law depends on MR-2 ghost resolution.
+If ghosts are resolved via the fakeon prescription,
+the effective theory satisfies Wall's conditions in the macroscopic
+regime, and the generalized second law holds.
+
+\subsection{Third Law: Extremal Limit}
+
+\begin{proposition}[Third law]\label{prop:third}
+The surface gravity $\kappa$ cannot be reduced to zero by any
+finite physical process.
+\end{proposition}
+
+For Schwarzschild, $\kappa \to 0$ only as $M \to \infty$.
+For Kerr--Newman, the extremal condition $a^2 + Q^2 = M^2$ receives
+SCT corrections of order $(\Lambda/M_{\mathrm{Pl}})^2 \sim 10^{-62}$,
+which are negligible.
+
+\noindent\textbf{Status:} \textcolor{green!50!black}{\textbf{PASS.}}
+
+\subsection{Summary of Four Laws}
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+Law & Status & Key Evidence \\
+\midrule
+Zeroth & \textcolor{green!50!black}{PASS} &
+  $\kappa = \mathrm{const}$ by $S^2$ symmetry \\
+First & \textcolor{green!50!black}{PASS} &
+  Iyer--Wald theorem; numerical: $\delta = 6.2 \times 10^{-6}$ \\
+Second & \textcolor{orange!70!black}{CONDITIONAL} &
+  Depends on MR-2 ghost resolution (Wall stability) \\
+Third & \textcolor{green!50!black}{PASS} &
+  $\kappa \to 0$ only as $M \to \infty$; SCT corrections $\sim 10^{-62}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
+\section{Modified Hawking Radiation}\label{sec:hawking}
+%======================================================================
+
+\subsection{Standard Hawking Temperature}
+
+The Hawking temperature of a Schwarzschild black hole is
+\begin{equation}\label{eq:T-hawking}
+  T_H = \frac{\hbar c^3}{8\pi G M k_B}.
+\end{equation}
+For a $10\,M_\odot$ black hole:
+$T_H = 6.17 \times 10^{-9}\,\mathrm{K}
+= 5.32 \times 10^{-13}\,\mathrm{eV}$.
+
+\subsection{SCT Greybody Modification}
+
+The nonlocal form factors in the SCT field equations modify the
+effective potential in the Regge--Wheeler~\cite{RW57} perturbation
+equation.  The modification scale is set by $T_H/\Lambda$:
+\begin{equation}
+  \frac{T_H}{\Lambda} = \frac{\hbar c^3}{8\pi G M k_B \Lambda}
+  \sim 2.2 \times 10^{-10}
+  \quad (\text{for } M = 10\,M_\odot,\; \Lambda = 2.38\,\mathrm{meV}).
+\end{equation}
+Since $T_H \ll \Lambda$ for all astrophysical black holes, the
+SCT greybody modification is negligible:
+\begin{equation}\label{eq:greybody-mod}
+  \Gamma_{\mathrm{SCT}}(\omega) = \Gamma_{\mathrm{GR}}(\omega)
+  \cdot \bigl[1 + \mathcal{O}(\omega^2/\Lambda^2)\bigr].
+\end{equation}
+
+\subsection{Threshold Mass}
+
+The threshold mass for $\mathcal{O}(1)$ SCT modifications to the
+Hawking spectrum is
+\begin{equation}\label{eq:M-threshold}
+  M_{\mathrm{threshold}} \sim \frac{M_{\mathrm{Pl}}^2}{8\pi\Lambda}
+  \gg M_{\mathrm{Pl}}.
+\end{equation}
+For $\Lambda = 2.38$~meV, this gives
+$M_{\mathrm{threshold}} \sim 10^{57}$~eV, far above the Planck mass.
+Only sub-Planckian or primordial black holes in their final
+evaporation stages could exhibit observable SCT modifications.
+
+\verified{Greybody modification for 10~$M_\odot$ BH:
+$|\mathrm{mod} - 1| < 10^{-10}$.
+$T_H/\Lambda = 2.2 \times 10^{-10}$ confirms negligible deviation
+from standard Hawking radiation.}
+
+%======================================================================
+\section{Comparison with LQG, String Theory, and Asymptotic Safety}
+\label{sec:comparison}
+%======================================================================
+
+The logarithmic correction $c_{\log}$ is one of the few quantities
+where different approaches to quantum gravity make distinct,
+potentially testable predictions.
+
+\begin{center}
+\begin{tabular}{llp{7cm}}
+\toprule
+Approach & $c_{\log}$ & Notes \\
+\midrule
+\textbf{SCT (this work)} & $\mathbf{37/24 \approx +1.542}$ &
+  Parameter-free; SM content $+$ graviton via Sen formula \\
+LQG (isolated horizons) & $-3/2 = -1.5$ &
+  \emph{Opposite sign} (Kaul--Majumdar~\cite{KM00}) \\
+String theory & Model-dependent &
+  Varies with compactification; matches Sen formula for
+  specific extremal BH (Sen~\cite{Sen12}) \\
+Asymptotic safety & Not well-defined &
+  Running $G(k)$ complicates the definition of $c_{\log}$ \\
+IDG (Modesto) & Same Sen formula &
+  Same field content $\Rightarrow$ identical $c_{\log}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Discriminating observable]
+The SCT and LQG predictions for $c_{\log}$ have \emph{opposite
+signs}: $+37/24$ vs.\ $-3/2$.  This sign difference is a
+qualitative distinction: in SCT, quantum corrections
+\emph{increase} the entropy beyond the area law, while in LQG
+they \emph{decrease} it.  If logarithmic corrections to black
+hole entropy become accessible (perhaps through precision
+observations of Hawking radiation or black hole information
+experiments), this would provide a sharp test discriminating
+between these frameworks.
+\end{remark}
+
+\begin{remark}[Conformal anomaly relation]
+The conformal anomaly central charges for the SM are
+$c = 283/120 \approx 2.358$ and $a = 995.5/360 \approx 2.765$
+(Christensen--Duff~\cite{CD78}).  The $c_{\log}$ coefficient
+is \emph{not} simply a function of $(a, c)$ because the graviton
+contribution ($+424$) is a separate one-loop term specific to
+the gravitational sector, not part of the matter conformal anomaly.
+\end{remark}
+
+%======================================================================
+\section{Summary}\label{sec:summary}
+%======================================================================
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black,
+  title={\textbf{MT-1 Main Results}}]
+\begin{enumerate}[nosep]
+  \item The SCT Schwarzschild BH entropy is
+    $S = A/(4G) + 13/(120\pi) + (37/24)\ln(A/\ell_P^2) + \mathcal{O}(1)$.
+  \item $c_{\log} = 37/24$ is a \textbf{parameter-free} prediction,
+    determined entirely by the SM field content and the graviton
+    sector via the Sen formula.
+  \item The Weyl-sector correction $\Delta S = 13/(120\pi) \approx 0.035$
+    is topological, depending on $\chi(\mathcal{H}) = 2$ but not on $A$.
+  \item Four laws: zeroth PASS, first PASS (Iyer--Wald),
+    third PASS, second \textbf{CONDITIONAL} (depends on MR-2
+    ghost resolution via Wall's stability condition).
+  \item Modified Hawking radiation is negligible for all
+    astrophysical BH ($T_H/\Lambda \sim 10^{-10}$).
+  \item SCT predicts $c_{\log} = +37/24$ (opposite sign from
+    LQG's $-3/2$), providing a potential observational discriminant.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Verification:} 82/82 pytest tests PASS.
+146/146 independent verification checks across 7 layers
+(analytic, numerical, randomized property testing, literature, dual derivation,
+independent CAS verification, regression).
+Dual derivation (Jacobson--Myers vs.\ direct Wald Noether charge)
+in agreement.
+2~publication figures generated.
+
+\medskip
+\noindent\textbf{Overall status:}
+\textcolor{orange!70!black}{\textbf{CONDITIONAL}}
+(second law depends on MR-2 ghost resolution).
+\end{tcolorbox}
+
+\subsection{Downstream Tasks}
+
+\begin{itemize}[nosep]
+  \item \textbf{MR-9 (BH Singularity Resolution):} Uses the Wald
+    entropy and modified Hawking radiation from this analysis.
+    Investigates whether the nonlocal form factors regularize the
+    Schwarzschild singularity and how the entropy formula behaves
+    near the endpoint of evaporation.
+  \item \textbf{LT-2 (Information Paradox):} Uses the black hole
+    entropy formula and the unitarity analysis (MR-2) to address
+    the information paradox and Page curve.
+  \item \textbf{LT-3a (QNM Predictions):} Uses the black hole
+    background and greybody factor analysis to predict quasi-normal
+    mode frequencies.
+  \item \textbf{COMP-1 (Cross-Program Comparison):} The $c_{\log}$
+    comparison table feeds directly into the cross-program comparison.
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/mt1/mt1_entropy_vs_area.pdf}
+  \caption{Black hole entropy vs.\ horizon area. Three curves are
+    shown: the classical Bekenstein--Hawking law $S = A/(4G)$ (dashed),
+    the BH law with logarithmic correction
+    $S = A/(4G) + (37/24)\ln(A/\ell_P^2)$ (dash-dot), and the full
+    SCT entropy including the topological Weyl correction (solid).
+    For astrophysical black holes the three curves are indistinguishable
+    at this scale, confirming the hierarchy
+    $S_{\mathrm{BH}} \gg \Delta S_{\log} \gg \Delta S_{\mathrm{Weyl}}$.}
+  \label{fig:entropy-vs-area}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/mt1/mt1_hawking_spectrum.pdf}
+  \caption{SCT modification of the greybody factors as a function
+    of $\omega/\Lambda$.  For $\omega \ll \Lambda$ (all astrophysical
+    frequencies), the modification factor is unity to better than
+    $10^{-10}$.  Deviations from standard Hawking radiation only
+    become significant for $\omega \sim \Lambda$, corresponding to
+    black holes with $T_H \sim \Lambda$ (sub-Planckian masses).}
+  \label{fig:hawking-spectrum}
+\end{figure}
+
+%======================================================================
+\begin{thebibliography}{99}
+%======================================================================
+
+\bibitem{Bek73}
+J.~D.~Bekenstein,
+``Black holes and entropy,''
+\emph{Phys.\ Rev.\ D} \textbf{7} (1973) 2333--2346.
+
+\bibitem{Haw75}
+S.~W.~Hawking,
+``Particle creation by black holes,''
+\emph{Commun.\ Math.\ Phys.} \textbf{43} (1975) 199--220.
+
+\bibitem{BCH73}
+J.~M.~Bardeen, B.~Carter, and S.~W.~Hawking,
+``The four laws of black hole mechanics,''
+\emph{Commun.\ Math.\ Phys.} \textbf{31} (1973) 161--170.
+
+\bibitem{Wal93}
+R.~M.~Wald,
+``Black hole entropy is the Noether charge,''
+\emph{Phys.\ Rev.\ D} \textbf{48} (1993) R3427--R3431.
+
+\bibitem{IW94}
+V.~Iyer and R.~M.~Wald,
+``Some properties of the Noether charge and a proposal for dynamical
+black hole entropy,''
+\emph{Phys.\ Rev.\ D} \textbf{50} (1994) 846--864.
+
+\bibitem{JM93}
+T.~Jacobson and R.~C.~Myers,
+``Black hole entropy and higher-curvature interactions,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{70} (1993) 3684--3687.
+
+\bibitem{Sen12}
+A.~Sen,
+``Logarithmic corrections to Schwarzschild and other non-extremal
+black hole entropy in different dimensions,''
+\emph{JHEP} \textbf{1304} (2013) 156,
+\href{https://arxiv.org/abs/1205.0971}{arXiv:1205.0971}.
+
+\bibitem{Wall15}
+A.~C.~Wall,
+``A second law for higher curvature gravity,''
+\emph{Int.\ J.\ Mod.\ Phys.\ D} \textbf{24} (2015) 1544014,
+\href{https://arxiv.org/abs/1504.08040}{arXiv:1504.08040}.
+
+\bibitem{RW57}
+T.~Regge and J.~A.~Wheeler,
+``Stability of a Schwarzschild singularity,''
+\emph{Phys.\ Rev.} \textbf{108} (1957) 1063--1069.
+
+\bibitem{KM00}
+R.~K.~Kaul and P.~Majumdar,
+``Logarithmic correction to the Bekenstein--Hawking entropy,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{84} (2000) 5255--5257.
+
+\bibitem{CD78}
+S.~M.~Christensen and M.~J.~Duff,
+``New gravitational index theorems and super theorems,''
+\emph{Nucl.\ Phys.\ B} \textbf{154} (1979) 301--342.
+
+\bibitem{Sol11}
+S.~N.~Solodukhin,
+``Entanglement entropy of black holes,''
+\emph{Living Rev.\ Relativ.} \textbf{14} (2011) 8,
+\href{https://arxiv.org/abs/1104.3712}{arXiv:1104.3712}.
+
+\bibitem{CPR09}
+A.~Codello, R.~Percacci, and C.~Rahmede,
+``Investigating the ultraviolet properties of gravity with a
+Wilsonian renormalization group equation,''
+\emph{Ann.\ Phys.} \textbf{324} (2009) 414--469,
+\href{https://arxiv.org/abs/0805.2909}{arXiv:0805.2909}.
+
+\bibitem{CC97}
+A.~H.~Chamseddine and A.~Connes,
+``The spectral action principle,''
+\emph{Commun.\ Math.\ Phys.} \textbf{186} (1997) 731--750,
+\href{https://arxiv.org/abs/hep-th/9606001}{hep-th/9606001}.
+
+\end{thebibliography}
+
+\end{document}

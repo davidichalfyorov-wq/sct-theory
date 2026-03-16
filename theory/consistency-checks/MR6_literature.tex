@@ -1,0 +1,770 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+% Custom commands
+\newcommand{\Id}{\mathbb{1}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\Lam}{\Lambda}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SCT Theory --- Literature Review}
+\fancyhead[R]{\small MR-6: Curvature Expansion Convergence}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!70!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={MR-6 Literature Review: Convergence of the Curvature Expansion},
+  pdfsubject={Heat kernel, Seeley-DeWitt expansion, spectral action, convergence},
+  pdfkeywords={heat kernel, spectral action, asymptotic expansion, Borel summability, NCG}
+}
+
+\title{MR-6: Literature Review\\
+Convergence of the Curvature Expansion\\
+in the Spectral Action\\[6pt]
+\large Seeley--DeWitt Coefficients, Asymptoticity, and Borel Summability}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+We review the literature on the convergence properties of the Seeley--DeWitt
+(heat kernel) expansion of the spectral action, covering: (1)~computation and
+growth of heat kernel coefficients by Gilkey, Avramidi, Vassilevich, and
+others; (2)~exact spectral actions on symmetric spaces by Chamseddine--Connes;
+(3)~asymptoticity and convergence studies by Estrada--Gracia-Bond\'{i}a--V\'{a}rilly,
+Iochum--L\'{e}vy--Vassilevich, and Eckstein--Iochum; (4)~Borel summability
+results by Harg\'{e} and Dunne; and (5)~the foundational spectral action
+principle of Chamseddine--Connes and its relation to noncommutative geometry.
+This review supports the MR-6 convergence analysis of Spectral Causal Theory.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+The spectral action principle~\cite{CC96} defines the bosonic action of
+gravity and gauge fields through the spectrum of the Dirac operator.
+Its connection to ordinary field theory is mediated by the heat kernel
+expansion, whose convergence properties determine the validity of the
+perturbative approach used in most applications.
+
+This literature review surveys the principal results relevant to the
+MR-6 consistency check of Spectral Causal Theory, organized by topic.
+Section~\ref{sec:sdw-coeff} covers the computation of Seeley--DeWitt
+coefficients.  Section~\ref{sec:exact-spectra} reviews exact spectral
+computations on symmetric spaces.  Section~\ref{sec:convergence} addresses
+convergence and asymptoticity.  Section~\ref{sec:borel} covers Borel
+summability.  Section~\ref{sec:ncg-spectral-action} reviews the spectral
+action in noncommutative geometry.  Section~\ref{sec:summary} summarizes
+the findings relevant to MR-6.
+
+
+%======================================================================
+\section{Seeley--DeWitt Coefficient Computations}\label{sec:sdw-coeff}
+%======================================================================
+
+\subsection{Foundational work: Minakshisundaram, DeWitt, Gilkey}
+
+The asymptotic expansion of the heat kernel trace was first studied by
+Minakshisundaram and Pleijel~\cite{MP49}, who established the existence
+of the expansion for the scalar Laplacian.  DeWitt~\cite{DeW65} extended
+this to general Laplace-type operators on Riemannian manifolds, computing
+the first three nonvanishing coefficients $a_0$, $a_2$, $a_4$.
+Gilkey~\cite{G75,G95} placed the theory on a rigorous mathematical
+footing, proving universality of the coefficients and computing $a_6$
+in full generality (Theorem~4.8.16 of~\cite{G95}).
+
+\subsection{Vassilevich: comprehensive review}
+
+Vassilevich~\cite{V03} provides the standard reference for heat kernel
+computations.  Key formulas (in the convention with $(4\pi)^{-d/2}$
+prefactor absorbed):
+
+\begin{itemize}
+  \item $a_0 = (4\pi)^{-2}\int_M\dd^4x\,\sqrt{g}\,\mathrm{tr}(\Id)$
+    \quad (eq.~4.1 of~\cite{V03})
+  \item $a_2 = (4\pi)^{-2}\frac{1}{6}\int_M\dd^4x\,\sqrt{g}\,
+    \mathrm{tr}(6E + R)$ \quad (eq.~4.3)
+  \item $a_4$: the full 8-term expression involving $E^2$, $RE$,
+    $\Omega^2$, $R^2$, $R_{\mu\nu}^2$, $R_{\mu\nu\rho\sigma}^2$
+    (eq.~4.8)
+  \item $a_6$: approximately 17--20 independent invariants (eq.~4.12)
+\end{itemize}
+
+Vassilevich also treats boundary contributions (Dirichlet, Robin,
+mixed conditions) and reviews spectral geometry applications.
+
+\subsection{Avramidi: covariant methods and growth estimates}
+
+Avramidi~\cite{A00,A97} developed covariant techniques that yield
+heat kernel coefficients algorithmically for arbitrary Laplace-type
+operators.  A key result for MR-6 is the growth estimate
+(Section~6 of~\cite{A00}):
+\begin{equation}\label{eq:avramidi-growth}
+  |a_{2k}(x,x)| \;\lesssim\; C(x)\,\Gamma\!\left(k + \frac{d}{2}\right)
+  \left(\frac{R_{\max}}{\Lam_{\text{char}}}\right)^k,
+\end{equation}
+which confirms factorial (Gevrey-1) growth of the diagonal heat kernel
+coefficients.
+
+Avramidi~\cite{A08} also developed generating functions for heat kernel
+coefficients on locally symmetric spaces, enabling exact spectral actions
+on spaces such as $S^n$, $\mathbb{CP}^n$, and hyperbolic spaces.
+
+\subsection{van de Ven: index-free computation of \texorpdfstring{$a_6$}{a6}}
+
+Van de Ven~\cite{vdV98} computed the $a_6$ coefficient in index-free
+notation, providing an independent check of Gilkey's result and a
+computationally more efficient form.
+
+\subsection{Branson--Gilkey: boundary contributions}
+
+Branson and Gilkey~\cite{BG90} extended the computation of $a_6$ to
+manifolds with boundary, including Dirichlet and Robin boundary
+conditions.
+
+\subsection{Salcedo: covariant derivative expansion}
+
+Salcedo~\cite{S04} computed traced heat kernel coefficients with up to
+6 covariant derivatives, providing diagonal coefficients with up to 4
+derivatives in a form useful for effective action computations.
+
+\subsection{Berline--Getzler--Vergne: mathematical foundations}
+
+The monograph by Berline, Getzler, and Vergne~\cite{BGV04} provides
+the rigorous mathematical framework for the heat kernel expansion via
+parametrix construction.  Chapter~2 establishes the asymptotic nature
+of the expansion and notes that the factorial growth of coefficients
+precludes convergence on general manifolds.
+
+
+%======================================================================
+\section{Exact Spectra on Symmetric Spaces}\label{sec:exact-spectra}
+%======================================================================
+
+\subsection{Dirac spectrum on \texorpdfstring{$S^n$}{Sn}}
+
+B\"{a}r~\cite{B96} computed the Dirac spectrum on space forms of
+positive curvature.  For the round sphere $S^n$ of unit radius:
+\begin{equation}
+  \lambda_k = \pm\!\left(k + \frac{n}{2}\right), \quad
+  m_k = 2^{\lfloor n/2\rfloor}\binom{n+k-1}{k}, \quad
+  k = 0,1,2,\ldots
+\end{equation}
+Friedrich~\cite{F00} provides a comprehensive treatment of Dirac operators
+on Riemannian manifolds, including spectral data for all compact symmetric
+spaces.
+
+For $S^4$ specifically: $\lambda_k = \pm(k+2)$ with $D^2$ multiplicity
+$d_k = \frac{4}{3}(k+1)(k+2)(k+3)$, matching the formula
+$P(m) = \frac{4}{3}m(m+1)(m-1)$ of Chamseddine--Connes~\cite{CC08}.
+
+\subsection{Chamseddine--Connes: exact spectral action on \texorpdfstring{$S^3$}{S3}}
+
+Chamseddine and Connes~\cite{CC08} computed the exact spectral action on
+the round three-sphere $S^3$ and on $S^3 \times S^1$.  Key findings:
+
+\begin{itemize}
+  \item On $S^3$, only the first two Seeley--DeWitt terms (cosmological
+    constant $+$ Einstein--Hilbert) are needed: $a_4$ and $a_6$ both vanish
+    due to remarkable cancellations (conformally flat Einstein space).
+  \item On $S^3 \times S^1$, the spectral action is given by two terms
+    ``up to an astronomically small correction.''
+  \item This ``uncanny precision'' is specific to maximally symmetric
+    spaces and does \emph{not} generalize to arbitrary manifolds.
+\end{itemize}
+
+\subsection{Chamseddine--Connes: Robertson--Walker computation}
+
+Chamseddine and Connes~\cite{CC11} computed Seeley--DeWitt coefficients
+$a_0$ through $a_{10}$ for general Robertson--Walker metrics using a
+combination of Euler--Maclaurin summation and Feynman--Kac methods.
+The Bernoulli number structure in the sphere coefficients confirms
+factorial growth of the expansion.
+
+\subsection{Fathizadeh--Ghorbanpour--Khalkhali: rationality}
+
+Fathizadeh, Ghorbanpour, and Khalkhali~\cite{FGK14} proved the
+Chamseddine--Connes rationality conjecture: all coefficients in
+$a_{2n}$ for Robertson--Walker metrics are rational numbers.  They
+extended computations up to $a_{12}$ using pseudodifferential calculus
+and confirmed agreement with~\cite{CC11} up to $a_{10}$.
+
+\subsection{Fathizadeh--Marcolli: arithmetic structure}
+
+Fathizadeh and Marcolli~\cite{FM16} showed that the coefficients of
+the spectral action for Robertson--Walker spacetimes can be interpreted
+as periods of mixed Tate motives, revealing deep arithmetic structure
+in the heat kernel expansion.
+
+\subsection{Other symmetric spaces}
+
+The scalar Laplacian spectrum on $S^4$ is $\mu_l = l(l+3)$ with
+multiplicity $d_l = (2l+3)(l+1)(l+2)/6$~\cite{BGM71}.  The Dirac
+spectrum on $\mathbb{CP}^2$ was computed by Seifarth and
+Semmelmann~\cite{SS93}.  On the flat torus $T^4$, the Dirac spectrum
+reduces to lattice sums analyzable via Jacobi theta functions.
+
+
+%======================================================================
+\section{Convergence and Asymptoticity}\label{sec:convergence}
+%======================================================================
+
+\subsection{General consensus}
+
+The heat kernel expansion is \textbf{asymptotic, not convergent}, on
+general Riemannian manifolds.  This consensus is established across all
+major references:
+
+\begin{itemize}
+  \item Vassilevich~\cite{V03} uses asymptotic equivalence (``$\sim$'')
+    throughout; Section~8 discusses resummation approaches precisely
+    because the series diverges.
+  \item Avramidi~\cite{A00} emphasizes the expansion is valid only as
+    $t \to 0^+$, with factorial growth precluding convergence.
+  \item Gilkey~\cite{G95} states the expansion is asymptotic in the
+    sense of Poincar\'{e}: for any $N$, the remainder after $N$ terms
+    is $O(t^{(N+1-d)/2})$ as $t \to 0^+$.
+  \item Berline--Getzler--Vergne~\cite{BGV04} prove the asymptotic
+    expansion via parametrix construction; the factorial growth precludes
+    convergence.
+\end{itemize}
+
+\subsection{Estrada--Gracia-Bond\'{i}a--V\'{a}rilly (1998)}
+
+Estrada, Gracia-Bond\'{i}a, and V\'{a}rilly~\cite{EGV98} provided a
+rigorous mathematical framework for the spectral action as a
+\textbf{C\'{e}saro asymptotic development}:
+
+\begin{itemize}
+  \item The C\'{e}saro and parametric behaviours of distributions at
+    infinity are shown to be equivalent modulo the moment asymptotic
+    expansion.
+  \item The bosonic action functional of Chamseddine--Connes is validated
+    as a C\'{e}saro asymptotic development for $\Lam \to \infty$.
+  \item This provides the rigorous justification for using the asymptotic
+    expansion, but confirms it is \emph{not} a convergent series.
+\end{itemize}
+
+\subsection{Iochum--L\'{e}vy--Vassilevich (2011): beyond weak-field}
+
+Iochum, L\'{e}vy, and Vassilevich~\cite{ILV11} went beyond the heat
+kernel expansion to compute the \emph{exact} spectral action to second
+order in the field strength.  Key results:
+
+\begin{enumerate}
+  \item The exact spectral action decays as $\sim 1/p^4$ in the UV
+    (Theorem~3.4), in contrast to the polynomial growth suggested by
+    the truncated expansion.
+  \item ``The theory is not super-renormalizable in contrast to'' the
+    truncated expansion --- a qualitative difference between exact and
+    perturbative results.
+  \item The coefficient $\Lam^4 c_f$ controlling UV asymptotics is
+    identical to the one multiplying $a_0$, revealing an ``intimate
+    relation between leading terms in the low and high momenta
+    asymptotics.''
+\end{enumerate}
+
+This demonstrates that the asymptotic expansion can be qualitatively
+misleading for finite $\Lam$.
+
+\subsection{Iochum--L\'{e}vy--Vassilevich (2012): convergence criteria}
+
+In a companion paper, Iochum, L\'{e}vy, and Vassilevich~\cite{ILV12}
+directly studied convergence criteria for spectral action expansions,
+computing the heat kernel on the torus to second order in the gauge
+connection and deriving explicit convergence conditions.
+
+\subsection{van Nuland--van Suijlekom (2021): absolute convergence}
+
+Van Nuland and van Suijlekom~\cite{vNvS21} showed that the spectral
+action, perturbed by a gauge potential, can be written as a series of
+Chern--Simons and Yang--Mills actions of all orders, with conditions
+for absolute convergence.  While this concerns gauge perturbations
+rather than the curvature expansion, the convergence methodology is
+relevant.
+
+\subsection{Hekkelman--McDonald--van Nuland (2024): rigorous asymptotics}
+
+Hekkelman, McDonald, and van Nuland~\cite{HMvN24} established a
+rigorous asymptotic expansion of
+$\mathrm{Tr}\bigl(P\,e^{-t(D+V)^2}\bigr)$ via multiple operator integral
+techniques, providing the most modern mathematical framework for
+spectral action asymptotics.
+
+\subsection{Mistry--Pinzul--Rachwal (2020): higher derivatives}
+
+Mistry, Pinzul, and Rachwal~\cite{MPR20} computed the complete spectral
+action up to 6-derivative terms, demonstrating the rigid structure of
+higher-derivative gravity arising from the spectral action.
+
+\subsection{Eckstein--Iochum (2019): comprehensive treatment}
+
+The monograph by Eckstein and Iochum~\cite{EI19} provides the most
+comprehensive treatment of the spectral action, including:
+
+\begin{itemize}
+  \item Chapter~3: ``Asymptotic Expansion of the Spectral Action''
+    (rigorous framework)
+  \item Careful distinction between convergent expansions (on specific
+    spaces like $S^3$) and generally asymptotic expansions (on
+    arbitrary manifolds)
+  \item Sections on ``Convergent, Non-exact, Expansions'' (p.~84)
+    and ``Exact Expansions'' (p.~85)
+\end{itemize}
+
+\subsection{van Suijlekom: textbook treatment}
+
+Van Suijlekom~\cite{vS15} uses heat kernel methods to derive the
+spectral action as ``an asymptotic expansion for the spectral action
+on $M \times F$ in terms of local formulas (on $M$).''  The expansion
+is explicitly described as asymptotic throughout.
+
+\subsection{Summary of convergence status}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Space/Setting & Status & Key Reference \\
+\midrule
+General $M^4$ & Asymptotic (divergent) & \cite{V03,A00,BGV04,G95} \\
+Round $S^3$ & Finite (terminates at 2 terms) & \cite{CC08} \\
+$S^3 \times S^1$ & Finite $+$ exp.\ small & \cite{CC08} \\
+Robertson--Walker & Asymptotic & \cite{CC11} \\
+Flat torus $T^4$ & Borel summable & \cite{H13a,H13b} \\
+Hyperbolic $H^{2n}$ & Resummable & \cite{D21} \\
+Momentum space (exact) & $1/p^4$ UV decay & \cite{ILV11} \\
+\bottomrule
+\end{tabular}
+\caption{Convergence status of the heat kernel expansion across
+different settings.}
+\label{tab:convergence-summary}
+\end{table}
+
+
+%======================================================================
+\section{Borel Summability}\label{sec:borel}
+%======================================================================
+
+\subsection{Gevrey-1 class and the Borel transform}
+
+The Seeley--DeWitt coefficients satisfy $|a_{2k}| \leq C^{k+1}(2k)!$,
+which is Gevrey-1 class.  For such series, the Borel transform
+$\mathcal{B}[\sum c_k t^k](\zeta) = \sum c_k \zeta^k / k!$ may converge
+and the original function may be recoverable by Laplace transform of
+the Borel sum.
+
+\subsection{Harg\'{e} (2013): Borel summability on tori}
+
+Harg\'{e}~\cite{H13a} proved Borel summability of the small-time
+expansion of the heat kernel for the Schr\"{o}dinger operator
+$-\Delta + V(x)$ on the torus $T^d$.  The mechanism uses the Poisson
+representation of the heat kernel:
+\begin{equation}
+  K(t,x,y) = \sum_\gamma K_0(t,x,y+\gamma)\,e^{i\phi(\gamma)},
+\end{equation}
+where the sum runs over lattice vectors.  The Borel transform of the
+asymptotic series equals this exact sum, establishing Borel summability.
+
+Harg\'{e}~\cite{H13b} extended the result to first-order perturbations
+$-\Delta + A_\mu\nabla^\mu$ of the Laplacian.  The complex extension
+was studied in~\cite{H13c}.
+
+\subsection{Dunne (2021): hyperbolic spaces}
+
+Dunne~\cite{D21} studied the Borel properties of the heat kernel
+expansion on even-dimensional hyperbolic spaces $H^{2n}$.  Key results:
+
+\begin{itemize}
+  \item The diagonal heat kernel expansion has alternating-sign factorially
+    divergent coefficients with Bernoulli number structure.
+  \item Resummation via incomplete gamma functions provides accurate
+    extrapolation and analytic continuation (from $H^2$ to $S^2$ and from
+    heat kernel to Schr\"{o}dinger kernel).
+  \item The Borel properties differ between short-time and long-time
+    expansions.
+\end{itemize}
+
+This demonstrates that Borel-like resummation is feasible on curved
+symmetric spaces beyond the flat torus.
+
+\subsection{General manifolds: open problem}
+
+For general curved manifolds, Borel summability of the heat kernel
+expansion has \textbf{not} been established.  Key obstructions include:
+
+\begin{enumerate}
+  \item The heat kernel on curved manifolds lacks a simple Poisson-type
+    representation.
+  \item The geodesic structure (Synge world function) creates non-trivial
+    contributions.
+  \item Singularities of the Borel transform from topology (instantons,
+    non-perturbative effects) can obstruct summability.
+\end{enumerate}
+
+Avramidi~\cite{A00} notes that generating functions on symmetric spaces
+suggest some summability structure, but no rigorous theorem exists for
+general curved backgrounds.
+
+
+%======================================================================
+\section{The Spectral Action in Noncommutative Geometry}\label{sec:ncg-spectral-action}
+%======================================================================
+
+\subsection{Chamseddine--Connes: spectral action principle}
+
+Chamseddine and Connes~\cite{CC96} introduced the spectral action principle:
+the bosonic action is $\mathrm{Tr}(f(D^2/\Lam^2))$ where $D$ is the Dirac
+operator of a spectral triple.  The heat kernel expansion yields the
+Einstein--Hilbert action with cosmological constant, plus curvature-squared
+corrections, plus the full Standard Model Lagrangian when the spectral
+triple encodes the SM algebra~\cite{CC10}.
+
+The Laplace representation
+\begin{equation}
+  S = \int_0^\infty \psi(t)\,\mathrm{Tr}(e^{-tD^2/\Lam^2})\,\dd t
+\end{equation}
+provides the non-perturbative definition when $f$ admits an inverse
+Laplace transform $\psi$.
+
+\subsection{The role of the cutoff function}
+
+The cutoff function $f$ enters through its moments $f_n = \int_0^\infty
+u^{n/2-1}f(u)\,\dd u$.  For physical applications:
+
+\begin{itemize}
+  \item The exponential cutoff $f(u) = e^{-u}$ gives $f_n = \Gamma(n/2)$.
+  \item The moments $f_{4-2k}$ for $k \geq 3$ decay as $1/(k-2)!$, which
+    can compensate the factorial growth of $a_{2k}$ on specific spaces.
+  \item For generic cutoff functions with polynomial moments, no such
+    compensation occurs, and the expansion genuinely diverges.
+\end{itemize}
+
+\subsection{Spectral action on noncommutative spaces}
+
+The spectral action has been computed on several noncommutative spaces:
+
+\begin{itemize}
+  \item \textbf{Noncommutative torus:} Essouabri, Iochum, L\'{e}vy, and
+    Sitarz~\cite{ELS12} computed the spectral action via zeta function
+    methods, encountering Diophantine conditions.
+  \item \textbf{Podle\'{s} sphere:} Eckstein, Iochum, and Sitarz~\cite{EIS15}
+    computed the exact heat trace on the standard Podle\'{s} sphere.
+  \item \textbf{Almost-commutative geometries:} The spectral action on
+    $M \times F$ (where $F$ is a finite spectral triple encoding the Standard
+    Model) yields the full gravitational $+$ SM action~\cite{vS15,CC10}.
+\end{itemize}
+
+\subsection{Relation to SCT form factors}
+
+In Spectral Causal Theory, the one-loop spectral action produces nonlocal
+form factors $F_1(\Box/\Lam^2)$, $F_2(\Box/\Lam^2,\xi)$ built from the
+master function
+$\varphi(z) = e^{-z/4}\sqrt{\pi/z}\,\mathrm{erfi}(\sqrt{z}/2)$.
+The entireness of $\varphi(z)$ (NT-2) means the \emph{nonlocal} spectral
+action is well-defined for all curvatures.  The curvature expansion is
+obtained by Taylor-expanding these form factors around $z = 0$ --- this
+localization step introduces the factorial divergence.
+
+
+%======================================================================
+\section{Summary and Implications for MR-6}\label{sec:summary}
+%======================================================================
+
+The literature establishes the following picture for the curvature expansion
+of the spectral action:
+
+\begin{enumerate}
+  \item \textbf{The Seeley--DeWitt expansion is asymptotic (Gevrey-1).}
+    This is the consensus of Gilkey, Vassilevich, Avramidi, and
+    Berline--Getzler--Vergne.  The coefficients grow as $(2k)!$, precluding
+    convergence on general manifolds.
+
+  \item \textbf{Specific spaces exhibit better behaviour.}
+    On $S^3$, the expansion terminates (Chamseddine--Connes).
+    On the torus, it is Borel summable (Harg\'{e}).
+    On hyperbolic spaces, it is resummable via incomplete gamma functions
+    (Dunne).
+
+  \item \textbf{The exact spectral action differs qualitatively from
+    truncations.}  Iochum--L\'{e}vy--Vassilevich showed that the exact
+    result decays as $1/p^4$ in momentum space, while the truncated
+    expansion suggests polynomial growth --- a qualitative discrepancy.
+
+  \item \textbf{The Laplace representation is the standard non-perturbative
+    definition.}  It provides a well-defined spectral action for all
+    curvatures, bypassing the divergent expansion.
+
+  \item \textbf{Borel summability on general manifolds remains open.}
+    Results exist for tori and hyperbolic spaces, but the general curved
+    case is unsettled.
+
+  \item \textbf{The SCT form factors are entire} (NT-2), providing a
+    convergent representation in the momentum variable $z = \Box/\Lam^2$.
+    The divergence arises only from the localization step.
+\end{enumerate}
+
+These results directly support the MR-6 analysis: the curvature expansion
+is asymptotic but the underlying theory is well-defined through the
+Laplace representation and entire form factors.
+
+
+%======================================================================
+\section*{Acknowledgements}
+%======================================================================
+
+The author thanks Aliaksandr Samatyia for research-assistance and
+workflow support throughout this project.
+
+
+%======================================================================
+% References
+%======================================================================
+\begin{thebibliography}{99}
+
+% === Foundational: heat kernel coefficients ===
+\bibitem{MP49}
+S.~Minakshisundaram and {\AA}.~Pleijel,
+\textit{Some properties of the eigenfunctions of the Laplace-operator
+on Riemannian manifolds},
+Canadian J.\ Math.\ \textbf{1} (1949) 242--256.
+
+\bibitem{DeW65}
+B.S.~DeWitt,
+\textit{Dynamical Theory of Groups and Fields},
+Gordon and Breach, 1965.
+
+\bibitem{G75}
+P.B.~Gilkey,
+\textit{The spectral geometry of a Riemannian manifold},
+J.\ Diff.\ Geom.\ \textbf{10} (1975) 601--618.
+
+\bibitem{G95}
+P.B.~Gilkey,
+\textit{Invariance Theory, the Heat Equation, and the Atiyah--Singer
+Index Theorem}, 2nd edition, CRC Press, 1995.
+
+\bibitem{V03}
+D.V.~Vassilevich,
+\textit{Heat kernel expansion: user's manual},
+Phys.\ Rept.\ \textbf{388} (2003) 279--360,
+\href{https://arxiv.org/abs/hep-th/0306138}{arXiv:hep-th/0306138}.
+
+\bibitem{A00}
+I.G.~Avramidi,
+\textit{Heat Kernel and Quantum Gravity},
+Lecture Notes in Physics Monographs, vol.~64, Springer, 2000;
+\href{https://arxiv.org/abs/hep-th/0008167}{arXiv:hep-th/0008167}.
+
+\bibitem{A97}
+I.G.~Avramidi,
+\textit{Covariant techniques for computation of the heat kernel},
+Rev.\ Math.\ Phys.\ \textbf{11} (1999) 947--980,
+\href{https://arxiv.org/abs/hep-th/9704166}{arXiv:hep-th/9704166}.
+
+\bibitem{A08}
+I.G.~Avramidi,
+\textit{Heat kernel on homogeneous bundles over symmetric spaces},
+Commun.\ Math.\ Phys.\ \textbf{288} (2009) 963--1006,
+\href{https://arxiv.org/abs/math/0701489}{arXiv:math/0701489}.
+
+\bibitem{BGV04}
+N.~Berline, E.~Getzler, and M.~Vergne,
+\textit{Heat Kernels and Dirac Operators},
+Springer, 2004 (corrected reprint).
+
+\bibitem{vdV98}
+A.E.M.~van de Ven,
+\textit{Index-free heat kernel coefficients},
+Class.\ Quantum Grav.\ \textbf{15} (1998) 2311--2344,
+\href{https://arxiv.org/abs/hep-th/9708152}{arXiv:hep-th/9708152}.
+
+\bibitem{BG90}
+T.P.~Branson and P.B.~Gilkey,
+\textit{The asymptotics of the Laplacian on a manifold with boundary},
+Commun.\ Part.\ Diff.\ Eqns.\ \textbf{15} (1990) 245--272.
+
+\bibitem{S04}
+L.L.~Salcedo,
+\textit{Covariant derivative expansion of the heat kernel},
+Eur.\ Phys.\ J.~C \textbf{37} (2004) 511--523,
+\href{https://arxiv.org/abs/hep-th/0409140}{arXiv:hep-th/0409140}.
+
+% === Exact spectra on symmetric spaces ===
+\bibitem{B96}
+C.~B\"{a}r,
+\textit{The Dirac operator on space forms of positive curvature},
+J.\ Math.\ Soc.\ Japan \textbf{48} (1996) 69--83.
+
+\bibitem{F00}
+T.~Friedrich,
+\textit{Dirac Operators in Riemannian Geometry},
+Graduate Studies in Mathematics, vol.~25, AMS, 2000.
+
+\bibitem{BGM71}
+M.~Berger, P.~Gauduchon, and E.~Mazet,
+\textit{Le spectre d'une vari\'{e}t\'{e} riemannienne},
+Lecture Notes in Mathematics, vol.~194, Springer, 1971.
+
+\bibitem{SS93}
+H.~Seifarth and U.~Semmelmann,
+\textit{The spectrum of the Dirac operator on
+$\mathbb{CP}^2$},
+preprint, 1993.
+
+% === Exact spectral action computations ===
+\bibitem{CC08}
+A.H.~Chamseddine and A.~Connes,
+\textit{The Uncanny Precision of the Spectral Action},
+Commun.\ Math.\ Phys.\ \textbf{293} (2010) 867--897,
+\href{https://arxiv.org/abs/0812.0165}{arXiv:0812.0165}.
+
+\bibitem{CC11}
+A.H.~Chamseddine and A.~Connes,
+\textit{Spectral Action for Robertson--Walker metrics},
+JHEP \textbf{10} (2012) 101,
+\href{https://arxiv.org/abs/1105.4637}{arXiv:1105.4637}.
+
+\bibitem{FGK14}
+F.~Fathizadeh, A.~Ghorbanpour, and M.~Khalkhali,
+\textit{Rationality of Spectral Action for Robertson--Walker Metrics},
+JHEP \textbf{12} (2014) 064,
+\href{https://arxiv.org/abs/1407.5972}{arXiv:1407.5972}.
+
+\bibitem{FM16}
+F.~Fathizadeh and M.~Marcolli,
+\textit{Periods and motives in the spectral action of Robertson--Walker
+spacetimes},
+\href{https://arxiv.org/abs/1611.01815}{arXiv:1611.01815}, 2016.
+
+% === Convergence and asymptoticity ===
+\bibitem{EGV98}
+R.~Estrada, J.M.~Gracia-Bond\'{i}a, and J.C.~V\'{a}rilly,
+\textit{On summability of distributions and spectral geometry},
+Commun.\ Math.\ Phys.\ \textbf{191} (1998) 219--248,
+\href{https://arxiv.org/abs/funct-an/9702001}{arXiv:funct-an/9702001}.
+
+\bibitem{ILV11}
+B.~Iochum, C.~L\'{e}vy, and D.V.~Vassilevich,
+\textit{Spectral action beyond the weak-field approximation},
+Commun.\ Math.\ Phys.\ \textbf{316} (2012) 595--613,
+\href{https://arxiv.org/abs/1108.3749}{arXiv:1108.3749}.
+
+\bibitem{ILV12}
+B.~Iochum, C.~L\'{e}vy, and D.V.~Vassilevich,
+\textit{Global and local aspects of spectral actions},
+J.\ Phys.\ A \textbf{45} (2012) 374020,
+\href{https://arxiv.org/abs/1201.6637}{arXiv:1201.6637}.
+
+\bibitem{vNvS21}
+T.D.H.~van Nuland and W.D.~van Suijlekom,
+\textit{Cyclic cocycles in the spectral action},
+J.\ Noncommut.\ Geom.\ (2022),
+\href{https://arxiv.org/abs/2104.09899}{arXiv:2104.09899}.
+
+\bibitem{HMvN24}
+E.-M.~Hekkelman, E.~McDonald, and T.D.H.~van Nuland,
+\textit{Multiple operator integrals, pseudodifferential calculus,
+and asymptotic expansions},
+\href{https://arxiv.org/abs/2404.16338}{arXiv:2404.16338}, 2024.
+
+\bibitem{MPR20}
+R.~Mistry, A.~Pinzul, and L.~Rachwal,
+\textit{Spectral action approach to higher derivative gravity},
+Phys.\ Rev.\ D \textbf{102} (2020) 024033,
+\href{https://arxiv.org/abs/2001.05975}{arXiv:2001.05975}.
+
+\bibitem{EI19}
+M.~Eckstein and B.~Iochum,
+\textit{Spectral Action in Noncommutative Geometry},
+SpringerBriefs in Mathematical Physics, vol.~27, 2019,
+\href{https://arxiv.org/abs/1902.05306}{arXiv:1902.05306}.
+
+\bibitem{vS15}
+W.D.~van Suijlekom,
+\textit{Noncommutative Geometry and Particle Physics},
+Springer, 2015 (2nd edition 2024).
+
+% === Borel summability ===
+\bibitem{H13a}
+T.~Harg\'{e},
+\textit{Borel summation of the small time expansion of the heat kernel.
+The scalar potential case},
+\href{https://arxiv.org/abs/1301.7742}{arXiv:1301.7742}, 2013.
+
+\bibitem{H13b}
+T.~Harg\'{e},
+\textit{Borel summation of the small time expansion of the heat kernel
+with a vector potential},
+\href{https://arxiv.org/abs/1302.0604}{arXiv:1302.0604}, 2013.
+
+\bibitem{H13c}
+T.~Harg\'{e},
+\textit{Some remarks on the complex heat kernel in the scalar
+potential case},
+\href{https://arxiv.org/abs/1302.3512}{arXiv:1302.3512}, 2013.
+
+\bibitem{D21}
+G.V.~Dunne,
+\textit{Borel Summation and Analytic Continuation of the Heat Kernel
+on Hyperbolic Space},
+\href{https://arxiv.org/abs/2109.03897}{arXiv:2109.03897}, 2021.
+
+% === Spectral action principle ===
+\bibitem{CC96}
+A.H.~Chamseddine and A.~Connes,
+\textit{The Spectral Action Principle},
+Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731--750,
+\href{https://arxiv.org/abs/hep-th/9606001}{arXiv:hep-th/9606001}.
+
+\bibitem{CC10}
+A.H.~Chamseddine and A.~Connes,
+\textit{Noncommutative geometry as a framework for unification},
+Fortsch.\ Phys.\ \textbf{58} (2010) 553--600,
+\href{https://arxiv.org/abs/1004.0464}{arXiv:1004.0464}.
+
+% === Noncommutative spaces ===
+\bibitem{EIS15}
+M.~Eckstein, B.~Iochum, and A.~Sitarz,
+\textit{Heat trace and spectral action on the standard Podle\'{s} sphere},
+Commun.\ Math.\ Phys.\ \textbf{332} (2014) 627--668.
+
+\bibitem{ELS12}
+D.~Essouabri, B.~Iochum, C.~L\'{e}vy, and A.~Sitarz,
+\textit{Spectral action on noncommutative torus},
+J.\ Noncommut.\ Geom.\ \textbf{2} (2008) 53--123.
+
+\end{thebibliography}
+
+\end{document}

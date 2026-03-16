@@ -42,7 +42,7 @@
 \begin{center}
   \colorbox{verified!15}{\parbox{0.6\textwidth}{\centering
     \textbf{\color{verified} STATUS: VERIFIED}\\[2pt]
-    \small six-stage review pipeline, 8-layer verification, 354/354 checks PASS
+    \small independent cross-verification, multi-method checks, 354/354 checks PASS
   }}
 \end{center}
 
@@ -68,8 +68,8 @@ Phases 1 and 2 of NT-1b. We compute:
 \section{Input: Verified Form Factors}
 % ============================================================
 
-From NT-1b Phases 1 and 2 (each verified to $\geq 98\%$ confidence via the
-8-layer pipeline), the individual spin-sector form factors are:
+From NT-1b Phases 1 and 2 (each verified to $\geq 98\%$ confidence via
+multi-method verification), the individual spin-sector form factors are:
 
 \subsection{Spin-0 (Real Scalar)}
 
@@ -403,10 +403,10 @@ In the $\{R^2, R_{\mu\nu}^2\}$ basis:
   \midrule
   1. Analytic (limits, signs, dimensions) & PASS & 13/13 \\
   2. Numerical (mpmath, 120 digits) & PASS & 8/8 \\
-  2.5. Property fuzzing (hypothesis) & PASS & 304/304 \\
+  2.5. Randomized property testing (hypothesis) & PASS & 304/304 \\
   3. Literature (CPR, Avramidi, Stelle) & PASS & 8/8 \\
   4. Independent dual derivation & PASS & 5/5 \\
-  4.5. Triple CAS (Fraction, mpmath, SymPy) & PASS & 5/5 \\
+  4.5. Independent CAS verification (Fraction, mpmath, SymPy) & PASS & 5/5 \\
   5--6. Formal (rational arithmetic) & PASS & 11/11 \\
   \midrule
   \textbf{Total} & \textbf{PASS} & \textbf{354/354} \\

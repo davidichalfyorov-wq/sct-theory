@@ -1,110 +1,134 @@
 # SCT Theory
 
-SCT Theory is a research repository for Spectral Causal Theory: a program that studies whether gravity, quantum corrections, and parts of fundamental physics can be organized from spectral data in a mathematically controlled and testable way.
+**Spectral Causal Theory** is a research program that asks whether gravity, quantum corrections, and fundamental physics can be derived from the spectral data of the Dirac operator — in a mathematically controlled, computationally verified, and experimentally testable way.
 
-## The Short Version
-Modern physics has two extremely successful frameworks:
+<p align="center">
+  <img src="docs/figures/roadmap_progress.png" alt="Research roadmap progress" width="680"/>
+</p>
 
-- general relativity, which describes gravity and spacetime on large scales
-- quantum field theory, which describes particles and interactions on small scales
+---
 
-Both work very well in their own domains. The hard problem is that they are not yet unified into one clean, fully verified framework for extreme regimes such as the early universe, black holes, and quantum corrections to gravity.
+## The Problem
 
-This repository studies one possible route: start from spectral geometry, especially the Dirac operator and spectral action, and ask whether known low-energy physics can be recovered while also producing new, concrete, falsifiable predictions.
+Modern physics rests on two pillars:
 
-## What We Are Actually Doing
-In simple terms, the project asks:
+| Framework | Describes | Works at |
+|-----------|-----------|----------|
+| **General Relativity** | Gravity, spacetime, black holes, cosmology | Large scales |
+| **Quantum Field Theory** | Particles, forces, the Standard Model | Small scales |
 
-1. Can the geometry of spacetime be encoded through spectral data rather than only through the metric written in the usual way?
-2. If we compute quantum corrections carefully, do we recover the known Einstein-Hilbert limit at low energy?
-3. Do nonlocal form factors and curvature-squared terms produce fixed relations that could be tested, instead of arbitrary free parameters?
-4. Can the framework be checked step by step with symbolic algebra, numerical verification, literature comparison, and formal proof tools rather than by handwaving?
+Both work extraordinarily well in their domains. The open problem is what happens in regimes where both matter — the early universe, black hole interiors, and quantum corrections to gravity itself.
 
-This means the repository is not just a pile of notes. It is a working research environment where derivations, scripts, tests, figures, and publication documents are kept together and cross-checked.
+## The Idea
 
-## What "Spectral" Means Here
-Instead of treating geometry only as distances and curvature written directly from the metric, spectral geometry studies operators whose spectrum carries geometric information.
+Instead of writing down an arbitrary higher-derivative gravitational action, SCT starts from a different premise:
 
-The central object in this repository is the Dirac operator `D`. Very roughly:
+> **Geometry leaves a fingerprint in the spectrum of the Dirac operator. We read physics from that fingerprint.**
 
-- the spectrum of `D` tells us something about the underlying geometry
-- the spectral action uses `D` to build an action functional
-- expanding that action gives terms that can be compared with ordinary gravitational physics
+Concretely, the **spectral action principle** uses the spectrum of a generalized Dirac operator to construct an action functional. Expanding it in curvature invariants recovers the Einstein-Hilbert action at low energy — but also produces specific, calculable quantum corrections governed by **nonlocal form factors**.
 
-In plain language: geometry leaves a fingerprint in the spectrum, and we are trying to read physics from that fingerprint in a controlled way.
+These form factors are not free parameters. They are fixed by the spectrum and the particle content of the Standard Model.
 
-## Why This Matters
-If this program works, it gives three valuable things:
+## What This Repository Does
 
-- a mathematically structured way to derive gravitational terms rather than postulate them
-- a route to concrete quantum-gravity corrections that can be checked against known physics
-- specific predictions that could in principle be constrained or ruled out by observation
+The project derives, computes, and verifies these predictions step by step:
 
-Even if the full program fails, the partial outputs are still useful:
-
-- corrected derivations
-- verified form factors
-- reproducible symbolic and numerical workflows
-- clear statements of what is proven, what is open, and what is falsifiable
-
-## What This Repository Contains
-- `theory/` holds the core scientific content: axioms, derivations, predictions, and consistency documents.
-- `analysis/` holds the computational backbone: the `sct_tools` Python package, verification scripts, figures, and tests.
-- `papers/` holds publication material and build helpers.
-- `docs/` holds roadmap and high-level project documentation.
-
-## How We Work
-The repository is organized around a simple rule: claims should be derived and checked, not merely asserted.
-
-That is why the project uses:
-
-- analytic checks
-- high-precision numerical checks
-- comparison with the literature
-- independent re-derivation
-- multiple CAS backends
-- Lean-based formal checks for suitable identities
-
-The aim is not to make the project look impressive. The aim is to reduce avoidable mistakes in hard derivations.
-
-## What Has Been Established So Far
-As of March 13, 2026, the repository contains completed and documented work on:
-
-- one-loop nonlocal form factors for scalar, Dirac, and vector sectors
-- combined Standard Model curvature-squared coefficients
-- the entire-function control phase (`NT-2`)
-- the first linearized field-equation phase (`NT-4a`)
-
-The roadmap and current scientific status are summarized in:
-
-- [docs/overview.md](docs/overview.md)
-- [docs/SCT_roadmap.tex](docs/SCT_roadmap.tex)
-
-## What This Repository Is Not
-- It is not a claim that all of fundamental physics is finished.
-- It is not a replacement for peer review.
-- It is not a promise that every research direction in the project will survive future checks.
-
-It is a serious research workspace built to make derivations reproducible, inspectable, and easier to falsify.
-
-## Author
-Formal theory documents and papers are authored by `David Alfyorov`.
-
-## Credits
-Acknowledgements: `Aliaksandr Samatyia` contributed research-assistance and workflow support.
-
-## Quick Start
-```powershell
-python -m pip install -r requirements.txt
-python -m pytest analysis/ -x -q
-python analysis/run_ci.py
-python papers/build.py
+```
+Spectral geometry  →  Spectral action  →  Heat kernel expansion
+     →  Form factors (per spin)  →  Combined SM coefficients
+     →  Field equations  →  Modified gravity  →  Testable predictions
 ```
 
-## Repository Policy
-- Public releases should contain reproducible code, clean derivations, and publication materials.
-- Local environment files, private workflow notes, large raw datasets, caches, and generated scratch outputs are intentionally excluded.
+### Key results established so far
+
+**One-loop form factors** for all Standard Model sectors (scalar, Dirac, vector) are computed and cross-verified. All form factors are governed by a single **master function**:
+
+<p align="center">
+  <img src="docs/figures/master_function.png" alt="The SCT master function φ(x)" width="560"/>
+</p>
+
+This function is **entire** (no poles in the complex plane), which guarantees ghost-freedom of the propagator at tree level.
+
+**Modified Newtonian potential.** At distances comparable to the spectral scale 1/&Lambda;, the gravitational potential departs from Newton's law and becomes finite at the origin:
+
+<p align="center">
+  <img src="docs/figures/newtonian_potential.png" alt="Modified Newtonian potential" width="560"/>
+</p>
+
+**Standard Model contributions.** Each particle sector (scalars, fermions, gauge bosons) contributes different heat kernel coefficients and form factor profiles:
+
+<p align="center">
+  <img src="docs/figures/sm_contributions.png" alt="SM sector contributions" width="680"/>
+</p>
+
+**Parameter-free predictions.** The combined Weyl-squared coefficient is &alpha;<sub>C</sub> = 13/120, entirely fixed by the Standard Model content. The ratio c<sub>1</sub>/c<sub>2</sub> = &minus;1/3 at conformal coupling is a testable, parameter-free prediction.
+
+## Repository Structure
+
+```
+theory/           Formal theory content
+  axioms/           Foundational postulates
+  derivations/      Step-by-step mathematical derivations
+  predictions/      Testable predictions with observables and precision targets
+  consistency-checks/  Internal consistency proofs
+
+analysis/         Computational backbone
+  sct_tools/        Python package (13 modules, 4000+ tests)
+  scripts/          Verification and computation scripts
+  figures/          Publication-quality figures
+
+papers/           Publication drafts and build tools
+docs/             Roadmap, overview, presentations
+```
+
+## Verification Philosophy
+
+Hard derivations fail for boring reasons — wrong signs, mismatched conventions, silent transcription errors. This project uses an **8-layer verification pipeline** instead of trusting any single calculation:
+
+| Layer | Method | Purpose |
+|-------|--------|---------|
+| 1 | Analytic checks | Dimensions, limits, symmetries, pole cancellation |
+| 2 | Numerical (100+ digits) | High-precision evaluation at multiple test points |
+| 2.5 | Property fuzzing | 1000+ randomized hypothesis tests |
+| 3 | Literature comparison | Cross-check against 13+ independent references |
+| 4 | Dual derivation | Independent method, different approach |
+| 4.5 | Triple CAS | SymPy, GiNaC, and mpmath must agree to 12+ digits |
+| 5 | Lean 4 formal proofs | Machine-verified rational identities |
+| 6 | Multi-backend | Multiple Lean backends must independently pass |
+
+## Published Work
+
+| Paper | DOI |
+|-------|-----|
+| Nonlocal one-loop form factors of the spectral action with Standard Model content | [10.5281/zenodo.19039242](https://doi.org/10.5281/zenodo.19039242) |
+| Solar system and laboratory tests of the spectral action scale | [10.5281/zenodo.19045796](https://doi.org/10.5281/zenodo.19045796) |
+
+## Quick Start
+
+```bash
+python -m pip install -r requirements.txt
+python -m pytest analysis/ -x -q          # run tests
+python analysis/run_ci.py                 # full CI pipeline
+python papers/build.py                    # compile all LaTeX documents
+```
+
+## What This Project Is Not
+
+- It is **not** a claim that all of fundamental physics is finished.
+- It is **not** a replacement for peer review.
+- It is **not** a promise that every research direction will survive future checks.
+
+It is a serious research workspace built to make derivations **reproducible**, **inspectable**, and **falsifiable**.
+
+## Author
+
+Formal theory documents and papers are authored by **David Alfyorov**.
+
+## Credits
+
+Research-assistance and workflow support: **Aliaksandr Samatyia**.
 
 ## Licensing
-- Source code is released under [Apache-2.0](LICENSE).
-- Research text, derivations, and documentation are released under [CC BY 4.0](LICENSE-docs.md), unless noted otherwise.
+
+- Source code: [Apache-2.0](LICENSE)
+- Research text, derivations, and documentation: [CC BY 4.0](LICENSE-docs.md)

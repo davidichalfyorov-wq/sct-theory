@@ -167,7 +167,7 @@ all $z \geq 0$, including:
 
 \textbf{Status (2026-03-11):} \textcolor{proven}{COMPLETE.} Form factors derived
 for the massless Dirac operator. Seven rounds of independent audit (274+
-quantitative checks, all PASS). Deep verification via seven-stage review pipeline
+quantitative checks, all PASS). Deep verification via systematic multi-method checks
 with 95--98\% confidence. See \texttt{theory/derivations/NT1\_form\_factors.tex}.
 
 \subsection{NT-1b: Form factors for scalar and vector fields}
@@ -243,15 +243,22 @@ factor framework; only traces change.}
 \begin{itemize}
   \item \textbf{Phase 1 (scalar):} $h_C^{(0)}$, $h_R^{(0)}(\xi)$ derived.
     $\beta_W^{(0)} = 1/120$, $\beta_R^{(0)} = \half(\xi - 1/6)^2$.
-    142/142 quantitative checks PASS (4 errors caught by dual-review pipeline).
+    142/142 quantitative checks PASS (4 errors caught by independent cross-verification).
   \item \textbf{Phase 2 (vector):} $h_C^{(1)}$, $h_R^{(1)}$ derived.
     $\beta_W^{(1)} = 1/10$, $\beta_R^{(1)} = 0$.
     Ghost counting corrected: 2 Faddeev--Popov ghosts (not 1), shifting
     $\beta_W^{(1)}$ from $13/120 \to 1/10$.
     1519 numerical checks ALL PASS (11 errors caught).
-  \item \textbf{Phase 3 (combined SM):} Re-derivation of $c_1/c_2$ with
-    $N_s=4$, $N_f=45$, $N_v=12$ and corrected conventions---\textbf{PENDING}.
+  \item \textbf{Phase 3 (combined SM):} \textcolor{proven}{COMPLETE (2026-03-12).}
+    $\alpha_C = 13/120$ (total Weyl${}^2$, $\xi$-independent, parameter-free).
+    $\alpha_R(\xi) = 2(\xi - 1/6)^2$ (total $R^2$, depends on Higgs non-minimal coupling).
+    $c_1/c_2 = -1/3 + 120(\xi-1/6)^2/13$ (general; $-1/3$ at conformal $\xi=1/6$).
+    SM counting: $N_s=4$, $N_D=22.5$, $N_v=12$.
+    354/354 quantitative checks ALL PASS.
 \end{itemize}
+
+\textbf{Status (2026-03-12):} All three phases \textcolor{proven}{COMPLETE.}
+Total: 2015/2015 checks PASS (142 + 1519 + 354).
 
 \subsection{NT-2: Entire-function property of spectral form factors}
 \label{task:NT2}
@@ -293,6 +300,14 @@ behavior without additional postulates.}
 
 \deps{Requires NT-1 (explicit form factors).}
 
+\textbf{Status (2026-03-12):} \textcolor{proven}{COMPLETE.}
+$\varphi(z)$ entire, Taylor coefficients $a_n = (-1)^n n!/(2n+1)!$.
+$F_1(z)$, $F_2(z,\xi)$ entire $\Rightarrow$ ghost-freedom guarantee (outcome~A confirmed).
+$\Pi_{\text{entire}}(z) > 0$ for all real $z \geq 0$ (verified to $z=100$).
+$F_1(0) = 13/(1920\pi^2)$, $F_2(0, \xi=0) \approx 1.7576 \times 10^{-4}$.
+63/63 quantitative checks ALL PASS.
+See \texttt{theory/derivations/NT2\_entire\_function.tex}.
+
 \subsection{NT-3: Spectral dimension flow $d_S(\text{scale})$}
 \label{task:NT3}
 
@@ -329,6 +344,19 @@ class. If $d_{\text{UV}} \neq 2$, this is a distinguishing prediction.
 \deps{Requires the spectral triple to be fully specified (Postulate 5 variants,
 see MT-3). A partial result is possible using the minimal spectral triple.}
 
+\textbf{Status (2026-03-16):} \textcolor{proven}{COMPLETE (DEFINITION-DEPENDENT).}
+Spectral dimension computed under four definitions:
+Propagator (CMN): $d_S = 2$; Heat kernel: $d_S = 4$;
+ASZ/fakeon: $d_S = 0 \to 4$; Mittag--Leffler (primary): $d_S \approx 2$ at
+ghost scale $\to 4$ in IR.
+Critical finding: $P_{\mathrm{ML}}(\sigma) < 0$ for
+$\sigma < \sigma_* \approx 0.010\,\Lambda^{-2}$ due to
+$\sum R_n = -1.034$ (ghost dominance).
+Physical flow: $d_S \approx 2$ at $\sigma \sim 0.05$--$0.1\,\Lambda^{-2}$,
+$d_S = 4$ for $\sigma \gg \Lambda^{-2}$.
+32/32 verification checks, 2 independent derivations, 5 methods.
+See \texttt{theory/derivations/NT3\_spectral\_dimension.tex}.
+
 \subsection{NT-4: Nonlocal gravitational field equations}
 \label{task:NT4}
 
@@ -337,7 +365,7 @@ roadmap: 17~downstream tasks depend on it directly or indirectly. The full
 nonlinear variational problem on arbitrary backgrounds is substantially harder
 than the linearized version on flat spacetime, yet many downstream tasks (MR-2,
 MR-3, MR-7, PPN-1) only require the linearized equations. Splitting NT-4 into
-three sub-tasks de-risks the critical path and enables earlier progress on
+three subtasks de-risks the critical path and enables earlier progress on
 physical predictions.
 
 \subsubsection{NT-4a: Linearized nonlocal equations on flat background}
@@ -381,6 +409,18 @@ equations in transverse-traceless gauge.}
 
 \deps{NT-1 (Dirac form factors), NT-1b (total form factors for the
 physical field equations with correct SM spectrum).}
+
+\textbf{Status (2026-03-12):} \textcolor{proven}{COMPLETE.}
+$\Pi_{\text{TT}}(z) = 1 + (13/60)\cdot z\cdot\hat{F}_1(z)$,
+$\Pi_s(z,\xi) = 1 + 6(\xi-1/6)^2\cdot z\cdot\hat{F}_2(z,\xi)$.
+Scalar decouples at $\xi=1/6$. Barnes--Rivers: $P^{(2)}$ (tr=5), $P^{(0\text{-}s)}$ (tr=1).
+Gauge invariance + Bianchi identity verified for 10 random momenta.
+Effective masses: $m_2 = \Lambda\sqrt{60/13} \approx 2.148\,\Lambda$,
+$m_0(\xi=0) = \Lambda\sqrt{6} \approx 2.449\,\Lambda$.
+Modified Newtonian potential:
+$V(r)/V_N(r) = 1 - (4/3)\,e^{-m_2 r} + (1/3)\,e^{-m_0 r}$.
+88/88 quantitative checks ALL PASS.
+See \texttt{theory/derivations/NT4a\_linearized.tex}.
 
 \subsubsection{NT-4b: Full nonlinear variational equations}
 \label{task:NT4b}
@@ -433,6 +473,18 @@ $F_i(\Box)\,\mathcal{R}^2$ with respect to the metric on curved backgrounds.}
 
 \deps{NT-4a (linearized limit as cross-check), NT-1, NT-1b.}
 
+\textbf{Status (2026-03-15):} \textcolor{proven}{COMPLETE.}
+Full nonlinear variational field equations derived in the $\{C^2, R^2\}$
+(Weyl) basis via the Barvinsky--Vilkovisky alpha-insertion technique.
+Key results: field equations with nonlocal Bach tensor $B_{\mu\nu}$,
+$H_{\mu\nu}$ from $R^2$ variation, and alpha-insertion corrections
+$\Theta^{(C)}$, $\Theta^{(R)}$. Local limit recovers Stelle equations
+with $\alpha_C = 13/120$, $\alpha_R(\xi) = 2(\xi-1/6)^2$. Linearized
+limit recovers NT-4a propagators. De~Sitter is exact solution. Dual
+derivation (Methods~A and~B1) in exact agreement. Wald entropy variation
+computed for MT-1. 110~tests, 6/6~consistency checks PASS. See
+\texttt{theory/derivations/NT4b\_nonlinear.tex}.
+
 \subsubsection{NT-4c: FLRW reduction of nonlocal equations}
 \label{task:NT4c}
 
@@ -466,6 +518,17 @@ equations including nonlocal form factor contributions.}
 }
 
 \deps{NT-4b (full nonlinear equations), NT-1b (total form factors).}
+
+\textbf{Status (2026-03-15):} \textcolor{proven}{COMPLETE.}
+FLRW reduction of NT-4b field equations derived via independent cross-verification.
+Key results: modified Friedmann equations with nonlocal $R^2$ corrections
+(Weyl sector drops out: $C_{\mu\nu\rho\sigma} = 0$ on FLRW), GW speed
+$c_T = c$ to $\mathcal{O}(H^2/\Lambda^2)$ (GW170817 trivially satisfied),
+de~Sitter is exact solution (stable for all~$\xi$), conformal coupling
+$\xi = 1/6$ eliminates all corrections, alpha-insertion EOS $w = +1$ (stiff).
+Late-time corrections $\mathcal{O}(10^{-120})$.
+117/117 pytest tests PASS, multi-method verification, dual derivation agreement.
+See \texttt{theory/derivations/NT4c\_flrw.tex}.
 
 \subsection{META-1: Parameter counting and falsifiability criteria}
 \label{task:META1}
@@ -508,8 +571,9 @@ falsifiability criteria for each prediction channel.}
         $F_2$ depend on the \emph{entire} function $f$ via the Laplace transform.
       \item \textbf{Classification:} Partition all roadmap predictions into
         ``moment-dependent'' (robust) vs.\ ``$f$-shape-dependent'' (fragile).
-        Specifically: $c_1/c_2 = -1/3$ is moment-independent (universal ratio
-        from heat kernel); the form factors $F_i(z)$ and their UV behavior
+        Specifically: $c_1/c_2 = -1/3 + 120(\xi-1/6)^2/13$ is moment-independent
+        (universal ratio from heat kernel; reduces to $-1/3$ at conformal coupling
+        $\xi = 1/6$); the form factors $F_i(z)$ and their UV behavior
         \emph{are} $f$-dependent.
       \item \textbf{Constraints on $f$:} Determine whether physical requirements
         (unitarity via MR-2, causality via MR-3, finiteness via MR-4/MR-5,
@@ -610,6 +674,18 @@ The near-horizon spectral dimension is an \emph{output} of MT-1 (computed from
 the Wald entropy result), not an input. The spectral dimension enters the
 \emph{interpretation} of the entropy result, not its derivation.
 
+\textcolor{near}{CONDITIONAL (2026-03-16).}
+Wald entropy on Schwarzschild yields
+$S = A/(4G) + 13/(120\pi) + (37/24)\ln(A/\ell_P^2) + \mathcal{O}(1)$.
+The logarithmic correction $c_{\log} = 37/24$ is a parameter-free prediction
+(SM content $+$ graviton via Sen~2012, eq.\,(1.2)).
+Four laws: zeroth PASS, first PASS (Iyer--Wald), third PASS,
+second \textbf{CONDITIONAL} on MR-2 ghost resolution (Wall stability).
+Modified Hawking radiation negligible for astrophysical BH
+($T_H/\Lambda \sim 10^{-10}$).
+82~tests, 146/146~verification checks PASS across 7~layers.
+See \texttt{theory/derivations/MT1\_bh\_entropy.tex}.
+
 \subsection{MT-2: Modified Friedmann equations from SCT}
 \label{task:MT2}
 
@@ -670,6 +746,21 @@ NT-2 (entire-function property determines whether cosmological
 perturbation theory is well-defined),
 NT-4c (FLRW reduction of the nonlocal field equations---the modified
 Friedmann equations are obtained by specializing to FRW symmetry).}
+
+\textbf{Status (2026-03-16):} \textcolor{proven}{COMPLETE (NEGATIVE RESULT).}
+SCT nonlocal corrections to the Friedmann equation are
+$\delta H^2/H^2 = \beta_R(\xi)\,(H/\Lam)^2 \sim 10^{-64}$ at the PPN-1
+lower bound ($\Lam = 2.38 \times 10^{-3}$\,eV, $\xi = 0$, $z = 0$), which
+is 64~orders of magnitude below the ${\sim}18\%$ needed for the $H_0$~tension.
+$w_{\text{eff}} = -1$ to 63~decimal places; $|c_T/c - 1| < 10^{-62}$
+(GW170817 by 46~orders); growth modification $\sim 10^{-57}$ ($S_8$ by
+55~orders). At $\xi = 1/6$ all corrections vanish. SCT is trivially
+consistent with all late-time cosmological data (Planck, DESI, Pantheon+,
+KiDS, DES, GW170817). Physical reason: UV nonlocality
+($F(\Box/\Lam^2)$, entire functions) cannot generate the IR nonlocality
+($\Box^{-1}$, $m \sim H_0$) required for the tensions.
+131~tests, 1073~total verification checks (multi-method), 2~figures.
+Derivation: \texttt{theory/derivations/MT2\_cosmology.tex}.
 
 \subsection{MT-3: Three variants of Postulate 5}
 \label{task:MT3}
@@ -795,6 +886,24 @@ form factors.}
 NT-2 (analyticity of form factors for nonlocal slow-roll analysis),
 NT-4c (FRW reduction of nonlocal field equations for perturbation theory).}
 
+\textcolor{near}{\textbf{Status (2026-03-15): CONDITIONAL.}}
+The full independent cross-verification has been executed.
+\textbf{Central negative result:} The SM-only one-loop spectral action at
+$\xi = 0$ gives $M = \sqrt{24\pi^2}\,M_P \approx 15.39\,M_P$, which is
+$1.2 \times 10^6$ times too heavy for inflation.
+Confirmed through 6~independent routes at 100-digit precision.
+\textbf{Conditional predictions} (if~$M$ fixed externally to
+$3.12 \times 10^{13}\,\text{GeV}$):
+$n_s = 0.965$, $r = 3.5 \times 10^{-3}$,
+$f_{\text{NL}} = -0.016$, $T_{\text{reh}} = 4.9 \times 10^9\,\text{GeV}$.
+All compatible with Planck 2018 and BICEP/Keck 2021.
+Nonlocal corrections $< 1\%$ for $\Lambda > 10^{14}\,\text{GeV}$.
+Resolution paths: sub-Planckian $\Lambda$ (viable),
+sub-Planckian $\Lambda + \text{moderate}\;\xi$ (viable),
+higher loops (open).
+91/91~pytest tests, 148~verification checks, 3~figures.
+Derivation: \texttt{theory/derivations/INF1\_inflation.tex}.
+
 \textbf{Note:} MT-2 is \emph{not} a prerequisite: INF-1 derives the inflationary
 dynamics \emph{from} the spectral action directly (Einstein-frame scalaron potential),
 not from the modified Friedmann equations. MT-2 and INF-1 are parallel tracks that
@@ -841,6 +950,13 @@ characterization of the domain of validity of the Euclidean formulation.}
 
 \textbf{Severity: CRITICAL.}
 
+\textbf{Status (2026-03-14):} \textcolor{proven}{COMPLETE.}
+Lorentzian form factors $\varphi(-x)$ derived via Wick rotation $z_E \to z_L = -z_E$.
+$\Pi_{\text{TT}}(-k^2/\Lambda^2)$ well-defined for all real $k^2$.
+Spectral representation established for the Lorentzian propagator.
+189/189 quantitative checks ALL PASS.
+See \texttt{theory/derivations/MR1\_derivation.tex}.
+
 \subsection{MR-2: Unitarity and stability}
 \label{task:MR2}
 
@@ -864,6 +980,20 @@ verify the optical theorem, and establish Hamiltonian stability.}
     ($F_1 \to c_1$), the Weyl-squared term produces a massive spin-2 ghost
     with $m^2 = 1/(2|c_1|)$. Determine whether the nonlocal form factors
     $F_1(z)$ cure this ghost (cf.\ Tomboulis, Modesto, Biswas--Mazumdar--Siegel).
+  \item \textbf{Residue analysis at the $\Pi_{\text{TT}}$ zero (from NT-4a).}
+    The linearized TT propagator denominator $\Pi_{\text{TT}}(z) = 1 + \frac{13}{60}\,z\,\hat{F}_1(z)$
+    has a zero at $z_0 \approx 2.41$ (i.e., $k^2 \approx 2.41\,\Lambda^2$),
+    producing an effective mass $m_2 = \Lambda\sqrt{60/13} \approx 2.148\,\Lambda$.
+    The Yukawa coefficient $-4/3$ matches the Stelle ghost pattern.
+    \textbf{Critical subtask:} compute $\Pi_{\text{TT}}'(z_0)$ to determine the
+    sign of the propagator residue at this pole.
+    If $\Pi_{\text{TT}}'(z_0) > 0$, the pole has negative residue (ghost);
+    if $\Pi_{\text{TT}}'(z_0) < 0$, positive residue (healthy massive graviton).
+    \emph{Note:} This concerns the \emph{linearized} propagator, not the
+    entire-function property of the form factors (NT-2), which guarantees
+    ghost-freedom at the nonlinear/analytic level. The two results may be
+    reconciled if the full nonlinear theory modifies the pole structure
+    relative to the linearized truncation.
   \item \textbf{Scalar mode.} The SCT prediction $3c_1 + c_2 = 0$ implies
     $m_0^2 \to \infty$ (scalar mode decouples). Verify this persists in the
     nonlocal theory: $3F_1(z) + F_2(z) \neq 0$ for $z > 0$?
@@ -890,6 +1020,73 @@ the SCT gravitational sector.}
 requires the explicit linearized equations of motion).}
 
 \textbf{Severity: CRITICAL.}
+
+\textbf{Status (2026-03-16):} \textcolor{near}{CONDITIONAL PASS (70--80\% survival probability, post-CL+GZ verification).}
+\begin{itemize}
+  \item \textbf{Ghost catalogue ($|z| \leq 100$):} $\Pi_{\text{TT}}$ has 8 zeros:
+    2 real + 3 complex conjugate pairs.
+    $z_0 = 2.4148$ (spacelike, $R_0 = -0.4931$),
+    $z_L = -1.2807$ (timelike physical ghost, $R_L = -0.5378$),
+    Type~C pairs at $|z| \approx 34, 59, 85$ with $|R| < 0.01$ (Lee--Wick, negligible).
+  \item \textbf{Scalar sector (SS subtask):} \textcolor{proven}{COMPLETE.}
+    Full scalar ghost catalogue at general $\xi \neq 1/6$.
+    $\Pi_s(\xi=1/6) \equiv 1$ (conformal decoupling, ghost-free).
+    At $\xi = 0$: 8 zeros in $|z| \leq 100$, all complex Lee--Wick pairs;
+    dominant pair at $z \approx -2.076 \pm 3.184\,i$ ($|R| \approx 0.469$).
+    At $\xi = 1$: real Lorentzian ghost at $z \approx -0.232$ ($R \approx -0.968$),
+    violates spectral positivity.
+    No positive-real Euclidean zeros for any $\xi$.
+    PPN $\gamma \to 1$ for all $\xi$ at solar system distances.
+    95/95 verification checks PASS + 55/55 test suite PASS.
+    See \texttt{theory/consistency-checks/SS\_scalar\_sector.tex}.
+  \item \textbf{Conformal factor:} $\alpha_R(\xi) = 2(\xi-1/6)^2 \geq 0$ for all $\xi$ --- resolved.
+  \item \textbf{Ostrogradski:} inapplicable to infinite-derivative theory.
+  \item \textbf{Conditions for viability:} (1)~fakeon prescription extends to nonlocal (entire-function) propagators;
+    (2)~Donoghue--Menezes unstable ghost mechanism applicable to nonlocal theories;
+    (3)~Kubo--Kugo operator-formalism objection resolvable.
+  \item \textbf{Ghost width:} $\Gamma/m = C_\Gamma \cdot (\Lambda/M_{\text{Pl,red}})^2$,
+    $C_\Gamma = 0.06554$, HLZ partial widths 1:3:6 (scalar:Dirac:vector).
+  \item \textbf{Dressed propagator:} $\text{Im}[k^2_{\text{pole}}] < 0$ --- ghost decays (6-step sign chain verified).
+  \item \textbf{Optical theorem:} $\text{Im}[T(s)] \geq 0$ for all $s > 0$ with fakeon prescription (one-loop verified).
+  \item \textbf{One-loop optical theorem (OT):} Optical theorem analysis COMPLETE + independent verification CERTIFIED CONDITIONAL.
+    67/67 OT tests PASS; 10 Devil's Advocate attacks survived.
+    $\text{Im}[G_{\text{dressed}}(s)] > 0$ for all $s > 0$ (spectral positivity theorem---rigorous proof, not numerical evidence).
+    Central charge $C_m = 283/120$ verified; $N_{\text{eff}} = 143.5$ reconciled.
+    See \texttt{theory/consistency-checks/OT\_optical\_theorem.tex}.
+  \item \textbf{Commutativity of limits (CL subtask):} \textcolor{proven}{COMPLETE.}
+    Rigorous proof that $\lim_{N\to\infty} T_{\text{FK}}(N,s) = T_{\text{FK}}(\infty,s)$
+    for all $s > 0$ away from poles. Three independent methods (Weierstrass M-test,
+    Lebesgue DCT, Cauchy sequence) all confirm absolute and uniform convergence.
+    Weierstrass bound $\sum M_n < 5.01\times 10^{-4}$; complex poles contribute $0.32\%$ of
+    total amplitude. 43/43 CL tests PASS; 2868/2868 regression PASS.
+    MR-2 Condition~1 is now mathematically established.
+    See \texttt{theory/consistency-checks/CL\_commutativity.tex}.
+  \item \textbf{Entire part constancy (GZ subtask):} \textcolor{proven}{COMPLETE.}
+    Rigorous proof that the entire part $g_A(z)$ in the Mittag-Leffler expansion
+    of $1/(z\,\Pi_{\text{TT}}(z))$ is a constant: $g_A(z) = -c_2 = -13/60$
+    for all $z \in \mathbb{C}$.  Proof via genus bound (order~1, genus~1
+    $\Rightarrow$ $g_A$ at most linear) plus positive real axis limit
+    (forces linear coefficient to vanish).  Corollary sum rule:
+    $\sum R_n/z_n = c_2 = 13/60$ (verified to 99.95\% with 16~poles).
+    Physical implication: the SCT propagator has a pure pole decomposition
+    (graviton + ghost tower + constant contact term).
+    55/55 GZ tests PASS; 2923/2923 regression PASS.
+    See \texttt{theory/consistency-checks/GZ\_entire\_part.tex}.
+  \item \textbf{Kubo--Kugo resolution (KK subtask):} \textcolor{near}{PARTIALLY RESOLVED.}
+    The Kubo--Kugo objection (arXiv:2308.09006) correctly identifies that the KO quartet
+    mechanism does \emph{not} apply to propagator ghosts (spin-2 vs.\ spin-1 quantum number mismatch).
+    However, under the fakeon prescription, ghost pair production is identically zero
+    ($\text{Im}[G_{\text{FK}}] = 0$ at ghost poles to machine precision at dps=100), and the
+    objection does not apply.  Lowest pair-production threshold:
+    $E_{\text{th}} = 2\Lambda\sqrt{|z_L|} = 2.264\,\Lambda$ (moot under fakeon).
+    Resolution A (KO quartet) REJECTED; Resolution B (fakeon) PRIMARY.
+    MR-2 Condition~3 partially resolved: physics clear, rigorous all-orders proof for
+    infinite-pole propagators remains open.
+    64/64 KK tests PASS; independent re-derivation by 5~methods; dps=100 verification.
+    See \texttt{theory/consistency-checks/KK\_kugo\_resolution.tex}.
+\end{itemize}
+3137/3137 quantitative checks ALL PASS (MR-2 + A3 + GP + OT + CL + GZ + SS + KK subtasks).
+See \texttt{theory/derivations/MR2\_derivation.tex}.
 
 \subsection{MR-3: Causality in the nonlocal theory}
 \label{task:MR3}
@@ -932,6 +1129,24 @@ NT-2 (analyticity structure), NT-4a (linearized nonlocal field equations).}
 
 \textbf{Severity: CRITICAL.}
 
+\textcolor{near}{CONDITIONAL.}
+Completed 2026-03-15 with 83 tests PASS (3061 full regression).
+All five subtasks pass:
+\begin{itemize}[nosep]
+  \item (a)~Retarded G.F.: $G_{\mathrm{ret}}$ vanishes for spacelike separations. PASS.
+  \item (b)~Kramers--Kronig: trivially satisfied at tree level ($\mathrm{Im}[\Pi_{\mathrm{TT}}] = 0$). PASS.
+  \item (c)~Classification: SCT is Class~III (entire with zeros); closest
+    comparison is Anselmi's fakeon gravity.
+  \item (d)~IVP: well-posed (classicized, Anselmi--Calcagni 2025, 2 initial data). PASS.
+  \item (e)~Macrocausality: $v_{\mathrm{front}} = c$; acausal effects decay
+    as $\exp(-1.13\,\Lambda\,r)$. PASS.
+  \item Microcausality: VIOLATED at scale $\sim 0.884/\Lambda$ (inherent to fakeon
+    prescription; unobservable for $\Lambda \gg$ accessible energies).
+\end{itemize}
+Condition for upgrade: loop-level Kramers--Kronig verification (requires 2-loop computation).
+Independent re-derivation (MR3-DR) confirmed all results with zero discrepancies.
+See \texttt{theory/consistency-checks/MR3\_causality.tex}.
+
 \subsection{MR-6: Convergence of the curvature expansion}
 \label{task:MR6}
 
@@ -960,6 +1175,16 @@ or proof of asymptotic (non-convergent) nature.}
 \deps{None (can proceed in parallel with all other tasks).}
 
 \textbf{Severity: IMPORTANT.}
+
+\textbf{Status (2026-03-16):} \textcolor{proven}{COMPLETE.}
+Curvature expansion ASYMPTOTIC (Gevrey-1).
+Borel radius $\sim 84$.
+Laplace representation verified to $168{+}$ digits.
+SCT well-defined non-perturbatively via entire form factors.
+$K^* = 8$ at $\Lambda^2 a^2 = 1000$.
+Reliable for $R/\Lambda^2 < 10^{-10}$ (truncation error $< 10^{-999}$).
+74 tests PASS, 4 figures.
+See \texttt{MR6\_convergence.tex}.
 
 \subsection{MR-4: Two-loop effective action}
 \label{task:MR4}
@@ -994,6 +1219,19 @@ MR-7 (one-loop scattering amplitudes provide the integrand structure
 that the two-loop calculation must iterate).}
 
 \textbf{Severity: CRITICAL.}
+
+\textcolor{near}{CONDITIONAL.}
+The SCT propagator scales as $1/k^2$ in the UV (same as GR, not $1/k^4$ as Stelle).
+The $R^3$ Goroff--Sagnotti counterterm \emph{is} generated at two loops, but can be
+absorbed by a deformation of the spectral function $\psi(u) \to \psi(u) + c_2(2-4u+u^2)e^{-u}$
+that preserves $f_2$ (Einstein--Hilbert) and $f_4$ (one-loop form factors) while adjusting
+$f_6 = \Gamma(3) = 2$.  Absorption is conditional on: (i)~tensor structure match with $a_6$,
+(ii)~positivity of the deformed~$\psi$, (iii)~convergence of the order-by-order procedure.
+Two-loop corrections are parametrically suppressed by $(\Lambda/M_{\text{Pl}})^4/(8\pi^2)^2$
+(negligible at all sub-Planckian scales).
+Fakeon consistency at two loops follows from Anselmi's theorem (arXiv:2203.02516).
+71~tests PASS, 7~independent 120-digit verifications.
+See \texttt{MR4\_two\_loop.tex}.
 
 \subsection{MR-5: Power-counting and all-orders finiteness argument}
 \label{task:MR5}
@@ -1042,6 +1280,73 @@ NT-2 (entire-function property),
 MR-4 (two-loop as explicit check of any general argument).}
 
 \textbf{Severity: CRITICAL.}
+
+\textbf{Status (2026-03-16):} \textcolor{near}{CONDITIONAL (Option~C).}
+\begin{itemize}
+  \item \textbf{All-orders finiteness (Option~A):} NOT achievable by known methods.
+    The propagator $\Pi_{\mathrm{TT}} \to -83/6$ gives $G \sim 1/k^2$ (GR-like,
+    not Stelle-like $1/k^4$). Superficial degree of divergence $D = 2L+2-E$ grows
+    with loop order. Tensor structure mismatch: $N(L)$ invariants vs.\ 1 parameter
+    from~$\psi$.
+  \item \textbf{Perturbative finiteness (Option~C):} Gevrey-1 asymptotic series
+    with optimal truncation at $L_{\mathrm{opt}} \approx 78$ at Planck scale
+    ($\varepsilon = 1/(8\pi^2) \approx 0.0127$). Error at optimal truncation
+    $\sim e^{-79} \approx 5 \times 10^{-35}$ (Dingle).
+  \item \textbf{Improvement over GR:} $39\times$ at Planck scale
+    ($L_{\mathrm{opt}} = 78$ vs.\ $L_{\mathrm{break}}^{\mathrm{GR}} = 2$,
+    Goroff--Sagnotti).
+  \item \textbf{Borel radius:} $R_B^{\mathrm{loop}} \approx 79$, close to
+    $R_B^{\mathrm{curv}} \approx 84$ from MR-6 (ratio $\approx 0.94$).
+  \item \textbf{Two-loop $D=0$ (MR-5b):} \textcolor{near}{CONDITIONAL.}
+    The perturbative on-shell reduction shows $R_{\mu\nu}\sim\mathcal{O}(\alpha_C)$,
+    so at $\mathcal{O}(\alpha_C^2)$ only the CCC invariant
+    ($C_{\mu\nu}^{\;\;\kappa\lambda}C_{\kappa\lambda}^{\;\;\rho\sigma}
+    C_{\rho\sigma}^{\;\;\mu\nu}$) survives.  With 1~constraint and 1~parameter
+    ($\delta f_6$), absorption is possible at leading order.
+    SM CCC coefficient: $-1481/6\approx -246.83$.
+    Off-shell $D=0$ remains OPEN.
+    74~pytest PASS (D), 49~self-tests (DR), 34~V-checks at 120~digits.
+    See \texttt{theory/derivations/MR5b\_two\_loop.tex}.
+  \item \textbf{Key open question:} Does the background field method give $D = 0$
+    at two loops? $D = 0$ at $L = 1$ is VERIFIED (MR-7).  Physical $D=0$ at $L=2$
+    is CONDITIONAL (MR-5b): on-shell CCC is absorbable, off-shell structure unknown.
+  \item \textbf{Spectral moments:} $f_{2k} = (k-1)!$ for $k = 1,\ldots,10$
+    verified at 150-digit precision.
+  \item 79/79 pytest tests PASS, 7/7 independent verification checks PASS
+    at 150~digits. 5~independent re-derivation methods.
+    See \texttt{theory/derivations/MR5\_finiteness.tex}.
+  \item \textbf{FUND Program (2026-03-17):} Five fundamental investigations
+    executed through a full L$\to$LR$\to$D$\to$DR$\to$V$\to$V3$\to$V4 pipeline,
+    probing all known escape routes from the three-loop obstruction:
+    \begin{enumerate}[(i)]
+      \item \textbf{FUND-FRG} (asymptotic safety): no quantitative connection
+        established. $\alpha_C = 13/120$ is $5$--$20\times$ larger than typical
+        AS fixed-point values. SM matter content inside extended DEP bound.
+      \item \textbf{FUND-FK3} (fakeon at $L=3$): \textcolor{long}{CERTIFIED NEGATIVE.}
+        Anselmi's theorem confirms fakeon does not change divergent parts.
+        Full Molien series gives $P(4)=3$ independent parity-even quartic
+        Weyl invariants (corrected from~2), yielding $3{:}1$ overdetermination.
+        All $L\geq 3$ are overdetermined with growing ratio.
+      \item \textbf{FUND-NCG} (spectral function constraints):
+        \textcolor{long}{CERTIFIED NEGATIVE.}
+        NCG axioms do not constrain the spectral function~$f$ (30-year consensus).
+        Entropy function (Chamseddine--Connes--van Suijlekom 2018) gives one number
+        vs.~three invariants. Non-perturbative correction $\sim e^{-c\Lambda^2}$
+        cannot cancel power-law divergences.
+      \item \textbf{FUND-SYM} (hidden symmetry): \textcolor{near}{CERTIFIED WITH CORRECTIONS.}
+        Cayley--Hamilton identity reduces quartic Weyl invariants from~3 to~2.
+        $\Tr(\Omega^4_{\mathrm{chain}})$ gives $(C^2)^2{:}({}^*CC)^2 = 1{:}1$
+        (exact, from chiral block-diagonality). However, full~$a_8$ includes
+        $[\Tr(\Omega^2)]^2$ with nonzero $pq$ cross-term$\Rightarrow$ ratio
+        NOT~1:1 for the full coefficient.
+      \item \textbf{FUND-LAT} (lattice/spectral sum): \textcolor{near}{CERTIFIED (informative).}
+        Exact spectral action on~$S^4$: $\Delta = 41/15120\times\Lambda^{-4}$
+        non-perturbative floor verified to $4\times 10^{-15}$ relative precision.
+        $C=0$ on~$S^4$ limits utility for Weyl-sector physics.
+    \end{enumerate}
+    Revised survival probability: $56$--$64\%$.
+    See \texttt{theory/consistency-checks/FUND\_program.tex}.
+\end{itemize}
 
 \subsection{MR-7: Scattering amplitudes and gauge-fixing}
 \label{task:MR7}
@@ -1093,6 +1398,18 @@ MR-2 (ghost-freedom of propagator),
 MR-3 (causality of Green's functions).}
 
 \textbf{Severity: IMPORTANT.}
+
+\textbf{Status (2026-03-15):} \textcolor{proven}{COMPLETE.}
+Tree-level amplitude verified identical to GR by Modesto--Calcagni field
+redefinition theorem (2107.04558); all three conditions satisfied ($E \cdot F \cdot E$
+form with $V=0$, entire form factors, vacuum background). One-loop UV behavior:
+logarithmic ($D=0$ for graviton bubble, same as Stelle gravity), with counterterms
+$\delta\alpha_C\, C^2 + \delta\alpha_R\, R^2$. Ward identity $k^\mu P^{(2)}_{\mu\nu,\rho\sigma}=0$
+verified to machine precision. FP ghost sector in minimal de~Donder gauge: standard
+$1/k^2$ propagator, no new poles.
+Verified by independent cross-verification (literature review, dual derivation, numerical checks),
+64 derivation tests, 5 independent re-derivation methods, 10 verification checks at 120-digit precision.
+See \texttt{theory/derivations/MR7\_scattering.tex}.
 
 \subsection{MR-8: Non-perturbative definition}
 \label{task:MR8}
@@ -1246,6 +1563,17 @@ parameters depend on $F_i^{\text{total}}$).}
 
 \textbf{Severity: CRITICAL.} This is the gold standard for testing
 gravitational theories.
+
+\textbf{Status (2026-03-14):} \textcolor{proven}{COMPLETE.}
+\begin{itemize}
+  \item $\gamma_{\text{PPN}} = 1 + \tfrac{2}{3}\,e^{-m_2 r} + O(e^{-m_0 r})$ (Level~2 Yukawa, derived).
+  \item At $r = 1\,\text{AU}$, $\Lambda \geq 2.38\times 10^{-3}\,\text{eV}$:
+    $|\gamma - 1| \sim e^{-10^{14}} \approx 0$ (indistinguishable from GR).
+  \item SCT passes ALL solar system tests trivially (Cassini, LLR, perihelion, binary pulsars).
+  \item All preferred-frame parameters zero (diffeomorphism invariance of spectral action).
+\end{itemize}
+2829/2829 quantitative checks ALL PASS.
+See \texttt{theory/predictions/prediction\_ppn1.tex}.
 
 \subsection{FUND-1: Recovery of QFT on curved spacetime}
 \label{task:FUND1}
@@ -1476,7 +1804,7 @@ needed for late-time behavior).}
 \subsection{LT-3: Testable numerical predictions}
 \label{task:LT3}
 
-The original single task is split into four focused sub-tasks, each targeting
+The original single task is split into four focused subtasks, each targeting
 a distinct experimental channel with its own methodology and dataset.
 
 \subsubsection{LT-3a: Quasinormal mode shifts}
@@ -1607,6 +1935,13 @@ testing SCT at each distance scale.}
 \deps{NT-1b, NT-4a (linearized equations for short-distance potential),
 PPN-1 (Solar System).}
 
+\textbf{Status (2026-03-17):} \textcolor{proven}{COMPLETE.}
+Primary bound: $\Lambda > 2.565 \times 10^{-3}$~eV (95\% CL) from E\"ot-Wash torsion balance.
+Corresponding Yukawa range $\lambda_1 < 35.8$~$\mu$m.
+SCT potential is parameter-free: $\alpha_1 = -4/3$, $\alpha_2 = +1/3$, $V(0) = 0$.
+No other experiment constrains SCT. 7.8\% tighter than PPN-1.
+85 tests PASS, 5 figures. See \texttt{LT3d\_laboratory.tex}.
+
 \subsubsection{LT-3e: Stellar Structure and TOV limits}
 \label{task:LT3e}
 
@@ -1721,7 +2056,7 @@ completed before''):
 \noindent\textbf{Level 0 (Foundation --- proven results):}
 \begin{quote}
   Spectral action $\to$ Einstein--Hilbert limit [Eq.~\eqref{eq:EH-limit}] \\
-  Ratio $c_1/c_2 = -1/3$ [Eq.~\eqref{eq:ratio}] \\
+  Ratio $c_1/c_2 = -1/3 + 120(\xi-1/6)^2/13$ [Eq.~\eqref{eq:ratio}; $= -1/3$ at $\xi = 1/6$] \\
   Master function $f(\xi)$ [Eq.~\eqref{eq:master}]
 \end{quote}
 
@@ -1740,7 +2075,7 @@ completed before''):
   \textbf{MR-6} (Curvature expansion convergence) $\longleftarrow$ Level 0
 \end{quote}
 
-\noindent\textbf{Level 1.5 (NT-4 sub-tasks):}
+\noindent\textbf{Level 1.5 (NT-4 subtasks):}
 \begin{quote}
   \textbf{NT-4b} (Full nonlinear eqs.) $\longleftarrow$ NT-4a, NT-1, NT-1b \\[2pt]
   \textbf{NT-4c} (FLRW reduction) $\longleftarrow$ NT-4b, NT-1b
@@ -1848,18 +2183,18 @@ In parallel, \textbf{MR-1 (Lorentzian spectral action)} and
 1 & META-1: Theory census + $f$-analysis & --- & (foundation for all reviews) \\
 2 & NT-1b: \textcolor{proven}{Ph.\,1--2 done}; Ph.\,3 ($c_1/c_2$) pending & NT-1 & NT-4a, MR-2, MR-4, MR-7, MT-1, MT-2, INF-1, PPN-1, LT-3a--e \\
 3 & MR-1: Lorentzian action & --- & MR-8 \\
-4 & MR-6: Convergence & --- & (cross-check) \\
+4 & \textcolor{proven}{MR-6: Convergence} & \textcolor{proven}{DONE} & (cross-check) \\
 5 & NT-2: Entire functions & NT-1 & MR-2, MR-3, MT-2, MT-3, MR-5, INF-1 \\
-6 & NT-3: Spectral dimension & --- (partial) & (interpretation) \\
+6 & \textcolor{proven}{NT-3: Spectral dimension} & \textcolor{proven}{DONE} & (interpretation) \\
 7a & NT-4a: Linearized nonlocal eqs. & NT-1, NT-1b & MR-2, MR-3, MR-7, PPN-1, NT-4b \\
 7b & NT-4b: Full nonlinear eqs. & NT-4a & MT-1, MR-9, NT-4c, FUND-1, LT-3a \\
 7c & NT-4c: FLRW reduction & NT-4b, NT-1b & MT-2, INF-1, LT-3b, LT-3c \\
 8 & MR-2: Unitarity+stability & NT-1b, NT-2, NT-4a & MR-4, MR-7, LT-1 \\
 9 & MR-3: Causality+macrocausality & NT-1b, NT-2, NT-4a & MR-7 \\
 10 & PPN-1: Post-Newtonian limits & NT-4a, NT-1b & LT-3d (verification) \\
-11 & MT-2: Cosmology+tensions & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
-12 & MT-1: BH entropy+4 laws & NT-1b, NT-4b & LT-2, LT-3a, MR-9 \\
-13 & INF-1: Spectral inflation & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
+11 & \textcolor{proven}{MT-2: Cosmology+tensions [NEGATIVE]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
+12 & \textcolor{near}{MT-1: BH entropy+4 laws [CONDITIONAL]} & NT-1b, NT-4b & LT-2, LT-3a, MR-9 \\
+13 & \textcolor{near}{INF-1: Spectral inflation [CONDITIONAL]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
 14 & MT-3: Postulate 5 & NT-1, NT-1b, NT-2 & LT-1, LT-2, MR-8, FUND-1 \\
 15 & MR-7: Scattering ampl. & NT-1b, NT-4a, MR-2, MR-3 & MR-4 \\
 16 & MR-9: BH singularity+Penrose & NT-1b, NT-2, NT-4b, MT-1 & LT-3a \\
@@ -1983,7 +2318,7 @@ passing across 7 independent audit rounds.
 (27 original, with NT-4 split adding 2, LT-3e adding 1; plus COMP-1 running iteratively)
 organized in five categories:
 \begin{itemize}
-  \item \textbf{Near-term (5+2 sub-tasks):} NT-1 \textcolor{proven}{[\,DONE\,]},
+  \item \textbf{Near-term (5+2 subtasks):} NT-1 \textcolor{proven}{[\,DONE\,]},
     NT-1b \textcolor{proven}{[\,Ph.\,1--2 DONE\,]} (Ph.\,3: $c_1/c_2$ pending),
     NT-2, NT-3, NT-4a (linearized), NT-4b (full nonlinear), NT-4c (FLRW reduction).
   \item \textbf{Mid-term (3+2):} MT-1 (BH entropy + 4 laws), MT-2 (cosmology + tensions),
@@ -2011,9 +2346,8 @@ organized in five categories:
   \item \textbf{NT-2}: Entire-function property (unblocks MR-2, MR-3, MR-5, MT-2, MT-3, INF-1).
   \item \textbf{MR-1}: Define the Lorentzian spectral action (foundational;
     independent of all other tasks).
-  \item \textbf{MR-6}: Convergence of curvature expansion (foundational;
-    independent).
-  \item \textbf{NT-3}: Spectral dimension flow (partially independent).
+  \item \textbf{MR-6}: Convergence of curvature expansion \textcolor{proven}{[\,COMPLETE\,]}.
+  \item \textbf{NT-3}: Spectral dimension flow \textcolor{proven}{[\,COMPLETE\,]}.
 \end{enumerate}
 
 \textbf{High-priority after NT-4a (linearized equations):}

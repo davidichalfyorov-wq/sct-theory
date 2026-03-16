@@ -1,0 +1,251 @@
+%%======================================================================
+%%  MR-7 Literature Review:
+%%  Graviton Scattering Amplitudes in Nonlocal and Higher-Derivative Gravity
+%%======================================================================
+\documentclass[11pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+%% ---- theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%% ---- custom commands
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\PV}{P.V.}
+
+%% ---- page style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{MR-7 Literature: Graviton Scattering}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- hyperref
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!70!black,
+  pdftitle={MR-7 Literature Review},
+  pdfauthor={David Alfyorov},
+}
+
+%% ---- title
+\title{\textbf{MR-7 Literature Review}\\[8pt]
+  \large Graviton Scattering Amplitudes in Nonlocal\\
+  and Higher-Derivative Gravity}
+
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%%======================================================================
+\section{Field Redefinition Theorem}
+%%======================================================================
+
+\subsection{Modesto--Calcagni (2021)}
+
+The central result for MR-7 is the field redefinition theorem of
+Modesto and Calcagni~\cite{ModestoCalcagni2021}
+(arXiv:2107.04558, JHEP). For a nonlocal theory of the form
+\begin{equation}
+  S(\Phi) = S_{\mathrm{loc}}(\Phi) + E_i\, F_{ij}(\Delta)\, E_j + V(E),
+\end{equation}
+where $E_i = \delta S_{\mathrm{loc}}/\delta\Phi_i$, all on-shell
+tree-level $n$-point amplitudes equal those of $S_{\mathrm{loc}}$.
+
+Two independent proof methods are given:
+\begin{enumerate}
+  \item \textbf{Field redefinition:} $\Phi' = \Phi + Q_{ij} E_j$ maps
+        $S(\Phi) = S_{\mathrm{loc}}(\Phi')$, preserving on-shell amplitudes.
+  \item \textbf{Perturbative EoM:} Perturbative solutions of the nonlocal
+        EoM satisfy the local EoM at every order.
+\end{enumerate}
+
+Application to SCT requires three conditions, all verified:
+(1)~$E \cdot F \cdot E$ form with $V = 0$,
+(2)~$F_1, F_2$ entire (NT-2),
+(3)~background is a vacuum Einstein solution.
+
+\subsection{Dona--Giaccari--Modesto--Rachwal--Zhu (2015)}
+
+Explicit computation of the 4-graviton tree-level amplitude in
+$d = 4, 5, 6$ for nonlocal gravity~\cite{DonaGiaccari2015}
+(arXiv:1506.04589). Amplitudes are identical to GR when
+$\gamma_4(\Box) = 0$ (no Riemann-squared term). In $d=4$, the
+Gauss--Bonnet identity guarantees this condition is automatically
+satisfied.
+
+%%======================================================================
+\section{One-Loop UV Behavior}
+%%======================================================================
+
+\subsection{Anselmi--Piva (2018): Fakeon One-Loop}
+
+Anselmi and Piva~\cite{AnselmiPiva2018a} (arXiv:1803.07777)
+computed the one-loop graviton self-energy (2-point function) in
+Stelle gravity with the spin-2 ghost quantized as a fakeon. Key
+results:
+\begin{itemize}
+  \item The absorptive part is controlled by the central charge $c$
+        of the coupled matter.
+  \item The fakeon prescription disentangles real parts (renormalizable
+        power counting) from imaginary parts (low-energy expansion).
+  \item The theory is one-loop renormalizable AND unitary.
+\end{itemize}
+
+The SCT analogue has entire-function (not polynomial) form factors
+and infinitely many ghost poles, requiring extension of the Anselmi--Piva
+framework.
+
+\subsection{'t Hooft--Veltman (1974) and Goroff--Sagnotti (1986)}
+
+'t~Hooft and Veltman~\cite{tHooftVeltman1974} showed that pure gravity
+is one-loop finite on-shell (off-shell divergences are proportional to the
+equations of motion). Goroff and Sagnotti~\cite{GoroffSagnotti1986}
+showed that two-loop gravity is divergent with the counterterm
+$R_{\mu\nu\rho\sigma} R^{\rho\sigma\alpha\beta} R_{\alpha\beta}^{\ \ \mu\nu}$,
+establishing the non-renormalizability of GR.
+
+\subsection{Stelle (1977)}
+
+Stelle~\cite{Stelle1977} showed that the $R + R^2 + R_{\mu\nu}^2$
+theory is power-counting renormalizable. The propagator scales as $1/k^4$
+at large momenta, giving logarithmic one-loop divergences. However, the
+theory contains a spin-2 ghost with unit negative residue.
+
+%%======================================================================
+\section{Prescription Uniqueness}
+%%======================================================================
+
+Anselmi, Briscese, Calcagni, and Modesto~\cite{ABCM2025}
+(arXiv:2503.01841, 2025) analyzed four prescriptions for theories
+with complex poles:
+\begin{enumerate}
+  \item \textbf{Textbook Wick rotation:} violates optical theorem
+  \item \textbf{Lee-Wick-Nakanishi:} violates Lorentz invariance
+  \item \textbf{Fakeon/AP:} violates analyticity (acceptable), preserves
+        everything else
+  \item \textbf{Direct Minkowski:} violates optical theorem AND power
+        counting
+\end{enumerate}
+
+Only the fakeon prescription is physically viable for theories with
+complex conjugate poles, including SCT.
+
+%%======================================================================
+\section{Nonlocal Gauge-Fixing}
+%%======================================================================
+
+\subsection{Calcagni--Modesto (2024)}
+
+Calcagni and Modesto~\cite{CalcagniModesto2024}
+(arXiv:2402.14785) derived the full gauge-fixed graviton propagator
+in Barnes--Rivers basis for general nonlocal gravity, including:
+\begin{itemize}
+  \item Explicit treatment of gauge-fixing parameters (de~Donder,
+        Julve--Tonin, Feynman gauges)
+  \item Faddeev--Popov sector for nonlocal theories
+  \item Convention dictionary between different references
+\end{itemize}
+
+\subsection{Tomboulis (1997) and Modesto (2012)}
+
+Tomboulis~\cite{Tomboulis1997} (hep-th/9702146) pioneered nonlocal
+gauge-fixing with $S_{\mathrm{gf}} = \tfrac{1}{2\alpha}\int F_\mu\,
+G^{\mu\nu}(\Box/\Lambda^2)\, F_\nu$, where $G$ is entire.
+Modesto~\cite{Modesto2012} (arXiv:1202.3151) developed the
+super-renormalizable nonlocal gravity framework with exponential
+entire functions.
+
+%%======================================================================
+\section{SCT-Specific References}
+%%======================================================================
+
+\begin{longtable}{@{}lll@{}}
+\toprule
+Document & Location & Content \\
+\midrule
+NT-4a linearized & theory/derivations/ & Propagator, Barnes--Rivers \\
+PPN-1 derivation & theory/derivations/ & Newtonian potential \\
+MR-2 handoff & theory/derivations/ & Ghost catalogue, conditions \\
+OT handoff & theory/consistency-checks/ & Optical theorem, $C_m = 283/120$ \\
+KK handoff & theory/consistency-checks/ & Fakeon primary resolution \\
+GP handoff & theory/consistency-checks/ & Sign chain, width \\
+\bottomrule
+\end{longtable}
+
+%%======================================================================
+\section*{Acknowledgements}
+%%======================================================================
+
+The author thanks Aliaksandr Samatyia for research assistance and
+workflow support.
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{ModestoCalcagni2021}
+  L.~Modesto and G.~Calcagni,
+  arXiv:2107.04558 [hep-th] (2021).
+
+\bibitem{DonaGiaccari2015}
+  P.~Dona et al.,
+  arXiv:1506.04589 [hep-th] (2015).
+
+\bibitem{AnselmiPiva2018a}
+  D.~Anselmi and M.~Piva,
+  arXiv:1803.07777 [hep-th] (2018).
+
+\bibitem{ABCM2025}
+  D.~Anselmi et al.,
+  arXiv:2503.01841 [hep-th] (2025).
+
+\bibitem{CalcagniModesto2024}
+  G.~Calcagni and L.~Modesto,
+  arXiv:2402.14785 [hep-th] (2024).
+
+\bibitem{Stelle1977}
+  K.~S.~Stelle,
+  Phys.\ Rev.\ D \textbf{16}, 953 (1977).
+
+\bibitem{tHooftVeltman1974}
+  G.~'t~Hooft and M.~Veltman,
+  Ann.\ Inst.\ H.\ Poincar\'e \textbf{20}, 69 (1974).
+
+\bibitem{GoroffSagnotti1986}
+  M.~H.~Goroff and A.~Sagnotti,
+  Nucl.\ Phys.\ B \textbf{266}, 709 (1986).
+
+\bibitem{Tomboulis1997}
+  E.~T.~Tomboulis,
+  hep-th/9702146 (1997).
+
+\bibitem{Modesto2012}
+  L.~Modesto,
+  arXiv:1202.3151 [hep-th] (2012).
+
+\end{thebibliography}
+
+\end{document}

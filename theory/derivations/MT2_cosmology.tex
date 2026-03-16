@@ -1,0 +1,708 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+% Custom commands (matching NT-4b conventions)
+\newcommand{\Id}{\mathbb{1}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R^2}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\Lam}{\Lambda}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% Verification annotations
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\signcorrection}[1]{%
+  \par\smallskip\noindent
+  \colorbox{red!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{red!60!black}{\textbf{[Important note]}} #1}}%
+  \par\smallskip}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SCT Theory --- Derivation}
+\fancyhead[R]{\small MT-2: Modified Cosmology}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!50!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={MT-2: SCT Predictions for Late-Time Cosmology},
+  pdfsubject={Spectral Causal Theory --- Modified Cosmology, H0 and S8 Tensions}
+}
+
+\title{MT-2: SCT Predictions for Late-Time Cosmology\\[6pt]
+\large Automatic Consistency with Cosmological Data\\
+and the Impossibility of Resolving $H_0$ and $S_8$ Tensions}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+We quantify the late-time cosmological predictions of Spectral Causal Theory
+(SCT) by evaluating the nonlocal corrections to the Friedmann equations
+derived in NT-4c. The central result is \emph{negative}: SCT corrections
+to the Hubble parameter are
+\begin{equation*}
+  \frac{\delta H^2}{H^2}
+  = \beta_R(\xi)\,\biggl(\frac{H}{\Lam}\biggr)^{\!2}
+  \;\sim\; 10^{-64}
+\end{equation*}
+at the PPN-1 lower bound $\Lam \geq 2.38 \times 10^{-3}\;\mathrm{eV}$
+and $\xi = 0$, which is 64 orders of magnitude below the ${\sim}18\%$
+modification needed to resolve the Hubble tension. The effective dark
+energy equation of state is $w_{\mathrm{eff}} = -1$ to 63~decimal places,
+the gravitational-wave speed satisfies $|c_T/c - 1| < 10^{-62}$
+(exceeding the GW170817 bound by 46~orders), and the growth function
+modification is ${\sim}10^{-57}$ (55~orders below the $S_8$ tension).
+At conformal coupling $\xi = 1/6$, all corrections vanish identically.
+
+While SCT cannot resolve the $H_0$ or $S_8$ tensions---it generates UV
+nonlocality with $\Lam \gg H_0$, whereas these tensions would require IR
+nonlocality with mass scale $m \sim H_0$---this constitutes
+\emph{automatic consistency} with all precision late-time cosmological
+observations (Planck, DESI, Pantheon+, KiDS, DES, GW170817).
+All results are verified at 100-digit precision with 131~independent
+tests.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+\subsection{The $H_0$ and $S_8$ Tensions}
+
+Two persistent discrepancies in observational cosmology have motivated
+extensive theoretical work:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Hubble tension:} The local (distance-ladder) measurement
+    of the Hubble constant by SH0ES~\cite{SH0ES22} gives
+    $H_0 = 73.04 \pm 1.04\;\mathrm{km/s/Mpc}$, in
+    ${\sim}5\sigma$ tension with the Planck CMB-inferred value
+    $H_0 = 67.36 \pm 0.54\;\mathrm{km/s/Mpc}$~\cite{Planck18}.
+    Resolving this tension requires a modification of the expansion
+    history that shifts $H_0$ by $\delta H/H \sim 8.4\%$, corresponding
+    to $\delta H^2/H^2 \sim 0.18$.
+
+  \item \textbf{$S_8$ tension:} Weak lensing surveys
+    (KiDS-1000~\cite{KiDS21}, DES-Y3~\cite{DES22}) measure
+    $S_8 \equiv \sigma_8\sqrt{\Omega_m/0.3} \approx 0.76$, which is
+    $2$--$3\sigma$ below the Planck-inferred value $S_8 \approx 0.83$.
+    Resolving this requires modifying the growth function $f\sigma_8(z)$
+    by $\delta S_8/S_8 \sim 9\%$.
+\end{enumerate}
+
+\subsection{Nonlocal Gravity Approaches}
+
+Several nonlocal gravity models have been proposed to address these
+tensions:
+
+\begin{itemize}[nosep]
+  \item \textbf{Maggiore's RR model}~\cite{Maggiore16}: Introduces an
+    IR nonlocal term $m^2 R\,\Box^{-2} R$ with $m \sim H_0$, producing
+    phantom-like dark energy $w_{\mathrm{DE}} \approx -1.14$ that
+    reduces the $H_0$ tension from $>5\sigma$ to ${\sim}2\sigma$.
+    The key ingredient is the \emph{infrared} nonlocality
+    ($\Box^{-1}$, with a mass scale comparable to $H_0$).
+
+  \item \textbf{Deser--Woodard model}~\cite{DW07}: Uses a nonlocal
+    distortion function $f(\Box^{-1} R)$ to modify late-time cosmology.
+    Again requires IR-scale modifications.
+
+  \item \textbf{Infinite derivative gravity (IDG)}~\cite{BMS06,Mod12}:
+    UV-complete theories with entire form factors
+    $e^{-\Box/M_s^2}$ (similar in spirit to SCT). These theories share
+    SCT's suppression at cosmological scales: corrections are
+    $\mathcal{O}(H^2/M_s^2) \ll 1$ when $M_s \gg H_0$.
+\end{itemize}
+
+The structural difference is clear: resolving cosmological tensions
+requires \emph{infrared} nonlocality ($\Box^{-1}$) with a mass scale
+$m \sim H_0$, while SCT generates \emph{ultraviolet} nonlocality
+(entire functions of $\Box/\Lam^2$) with $\Lam \gg H_0$. This
+observation already suggests that SCT cannot resolve these tensions, a
+conclusion we now quantify precisely.
+
+\subsection{Scope and Organization}
+
+This document:
+\begin{enumerate}[nosep]
+  \item Derives the SCT corrections to the Friedmann equations on FLRW
+    backgrounds from the NT-4c results (\cref{sec:friedmann}).
+  \item Quantifies the suppression factor $\delta H^2/H^2$ at 100-digit
+    precision (\cref{sec:suppression}).
+  \item Computes the effective equation of state $w_{\mathrm{eff}}$
+    (\cref{sec:weff}).
+  \item Evaluates the growth function modification for $S_8$
+    (\cref{sec:growth}).
+  \item Verifies gravitational-wave speed consistency
+    (\cref{sec:gw}).
+  \item Compares SCT with IR nonlocal models (\cref{sec:comparison}).
+  \item States what SCT does and does not predict for cosmology
+    (\cref{sec:predictions}).
+\end{enumerate}
+
+%======================================================================
+\section{SCT Modified Friedmann Equations}\label{sec:friedmann}
+%======================================================================
+
+\subsection{FLRW Reduction from NT-4c}
+
+On a flat FLRW background with metric
+\begin{equation}\label{eq:flrw-metric}
+  \dd s^2 = -\dd t^2 + a(t)^2\,\dd\vec{x}^{\,2},
+\end{equation}
+the Weyl tensor vanishes identically:
+$C_{\mu\nu\rho\sigma}|_{\mathrm{FLRW}} = 0$. Consequently, the entire
+Weyl-squared sector ($F_1$ sector) of the SCT field equations drops out.
+Only the $R^2$ sector contributes, through the form factor
+$F_2(\Box/\Lam^2, \xi)$ with coefficient
+\begin{equation}\label{eq:alphaR}
+  \alpha_R(\xi) = 16\pi^2\,F_2(0,\xi) = 2\Bigl(\xi - \frac{1}{6}\Bigr)^2.
+\end{equation}
+
+\verified{$C_{\mu\nu\rho\sigma}|_{\mathrm{FLRW}} = 0$ is a standard
+result for conformally flat spacetimes. $\alpha_R(\xi)$ matches
+NT-1b Phase~3 canonical value to 100-digit precision.}
+
+\subsection{Modified Friedmann Equation}
+
+From NT-4c, the modified first Friedmann equation takes the form
+\begin{equation}\label{eq:friedmann-mod}
+  H^2 = \frac{8\pi G}{3}\,\rho
+  + \beta_R(\xi)\,H^2\,\biggl(\frac{H}{\Lam}\biggr)^{\!2}
+  + \mathcal{O}\Bigl(\frac{H^4}{\Lam^4}\Bigr),
+\end{equation}
+where
+\begin{equation}\label{eq:betaR}
+  \beta_R(\xi) = \frac{\alpha_R(\xi)}{16\pi^2}
+  = \frac{2(\xi - 1/6)^2}{16\pi^2}.
+\end{equation}
+The correction term $\delta H^2$ arises from the $R^2$ form factor
+acting on the FLRW background where $R = 6(2H^2 + \dot{H})$.
+
+\begin{proposition}[Suppression factor]\label{prop:suppression}
+The fractional correction to the Friedmann equation is
+\begin{equation}\label{eq:suppression}
+  \frac{\delta H^2}{H^2}
+  = \beta_R(\xi)\,\biggl(\frac{H(z)}{\Lam}\biggr)^{\!2},
+\end{equation}
+where $H(z) = H_0\sqrt{\Omega_m(1+z)^3 + \Omega_\Lam}$ is the
+$\Lam$CDM Hubble parameter at redshift~$z$.
+\end{proposition}
+
+\begin{proof}
+The proof follows directly from the NT-4c FLRW reduction. On the FLRW
+background, the spectral corrections act as an effective fluid with
+equation of state $w_\Theta = +1$ (stiff matter), whose energy density
+is $\rho_\Theta \propto \beta_R\,H^4/\Lam^2$. Dividing by
+$H^2 \propto \rho_{\mathrm{total}}$ gives~\eqref{eq:suppression}.
+\end{proof}
+
+\subsection{Key Properties}
+
+\begin{enumerate}[nosep]
+  \item \textbf{$\Lam^{-2}$ scaling:} $\delta H^2/H^2 \propto 1/\Lam^2$.
+    Larger $\Lam$ gives smaller corrections.
+  \item \textbf{$H^2$ scaling:} Corrections grow with $H$, so they are
+    largest at early times ($H(z) \gg H_0$). Even at the CMB epoch
+    ($z = 1100$), $H^2/\Lam^2$ is negligible.
+  \item \textbf{Conformal decoupling:} At $\xi = 1/6$,
+    $\alpha_R = 0$ and $\beta_R = 0$, so \emph{all corrections vanish
+    identically}. Standard GR on FLRW is recovered exactly.
+  \item \textbf{GR limit:} As $\Lam \to \infty$, $\delta H^2/H^2 \to 0$.
+\end{enumerate}
+
+\verified{All four properties verified numerically: $\Lam^{-2}$ scaling
+confirmed to $10^{-10}$ relative error; conformal decoupling at 5~redshifts
+and 4~$\Lam$ values; GR limit with $\Lam = 10^{40}\;\mathrm{eV}$.
+131/131 pytest tests PASS.}
+
+%======================================================================
+\section{Suppression Analysis}\label{sec:suppression}
+%======================================================================
+
+\subsection{Central Result}
+
+At the PPN-1 lower bound $\Lam = 2.38 \times 10^{-3}\;\mathrm{eV}$,
+with $\xi = 0$ and $z = 0$:
+
+\begin{equation}\label{eq:central-result}
+  \boxed{
+  \frac{\delta H^2}{H^2}\bigg|_{z=0}
+  = 1.282 \times 10^{-64}.
+  }
+\end{equation}
+
+This is \textbf{64 orders of magnitude} below the ${\sim}0.18$ needed
+to resolve the $H_0$ tension.
+
+\subsection{Derivation of the Numerical Value}
+
+The computation proceeds in five steps:
+
+\begin{enumerate}[nosep]
+  \item \textbf{$\alpha_R(\xi = 0)$:}
+    $\alpha_R(0) = 2(0 - 1/6)^2 = 2/36 = 1/18 = 0.05556.$
+
+  \item \textbf{$\beta_R(\xi = 0)$:}
+    $\beta_R(0) = (1/18)/(16\pi^2) = 3.518 \times 10^{-4}.$
+
+  \item \textbf{$H_0$ in natural units:}
+    \begin{align}
+      H_0 &= 67.36\;\mathrm{km/s/Mpc}
+      = 2.183 \times 10^{-18}\;\mathrm{Hz} \notag\\
+      &= 1.437 \times 10^{-33}\;\mathrm{eV}
+      \quad (\text{using }\hbar = 6.582 \times 10^{-16}\;\mathrm{eV\cdot s}).
+    \end{align}
+
+  \item \textbf{$(H_0/\Lam)^2$:}
+    $(1.437 \times 10^{-33}/2.38 \times 10^{-3})^2
+    = 3.645 \times 10^{-61}.$
+
+  \item \textbf{Suppression:}
+    $\delta H^2/H^2 = 3.518 \times 10^{-4} \times 3.645 \times 10^{-61}
+    = 1.282 \times 10^{-64}.$
+\end{enumerate}
+
+\verified{Each step verified at 100-digit precision using mpmath.
+Independent Method~B re-derivation agrees to relative error
+$1.9 \times 10^{-16}$.}
+
+\subsection{Suppression Across Parameter Space}
+
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Configuration & $\delta H^2/H^2$ & $\log_{10}$ & Comment \\
+\midrule
+$z=0$, $\Lam = 2.38 \times 10^{-3}$\,eV, $\xi=0$
+  & $1.28 \times 10^{-64}$ & $-63.9$ & PPN bound \\
+$z=0$, $\Lam = 1$\,eV, $\xi=0$
+  & $7.26 \times 10^{-70}$ & $-69.1$ & \\
+$z=0$, $\Lam = 1$\,GeV, $\xi=0$
+  & $7.26 \times 10^{-88}$ & $-87.1$ & \\
+$z=0$, $\Lam = M_{\mathrm{Pl}}$, $\xi=0$
+  & $\sim 10^{-125}$ & $-125.3$ & \\
+$z=1100$, $\Lam_{\mathrm{PPN}}$, $\xi=0$
+  & $5.40 \times 10^{-56}$ & $-55.3$ & CMB epoch \\
+$z=0$, $\Lam_{\mathrm{PPN}}$, $\xi=1/6$
+  & $0$ (exact) & --- & Conformal \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Even at the CMB]
+The largest correction occurs at $z = 1100$ (CMB decoupling), where
+$H(1100) \approx 2.95 \times 10^{-29}\;\mathrm{eV}$ and the suppression
+reaches ${\sim}10^{-56}$. This is still 55~orders of magnitude below the
+required ${\sim}0.18$. No redshift in the late-time universe produces a
+significant correction.
+\end{remark}
+
+%======================================================================
+\section{Effective Equation of State}\label{sec:weff}
+%======================================================================
+
+The spectral corrections to the Friedmann equation act as an effective
+fluid with stiff equation of state $w_\Theta = +1$. Its contribution to
+the total dark energy equation of state is
+\begin{equation}\label{eq:w-eff}
+  w_{\mathrm{eff}}(z) = w_{\mathrm{DE}} + \delta w(z),
+  \qquad
+  \delta w \sim 2\,\beta_R\,\biggl(\frac{H(z)}{\Lam}\biggr)^{\!2}.
+\end{equation}
+
+At $z = 0$ with $\Lam = \Lam_{\mathrm{PPN}}$ and $\xi = 0$:
+\begin{equation}\label{eq:delta-w-value}
+  \boxed{
+  \delta w = 2.565 \times 10^{-64}.
+  }
+\end{equation}
+
+Therefore $w_{\mathrm{eff}} = -1$ to 63~decimal places.
+
+\begin{proposition}[Indistinguishability from $\Lam$CDM]
+For all $z \in [0, 1100]$, $\Lam \geq \Lam_{\mathrm{PPN}}$, and any
+$\xi$:
+\begin{equation}
+  |w_{\mathrm{eff}}(z) - (-1)| < 10^{-50}.
+\end{equation}
+\end{proposition}
+
+For comparison, Maggiore's RT model produces
+$\delta w \sim 0.14$ (a $10^{63}$-fold larger correction), which is what
+gives it the power to address the $H_0$ tension. The difference is
+structural: the RT model contains $\Box^{-2}$ (IR nonlocality) while
+SCT contains entire functions of $\Box/\Lam^2$ (UV nonlocality).
+
+\verified{$w_{\mathrm{eff}} = -1$ to better than $10^{-60}$ at all
+tested redshifts ($z = 0, 0.5, 1, 2, 5, 10$). 7~pytest tests, all
+PASS.}
+
+%======================================================================
+\section{Growth Function and $S_8$}\label{sec:growth}
+%======================================================================
+
+\subsection{Modified Poisson Equation}
+
+From NT-4a, the modified Poisson equation for the gravitational
+potential $\Phi$ in the presence of matter density perturbations $\delta$
+is
+\begin{equation}\label{eq:poisson-mod}
+  k^2\,\Phi = -4\pi G\,\frac{1}{\Pi_s(k^2/\Lam^2,\,\xi)}\,a^2\rho\,\delta,
+\end{equation}
+where the scalar propagator denominator is
+\begin{equation}\label{eq:Pi-s}
+  \Pi_s(z,\xi) = 1 + 6\Bigl(\xi - \frac{1}{6}\Bigr)^2 z\,\hat{F}_2(z,\xi).
+\end{equation}
+
+At structure-formation scales $k \sim 0.1\,h\;\mathrm{Mpc}^{-1}$:
+\begin{equation}\label{eq:k-eV}
+  k \approx 4.31 \times 10^{-31}\;\mathrm{eV},
+  \qquad
+  \frac{k^2}{\Lam_{\mathrm{PPN}}^2}
+  \approx 3.28 \times 10^{-56}.
+\end{equation}
+
+\verified{$k$ conversion: $k = 0.1\,h/\mathrm{Mpc} \times
+(\hbar c/\mathrm{Mpc}) = 4.308 \times 10^{-31}\;\mathrm{eV}$.
+Independently verified by Method~B (independent re-derivation).}
+
+\subsection{Growth Modification}
+
+The growth function modification is
+\begin{equation}\label{eq:growth-mod}
+  \frac{\delta G_{\mathrm{eff}}}{G_N}
+  = \frac{1}{\Pi_s} - 1
+  \approx -6\Bigl(\xi - \frac{1}{6}\Bigr)^2
+    \frac{k^2}{\Lam^2}\,\hat{F}_2\Bigl(\frac{k^2}{\Lam^2},\xi\Bigr).
+\end{equation}
+
+At $k = 0.1\,h\;\mathrm{Mpc}^{-1}$, $\Lam = \Lam_{\mathrm{PPN}}$,
+$\xi = 0$:
+\begin{equation}\label{eq:growth-value}
+  \boxed{
+  \frac{\delta G_{\mathrm{eff}}}{G_N}
+  \sim 5.5 \times 10^{-57}.
+  }
+\end{equation}
+
+The $S_8$ tension requires $\delta S_8/S_8 \sim 9\%$, which corresponds
+to a growth modification of order unity. The SCT prediction is
+\textbf{55~orders of magnitude too small}.
+
+\begin{remark}[Conformal coupling]
+At $\xi = 1/6$, $\Pi_s = 1$ exactly (the scalar mode decouples), so
+the growth function is unmodified. The gravitational potential responds
+only through the tensor modes via $\Pi_{\mathrm{TT}}$, which is also
+indistinguishable from unity at cosmological scales.
+\end{remark}
+
+\verified{$\Pi_s(z) \approx 1$ to better than $10^{-30}$ for all
+$z < 10^{-40}$ (structure-formation regime). 7~growth tests PASS.}
+
+%======================================================================
+\section{GW Speed Consistency}\label{sec:gw}
+%======================================================================
+
+The gravitational-wave speed in SCT is
+\begin{equation}\label{eq:cT}
+  \frac{|c_T - c|}{c}
+  \sim \frac{\alpha_C}{2}\,\biggl(\frac{H(z)}{\Lam}\biggr)^{\!2},
+\end{equation}
+where $\alpha_C = 13/120$ is the SM Weyl-squared coefficient.
+
+At $z = 0$ with $\Lam = \Lam_{\mathrm{PPN}}$:
+\begin{equation}\label{eq:cT-value}
+  \boxed{
+  \frac{|c_T - c|}{c}
+  \approx 1.97 \times 10^{-62}.
+  }
+\end{equation}
+
+The GW170817 constraint~\cite{GW170817} is
+$|c_T/c - 1| < 5.6 \times 10^{-16}$, which SCT satisfies by
+\textbf{46~orders of magnitude}.
+
+\begin{proposition}[GW speed at all epochs]
+For all cosmological epochs $z \in [0, 1100]$ and all
+$\Lam \geq \Lam_{\mathrm{PPN}}$:
+\begin{equation}
+  \frac{|c_T - c|}{c} < 10^{-40} \ll 5.6 \times 10^{-16}.
+\end{equation}
+GW170817 is satisfied at every epoch.
+\end{proposition}
+
+\verified{GW speed verified at 9~epochs ($z = 0$ to $z = 1100$),
+all satisfying the GW170817 bound by at least 40~orders. 7~pytest
+tests PASS.}
+
+%======================================================================
+\section{Comparison with IR Nonlocal Models}\label{sec:comparison}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Model & Nonlocality & Mass scale & $\delta w$ & Resolves $H_0$? \\
+\midrule
+\textbf{SCT} & UV: $F(\Box/\Lam^2)$ & $\Lam \gg H_0$
+  & $10^{-64}$ & \textbf{No} \\
+Maggiore RT & IR: $m^2 R\Box^{-2}R$ & $m \sim H_0$
+  & $0.14$ & Partially \\
+Deser--Woodard & IR: $f(\Box^{-1}R)$ & $m \sim H_0$
+  & $\mathcal{O}(0.1)$ & Partially \\
+IDG & UV: $e^{-\Box/M_s^2}$ & $M_s \gg H_0$
+  & $\sim 10^{-64}$ & \textbf{No} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The pattern is clear:
+\begin{itemize}[nosep]
+  \item \textbf{UV nonlocal models} (SCT, IDG) with entire-function
+    form factors and $M \gg H_0$ produce $\delta w \propto (H/M)^2
+    \ll 1$. They are \emph{automatically consistent} with cosmological
+    data but cannot address the tensions.
+  \item \textbf{IR nonlocal models} (Maggiore, Deser--Woodard) with
+    $\Box^{-1}$ operators and $m \sim H_0$ can produce $\delta w \sim
+    \mathcal{O}(0.1)$, sufficient to partially address the tensions.
+    However, these models face challenges with UV behavior and quantum
+    stability.
+\end{itemize}
+
+\begin{remark}[Structural limitation]
+The suppression $\delta H^2/H^2 \propto (H/\Lam)^2$ is a
+\emph{structural} property of any UV-complete theory with a spectral
+cutoff $\Lam$ much larger than $H_0$. This is not specific to SCT's
+particular form factors; it holds for any theory where the one-loop
+effective action involves entire functions of $\Box/\Lam^2$. Perturbative
+loop corrections cannot generate $\Box^{-1}$ operators from a UV action
+(Maggiore, 2016~\cite{Maggiore16}).
+\end{remark}
+
+%======================================================================
+\section{What SCT Predicts vs.\ What It Doesn't}\label{sec:predictions}
+%======================================================================
+
+\subsection{Positive Results (Automatic Consistency)}
+
+\begin{enumerate}[nosep]
+  \item $c_T = c$ at all cosmological epochs (structural; GW170817
+    satisfied by 46~orders).
+  \item De~Sitter spacetime is an exact solution of the SCT field
+    equations (attractor stability, from NT-4b).
+  \item No new cosmological degrees of freedom arise from the spectral
+    corrections.
+  \item Exact GR recovery at conformal coupling $\xi = 1/6$.
+  \item SCT is trivially consistent with all precision late-time
+    cosmological data: Planck TT/TE/EE, DESI BAO, Pantheon+ SNe,
+    KiDS-1000, DES-Y3, ACT DR6.
+\end{enumerate}
+
+\subsection{Negative Results (What SCT Cannot Do at Late Times)}
+
+\begin{enumerate}[nosep]
+  \item \textbf{$H_0$ tension:} Shortfall of 63~orders of magnitude.
+    The required $\Lam \sim 10^{-34}\;\mathrm{eV}$ (comparable to $H_0$)
+    violates the PPN-1 bound by 31~orders.
+  \item \textbf{$S_8$ tension:} Growth modification $\sim 10^{-57}$,
+    55~orders below the required ${\sim}9\%$.
+  \item \textbf{$w_{\mathrm{eff}}$ deviation:} $10^{-64}$, undetectable
+    by any foreseeable experiment.
+  \item SCT produces no distinctive late-time cosmological prediction
+    that could distinguish it from $\Lam$CDM.
+\end{enumerate}
+
+\subsection{Where SCT Does Make Testable Predictions}
+
+The theory's testable predictions lie at shorter distance scales:
+
+\begin{itemize}[nosep]
+  \item \textbf{Solar system (PPN-1):}
+    $\Lam \geq 2.38 \times 10^{-3}\;\mathrm{eV}$ from
+    Yukawa-modified potential~\eqref{eq:poisson-mod}.
+  \item \textbf{Laboratory (LT-3d):}
+    $\Lam \geq 2.565\;\mathrm{meV}$ from sub-millimeter gravity tests.
+  \item \textbf{Black holes (MR-9):} Corrections become significant
+    near $r \sim 1/\Lam$.
+  \item \textbf{Early universe (INF-1):}
+    Starobinsky-type inflation with scalaron mass
+    $m_0 \sim \Lam/\sqrt{6(\xi - 1/6)^2}$, conditional on the value of
+    $\xi$.
+\end{itemize}
+
+%======================================================================
+\section{Summary}\label{sec:summary}
+%======================================================================
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black,
+  title={\textbf{MT-2 Main Results (NEGATIVE)}}]
+\begin{enumerate}[nosep]
+  \item SCT corrections to the Friedmann equation are
+    $\delta H^2/H^2 = 1.28 \times 10^{-64}$ at the PPN lower bound
+    ($\Lam = 2.38 \times 10^{-3}\;\mathrm{eV}$, $\xi = 0$, $z = 0$).
+
+  \item The $H_0$ tension cannot be resolved: shortfall of
+    \textbf{63~orders of magnitude}.
+
+  \item The $S_8$ tension cannot be resolved: growth modification
+    $\sim 10^{-57}$ (shortfall: 55~orders).
+
+  \item $w_{\mathrm{eff}} = -1$ to 63~decimal places.
+    Indistinguishable from $\Lam$CDM.
+
+  \item $c_T = c$: GW170817 satisfied by 46~orders of magnitude
+    at all cosmological epochs.
+
+  \item At conformal coupling $\xi = 1/6$, ALL corrections vanish
+    identically. Standard GR on FLRW.
+
+  \item \textbf{Positive aspect:} SCT is trivially consistent with
+    all late-time cosmological data.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Physical reason:} SCT generates UV nonlocality
+(entire-function form factors with $\Lam \gg H_0$). Resolving
+cosmological tensions requires IR nonlocality ($\Box^{-1}$ with
+$m \sim H_0$), which perturbative loop corrections cannot generate.
+
+\medskip
+\noindent\textbf{Verification:} 131/131~pytest tests PASS.
+100-digit precision. Independent re-derivation (Method~B) agrees to
+$1.9 \times 10^{-16}$ relative error. 1~bug found and fixed
+(conservative; strengthened the negative result). 2~publication figures.
+
+\medskip
+\noindent\textbf{Derivation:}
+\texttt{analysis/scripts/mt2\_cosmology.py} (computation),
+\texttt{analysis/sct\_tools/tests/test\_mt2\_cosmology.py} (131 tests).
+\end{tcolorbox}
+
+%======================================================================
+\begin{thebibliography}{99}
+%======================================================================
+
+\bibitem{Planck18}
+Planck Collaboration (N.~Aghanim \textit{et al.}),
+``Planck 2018 results. VI. Cosmological parameters,''
+\emph{Astron.\ Astrophys.} \textbf{641} (2020) A6,
+\href{https://arxiv.org/abs/1807.06209}{arXiv:1807.06209}.
+
+\bibitem{SH0ES22}
+A.~G.~Riess \textit{et al.},
+``A comprehensive measurement of the local value of the Hubble constant
+with 1 km/s/Mpc uncertainty from the Hubble Space Telescope and the
+SH0ES Team,''
+\emph{Astrophys.\ J.\ Lett.} \textbf{934} (2022) L7,
+\href{https://arxiv.org/abs/2112.04510}{arXiv:2112.04510}.
+
+\bibitem{KiDS21}
+KiDS Collaboration (M.~Asgari \textit{et al.}),
+``KiDS-1000 cosmology: cosmic shear constraints on five extensions to
+$\Lambda$CDM,''
+\emph{Astron.\ Astrophys.} \textbf{645} (2021) A104,
+\href{https://arxiv.org/abs/2007.15633}{arXiv:2007.15633}.
+
+\bibitem{DES22}
+DES Collaboration (T.~M.~C.~Abbott \textit{et al.}),
+``Dark Energy Survey Year 3 Results: Cosmological Constraints from
+Galaxy Clustering and Weak Lensing,''
+\emph{Phys.\ Rev.\ D} \textbf{105} (2022) 023520,
+\href{https://arxiv.org/abs/2105.13549}{arXiv:2105.13549}.
+
+\bibitem{Maggiore16}
+M.~Maggiore,
+``Nonlocal infrared modifications of gravity: a review,''
+\emph{Fundam.\ Theor.\ Phys.} \textbf{187} (2017) 221--281,
+\href{https://arxiv.org/abs/1603.01515}{arXiv:1603.01515}.
+
+\bibitem{DW07}
+S.~Deser and R.~P.~Woodard,
+``Nonlocal cosmology,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{99} (2007) 111301,
+\href{https://arxiv.org/abs/0706.2151}{arXiv:0706.2151}.
+
+\bibitem{BMS06}
+T.~Biswas, A.~Mazumdar, and W.~Siegel,
+``Bouncing universes in string-inspired gravity,''
+\emph{JCAP} \textbf{0603} (2006) 009,
+\href{https://arxiv.org/abs/hep-th/0508194}{hep-th/0508194}.
+
+\bibitem{Mod12}
+L.~Modesto,
+``Super-renormalizable quantum gravity,''
+\emph{Phys.\ Rev.\ D} \textbf{86} (2012) 044005,
+\href{https://arxiv.org/abs/1107.2403}{arXiv:1107.2403}.
+
+\bibitem{GW170817}
+LIGO/Virgo Collaboration (B.~P.~Abbott \textit{et al.}),
+``Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger:
+GW170817 and GRB 170817A,''
+\emph{Astrophys.\ J.\ Lett.} \textbf{848} (2017) L13,
+\href{https://arxiv.org/abs/1710.05834}{arXiv:1710.05834}.
+
+\bibitem{Nersisyan18}
+H.~Nersisyan, Y.~Akrami, L.~Amendola, T.~S.~Koivisto, and
+J.~Rubio,
+``Dynamical analysis of $R\,\Box^{-2}R$ cosmology: impact of initial
+conditions and constraints from supernovae,''
+\emph{Phys.\ Rev.\ D} \textbf{97} (2018) 024028,
+\href{https://arxiv.org/abs/1801.06683}{arXiv:1801.06683}.
+
+\bibitem{Koshelev23}
+A.~S.~Koshelev, K.~Sravan~Kumar, and A.~A.~Starobinsky,
+``Cosmological perturbations in SFT-inspired non-local modification of
+gravity,''
+\emph{JCAP} \textbf{2306} (2023) 058,
+\href{https://arxiv.org/abs/2305.18716}{arXiv:2305.18716}.
+
+\end{thebibliography}
+
+\end{document}

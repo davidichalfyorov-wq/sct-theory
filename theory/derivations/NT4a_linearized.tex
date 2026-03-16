@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage{fancyhdr}
 \usepackage{cancel}
+\usepackage{graphicx}
 
 % Custom commands (matching NT-1/NT-2 conventions)
 \newcommand{\Id}{\mathbb{1}}
@@ -606,6 +607,17 @@ but the spectral interpretation of this zero and its propagator meaning must
 be treated as an explicit downstream task rather than silently assumed away.
 \end{remark}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt4a_propagator.pdf}
+  \caption{The spin-2 propagator denominator $\Pi_{\mathrm{TT}}(z) = 1 +
+    (13/60)\,z\,\hat{F}_1(z)$ as a function of the Euclidean variable $z$.
+    The function rises slightly above unity near $z \approx 0.1$, then
+    decreases monotonically, crossing zero at $z_0 \approx 2.4148$.
+    This zero corresponds to the massive spin-2 ghost pole.}
+  \label{fig:nt4a-propagator}
+\end{figure}
+
 %======================================================================
 \section{Scalar Mode Decoupling}\label{sec:decoupling}
 %======================================================================
@@ -617,8 +629,8 @@ At conformal coupling $\xi = 1/6$:
   \item $\Pi_{\mathrm{s}}(z, 1/6) = 1$ for all $z$,
   \item the scalar mode has no $z$-dependent dynamics:
     its propagator is $G_{\mathrm{s}} = 1/k^2$ (pure Einstein),
-  \item the ratio $c_1/c_2 = -1/3$ (conformal point of the basis
-    conversion, from NT-1b Phase~3).
+  \item the general ratio $c_1/c_2 = -1/3 + 120(\xi-1/6)^2/13$ reduces to
+    $c_1/c_2 = -1/3$ at conformal coupling $\xi = 1/6$ (from NT-1b Phase~3).
 \end{enumerate}
 \end{theorem}
 
@@ -649,6 +661,18 @@ between the spin-2 and spin-0 gravitational sectors.
 is $1/6$. Both values formally verified in \texttt{Propagator.lean}
 (\texttt{scalar\_mode\_conformal} and \texttt{scalar\_mode\_minimal}
 theorems, zero \texttt{sorry}).}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt4a_scalar_mode.pdf}
+  \caption{The scalar propagator denominator $\Pi_{\mathrm{s}}(z,\xi)$
+    for representative values of the non-minimal coupling $\xi$.
+    At conformal coupling $\xi = 1/6$, the scalar mode decouples
+    identically ($\Pi_{\mathrm{s}} \equiv 1$).  For $\xi \neq 1/6$,
+    $\Pi_{\mathrm{s}}$ is monotonically increasing, meaning the scalar
+    mode becomes progressively heavier at high momenta.}
+  \label{fig:nt4a-scalar-mode}
+\end{figure}
 
 %======================================================================
 \section{Modified Newtonian Potential}\label{sec:newton}
@@ -798,6 +822,18 @@ pattern between $\Phi$ and $\Psi$.
 confirmed for $\xi \in \{0, 1/6, 1\}$. Agreement to $< 1\%$
 at $r\Lambda = 10$. Data stored in
 \texttt{analysis/results/nt4a/nt4a\_newtonian.json}.}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt4a_newtonian_potential.pdf}
+  \caption{Modified Newtonian potential ratio $V(r)/V_N(r)$ in the local
+    Yukawa approximation for $\xi = 0$, $\xi = 1/6$, and $\xi = 1$.
+    At distances $r \gtrsim 10/\Lambda$, all curves converge to the
+    Newtonian value.  The short-distance suppression reflects the
+    spin-2 and spin-0 Yukawa corrections, with the $1/r$ singularity
+    cancelled at generic $\xi$ by the scalar contribution.}
+  \label{fig:nt4a-newtonian-potential}
+\end{figure}
 
 %======================================================================
 \section{Cross-Checks}\label{sec:checks}

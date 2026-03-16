@@ -1,0 +1,982 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+% Custom commands (matching NT-4a/NT-4b/NT-4c conventions)
+\newcommand{\Id}{\mathbb{1}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R^2}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Pis}{\Pi_{\mathrm{s}}}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% Verification annotations
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\signcorrection}[1]{%
+  \par\smallskip\noindent
+  \colorbox{red!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{red!60!black}{\textbf{[Critical issue]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\gap}[1]{%
+  \par\smallskip\noindent
+  \colorbox{yellow!15}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{orange!70!black}{\textbf{[Gap]}} #1}}%
+  \par\smallskip}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SCT Theory --- Literature Review}
+\fancyhead[R]{\small INF-1: Spectral Inflation}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!50!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={INF-1: Literature Review for Spectral Inflation},
+  pdfsubject={Spectral Causal Theory --- Inflation from the R-squared sector}
+}
+
+\title{INF-1: Literature Review\\[6pt]
+\large Inflationary Observables from the Spectral Action's\\
+$R^2$ Sector: Conventions, Benchmarks, and Gap Analysis}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+This document collects the conventions, formulas, benchmarks, and
+references needed to derive inflationary observables ($n_s$, $r$,
+$f_{\mathrm{NL}}$, $T_{\mathrm{reh}}$) from the SCT spectral action's
+$R^2$ sector. We review standard Starobinsky inflation, its realization
+in noncommutative geometry (NCG) via the spectral action, and the
+nonlocal corrections studied by Koshelev--Kumar--Starobinsky (KKS).
+We identify the connection between SCT's verified form factors
+$F_1$, $F_2$ and the KKS framework, analyze the critical scalaron mass
+problem, and catalog the observational constraints from Planck~2018,
+BICEP/Keck~2021, and upcoming experiments.
+
+The document serves as the literature review for the INF-1 derivation.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction and Scope}\label{sec:intro}
+%======================================================================
+
+The spectral action $S_{\mathrm{spec}} = \mathrm{Tr}(f(D^2/\Lambda^2))$
+naturally produces an $R^2$ term in the gravitational sector, with the
+coefficient determined by the spectral data. In SCT, the one-loop
+effective action takes the nonlocal form
+\begin{equation}\label{eq:sct-action}
+  S = \frac{1}{2\kappa^2}\int \dd^4 x\,\sqrt{g}\,R
+  + \frac{1}{16\pi^2}\int \dd^4 x\,\sqrt{g}\,
+  \Bigl[\alpha_C\,C_{\mu\nu\rho\sigma}\,F_1(\Box/\Lambda^2)\,
+  C^{\mu\nu\rho\sigma}
+  + \alpha_R(\xi)\,R\,F_2(\Box/\Lambda^2,\xi)\,R\Bigr],
+\end{equation}
+where $\alpha_C = 13/120$ and $\alpha_R(\xi) = 2(\xi - 1/6)^2$ are the
+SM-summed heat kernel coefficients (NT-1b Phase~3), $F_1$ and $F_2$ are
+entire form factors (NT-2), $\Lambda$ is the spectral cutoff, and
+$\xi$ is the Higgs non-minimal coupling.
+
+The $R^2$ sector drives Starobinsky-type inflation. The goal of INF-1 is
+to compute the inflationary observables and compare with CMB data.
+
+\subsection{Dependencies}
+\begin{itemize}[nosep]
+  \item \textbf{NT-1b (Phase~3):} $\alpha_C = 13/120$,
+    $\alpha_R(\xi) = 2(\xi - 1/6)^2$. SM counting:
+    $N_s = 4$, $N_D = 22.5$, $N_v = 12$.
+  \item \textbf{NT-2:} $\varphi(z)$, $F_1(z)$, $F_2(z,\xi)$ entire.
+    $F_2(0,\xi=0) \approx 3.518 \times 10^{-4}$.
+  \item \textbf{NT-4a:} Linearized propagator:
+    $\Pis(z,\xi) = 1 + 6(\xi-1/6)^2\,z\,\Fhat_2(z,\xi)$.
+    Scalar mass: $m_0(\xi=0) = \sqrt{6}\,\Lambda \approx 2.449\,\Lambda$.
+  \item \textbf{NT-4b:} Full nonlinear field equations in Weyl basis.
+  \item \textbf{NT-4c:} FLRW reduction. Modified Friedmann equations.
+    $c_T = c$. De~Sitter exact solution. Weyl sector drops out on FLRW.
+\end{itemize}
+
+%======================================================================
+\section{Standard Starobinsky Inflation}\label{sec:starobinsky}
+%======================================================================
+
+\subsection{The Local $R + R^2$ Model}
+
+The Starobinsky model~\cite{Star80} is defined by the action
+\begin{equation}\label{eq:starobinsky-action}
+  S = \frac{1}{2}\int \dd^4 x\,\sqrt{g}\,
+  \Bigl(M_P^2\,R + f_0\,R^2\Bigr),
+  \qquad f_0 = \frac{M_P^2}{6M^2},
+\end{equation}
+where $M$ is the scalaron mass and $M_P = 1/\sqrt{8\pi G}$ is the
+reduced Planck mass. The trace equation yields the eigenvalue problem
+\begin{equation}\label{eq:eigenvalue}
+  \Box R = M^2 R,
+\end{equation}
+whose solution describes a quasi-de~Sitter inflationary phase with
+$M^2 \ll R \ll M_P^2$.
+
+\subsection{Einstein Frame and Scalaron Potential}
+
+The conformal transformation
+$\tilde{g}_{\mu\nu} = (1 + 2f_0 R/M_P^2)\,g_{\mu\nu}$ maps the
+Jordan-frame action~\eqref{eq:starobinsky-action} to the Einstein frame
+with a canonical scalar field (scalaron)
+\begin{equation}\label{eq:scalaron}
+  \varphi = \sqrt{\frac{3}{2}}\,M_P\,
+  \ln\!\Bigl(1 + \frac{2f_0 R}{M_P^2}\Bigr)
+  = \sqrt{\frac{3}{2}}\,M_P\,
+  \ln\!\Bigl(1 + \frac{R}{3M^2}\Bigr).
+\end{equation}
+The scalaron potential is~\cite{Star80,Mukhanov81}
+\begin{equation}\label{eq:V-starobinsky}
+  \boxed{
+  V(\varphi) = \frac{3M^2M_P^2}{4}
+  \Bigl(1 - e^{-\sqrt{2/3}\,\varphi/M_P}\Bigr)^2.
+  }
+\end{equation}
+
+\subsection{Slow-Roll Parameters and Predictions}
+
+The slow-roll parameters evaluated at $N$ $e$-folds before the end of
+inflation are~\cite{Star80,Mukhanov81,DeFelice10}
+\begin{align}
+  \epsilon &= \frac{M_P^2}{2}\left(\frac{V'}{V}\right)^2
+  \approx \frac{3}{4N^2}, \label{eq:epsilon}\\
+  \eta &= M_P^2\,\frac{V''}{V}
+  \approx -\frac{1}{N}. \label{eq:eta}
+\end{align}
+The resulting inflationary observables are:
+\begin{align}
+  n_s &= 1 - 6\epsilon + 2\eta \approx 1 - \frac{2}{N},
+  \label{eq:ns-star}\\
+  r &= 16\epsilon \approx \frac{12}{N^2},
+  \label{eq:r-star}\\
+  n_t &= -2\epsilon \approx -\frac{3}{2N^2}.
+  \label{eq:nt-star}
+\end{align}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+Observable & $N = 50$ & $N = 60$ \\
+\midrule
+$n_s$ & 0.960 & 0.967 \\
+$r$ & $4.8 \times 10^{-3}$ & $3.3 \times 10^{-3}$ \\
+$n_t$ & $-6.0 \times 10^{-4}$ & $-4.2 \times 10^{-4}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The single-field consistency relation $r = -8n_t$ is satisfied.
+
+\subsection{Amplitude Normalization}
+
+The scalar power spectrum amplitude fixes $M$ via~\cite{Mukhanov81}
+\begin{equation}\label{eq:As}
+  \mathcal{P}_{\mathcal{R}} = \frac{N^2 M^2}{24\pi^2 M_P^2}
+  = A_s \approx 2.1 \times 10^{-9}
+  \qquad\Longrightarrow\qquad
+  M \approx 1.3 \times 10^{-5}\,M_P \approx 3.1 \times 10^{13}\;\text{GeV}.
+\end{equation}
+
+\verified{Standard Starobinsky predictions verified numerically:
+$n_s(55) = 0.9636$, $r(55) = 3.97 \times 10^{-3}$,
+$M/M_P = 1.28 \times 10^{-5}$.}
+
+%======================================================================
+\section{Starobinsky Inflation in NCG / Spectral Action}
+\label{sec:ncg}
+%======================================================================
+
+\subsection{The Spectral Action's $R^2$ Term}
+
+In the noncommutative geometry approach of Chamseddine and
+Connes~\cite{CC97,CC06}, the spectral action
+$S = \mathrm{Tr}(f(D^2/\Lambda^2))$ produces, in its asymptotic
+expansion, the gravitational terms
+\begin{equation}\label{eq:spectral-expansion}
+  S_{\mathrm{spec}} \sim \frac{f_2\Lambda^2}{4\pi^2}\int \dd^4 x\,\sqrt{g}\,R
+  + \frac{f_4}{320\pi^2}\int \dd^4 x\,\sqrt{g}\,
+  \Bigl(-3\,\Weylsq + \frac{11}{6}\,R^*R^*
+  + 10\,\Rsq\Bigr) + \cdots
+\end{equation}
+where $f_n = \int_0^\infty f(u)\,u^{n/2-1}\dd u$ are moments of the
+cutoff function and $R^*R^*$ is the Gauss--Bonnet density. The $R^2$
+coefficient is $c_2 = f_4/(16\pi^2)$ in the minimal spectral triple.
+
+In the full SM spectral triple, the matter sector contributes through
+the heat kernel one-loop effective action~\cite{CC12,CCS13}, producing
+exactly the structure computed in SCT's NT-1b:
+\begin{equation}\label{eq:c2-sct}
+  c_2^{\mathrm{total}} = \frac{\alpha_R(\xi)}{16\pi^2}
+  = \frac{2(\xi - 1/6)^2}{16\pi^2}.
+\end{equation}
+
+\subsection{Conformal Coupling and the Inflation Problem}
+
+\signcorrection{At conformal coupling $\xi = 1/6$:
+$\alpha_R(1/6) = 0$ and $c_2 = 0$.
+There is \textbf{no $R^2$ term} and therefore \textbf{no Starobinsky
+inflation} from the one-loop spectral action alone. This is a
+fundamental constraint: inflation in SCT requires $\xi \neq 1/6$.}
+
+\subsection{NCG Inflation Literature}
+
+\paragraph{Chamseddine--Connes (2006, 2012)~\cite{CC06,CC12}.}
+The spectral action naturally gives rise to an $R^2$ term that can
+drive Starobinsky inflation. The coefficients are determined by the
+spectral data.
+
+\paragraph{Nelson--Sakellariadou (2009)~\cite{NS09}.}
+Demonstrated that inflation arises naturally in the NCG approach
+through the non-minimal coupling between geometry and the Higgs field.
+The inflationary phase occurs without introducing additional
+fields---it is a consequence of the $\xi$-dependent coupling.
+
+\paragraph{Buck--Fairbairn--Sakellariadou (2010)~\cite{BFS10}.}
+Analyzed slow-roll inflation with conformally coupled inflaton in the
+spectral action context. Found that Higgs inflation in NCG is
+incompatible with the measured top quark mass due to CMB constraints
+on the self-coupling running. Analyzed the role of additional
+conformally coupled massless scalars arising in NCG.
+
+\paragraph{Chamseddine--Connes--van~Suijlekom (2013)~\cite{CCS13}.}
+Connected the spectral action directly to Starobinsky inflation,
+emphasizing that the $R^2$ coefficient is determined by the geometry
+of the spectral triple.
+
+\paragraph{Devastato--Lizzi--Martinetti (2014)~\cite{DLM14}.}
+Studied the ``grand symmetry'' of the spectral action and its
+implications for the Higgs mass and inflation in the NCG framework.
+
+%======================================================================
+\section{Scalaron Mass from Spectral Data: Critical Analysis}
+\label{sec:scalaron-mass}
+%======================================================================
+
+\subsection{The Mass Formula}
+
+In the local limit ($F_2 \to c_2$), the spectral action's $R^2$ sector
+gives a Starobinsky model with scalaron mass
+\begin{equation}\label{eq:M-from-c2}
+  M^2 = \frac{M_P^2}{12\,c_2^{\mathrm{total}}}
+  = \frac{M_P^2 \cdot 16\pi^2}{12 \cdot 2(\xi - 1/6)^2}
+  = \frac{2\pi^2 M_P^2}{3(\xi - 1/6)^2}.
+\end{equation}
+
+Equivalently, using the NT-4a scalar propagator pole:
+\begin{equation}\label{eq:m0-from-nt4a}
+  m_0^2(\xi) = \frac{\Lambda^2}{6(\xi - 1/6)^2},
+  \qquad m_0(\xi = 0) = \sqrt{6}\,\Lambda \approx 2.449\,\Lambda.
+\end{equation}
+
+\subsection{The Scalaron Mass Problem}
+
+\signcorrection{
+For $\xi = 0$ (minimal coupling):
+\begin{equation}\label{eq:M-xi0}
+  M = \sqrt{\frac{2\pi^2}{3 \cdot (1/6)^2}}\,M_P
+  = \sqrt{24\pi^2}\,M_P \approx 15.4\,M_P.
+\end{equation}
+\textbf{This is far too heavy for inflation.} The observed amplitude
+$A_s \approx 2.1 \times 10^{-9}$ requires
+$M \approx 1.3 \times 10^{-5}\,M_P$.
+
+The scalaron mass from the pure SM spectral action at $\xi = 0$
+exceeds the required value by a factor of $\sim 1.2 \times 10^6$.
+This is the central challenge for spectral inflation in SCT.}
+
+\subsection{Resolution Paths}
+
+There are several possible resolutions:
+
+\begin{enumerate}[(a)]
+  \item \textbf{Nonlocal form factors.}
+    In the full nonlocal theory, the scalaron mass is modified by
+    $F_2(\Box/\Lambda^2)$. The KKS framework~\cite{KKS17,KKS20,KKS22}
+    shows that the scalar power spectrum is preserved while the tensor
+    spectrum is modified. However, the \emph{background} inflationary
+    solution $\Box R = M^2 R$ is identical to the local $R^2$ case.
+    The effective scalaron mass at the background level remains
+    $M^2 = M_P^2/(12c_2)$, so the mass problem is not resolved by
+    nonlocality alone.
+
+  \item \textbf{Cutoff scale $\Lambda \ll M_P$.}
+    If $\Lambda \sim 1.3 \times 10^{13}$~GeV $(\approx 5 \times 10^{-6}\,M_P)$
+    with $\xi = 0$, then
+    $m_0 = \sqrt{6}\,\Lambda \approx 3.1 \times 10^{13}$~GeV
+    $\approx 1.3 \times 10^{-5}\,M_P$, matching the required scalaron
+    mass. This is a viable option but requires $\Lambda$ to be
+    sub-Planckian by five orders of magnitude.
+    \emph{Note:} This identification of the NT-4a pole mass $m_0$ with
+    the Starobinsky scalaron mass $M$ is valid in the full spectral
+    action (where $M_P$ itself depends on $\Lambda$ through
+    $M_P^2 = f_2 \Lambda^2/(2\pi^2)$); in the one-loop EFT approach
+    with $M_P$ as an external input, $M$ is determined by $c_2$ and
+    $M_P$ independently of $\Lambda$.
+
+  \item \textbf{Large non-minimal coupling $\xi$.}
+    With $\Lambda = M_P$ and arbitrary $\xi$:
+    \[
+      M \approx 1.3 \times 10^{-5}\,M_P
+      \quad\Longrightarrow\quad
+      |\xi - 1/6| \approx 3.2 \times 10^{4}.
+    \]
+    This enormous value of $\xi$ is unnatural and violates perturbative
+    control of the non-minimal coupling.
+
+  \item \textbf{Additional scalar fields.}
+    The NCG spectral triple may contain additional scalars (e.g., the
+    $\sigma$-field from the seesaw sector, a dilaton from scale
+    invariance~\cite{CC05}). These would increase $\alpha_R$ and lower
+    the scalaron mass. This is the approach explored in the NCG
+    inflation literature~\cite{NS09,BFS10}.
+
+  \item \textbf{Two-loop or higher-order corrections.}
+    The one-loop result gives only the leading contribution to $c_2$.
+    Higher-loop corrections could modify $\alpha_R$ substantially if
+    the theory is near a fixed point.
+\end{enumerate}
+
+\gap{G1: Determine the viable parameter space $(\Lambda, \xi)$ for
+which the SCT spectral action produces the correct $A_s$.
+This requires solving $M(\Lambda, \xi) = 1.3 \times 10^{-5}\,M_P$
+subject to the PPN-1 constraint $\Lambda \geq 2.38 \times 10^{-3}$~eV.}
+
+%======================================================================
+\section{Nonlocal Corrections: The KKS Framework}\label{sec:kks}
+%======================================================================
+
+\subsection{The Generalized Nonlocal $R^2$ Action}
+
+Koshelev, Kumar, and Starobinsky~\cite{KKS16,KKS17,KKS20,KKS22,KKS22b}
+developed the most comprehensive framework for inflation in nonlocal
+gravity with quadratic curvature terms. Their quadratic-in-curvature
+action reads
+\begin{equation}\label{eq:kks-action}
+  S = \int \dd^4 x\,\sqrt{-g}\,
+  \Bigl(\frac{M_P^2}{2}\,R + R\,\mathcal{F}_R(\Box_s)\,R
+  + W_{\mu\nu\rho\sigma}\,\mathcal{F}_C(\Box_s)\,
+  W^{\mu\nu\rho\sigma}\Bigr),
+\end{equation}
+where $\Box_s = \Box/\mathcal{M}_s^2$ and $\mathcal{M}_s$ is the
+nonlocality scale. The form factors are constrained to be
+\begin{align}
+  \mathcal{F}_R(\Box_s) &= f_0 M^2\,
+  \frac{1 - (1 - \Box/M^2)\,e^{\gamma_S(\Box_s)}}{\Box},
+  \label{eq:FR}\\
+  \mathcal{F}_C(\Box_s) &= \frac{M_P^2}{2}\,
+  \frac{e^{\gamma_T(\Box_s)} - 1}{\Box},
+  \label{eq:FC}
+\end{align}
+where $\gamma_S$, $\gamma_T$ are entire functions (ensuring ghost-freedom).
+
+\subsection{Key Results for Inflation}
+
+The KKS framework establishes~\cite{KKS16,KKS17,KKS22}:
+
+\begin{enumerate}[(1)]
+  \item \textbf{Background solution.}
+    $\Box R = M^2 R$ (the Starobinsky eigenvalue equation) is an
+    \emph{exact} background solution for any choice of $\gamma_S$,
+    $\gamma_T$ satisfying $\mathcal{F}_R(M^2/\mathcal{M}_s^2) = f_0$
+    and $\mathcal{F}_R'(M^2/\mathcal{M}_s^2) = 0$.
+
+  \item \textbf{Scalar power spectrum.}
+    $\mathcal{P}_{\mathcal{R}}$ and $n_s$ are \textbf{unchanged}
+    from local $R^2$ inflation:
+    \begin{equation}\label{eq:ns-kks}
+      n_s \approx 1 - \frac{2}{N}.
+    \end{equation}
+    Nonlocal corrections to $n_s$ are $O(M^4/\mathcal{M}_s^4)$,
+    negligible for $M \ll \mathcal{M}_s$.
+
+  \item \textbf{Tensor power spectrum.}
+    Modified by the Weyl form factor:
+    \begin{equation}\label{eq:Pt-kks}
+      \mathcal{P}_T = \frac{1}{12\pi^2 f_0}
+      (1 - 3\epsilon)\,e^{-2\gamma_T(-\bar{R}_{\mathrm{dS}}/(6\mathcal{M}_s^2))}.
+    \end{equation}
+
+  \item \textbf{Tensor-to-scalar ratio.}
+    \begin{equation}\label{eq:r-kks}
+      r = \frac{12}{N^2}\,e^{-2\gamma_T(-\bar{R}_{\mathrm{dS}}/(6\mathcal{M}_s^2))}.
+    \end{equation}
+    The exponential factor can suppress or enhance $r$ relative to the
+    local Starobinsky value. Any $r < 0.036$ is achievable.
+
+  \item \textbf{Modified consistency relation.}
+    $r \neq -8n_t$ in general. The tensor tilt can be positive
+    ($n_t > 0$, blue tilt) or negative.
+
+  \item \textbf{Sound speed.}
+    $c_s^2 = c_T^2 = 1$ (both scalar and tensor). Compatible with
+    GW170817.
+
+  \item \textbf{Degrees of freedom.}
+    Around Minkowski: scalaron (massive spin-0) + graviton (massless
+    spin-2). No ghosts for entire $\gamma_{S,T}$.
+\end{enumerate}
+
+\subsection{Connection to SCT Form Factors}
+
+The SCT action~\eqref{eq:sct-action} maps to the KKS
+framework~\eqref{eq:kks-action} via the identification:
+\begin{equation}\label{eq:sct-kks-map}
+  \boxed{
+  \mathcal{F}_R(\Box_s) = \frac{\alpha_R(\xi)}{16\pi^2}\,
+  F_2(\Box/\Lambda^2,\xi),
+  \qquad
+  \mathcal{F}_C(\Box_s) = \frac{\alpha_C}{16\pi^2}\cdot 2\,
+  F_1(\Box/\Lambda^2),
+  \qquad
+  \mathcal{M}_s = \Lambda.
+  }
+\end{equation}
+
+The SCT form factors $F_1$, $F_2$ are entire (NT-2), which is
+precisely the ghost-freedom condition required in the KKS framework.
+The difference is that SCT \textbf{derives} the form factors from the
+one-loop heat kernel, while KKS treats $\gamma_S$, $\gamma_T$ as
+phenomenological inputs.
+
+\gap{G2: Verify explicitly that the SCT form factors
+$\mathcal{F}_R$, $\mathcal{F}_C$ satisfy the KKS conditions
+$\mathcal{F}_R(M^2/\Lambda^2) = f_0$ and
+$\mathcal{F}_R'(M^2/\Lambda^2) = 0$.
+If they do not, determine what modification is needed.}
+
+%======================================================================
+\section{Non-Gaussianity}\label{sec:fNL}
+%======================================================================
+
+\subsection{Single-Field Slow-Roll Prediction}
+
+In standard single-field slow-roll inflation, the non-Gaussianity
+parameter satisfies~\cite{Maldacena03,Acquaviva03}
+\begin{equation}\label{eq:fNL-slowroll}
+  f_{\mathrm{NL}}^{\mathrm{local}} = \frac{5}{12}(n_s - 1)
+  \approx -\frac{5}{12}\cdot\frac{2}{N} \approx -0.015
+  \quad\text{for } N = 55.
+\end{equation}
+This is the Maldacena consistency relation. Planck~2018 measures
+$f_{\mathrm{NL}}^{\mathrm{local}} = -0.9 \pm 5.1$~\cite{Planck18IX}.
+
+\subsection{Nonlocal Corrections to $f_{\mathrm{NL}}$}
+
+Koshelev, Kumar, and Starobinsky~\cite{KKS20,KKS22b} computed
+non-Gaussianities in the nonlocal $R^2$ framework:
+\begin{itemize}[nosep]
+  \item $|f_{\mathrm{NL}}| \sim O(1\text{--}10)$ is achievable in
+    equilateral, orthogonal, and squeezed configurations.
+  \item The sign of $f_{\mathrm{NL}}$ depends on the choice of form
+    factors.
+  \item Running of $f_{\mathrm{NL}}$:
+    $|\dd \ln f_{\mathrm{NL}}/\dd \ln k| \lesssim 1$, which can be an
+    order of magnitude larger than in local EFT models.
+  \item Cubic-in-curvature nonlocal terms contribute to
+    the bispectrum but not to two-point functions.
+\end{itemize}
+
+In SCT, the form factors are fixed by the spectral data, so
+$f_{\mathrm{NL}}$ is in principle \textbf{predicted} (not a free
+parameter). The cubic terms in the BV alpha-insertion
+$\Theta^{(R)}_{\mu\nu}$ provide the SCT analog of the KKS cubic
+curvature operators.
+
+\gap{G3: Compute $f_{\mathrm{NL}}$ for the specific SCT form factors.
+This requires the three-point correlator of curvature perturbations,
+which involves the cubic terms in the spectral action expansion.}
+
+%======================================================================
+\section{Reheating}\label{sec:reheating}
+%======================================================================
+
+\subsection{Scalaron Decay}
+
+After inflation, the scalaron oscillates around the minimum of the
+potential~\eqref{eq:V-starobinsky} and decays into SM particles. The
+dominant decay channel is into pairs of conformally coupled
+fields~\cite{Star83,Vilenkin85}:
+\begin{equation}\label{eq:decay-rate}
+  \Gamma_\varphi \sim \frac{M^3}{M_P^2}.
+\end{equation}
+The reheating temperature is estimated as
+\begin{equation}\label{eq:Treh}
+  T_{\mathrm{reh}} \sim \Bigl(\frac{90}{\pi^2 g_*}\Bigr)^{1/4}
+  \sqrt{\Gamma_\varphi\,M_P}
+  \sim \left(\frac{M^3}{M_P}\right)^{1/2}
+  \approx 6 \times 10^{10}\;\text{GeV}
+\end{equation}
+for $M \approx 3.1 \times 10^{13}$~GeV and
+$g_* = 106.75$ (SM degrees of freedom).
+
+\subsection{BBN Constraint}
+
+The BBN constraint requires~\cite{Kawasaki00}
+\begin{equation}\label{eq:bbn}
+  T_{\mathrm{reh}} > 5\;\text{MeV}.
+\end{equation}
+Starobinsky inflation satisfies this by many orders of magnitude.
+
+\subsection{Reheating $e$-Folds and $n_s$}
+
+The number of $e$-folds between Hubble exit and the end of inflation
+depends on the reheating history:
+\begin{equation}\label{eq:N-reh}
+  N = 55 - \frac{1}{4}\ln\!\left(\frac{10^{16}\;\text{GeV}}{V_{\mathrm{end}}^{1/4}}\right)
+  + \frac{1}{4}\ln\!\left(\frac{T_{\mathrm{reh}}}{10^9\;\text{GeV}}\right).
+\end{equation}
+For Starobinsky inflation with efficient reheating,
+$N \approx 50\text{--}60$.
+
+\gap{G4: In the nonlocal theory, the scalaron coupling to matter
+is modified by the form factors. Compute the modified decay rate
+$\Gamma_\varphi$ and verify $T_{\mathrm{reh}} > 5$~MeV.}
+
+%======================================================================
+\section{CMB Observational Constraints}\label{sec:cmb}
+%======================================================================
+
+\subsection{Current Data}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+Observable & Value & Reference \\
+\midrule
+$n_s$ (TT+TE+EE+lowE+lensing)
+  & $0.9649 \pm 0.0042$ (68\%~CL) & Planck 2018~\cite{Planck18X} \\
+$r$ (95\%~CL)
+  & $< 0.036$ & BICEP/Keck 2021~\cite{BK21} \\
+$f_{\mathrm{NL}}^{\mathrm{local}}$
+  & $-0.9 \pm 5.1$ & Planck 2018~\cite{Planck18IX} \\
+$f_{\mathrm{NL}}^{\mathrm{equil}}$
+  & $-26 \pm 47$ & Planck 2018~\cite{Planck18IX} \\
+$\dd n_s/\dd \ln k$
+  & $-0.0045 \pm 0.0067$ & Planck 2018~\cite{Planck18X} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Future Experiments}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccc}
+\toprule
+Experiment & $\sigma(r)$ & $\sigma(n_s)$ & Timeline \\
+\midrule
+CMB-S4 & $\sim 10^{-3}$ & $\sim 0.002$ & 2030s \\
+LiteBIRD & $\sim 10^{-3}$ & $\sim 0.002$ & 2030s \\
+Simons Observatory & $\sim 0.003$ & $\sim 0.003$ & 2020s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Detection prospect:} Standard Starobinsky predicts
+$r \approx 3.3 \times 10^{-3}$ for $N = 60$, which is within the
+$\sim 3\sigma$ reach of LiteBIRD and CMB-S4. If nonlocal corrections
+suppress $r$ (as allowed in the KKS framework), detection becomes
+more challenging.
+
+%======================================================================
+\section{De Sitter Conjecture and Swampland}\label{sec:swampland}
+%======================================================================
+
+The refined de~Sitter conjecture~\cite{OPSV18} states that in any
+consistent quantum gravity theory:
+\begin{equation}\label{eq:dS-conjecture}
+  |\nabla V|/V \geq c \sim O(1)
+  \qquad\text{or}\qquad
+  \min(\nabla_i\nabla_j V) \leq -c'\,V.
+\end{equation}
+The Starobinsky potential~\eqref{eq:V-starobinsky} satisfies the
+\emph{second} condition (the mass matrix has a negative eigenvalue at
+the inflection point) but not the first (the plateau violates
+$|\nabla V|/V \geq c$).
+
+\gap{G5: Evaluate the Swampland criteria for the SCT
+potential explicitly. Determine whether the nonlocal corrections
+modify the Einstein-frame potential shape enough to affect the
+de~Sitter conjecture status.}
+
+%======================================================================
+\section{NT-4c Results Relevant to INF-1}\label{sec:nt4c}
+%======================================================================
+
+From the verified NT-4c FLRW reduction~\cite{NT4c}:
+
+\begin{enumerate}[(1)]
+  \item \textbf{Weyl sector drops out on FLRW.}
+    $C_{\mu\nu\rho\sigma} = 0$ eliminates $F_1$, $B_{\mu\nu}$,
+    $\Theta^{(C)}_{\mu\nu}$ from the \emph{background} equations.
+    Only the $R^2$ sector (governed by $\alpha_R(\xi)$) contributes.
+
+  \item \textbf{Modified Friedmann equations.}
+    \begin{equation}\label{eq:friedmann-recap}
+      H^2 = \frac{\kappa^2}{3}\,\rho
+      - \frac{\kappa^2}{3}\,\beta_R\,
+      [H_{00} + \Theta^{(R)}_{00}],
+      \qquad
+      \beta_R = \frac{\alpha_R(\xi)}{16\pi^2}.
+    \end{equation}
+
+  \item \textbf{GW speed: $c_T = c$.}
+    The $R^2$ sector couples only to scalar perturbations (SVT
+    decomposition). Tensor mode speed is unmodified. This is consistent
+    with the KKS result $c_T^2 = 1$ and the GW170817 constraint.
+
+  \item \textbf{De~Sitter is exact solution.}
+    $H_{\mu\nu}|_{\mathrm{dS}} = 0$,
+    $\Theta^{(R)}_{\mu\nu}|_{\mathrm{dS}} = 0$.
+
+  \item \textbf{Alpha-insertion EOS: $w_\Theta = +1$ (stiff).}
+    The nonlocal $\Theta^{(R)}$ acts as kinetic energy, not vacuum
+    energy. This is important for the inflationary dynamics: the
+    alpha-insertion contributes during the oscillatory reheating phase,
+    not during slow roll.
+
+  \item \textbf{Conformal coupling ($\xi = 1/6$): no inflation.}
+    All spectral corrections vanish identically.
+
+  \item \textbf{Scalaron equation from trace.}
+    The trace of the modified field equations, under the ansatz
+    $\Box R = M^2 R$, yields the Starobinsky scalaron equation.
+    This connects the NT-4c modified Friedmann equations to the
+    KKS framework.
+\end{enumerate}
+
+%======================================================================
+\section{Conventions and Notation Summary}\label{sec:conventions}
+%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{ll}
+\toprule
+Symbol & Definition \\
+\midrule
+$g_{\mu\nu}$ & Lorentzian metric, signature $(-,+,+,+)$ \\
+$\kappa^2 = 8\pi G = M_P^{-2}$ & Gravitational coupling \\
+$M_P = 2.435 \times 10^{18}$~GeV & Reduced Planck mass \\
+$\Lambda$ & Spectral cutoff scale \\
+$\xi$ & Higgs non-minimal coupling to gravity \\
+$\alpha_C = 13/120$ & SM Weyl$^2$ coefficient ($\xi$-independent) \\
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$ & SM $R^2$ coefficient \\
+$c_2 = \alpha_R/(16\pi^2)$ & Local $R^2$ coupling \\
+$M$ & Scalaron mass: $M^2 = M_P^2/(12c_2)$ \\
+$f_0 = M_P^2/(6M^2)$ & Starobinsky coefficient \\
+$m_0(\xi)$ & NT-4a scalar pole: $m_0 = \Lambda/\sqrt{6(\xi-1/6)^2}$ \\
+$m_2$ & NT-4a tensor pole: $m_2 = \Lambda\sqrt{60/13}$ \\
+$\varphi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi$ & Master function \\
+$F_1(z)$, $F_2(z,\xi)$ & Entire form factors (NT-2) \\
+$\Fhat_i(z) = F_i(z)/F_i(0)$ & Normalized form factors \\
+$N$ & Number of $e$-folds before end of inflation \\
+$n_s$ & Scalar spectral index \\
+$r$ & Tensor-to-scalar ratio \\
+$n_t$ & Tensor spectral index \\
+$f_{\mathrm{NL}}$ & Non-Gaussianity parameter \\
+$T_{\mathrm{reh}}$ & Reheating temperature \\
+$A_s \approx 2.1 \times 10^{-9}$ & Scalar power spectrum amplitude \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+%======================================================================
+\section{Gap Analysis and Derivation Plan}\label{sec:gaps}
+%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{clp{7cm}c}
+\toprule
+\# & Gap & Description & Severity \\
+\midrule
+G1 & Scalaron mass & Determine viable $(\Lambda, \xi)$ parameter
+  space for $A_s$ matching & \textbf{CRITICAL} \\
+G2 & KKS conditions & Verify SCT form factors satisfy
+  $\mathcal{F}_R(M^2/\Lambda^2) = f_0$,
+  $\mathcal{F}_R'(M^2/\Lambda^2) = 0$ & HIGH \\
+G3 & $f_{\mathrm{NL}}$ & Compute non-Gaussianity for SCT form
+  factors (requires bispectrum) & MEDIUM \\
+G4 & Reheating & Compute modified decay rate from nonlocal
+  couplings & MEDIUM \\
+G5 & Swampland & Evaluate de~Sitter conjecture for SCT
+  Einstein-frame potential & LOW \\
+G6 & Perturbation theory & Derive full second-order perturbation
+  action around FLRW in SCT (tensor + scalar) & HIGH \\
+G7 & Weyl sector on tensors & The Weyl sector drops out of
+  \emph{background} equations but contributes to tensor
+  \emph{perturbations}. Quantify this effect. & HIGH \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Derivation Strategy for INF-1}
+
+\begin{enumerate}[(1)]
+  \item \textbf{Local limit first.}
+    Compute all observables in the local Starobinsky limit ($F_2 \to c_2$)
+    as a function of $(\Lambda, \xi)$. Determine the viable parameter
+    space from $A_s$ matching and PPN-1 constraints.
+
+  \item \textbf{Nonlocal tensor corrections.}
+    Using the KKS framework with SCT form factors, compute the modified
+    tensor power spectrum and the resulting $r$, $n_t$.
+
+  \item \textbf{Scalar perturbation check.}
+    Verify that scalar perturbations are unchanged from the local case
+    (as predicted by KKS).
+
+  \item \textbf{Reheating.}
+    Compute $\Gamma_\varphi$ and $T_{\mathrm{reh}}$ in the local limit.
+    Estimate nonlocal corrections.
+
+  \item \textbf{Non-Gaussianity (if feasible).}
+    Compute $f_{\mathrm{NL}}$ from the SCT cubic terms, or bound it.
+
+  \item \textbf{Comparison.}
+    Tabulate $(n_s, r, n_t, f_{\mathrm{NL}}, T_{\mathrm{reh}})$
+    for SCT vs.\ standard Starobinsky vs.\ KKS nonlocal Starobinsky
+    vs.\ Planck/BICEP data.
+\end{enumerate}
+
+%======================================================================
+\begin{thebibliography}{99}
+%======================================================================
+
+\bibitem{Star80}
+A.~A.~Starobinsky,
+``A new type of isotropic cosmological models without singularity,''
+\emph{Phys.\ Lett.\ B} \textbf{91} (1980) 99--102.
+
+\bibitem{Mukhanov81}
+V.~F.~Mukhanov and G.~V.~Chibisov,
+``Quantum fluctuation and `nonsingular' universe,''
+\emph{JETP Lett.} \textbf{33} (1981) 532--535.
+
+\bibitem{Star83}
+A.~A.~Starobinsky,
+``The perturbation spectrum evolving from a nonsingular initially
+de~Sitter cosmology and the microwave background anisotropy,''
+\emph{Sov.\ Astron.\ Lett.} \textbf{9} (1983) 302--304.
+
+\bibitem{Vilenkin85}
+A.~Vilenkin,
+``Classical and quantum cosmology of the Starobinsky inflationary model,''
+\emph{Phys.\ Rev.\ D} \textbf{32} (1985) 2511.
+
+\bibitem{CC97}
+A.~H.~Chamseddine and A.~Connes,
+``The spectral action principle,''
+\emph{Commun.\ Math.\ Phys.} \textbf{186} (1997) 731--750,
+\href{https://arxiv.org/abs/hep-th/9606001}{hep-th/9606001}.
+
+\bibitem{CC05}
+A.~H.~Chamseddine and A.~Connes,
+``Scale invariance in the spectral action,''
+\href{https://arxiv.org/abs/hep-th/0512169}{hep-th/0512169}.
+
+\bibitem{CC06}
+A.~H.~Chamseddine and A.~Connes,
+``Inner fluctuations of the spectral action,''
+\emph{J.\ Geom.\ Phys.} \textbf{57} (2006) 1--21,
+\href{https://arxiv.org/abs/hep-th/0512169}{hep-th/0512169}.
+
+\bibitem{CC12}
+A.~H.~Chamseddine and A.~Connes,
+``Resilience of the spectral standard model,''
+\emph{JHEP} \textbf{1209} (2012) 104,
+\href{https://arxiv.org/abs/1208.1030}{arXiv:1208.1030}.
+
+\bibitem{CCS13}
+A.~H.~Chamseddine, A.~Connes, and W.~D.~van~Suijlekom,
+``Beyond the spectral standard model: emergence of Pati--Salam
+unification,''
+\emph{JHEP} \textbf{1311} (2013) 132,
+\href{https://arxiv.org/abs/1304.8050}{arXiv:1304.8050}.
+
+\bibitem{NS09}
+W.~Nelson and M.~Sakellariadou,
+``Natural inflation mechanism in asymptotic noncommutative geometry,''
+\emph{Phys.\ Lett.\ B} \textbf{680} (2009) 263--266,
+\href{https://arxiv.org/abs/0903.1520}{arXiv:0903.1520}.
+
+\bibitem{BFS10}
+M.~Buck, M.~Fairbairn, and M.~Sakellariadou,
+``Inflation in models with conformally coupled scalar fields:
+an application to the noncommutative spectral action,''
+\emph{Phys.\ Rev.\ D} \textbf{82} (2010) 043509,
+\href{https://arxiv.org/abs/1005.1188}{arXiv:1005.1188}.
+
+\bibitem{DLM14}
+A.~Devastato, F.~Lizzi, and P.~Martinetti,
+``Grand symmetry, spectral action and the Higgs mass,''
+\emph{JHEP} \textbf{1401} (2014) 042,
+\href{https://arxiv.org/abs/1304.0415}{arXiv:1304.0415}.
+
+\bibitem{KKS16}
+A.~S.~Koshelev, L.~Modesto, L.~Rachwa{\l}, and A.~A.~Starobinsky,
+``Occurrence of exact $R^2$ inflation in non-local UV-complete gravity,''
+\emph{JHEP} \textbf{1611} (2016) 067,
+\href{https://arxiv.org/abs/1604.03127}{arXiv:1604.03127}.
+
+\bibitem{KKS17}
+A.~S.~Koshelev, K.~S.~Kumar, and A.~A.~Starobinsky,
+``$R^2$ inflation to probe non-perturbative quantum gravity,''
+\emph{JHEP} \textbf{1803} (2018) 071,
+\href{https://arxiv.org/abs/1711.08864}{arXiv:1711.08864}.
+
+\bibitem{KKS20}
+A.~S.~Koshelev, K.~S.~Kumar, A.~Mazumdar, and A.~A.~Starobinsky,
+``Non-Gaussianities and tensor-to-scalar ratio in non-local
+$R^2$-like inflation,''
+\emph{JHEP} \textbf{2006} (2020) 152,
+\href{https://arxiv.org/abs/2003.00629}{arXiv:2003.00629}.
+
+\bibitem{KKS22}
+A.~S.~Koshelev, K.~S.~Kumar, and A.~A.~Starobinsky,
+``Generalized non-local $R^2$-like inflation,''
+\href{https://arxiv.org/abs/2209.02515}{arXiv:2209.02515}.
+
+\bibitem{KKS22b}
+A.~S.~Koshelev, K.~S.~Kumar, and A.~A.~Starobinsky,
+``Non-Gaussianities in generalized non-local $R^2$-like inflation,''
+\href{https://arxiv.org/abs/2210.16459}{arXiv:2210.16459}.
+
+\bibitem{KKS23}
+A.~S.~Koshelev, K.~S.~Kumar, and A.~A.~Starobinsky,
+``Cosmology in nonlocal gravity,''
+\href{https://arxiv.org/abs/2305.18716}{arXiv:2305.18716}.
+
+\bibitem{KST22}
+A.~S.~Koshelev, A.~A.~Starobinsky, and A.~Tokareva,
+``Post-inflationary GW production in generic higher (infinite)
+derivative gravity,''
+\href{https://arxiv.org/abs/2211.02070}{arXiv:2211.02070}.
+
+\bibitem{BSM22}
+J.~Bezerra-Sobrinho and L.~G.~Medeiros,
+``Modified Starobinsky inflation by the $R\ln(\Box)R$ term,''
+\href{https://arxiv.org/abs/2202.13308}{arXiv:2202.13308}.
+
+\bibitem{Maldacena03}
+J.~Maldacena,
+``Non-Gaussian features of primordial fluctuations in single field
+inflationary models,''
+\emph{JHEP} \textbf{0305} (2003) 013,
+\href{https://arxiv.org/abs/astro-ph/0210603}{astro-ph/0210603}.
+
+\bibitem{Acquaviva03}
+V.~Acquaviva, N.~Bartolo, S.~Matarrese, and A.~Riotto,
+``Gauge-invariant second-order perturbations and non-Gaussianity
+from inflation,''
+\emph{Nucl.\ Phys.\ B} \textbf{667} (2003) 119--148.
+
+\bibitem{DeFelice10}
+A.~De~Felice and S.~Tsujikawa,
+``$f(R)$ theories,''
+\emph{Living Rev.\ Rel.} \textbf{13} (2010) 3,
+\href{https://arxiv.org/abs/1002.4928}{arXiv:1002.4928}.
+
+\bibitem{Kawasaki00}
+M.~Kawasaki, K.~Kohri, and N.~Sugiyama,
+``Cosmological constraints on late-time entropy production,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{82} (1999) 4168.
+
+\bibitem{Planck18X}
+Planck Collaboration,
+``Planck 2018 results. X. Constraints on inflation,''
+\emph{Astron.\ Astrophys.} \textbf{641} (2020) A10,
+\href{https://arxiv.org/abs/1807.06211}{arXiv:1807.06211}.
+
+\bibitem{Planck18IX}
+Planck Collaboration,
+``Planck 2018 results. IX. Constraints on primordial
+non-Gaussianity,''
+\emph{Astron.\ Astrophys.} \textbf{641} (2020) A9,
+\href{https://arxiv.org/abs/1905.05697}{arXiv:1905.05697}.
+
+\bibitem{BK21}
+BICEP/Keck Collaboration,
+``Improved constraints on primordial gravitational waves using
+Planck, WMAP, and BICEP/Keck observations through the 2018
+observing season,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{127} (2021) 151301,
+\href{https://arxiv.org/abs/2110.00483}{arXiv:2110.00483}.
+
+\bibitem{OPSV18}
+H.~Ooguri, E.~Palti, G.~Shiu, and C.~Vafa,
+``Distance and de Sitter conjectures on the Swampland,''
+\emph{Phys.\ Lett.\ B} \textbf{788} (2019) 180,
+\href{https://arxiv.org/abs/1810.05506}{arXiv:1810.05506}.
+
+\bibitem{CPR09}
+A.~Codello, R.~Percacci, and C.~Rahmede,
+``Investigating the ultraviolet properties of gravity with a
+Wilsonian renormalization group equation,''
+\emph{Ann.\ Phys.} \textbf{324} (2009) 414--469,
+\href{https://arxiv.org/abs/0805.2909}{arXiv:0805.2909}.
+
+\bibitem{Ste77}
+K.~S.~Stelle,
+``Renormalization of higher-derivative quantum gravity,''
+\emph{Phys.\ Rev.\ D} \textbf{16} (1977) 953--969.
+
+\bibitem{NT4c}
+D.~Alfyorov,
+``NT-4c: FLRW reduction of SCT nonlocal field equations,''
+SCT Theory internal document (2026).
+
+\end{thebibliography}
+
+\end{document}

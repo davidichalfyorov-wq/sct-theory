@@ -1,0 +1,1497 @@
+%%======================================================================
+%%  NT-4b: Literature Extraction & Convention Fixing
+%%         for Full Nonlinear Variational Field Equations
+%%
+%%  This document collects formulas from the literature needed to
+%%  derive the full nonlinear field equations delta S_spec/delta g^{mu nu} = 0
+%%  on arbitrary curved backgrounds from the SCT spectral action.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{tcolorbox}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{theorem}[proposition]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-4b: Literature \& Conventions for
+Full Nonlinear Field Equations}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- hyperref -------------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={NT-4b: Literature Extraction for Full Nonlinear Field Equations},
+  pdfauthor={David Alfyorov},
+}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-4b: Literature Extraction \& Convention Fixing\\[4pt]
+       for Full Nonlinear Variational Field Equations}\\[8pt]
+       \large From Nonlocal Effective Action to $\frac{\delta S}{\delta g^{\mu\nu}} = 0$
+       on Curved Backgrounds}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all formulas, conventions, and computational
+recipes from the literature needed to derive the full nonlinear
+gravitational field equations from the SCT spectral action
+$\Tr(f(D^2/\Lambda^2))$ on arbitrary curved backgrounds.
+Unlike the NT-4a linearization (flat background, linear perturbation),
+NT-4b requires the variation of a nonlocal curvature-squared action
+$\delta S/\delta g^{\mu\nu}$ where the form factors
+$F_i(\Box/\Lambda^2)$ do not commute with the metric variation.
+The document covers: (1)~the SCT effective action and its conventions
+inherited from NT-1 through NT-4a; (2)~the local Stelle field equations
+as the limiting benchmark; (3)~the Barvinsky--Vilkovisky formalism for
+varying nonlocal actions; (4)~the nonlocal Bach tensor and nonlocal
+$R^2$ variation; (5)~key identities for $\delta\Box/\delta g^{\mu\nu}$
+and the $\alpha$-insertion formula; (6)~consistency checks (Bianchi
+identity, trace, linearized limit, de~Sitter solutions); (7)~a
+comprehensive notation table.  All formulas are extracted from the
+literature with source annotations; no original derivations are
+performed.  Gaps requiring resolution in the derivation phase are noted
+explicitly.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item Stelle: Phys.\ Rev.\ D \textbf{16} (1977) 953; Gen.\ Rel.\ Grav.\
+  \textbf{9} (1978) 353.
+\item Barvinsky--Vilkovisky (BV): Phys.\ Rep.\ \textbf{119} (1985) 1;
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163;
+  B \textbf{333} (1990) 471.
+\item Codello--Zanusso (CZ): arXiv:1203.2034 [hep-th].
+\item Biswas--Mazumdar--Siegel (BMS): hep-th/0508194.
+\item Modesto: arXiv:1107.2403 [hep-th].
+\item Calcagni--Modesto--Nardelli (CMN): arXiv:1803.07848;
+  also Calcagni--Modesto--Leszczyszyn: arXiv:1803.00561.
+\item Buoninfante--Modesto--Shapiro: arXiv:2001.07830.
+\item Giacchini--de~Paula~Netto: arXiv:1806.05664 [gr-qc];
+  Eur.\ Phys.\ J.\ C \textbf{81} (2021) 741.
+\item Deser--Woodard: Phys.\ Rev.\ Lett.\ \textbf{99} (2007) 111301.
+\item Avramidi: ``Heat Kernel and Quantum Gravity,'' Springer (2000).
+\item Parker--Toms: ``Quantum Field Theory in Curved Spacetime,''
+  Cambridge (2009).
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Background: From NT-4a to NT-4b}
+\label{sec:background}
+%%======================================================================
+
+\subsection{What NT-4a established}
+
+NT-4a derived the \emph{linearized} field equations of the SCT spectral
+action on a flat background.  The key results are:
+\begin{itemize}[nosep]
+  \item \textbf{Modified propagator:}
+    $G^{-1}_{\mathrm{TT}} = k^2\,\Pi_{\mathrm{TT}}(z)$ with
+    $\Pi_{\mathrm{TT}}(z) = 1 + \frac{13}{60}\,z\,\hat{F}_1(z)$.
+  \item \textbf{Scalar mode:}
+    $\Pi_s(z,\xi) = 1 + 6(\xi-1/6)^2\,z\,\hat{F}_2(z,\xi)$.
+  \item \textbf{Yukawa potential:}
+    $V(r)/V_N(r) = 1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r}$.
+  \item \textbf{Gauge invariance} and \textbf{Bianchi identity}
+    verified off-shell.
+  \item \textbf{40/40 checks PASS}, 7 Lean~4 identities verified.
+\end{itemize}
+All these results are \emph{valid only on flat background at linear order}.
+
+\subsection{What NT-4b must achieve}
+
+NT-4b must derive the \textbf{full nonlinear} field equations
+\begin{equation}\label{eq:NT4b-goal}
+  \frac{1}{\sqrt{g}}\,
+  \frac{\delta S_{\mathrm{SCT}}}{\delta g^{\mu\nu}} = 0
+\end{equation}
+on \emph{arbitrary} curved backgrounds, where $S_{\mathrm{SCT}}$ includes
+both the Einstein--Hilbert term and the nonlocal curvature-squared
+corrections.
+
+The central difficulty is that the form factors $F_i(\Box/\Lambda^2)$
+are functions of the covariant d'Alembertian, which itself depends on
+the metric.  Therefore $[\delta/\delta g^{\mu\nu},\, F(\Box)] \neq 0$,
+and the variation generates additional ``$\Theta$-type'' terms absent
+in the local theory.
+
+\subsection{Gap analysis from NT-4a}
+
+The NT-4a literature document~\cite{NT4aLit} identified the following
+gaps relevant to NT-4b:
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+  \item Full nonlinear equations on curved background
+    (Barvinsky--Vilkovisky formalism) --- \textbf{this document}.
+  \item FLRW reduction --- deferred to NT-4c.
+  \item Covariant gauge-fixing analysis --- needed for NT-4b but
+    secondary.
+\end{enumerate}
+
+
+%%======================================================================
+\section{The SCT Effective Action: Conventions}
+\label{sec:action}
+%%======================================================================
+
+\subsection{Sign and curvature conventions}
+
+\begin{convention}[Curvature conventions]
+\label{conv:curvature}
+\oursign\;
+Throughout this project, the conventions are:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\toprule
+\textbf{Quantity} & \textbf{Convention} \\
+\midrule
+Metric signature & $(-,+,+,+)$ (Lorentzian) or Euclidean $\delta_{\mu\nu}$ \\
+Riemann tensor & $R^\rho{}_{\sigma\mu\nu}
+  = \partial_\mu\Gamma^\rho_{\nu\sigma}
+  - \partial_\nu\Gamma^\rho_{\mu\sigma}
+  + \Gamma^\rho_{\mu\lambda}\Gamma^\lambda_{\nu\sigma}
+  - \Gamma^\rho_{\nu\lambda}\Gamma^\lambda_{\mu\sigma}$ \\
+Ricci tensor & $R_{\mu\nu} = R^\rho{}_{\mu\rho\nu}$ \\
+Ricci scalar & $R = g^{\mu\nu}R_{\mu\nu}$ \\
+Einstein tensor & $G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R$ \\
+d'Alembertian & $\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu
+  = \frac{1}{\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\,g^{\mu\nu}\partial_\nu)$
+  on scalars \\
+Weyl tensor & $C_{\mu\nu\rho\sigma} = R_{\mu\nu\rho\sigma}
+  + \frac{2}{d-2}(g_{\nu[\rho}R_{\sigma]\mu} - g_{\mu[\rho}R_{\sigma]\nu})
+  + \frac{2}{(d-1)(d-2)}R\,g_{\mu[\rho}g_{\sigma]\nu}$ \\
+Gravitational coupling & $\kappa^2 = 8\pi G$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+These match the conventions used in
+Calcagni--Modesto~\cite{CalcagniModesto2022},
+Stelle~\cite{Stelle1977,Stelle1978}, and all preceding
+NT-1/NT-1b/NT-2/NT-4a documents.
+\end{convention}
+
+
+\subsection{The full SCT action}
+
+\begin{convention}[Full SCT gravitational action]
+\label{conv:full-action}
+\oursign\;
+The full one-loop SCT gravitational action is:
+\begin{equation}\label{eq:full-action}
+  S = S_{\mathrm{EH}} + S_{\mathrm{quad}} + S_{\mathrm{matter}},
+\end{equation}
+where:
+\begin{align}
+  S_{\mathrm{EH}} &= \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+    (R - 2\Lambda_{\mathrm{cc}}),
+  \label{eq:SEH}\\[6pt]
+  S_{\mathrm{quad}} &= \frac{1}{16\pi^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \Big[
+    F_1\!\left(\frac{\Box}{\Lambda^2}\right)\Weylsq
+    + F_2\!\left(\frac{\Box}{\Lambda^2},\xi\right) R^2
+  \Big],
+  \label{eq:Squad}\\[6pt]
+  S_{\mathrm{matter}} &= \int\dd^4 x\,\sqrt{|g|}\,
+    \mathcal{L}_{\mathrm{matter}}(g_{\mu\nu}, \psi).
+  \label{eq:Smatter}
+\end{align}
+The cosmological constant term $\Lambda_{\mathrm{cc}}$ comes from the
+$a_0$ Seeley--DeWitt coefficient; we keep it general here.
+\end{convention}
+
+\begin{remark}[Curvature basis choice]
+\label{rem:basis}
+The $\{C^2, R^2\}$ basis is preferred over $\{R_{\mu\nu}^2, R^2\}$
+because:
+\begin{enumerate}[nosep]
+  \item $C_{\mu\nu\rho\sigma}$ is traceless, so $C^2$ projects onto
+    pure spin-2.
+  \item The Gauss--Bonnet identity in $d=4$:
+    \begin{equation}\label{eq:GB}
+      E_4 = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+      - 4\Ricsq + R^2
+    \end{equation}
+    is topological ($\int\sqrt{g}\,E_4 = 32\pi^2\chi(M)$) and does
+    not contribute to the equations of motion.
+  \item Conversion:
+    \begin{equation}\label{eq:Weyl-decomp}
+      \Weylsq = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+      - 2\Ricsq + \tfrac{1}{3}R^2.
+    \end{equation}
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Alternative Ricci--scalar basis]
+\label{rem:alt-basis}
+\fromlit{Calcagni--Modesto 2211.05606, Eq.~(NLGActionGeneral)}
+The general nonlocal gravity action in the
+$\{R_{\mu\nu\rho\sigma}^2, R_{\mu\nu}^2, R^2\}$ basis reads:
+\begin{equation}\label{eq:NLG-general}
+  S_{\mathrm{NLG}} = \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \big[
+    R + R\,\gamma_0(\Box)\,R
+    + R_{\mu\nu}\,\gamma_2(\Box)\,R^{\mu\nu}
+    + R_{\mu\nu\rho\sigma}\,\gamma_4(\Box)\,R^{\mu\nu\rho\sigma}
+  \big].
+\end{equation}
+Using the Gauss--Bonnet identity~\eqref{eq:GB} to eliminate
+$R_{\mu\nu\rho\sigma}^2$, this becomes:
+\begin{equation}
+  S = \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \big[
+    R + R\,\tilde{\gamma}_0(\Box)\,R
+    + R_{\mu\nu}\,\tilde{\gamma}_2(\Box)\,R^{\mu\nu}
+  \big]
+  + \text{topological},
+\end{equation}
+with $\tilde{\gamma}_0 = \gamma_0 - \gamma_4$ and
+$\tilde{\gamma}_2 = \gamma_2 + 4\gamma_4$.
+
+To map to our $\{C^2, R^2\}$ basis, one uses
+\eqref{eq:Weyl-decomp} to express:
+\begin{equation}\label{eq:basis-map}
+  \alpha\,\Weylsq + \beta\,R^2
+  = \alpha\,R_{\mu\nu\rho\sigma}^2
+  - 2\alpha\,\Ricsq
+  + \left(\beta + \tfrac{\alpha}{3}\right)R^2.
+\end{equation}
+Matching: $\gamma_4 = \alpha$, $\gamma_2 = -2\alpha$,
+$\gamma_0 = \beta + \alpha/3$.
+\end{remark}
+
+
+\subsection{Input coefficients from Phase~3}
+
+\fromlit{NT-1b Phase~3}
+\begin{align}
+  \alpha_C &= 16\pi^2 F_1(0) = \frac{13}{120},
+  \label{eq:alpha_C}\\
+  \alpha_R(\xi) &= 16\pi^2 F_2(0,\xi) = 2\left(\xi-\frac{1}{6}\right)^2.
+  \label{eq:alpha_R}
+\end{align}
+In the $\{R^2, R_{\mu\nu}^2\}$ basis:
+\begin{equation}\label{eq:c1c2}
+  c_2 = 2\alpha_C = \frac{13}{60}, \qquad
+  3c_1 + c_2 = 6\left(\xi-\frac{1}{6}\right)^2.
+\end{equation}
+
+\verified{$\alpha_C = 13/120$ and $\alpha_R(\xi) = 2(\xi-1/6)^2$
+confirmed by NT-1b Phase~3 (354/354 checks PASS).}
+
+\subsection{The normalized form factors}
+
+\begin{definition}[Normalized form factors]
+\label{def:Fhat}
+\oursign\;
+\begin{equation}
+  \hat{F}_i(z) = \frac{F_i(z)}{F_i(0)}, \qquad \hat{F}_i(0) = 1.
+\end{equation}
+\end{definition}
+
+The master function underlying all form factors is:
+\begin{equation}\label{eq:phi-master}
+  \varphi(z) = e^{-z/4}\sqrt{\frac{\pi}{z}}\,\erfi\!\left(\frac{\sqrt{z}}{2}\right),
+  \qquad \varphi(0) = 1, \quad \varphi'(0) = -\frac{1}{6}.
+\end{equation}
+The Taylor coefficients are $a_n = (-1)^n n!/(2n+1)!$ (NT-2, verified
+entire).
+
+
+%%======================================================================
+\section{Local Benchmark: Stelle's Nonlinear Field Equations}
+\label{sec:stelle}
+%%======================================================================
+
+The local limit $F_1 \to F_1(0)$, $F_2 \to F_2(0)$ must reproduce
+Stelle's fourth-order gravity.  This section documents the exact
+nonlinear field equations from Stelle's 1977--1978
+papers~\cite{Stelle1977,Stelle1978}.
+
+\subsection{The Stelle action and field equations}
+
+\begin{convention}[Stelle action]
+\label{conv:stelle}
+\fromlit{Stelle, Phys.\ Rev.\ D \textbf{16} (1977) 953;
+Gen.\ Rel.\ Grav.\ \textbf{9} (1978) 353}
+\begin{equation}\label{eq:stelle-action}
+  S_{\mathrm{Stelle}} = \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \left[R + \alpha\,\Weylsq + \beta\,R^2\right].
+\end{equation}
+\end{convention}
+
+\begin{theorem}[Stelle's nonlinear field equations]
+\label{thm:stelle-eom}
+\fromlit{Stelle 1978, Eqs.~(3.2)--(3.5)}
+The metric variation $\delta S_{\mathrm{Stelle}}/\delta g^{\mu\nu} = 0$
+gives:
+\begin{equation}\label{eq:stelle-eom}
+  \boxed{
+    G_{\mu\nu} + 2\alpha\,B_{\mu\nu} + \beta\,H_{\mu\nu}
+    = \kappa^2 T_{\mu\nu},
+  }
+\end{equation}
+where the \textbf{Bach tensor} $B_{\mu\nu}$ and the
+\textbf{scalar curvature tensor} $H_{\mu\nu}$ are:
+\begin{align}
+  B_{\mu\nu} &= \nabla^\rho\nabla^\sigma C_{\mu\rho\nu\sigma}
+    + \frac{1}{2}R^{\rho\sigma}C_{\mu\rho\nu\sigma},
+  \label{eq:bach}\\[6pt]
+  H_{\mu\nu} &= 2\nabla_\mu\nabla_\nu R - 2g_{\mu\nu}\Box R
+    - \frac{1}{2}g_{\mu\nu}R^2 + 2R\,R_{\mu\nu}.
+  \label{eq:H-tensor}
+\end{align}
+\end{theorem}
+
+\begin{remark}[Alternative forms of the Bach tensor]
+\label{rem:bach-alt}
+\fromlit{Stelle 1978; Bach 1921}
+Using the Bianchi identity, the Bach tensor can be rewritten as:
+\begin{equation}\label{eq:bach-alt}
+  B_{\mu\nu} = \Box R_{\mu\nu} - \frac{1}{3}\nabla_\mu\nabla_\nu R
+    - \frac{1}{6}g_{\mu\nu}\Box R
+    + R_{\mu\rho\nu\sigma}R^{\rho\sigma}
+    - \frac{1}{3}R\,R_{\mu\nu}
+    - \frac{1}{4}g_{\mu\nu}\left(\Ricsq - \frac{1}{3}R^2\right).
+\end{equation}
+This form makes the fourth-derivative (quasi-linear) structure manifest:
+$B_{\mu\nu}$ contains $\Box R_{\mu\nu}$ (four derivatives of $g$) as
+its leading term.
+
+The Bach tensor is traceless in $d = 4$:
+\begin{equation}\label{eq:bach-trace}
+  g^{\mu\nu}B_{\mu\nu} = 0.
+\end{equation}
+This follows from the conformal invariance of $\int\sqrt{g}\,\Weylsq$.
+\end{remark}
+
+\begin{remark}[Properties of $H_{\mu\nu}$]
+\label{rem:H-props}
+\fromlit{Stelle 1978}
+The trace of $H_{\mu\nu}$ is:
+\begin{equation}\label{eq:H-trace}
+  g^{\mu\nu}H_{\mu\nu} = -6\Box R.
+\end{equation}
+The divergence satisfies:
+\begin{equation}\label{eq:H-div}
+  \nabla^\mu H_{\mu\nu} = 0,
+\end{equation}
+which ensures $\nabla^\mu(G_{\mu\nu} + 2\alpha B_{\mu\nu}
++ \beta H_{\mu\nu}) = 0$ (Bianchi identity for the full equations).
+\end{remark}
+
+\signcorrection{Some references define $B_{\mu\nu}$ with the opposite
+sign convention.  Our convention follows Stelle (1978) and
+Parker--Toms (2009), where $\delta(\Weylsq)/\delta g^{\mu\nu}
+= 2B^{\mu\nu}$ (with the factor 2 absorbed into the coefficient
+$\alpha$).  Other references (e.g., Oliva--Ray 2010) define
+$B_{\mu\nu}$ such that $\delta(\Weylsq)/\delta g^{\mu\nu}
+= -2B^{\mu\nu}$.  The sign must be tracked carefully in NT-4b.}
+
+
+\subsection{Variation of the Gauss--Bonnet term}
+
+\begin{proposition}[Gauss--Bonnet variation in $d=4$]
+\label{prop:GB-var}
+\exactlit\;
+\fromlit{Padmanabhan, ``Gravitation,'' Ch.~15; Lovelock 1971}
+In $d = 4$, the Gauss--Bonnet combination $E_4$ is topological:
+\begin{equation}\label{eq:GB-var}
+  \frac{\delta}{\delta g^{\mu\nu}}\int\dd^4 x\,\sqrt{|g|}\,E_4 = 0.
+\end{equation}
+This identity is crucial: it means that any basis conversion between
+$\{R_{\mu\nu\rho\sigma}^2, \Ricsq, R^2\}$ and $\{\Weylsq, R^2\}$
+does not generate additional equations-of-motion contributions.
+\end{proposition}
+
+
+\subsection{Individual curvature-squared variations (local)}
+
+For reference and as building blocks for the nonlocal case, we record
+the local metric variations of each curvature-squared invariant.
+
+\begin{proposition}[Metric variation of curvature-squared terms]
+\label{prop:curv-sq-var}
+\fromlit{Padmanabhan Ch.~15; Parker--Toms App.~B;
+Boulware--Deser, Phys.\ Rev.\ Lett.\ \textbf{55} (1985) 2656}
+\begin{align}
+  \frac{1}{\sqrt{g}}\frac{\delta(\sqrt{g}\,R^2)}{\delta g^{\mu\nu}}
+  &= 2\nabla_\mu\nabla_\nu R - 2g_{\mu\nu}\Box R
+    + 2R\,R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R^2
+  \notag\\
+  &\equiv H_{\mu\nu},
+  \label{eq:var-R2}\\[6pt]
+  \frac{1}{\sqrt{g}}\frac{\delta(\sqrt{g}\,\Ricsq)}{\delta g^{\mu\nu}}
+  &= \Box R_{\mu\nu} + \frac{1}{2}g_{\mu\nu}\Box R
+    - \nabla_\mu\nabla_\nu R
+    + 2R_{\mu\rho\nu\sigma}R^{\rho\sigma}
+    - \frac{1}{2}g_{\mu\nu}\Ricsq,
+  \label{eq:var-Ric2}\\[6pt]
+  \frac{1}{\sqrt{g}}\frac{\delta(\sqrt{g}\,\Rsq)}{\delta g^{\mu\nu}}
+  &= 4\Box R_{\mu\nu} + 4g_{\mu\nu}\Box R
+    - 6\nabla_\mu\nabla_\nu R
+    + 8R_{\mu\rho\nu\sigma}R^{\rho\sigma}
+    - 2g_{\mu\nu}\Ricsq
+  \notag\\
+  &\quad + \frac{1}{2}g_{\mu\nu}R^2
+    - 2R\,R_{\mu\nu}.
+  \label{eq:var-Riem2}
+\end{align}
+\end{proposition}
+
+\begin{remark}[Relation between variations]
+Using the Gauss--Bonnet identity~\eqref{eq:GB-var}, the three
+variations~\eqref{eq:var-R2}--\eqref{eq:var-Riem2} satisfy:
+\begin{equation}
+  \frac{\delta(\sqrt{g}\,\Rsq)}{\delta g^{\mu\nu}}
+  - 4\frac{\delta(\sqrt{g}\,\Ricsq)}{\delta g^{\mu\nu}}
+  + \frac{\delta(\sqrt{g}\,R^2)}{\delta g^{\mu\nu}} = 0.
+\end{equation}
+This provides a consistency check on all three formulas.
+\end{remark}
+
+
+%%======================================================================
+\section{Nonlocal Variation: The Central Problem}
+\label{sec:nonlocal-variation}
+%%======================================================================
+
+\subsection{Why the variation is nontrivial}
+
+For a local action $S = \int\sqrt{g}\,A\cdot B$ where $A$ and $B$ are
+curvature scalars, the variation is simply
+$\delta S/\delta g^{\mu\nu} = (\delta A/\delta g^{\mu\nu})\cdot B
++ A\cdot(\delta B/\delta g^{\mu\nu}) + \ldots$
+
+For a \emph{nonlocal} action
+\begin{equation}\label{eq:nonlocal-action-schematic}
+  S = \int\sqrt{g}\,A\,F(\Box)\,B,
+\end{equation}
+the variation generates an additional term because $\Box$ depends on
+$g^{\mu\nu}$:
+\begin{equation}\label{eq:central-difficulty}
+  \frac{\delta}{\delta g^{\mu\nu}}\big[A\,F(\Box)\,B\big]
+  = \frac{\delta A}{\delta g^{\mu\nu}}\,F(\Box)\,B
+  + A\,F(\Box)\,\frac{\delta B}{\delta g^{\mu\nu}}
+  + A\,\frac{\delta F(\Box)}{\delta g^{\mu\nu}}\,B.
+\end{equation}
+The third term requires computing
+$\delta F(\Box)/\delta g^{\mu\nu}$, which involves
+$\delta\Box/\delta g^{\mu\nu}$.  Since $F$ is a function (not just
+$\Box$ itself), this requires the ``$\alpha$-insertion formula''
+from the Barvinsky--Vilkovisky formalism.
+
+\subsection{Variation of $\sqrt{g}$}
+
+\begin{proposition}[Fundamental metric variations]
+\label{prop:metric-var}
+\exactlit\;
+\begin{align}
+  \frac{\delta g_{\alpha\beta}}{\delta g^{\mu\nu}}
+  &= -\frac{1}{2}(g_{\alpha\mu}g_{\beta\nu}
+    + g_{\alpha\nu}g_{\beta\mu}),
+  \label{eq:delta-g-lower}\\[4pt]
+  \frac{\delta\sqrt{|g|}}{\delta g^{\mu\nu}}
+  &= -\frac{1}{2}\sqrt{|g|}\,g_{\mu\nu},
+  \label{eq:delta-sqrtg}\\[4pt]
+  \frac{\delta R}{\delta g^{\mu\nu}}
+  &= R_{\mu\nu} + g_{\mu\nu}\Box - \nabla_\mu\nabla_\nu,
+  \label{eq:delta-R}\\[4pt]
+  \frac{\delta R_{\alpha\beta}}{\delta g^{\mu\nu}}
+  &= \frac{1}{2}\big(
+    g_{\alpha\mu}\,\nabla_\nu\nabla_\beta
+    + g_{\alpha\nu}\,\nabla_\mu\nabla_\beta
+    + \nabla_\alpha\nabla_\mu\,g_{\beta\nu}
+    + \nabla_\alpha\nabla_\nu\,g_{\beta\mu}
+  \notag\\
+  &\quad - \Box\,g_{\alpha(\mu}g_{\nu)\beta}
+    - g_{\alpha\beta}\nabla_\mu\nabla_\nu
+    - R_{\alpha(\mu\nu)\beta}
+  \big).
+  \label{eq:delta-Ricci}
+\end{align}
+These are standard identities; see
+Parker--Toms~\cite{ParkerToms2009} App.~B.
+\end{proposition}
+
+
+\subsection{Variation of the covariant d'Alembertian}
+
+\begin{proposition}[Variation of $\Box$ acting on a scalar $\phi$]
+\label{prop:delta-box}
+\fromlit{Barvinsky--Vilkovisky, Phys.\ Rep.\ \textbf{119} (1985);
+Deser--Woodard 2007}
+\begin{equation}\label{eq:delta-box}
+  \delta[\Box\phi] = (\delta g^{\mu\nu})\nabla_\mu\nabla_\nu\phi
+    + g^{\mu\nu}\,\delta\Gamma^\rho_{\mu\nu}\,\nabla_\rho\phi,
+\end{equation}
+where
+\begin{equation}\label{eq:delta-Gamma}
+  \delta\Gamma^\rho_{\mu\nu} = \frac{1}{2}g^{\rho\sigma}\big(
+    \nabla_\mu\delta g_{\nu\sigma}
+    + \nabla_\nu\delta g_{\mu\sigma}
+    - \nabla_\sigma\delta g_{\mu\nu}\big).
+\end{equation}
+For the specific variation $\delta g^{\mu\nu} = h^{\mu\nu}$ and
+working to all orders on curved background, the key identity is:
+\begin{equation}\label{eq:delta-box-scalar}
+  \frac{\delta(\Box\phi)}{\delta g^{\mu\nu}}
+  = \nabla_\mu\nabla_\nu\phi
+    + \frac{1}{2}g_{\mu\nu}\,g^{\rho\sigma}\nabla_\rho\nabla_\sigma\phi\cdot(\ldots)
+    + \text{connection terms}.
+\end{equation}
+\end{proposition}
+
+\begin{remark}[Operator-level variation]
+\label{rem:op-level}
+At the operator level (acting on an arbitrary tensor), the variation
+$\delta\Box/\delta g^{\mu\nu}$ is itself a differential operator.
+This is what makes the problem fundamentally different from varying
+a local action: $\delta F(\Box)/\delta g^{\mu\nu}$ involves an
+\emph{integral} over the spectrum of $\Box$.
+\end{remark}
+
+
+%%======================================================================
+\section{The $\alpha$-Insertion Formula (Barvinsky--Vilkovisky)}
+\label{sec:alpha-insertion}
+%%======================================================================
+
+This section documents the key technique for varying nonlocal actions.
+
+\subsection{The fundamental identity}
+
+\begin{theorem}[$\alpha$-insertion formula]
+\label{thm:alpha-insertion}
+\fromlit{Barvinsky--Vilkovisky, Nucl.\ Phys.\ B \textbf{282} (1987)
+163; B \textbf{333} (1990) 471}
+
+Let $F(\Box)$ be an analytic function of the covariant d'Alembertian
+$\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$, and let $A$, $B$ be scalar
+fields (or more generally, sections of some vector bundle).  Then the
+variation of $A\,F(\Box)\,B$ with respect to $g^{\mu\nu}$ is:
+\begin{equation}\label{eq:alpha-insertion}
+  \boxed{
+  \delta\big[A\,F(\Box)\,B\big]
+  = (\delta A)\,F(\Box)\,B
+  + A\,F(\Box)\,(\delta B)
+  + \int_0^1\!\dd\alpha\;
+    \big[e^{\alpha\Box}A\big]\,
+    F'_\alpha(\Box)\,(\delta\Box)\,
+    \big[e^{(1-\alpha)\Box}B\big],
+  }
+\end{equation}
+where the notation $F'_\alpha$ denotes the ``$\alpha$-deformed
+derivative'' defined via the integral representation:
+\begin{equation}\label{eq:F-alpha-def}
+  F'_\alpha(\Box) = \frac{F(\Box_1) - F(\Box_2)}{\Box_1 - \Box_2}
+  \bigg|_{\substack{\Box_1 = \alpha\Box \\ \Box_2 = (1-\alpha)\Box}}.
+\end{equation}
+\end{theorem}
+
+\begin{remark}[Simplification for entire functions]
+\label{rem:entire-simplification}
+If $F(z) = \sum_{n=0}^\infty c_n z^n$ is an entire function (as is the
+case for the SCT form factors, by NT-2), then the $\alpha$-insertion
+formula can be written as a sum over the Taylor coefficients:
+\begin{equation}\label{eq:alpha-taylor}
+  \int_0^1\dd\alpha\;\big[e^{\alpha\Box}A\big]\,
+  (\delta\Box)\,\big[e^{(1-\alpha)\Box}B\big]
+  \cdot F'_\alpha(\Box)
+  = \sum_{n=1}^\infty c_n \sum_{k=0}^{n-1}
+    (\Box^k A)\,(\delta\Box)\,(\Box^{n-1-k} B).
+\end{equation}
+This is the ``Leibniz rule for $F(\Box)$,'' generalizing the standard
+Leibniz rule for $\Box^n$.
+\end{remark}
+
+\begin{remark}[Physical meaning]
+\label{rem:alpha-meaning}
+The parameter $\alpha \in [0,1]$ interpolates between ``$A$ evaluated
+at the full nonlocal scale'' and ``$B$ evaluated at the full nonlocal
+scale.''  The $\alpha$-insertion accounts for the fact that on a curved
+background, the ``nonlocal smearing'' generated by $F(\Box)$ interacts
+with the geometry at all intermediate scales.
+\end{remark}
+
+\gap\; The precise form of the $\alpha$-insertion formula for
+\emph{tensor-valued} form factors (where $\Box$ acts on rank-2 tensors
+rather than scalars) requires additional curvature correction terms.
+On a general curved background, the commutator
+$[\nabla_\mu, \nabla_\nu]V_\rho = R_{\mu\nu\rho}{}^\sigma V_\sigma$
+generates Riemann tensor insertions.  These must be tracked in the
+NT-4b derivation.
+
+
+\subsection{Variation of $R\,F(\Box)\,R$}
+
+\begin{proposition}[Variation of the $R^2$ nonlocal term]
+\label{prop:var-RFR}
+\fromlit{Deser--Woodard 2007; Nojiri--Odintsov 2008;
+Calcagni--Modesto 2211.05606}
+
+The variation of $S_{R^2} = \int\sqrt{g}\,R\,F(\Box)\,R$ with respect
+to $g^{\mu\nu}$ gives:
+\begin{equation}\label{eq:var-RFR}
+\begin{split}
+  \frac{1}{\sqrt{g}}\frac{\delta S_{R^2}}{\delta g^{\mu\nu}}
+  &= R_{\mu\nu}\,F(\Box)\,R
+    + R\,F(\Box)\,R_{\mu\nu}
+    - \frac{1}{2}g_{\mu\nu}\,R\,F(\Box)\,R \\
+  &\quad + 2\nabla_\mu\nabla_\nu[F(\Box)\,R]
+    - 2g_{\mu\nu}\Box[F(\Box)\,R] \\
+  &\quad + g_{\mu\nu}\nabla_\rho[R\,\nabla^\rho F(\Box)\,R]
+    - \nabla_\mu[R\,\nabla_\nu F(\Box)\,R]
+    - \nabla_\nu[R\,\nabla_\mu F(\Box)\,R] \\
+  &\quad + \Theta_{\mu\nu}^{(R)}[R, F(\Box), R].
+\end{split}
+\end{equation}
+The first line contains the ``naive'' variation of $A$ and $B$
+plus the metric determinant.  The second line contains the
+$\delta R/\delta g^{\mu\nu}$ contributions (generating $\nabla\nabla$
+and $\Box$ terms).  The third and fourth lines contain the
+$\alpha$-insertion terms $\Theta_{\mu\nu}^{(R)}$ from
+$\delta\Box/\delta g^{\mu\nu}$:
+\begin{equation}\label{eq:Theta-R}
+  \Theta_{\mu\nu}^{(R)}
+  = -\sum_{n=1}^\infty c_n \sum_{k=0}^{n-1}
+    \Big[
+      \nabla_\mu(\Box^k R)\,\nabla_\nu(\Box^{n-1-k} R)
+      - \frac{1}{2}g_{\mu\nu}\,
+        \nabla_\rho(\Box^k R)\,\nabla^\rho(\Box^{n-1-k} R)
+    \Big],
+\end{equation}
+where $F(z) = \sum c_n z^n$.  In closed form (using the
+$\alpha$-representation):
+\begin{equation}\label{eq:Theta-R-closed}
+  \Theta_{\mu\nu}^{(R)} = -\int_0^1\!\dd\alpha\;
+    \Big[
+      \nabla_\mu\Phi_\alpha\,\nabla_\nu\Psi_{1-\alpha}
+      - \frac{1}{2}g_{\mu\nu}\,
+        \nabla_\rho\Phi_\alpha\,\nabla^\rho\Psi_{1-\alpha}
+    \Big],
+\end{equation}
+where $\Phi_\alpha = e^{\alpha\Box}R$ and
+$\Psi_{1-\alpha} = F'_\alpha(\Box)\,e^{(1-\alpha)\Box}R$.
+\end{proposition}
+
+\begin{remark}[Local limit check]
+When $F(\Box) \to \beta$ (constant), all the $\Theta$ terms vanish
+(since $F' = 0$ for constant $F$), and we recover:
+\begin{equation}
+  \frac{1}{\sqrt{g}}\frac{\delta}{\delta g^{\mu\nu}}
+  \int\sqrt{g}\,\beta R^2
+  = 2\beta\,H_{\mu\nu},
+\end{equation}
+which matches~\eqref{eq:H-tensor}.  This is a mandatory consistency
+check.
+\end{remark}
+
+
+\subsection{Variation of $\Weylsq F(\Box)\,\Weylsq$ (nonlocal Bach)}
+
+The variation of the Weyl-squared term is more involved because the
+Weyl tensor has four indices.
+
+\begin{proposition}[Variation of the nonlocal Weyl term]
+\label{prop:var-C2FC2}
+\fromlit{Stelle 1978 (local limit);
+Calcagni--Modesto 2211.05606 (nonlocal case);
+Giacchini--de~Paula~Netto 2021}
+
+Schematically, the variation of
+$S_{C^2} = \int\sqrt{g}\,C_{\mu\nu\rho\sigma}\,F(\Box)\,C^{\mu\nu\rho\sigma}$
+yields:
+\begin{equation}\label{eq:var-C2}
+\begin{split}
+  \frac{1}{\sqrt{g}}\frac{\delta S_{C^2}}{\delta g^{\mu\nu}}
+  &= 2\,B_{\mu\nu}^{(F)}
+    - \frac{1}{2}g_{\mu\nu}\,C_{\alpha\beta\gamma\delta}\,
+      F(\Box)\,C^{\alpha\beta\gamma\delta} \\
+  &\quad + \Theta_{\mu\nu}^{(C)}[C_{\rho\sigma\alpha\beta},
+    F(\Box), C^{\rho\sigma\alpha\beta}],
+\end{split}
+\end{equation}
+where $B_{\mu\nu}^{(F)}$ is the \textbf{nonlocal Bach tensor}:
+\begin{equation}\label{eq:nonlocal-bach}
+  B_{\mu\nu}^{(F)} = \nabla^\rho\nabla^\sigma
+    \big[F(\Box)\,C_{\mu\rho\nu\sigma}\big]
+    + \frac{1}{2}R^{\rho\sigma}\,F(\Box)\,C_{\mu\rho\nu\sigma}
+    + (\text{mixed terms}),
+\end{equation}
+generalizing the local Bach tensor~\eqref{eq:bach} by replacing
+the curvature $C$ with $F(\Box)\,C$.
+
+The $\Theta_{\mu\nu}^{(C)}$ terms are the $\alpha$-insertion
+contributions from the variation of $\Box$ inside $F(\Box)$ when
+it acts on the four-index Weyl tensor.  These are structurally
+analogous to~\eqref{eq:Theta-R} but involve the full four-index
+tensor structure.
+\end{proposition}
+
+\gap\; The explicit closed-form expression for
+$\Theta_{\mu\nu}^{(C)}$ is not available in a single reference in the
+$\{C^2, R^2\}$ basis.  Most references work in the
+$\{R_{\mu\nu}^2, R^2\}$ or $\{G_{\mu\nu}, R^{\mu\nu}\}$ basis
+(see Calcagni--Modesto~\cite{CalcagniModesto2022}), and the translation
+to the Weyl basis requires using~\eqref{eq:Weyl-decomp} plus the
+Gauss--Bonnet identity.  This translation must be performed carefully
+in the NT-4b derivation.
+
+
+%%======================================================================
+\section{Nonlocal Gravity in the $G_{\mu\nu}\gamma(\Box)R^{\mu\nu}$ Basis}
+\label{sec:NLG-basis}
+%%======================================================================
+
+An alternative approach, used extensively in the IDG literature, writes
+the action in terms of the Einstein tensor.
+
+\subsection{The simplified action}
+
+\begin{convention}[Calcagni--Modesto simplified action]
+\label{conv:CMN-action}
+\fromlit{Calcagni--Modesto 2211.05606, Eq.~(simplifiedNLGActionF)}
+With the choice $\gamma_2 = -2\gamma_0 \equiv \gamma(\Box)$ and
+$\gamma_4 = 0$:
+\begin{equation}\label{eq:NLG-simplified}
+  S_{\mathrm{NLG}} = \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \big[R + G_{\mu\nu}\,\gamma(\Box)\,R^{\mu\nu}\big].
+\end{equation}
+\end{convention}
+
+\begin{theorem}[Equations of motion in the $G\gamma R$ basis]
+\label{thm:NLG-eom}
+\fromlit{Calcagni--Modesto 2211.05606, Eq.~(EOMsNLG);
+Calcagni--Modesto--Leszczyszyn 2018}
+The field equations derived from~\eqref{eq:NLG-simplified} are:
+\begin{equation}\label{eq:NLG-eom}
+\begin{split}
+  \kappa^2 T_{\mu\nu} = {}
+  &e^{-r_*\Box}G_{\mu\nu}
+    - \frac{1}{2}g_{\mu\nu}\,G_{\rho\sigma}\,\gamma(\Box)\,R^{\rho\sigma}
+    + 2G^\rho{}_{(\mu}\,\gamma(\Box)\,G_{\nu)\rho} \\
+  &+ g_{\mu\nu}\nabla^\rho\nabla^\sigma\gamma(\Box)\,G_{\rho\sigma}
+    - 2\nabla^\rho\nabla_{(\mu}\gamma(\Box)\,G_{\nu)\rho} \\
+  &+ \frac{1}{2}\big(
+      G_{\mu\nu}\,\gamma(\Box)\,R
+      + R\,\gamma(\Box)\,G_{\mu\nu}
+    \big) \\
+  &+ \Theta_{\mu\nu}(R_{\rho\sigma}, G^{\rho\sigma}),
+\end{split}
+\end{equation}
+where $\Theta_{\mu\nu}$ contains the $\alpha$-insertion contributions.
+For the Wataghin/minimal form factor $\gamma(\Box) = (e^{-r_*\Box}-1)/\Box$:
+\begin{equation}\label{eq:Theta-CMN}
+  \Theta_{\mu\nu}(R_{\rho\sigma}, G^{\rho\sigma})
+  = -\int_0^{r_*}\!\dd q\;
+    \tilde{\Theta}_{\mu\nu}\!\left[
+      e^{-q\Box}R_{\rho\sigma},\;
+      \frac{e^{-(r_*-q)\Box}-1}{\Box}\,G^{\rho\sigma}
+    \right],
+\end{equation}
+with:
+\begin{align}
+  \tilde{\Theta}_{\mu\nu}^{\mathrm{sym}}(A_{\rho\sigma}, B^{\rho\sigma})
+  &= -\nabla_\mu A_{\rho\sigma}\,\nabla_\nu B^{\rho\sigma}
+    + \frac{1}{4}g_{\mu\nu}\,
+      \nabla_\tau(A_{\rho\sigma}\nabla^\tau B^{\rho\sigma}
+      + B^{\rho\sigma}\nabla^\tau A_{\rho\sigma}),
+  \label{eq:Theta-sym}\\[6pt]
+  \tilde{\Theta}_{\mu\nu}^{\mathrm{antisym}}(A_{\rho\sigma}, B^{\rho\sigma})
+  &= \frac{1}{4}g_{\mu\nu}\,
+      \nabla_\tau(A_{\rho\sigma}\nabla^\tau B^{\rho\sigma}
+      - B^{\rho\sigma}\nabla^\tau A_{\rho\sigma})
+  \notag\\
+  &\quad + \nabla_\rho(A_{\mu\sigma}\nabla^\rho B^\sigma{}_\nu
+    - B^\sigma{}_\nu\nabla^\rho A_{\mu\sigma})
+  \notag\\
+  &\quad + \nabla_\sigma(B_{\mu\rho}\nabla_\nu A^{\rho\sigma}
+    - A^{\rho\sigma}\nabla_\nu B_{\mu\rho})
+  \notag\\
+  &\quad + \nabla_\rho(A_{\mu\sigma}\nabla_\nu B^{\sigma\rho}
+    - B^{\sigma\rho}\nabla_\nu A_{\mu\sigma}).
+  \label{eq:Theta-antisym}
+\end{align}
+Here indices $\mu$ and $\nu$ are implicitly symmetrized.
+\end{theorem}
+
+\begin{remark}[Recovery of Einstein's equations]
+Setting $\gamma(\Box) = 0$ (i.e., $r_* = 0$), all nonlocal terms
+vanish and~\eqref{eq:NLG-eom} reduces to $G_{\mu\nu} = \kappa^2 T_{\mu\nu}$.
+\end{remark}
+
+\begin{remark}[Ricci-flat solutions]
+\fromlit{Calcagni--Modesto 2211.05606, \S~SecRicciFlat}
+If $R_{\mu\nu} = 0$ (hence $G_{\mu\nu} = 0$), then all terms
+in~\eqref{eq:NLG-eom} vanish and the vacuum Einstein solutions
+(Schwarzschild, Kerr) remain exact solutions of the nonlocal theory
+when $\gamma_4 = 0$.  This is an important structural property.
+\end{remark}
+
+
+\subsection{Mapping to the SCT $\{C^2, R^2\}$ basis}
+
+\begin{proposition}[Basis translation]
+\label{prop:basis-translation}
+\needscheck\;
+The SCT action~\eqref{eq:Squad} in the $\{C^2, R^2\}$ basis maps
+to the general action~\eqref{eq:NLG-general} via:
+\begin{align}
+  \gamma_4 &= \frac{1}{16\pi^2}\,F_1\!\left(\frac{\Box}{\Lambda^2}\right),
+  \label{eq:gamma4}\\
+  \gamma_2 &= -\frac{2}{16\pi^2}\,F_1\!\left(\frac{\Box}{\Lambda^2}\right),
+  \label{eq:gamma2}\\
+  \gamma_0 &= \frac{1}{16\pi^2}\left[
+    F_2\!\left(\frac{\Box}{\Lambda^2},\xi\right)
+    + \frac{1}{3}F_1\!\left(\frac{\Box}{\Lambda^2}\right)
+  \right].
+  \label{eq:gamma0}
+\end{align}
+Note that the Calcagni--Modesto simplified form~\eqref{eq:NLG-simplified}
+uses $\gamma_4 = 0$, which does \emph{not} match the SCT action (where
+$\gamma_4 \neq 0$ corresponds to the Weyl term).  Therefore, the
+equations~\eqref{eq:NLG-eom} cannot be used directly for the SCT case.
+Instead, one must either:
+\begin{enumerate}[nosep,label=(\alph*)]
+  \item Use the general action~\eqref{eq:NLG-general} with all three
+    form factors, or
+  \item Work directly in the $\{C^2, R^2\}$ basis and vary each term
+    separately.
+\end{enumerate}
+We recommend approach~(b) for NT-4b, as it maintains the clean
+spin-2/spin-0 separation throughout.
+\end{proposition}
+
+
+%%======================================================================
+\section{Key Identities for the Nonlinear Variation}
+\label{sec:identities}
+%%======================================================================
+
+\subsection{Commutator of $\Box$ with curvature tensors}
+
+\begin{proposition}[Commutation relations]
+\label{prop:commutators}
+\fromlit{Avramidi, ``Heat Kernel and Quantum Gravity'' (2000), Ch.~3;
+Parker--Toms Ch.~6}
+On curved backgrounds, the covariant d'Alembertian does not commute
+with curvature tensors.  The key relations are:
+\begin{align}
+  [\nabla_\mu, \nabla_\nu]\phi &= 0
+    \quad\text{(scalar)},
+  \label{eq:comm-scalar}\\
+  [\nabla_\mu, \nabla_\nu]V_\rho &= R_{\mu\nu\rho}{}^\sigma V_\sigma,
+  \label{eq:comm-vector}\\
+  [\nabla_\mu, \nabla_\nu]T_{\rho\sigma}
+  &= R_{\mu\nu\rho}{}^\alpha T_{\alpha\sigma}
+    + R_{\mu\nu\sigma}{}^\alpha T_{\rho\alpha},
+  \label{eq:comm-tensor}\\
+  [\Box, \nabla_\mu]\phi
+  &= R_{\mu\nu}\nabla^\nu\phi,
+  \label{eq:box-nabla-scalar}\\
+  [\Box, \nabla_\mu]V_\nu
+  &= R_{\mu\rho}\nabla^\rho V_\nu
+    + R_{\mu\nu}{}^{\rho\sigma}\nabla_\rho V_\sigma
+    + (\nabla^\rho R_{\mu\rho\nu}{}^\sigma) V_\sigma.
+  \label{eq:box-nabla-vector}
+\end{align}
+\end{proposition}
+
+\begin{remark}[Implications for NT-4b]
+The commutator $[\Box, \nabla]$ generates Ricci and Riemann insertions
+every time one moves $\Box$ past a covariant derivative.  In the
+$\alpha$-insertion formula, this means the $\Theta_{\mu\nu}$ terms
+receive curvature corrections at every order.  For the SCT form factors
+(which are entire functions), these corrections are automatically
+encoded in the integral representation~\eqref{eq:Theta-R-closed}.
+\end{remark}
+
+
+\subsection{The Lichnerowicz operator}
+
+\begin{definition}[Lichnerowicz operator]
+\label{def:lichnerowicz}
+\fromlit{Calcagni--Modesto 2211.05606; Lichnerowicz 1961}
+Acting on a symmetric rank-2 tensor $\psi_{\mu\nu}$:
+\begin{equation}\label{eq:lichnerowicz}
+  \Delta_L\psi_{\mu\nu}
+  = 2R^\rho{}_{\mu\nu}{}^\tau\psi_{\tau\rho}
+    + R_{\mu\rho}\psi^\rho{}_\nu
+    + R_{\sigma\nu}\psi^\sigma{}_\mu
+    - \Box\psi_{\mu\nu}.
+\end{equation}
+On a scalar: $\Delta_L\psi = -\Box\psi$.
+\end{definition}
+
+\begin{remark}[Role in stability]
+\fromlit{Calcagni--Modesto 2211.05606, \S~stabi}
+The Lichnerowicz operator encodes the curvature corrections to $\Box$
+when acting on tensors.  In the nonlocal theory, replacing
+$-\Box \to \Delta_L$ in the form factor gives a theory
+$\mathcal{L} = R + G_{\mu\nu}\gamma(\Delta_L)R^{\mu\nu}$ that shares
+the same linearized spectrum on Minkowski and inherits stability of
+Ricci-flat solutions to all perturbative orders.
+\end{remark}
+
+
+\subsection{Integration by parts with $F(\Box)$}
+
+\begin{proposition}[Self-adjointness of $\Box$]
+\label{prop:self-adjoint}
+\exactlit\;
+On a closed manifold (or with vanishing boundary terms):
+\begin{equation}\label{eq:box-selfadjoint}
+  \int\sqrt{g}\,A\,\Box B\,\dd^4 x
+  = \int\sqrt{g}\,(\Box A)\,B\,\dd^4 x
+  = -\int\sqrt{g}\,\nabla_\mu A\,\nabla^\mu B\,\dd^4 x.
+\end{equation}
+More generally, for an entire function $F(\Box)$:
+\begin{equation}\label{eq:F-selfadjoint}
+  \int\sqrt{g}\,A\,F(\Box)\,B\,\dd^4 x
+  = \int\sqrt{g}\,\big[F(\Box)\,A\big]\,B\,\dd^4 x.
+\end{equation}
+This self-adjointness is crucial for simplifying the field equations:
+terms like $R_{\mu\nu}\,F(\Box)\,R + R\,F(\Box)\,R_{\mu\nu}$ can be
+symmetrized.
+\end{proposition}
+
+
+%%======================================================================
+\section{Consistency Checks for the Full Nonlinear Equations}
+\label{sec:checks}
+%%======================================================================
+
+\subsection{Bianchi identity}
+
+\begin{proposition}[Diffeomorphism invariance]
+\label{prop:bianchi-full}
+\exactlit\;
+The full nonlinear equations must satisfy:
+\begin{equation}\label{eq:bianchi-full}
+  \nabla^\mu\left(\frac{1}{\sqrt{g}}\,
+  \frac{\delta S}{\delta g^{\mu\nu}}\right) = 0,
+\end{equation}
+identically (off-shell), as a consequence of the diffeomorphism
+invariance of $S$.  This is the fully nonlinear contracted Bianchi
+identity.
+
+In the local (Stelle) limit, this reduces to
+$\nabla^\mu(G_{\mu\nu} + 2\alpha B_{\mu\nu} + 2\beta H_{\mu\nu}) = 0$,
+which holds because $\nabla^\mu G_{\mu\nu} = 0$,
+$\nabla^\mu B_{\mu\nu} = 0$, and $\nabla^\mu H_{\mu\nu} = 0$
+individually.  For the nonlocal case, the
+$\alpha$-insertion terms $\Theta_{\mu\nu}$ must also be covariantly
+conserved:
+\begin{equation}
+  \nabla^\mu\Theta_{\mu\nu} = 0.
+\end{equation}
+\end{proposition}
+
+\subsection{Trace equation}
+
+\begin{proposition}[Conformal anomaly from the trace]
+\label{prop:trace}
+\fromlit{Deser--Duff--Isham 1976; Duff 1994}
+The trace $g^{\mu\nu}(\delta S/\delta g^{\mu\nu})$ of the field
+equations in the local limit gives:
+\begin{equation}\label{eq:trace-local}
+  g^{\mu\nu}(G_{\mu\nu} + 2\alpha B_{\mu\nu} + \beta H_{\mu\nu})
+  = -R + 0 + \beta(-6\Box R) = -R - 6\beta\Box R.
+\end{equation}
+The Bach tensor contribution vanishes ($B_{\mu\nu}$ is traceless).
+In the nonlocal case, the trace should reproduce the conformal anomaly
+structure when evaluated on conformally flat backgrounds.
+\end{proposition}
+
+
+\subsection{Linearized limit}
+
+\begin{proposition}[Recovery of NT-4a]
+\label{prop:linearized-limit}
+\oursign\;
+When the full nonlinear equations are linearized around flat space
+($g_{\mu\nu} = \delta_{\mu\nu} + h_{\mu\nu}$, $|h| \ll 1$), all
+nonlinear curvature terms (including the $\Theta_{\mu\nu}$ contributions)
+must vanish or reduce to their linearized forms, reproducing exactly:
+\begin{align}
+  \Pi_{\mathrm{TT}}(z) &= 1 + \frac{13}{60}\,z\,\hat{F}_1(z),\\
+  \Pi_s(z,\xi) &= 1 + 6\left(\xi-\frac{1}{6}\right)^2 z\,\hat{F}_2(z,\xi).
+\end{align}
+This is the most important consistency check: NT-4b must contain
+NT-4a as a special case.
+\end{proposition}
+
+
+\subsection{De Sitter solutions}
+
+\begin{proposition}[Maximally symmetric solutions]
+\label{prop:deSitter}
+\fromlit{Calcagni--Modesto 2211.05606, \S~sectionRF;
+Biswas--Mazumdar--Siegel 2006}
+On a maximally symmetric background (de~Sitter or anti-de~Sitter):
+\begin{equation}
+  R_{\mu\nu\rho\sigma} = \frac{R_0}{12}
+    (g_{\mu\rho}g_{\nu\sigma} - g_{\mu\sigma}g_{\nu\rho}),
+  \quad
+  R_{\mu\nu} = \frac{R_0}{4}g_{\mu\nu},
+  \quad
+  R = R_0 = \text{const}.
+\end{equation}
+The Weyl tensor vanishes: $C_{\mu\nu\rho\sigma} = 0$.  Therefore the
+$\Weylsq F(\Box)\Weylsq$ term contributes nothing, and the field
+equations reduce to:
+\begin{equation}
+  G_{\mu\nu} + \beta\,H_{\mu\nu}\big|_{\text{dS}}
+  = \kappa^2 T_{\mu\nu},
+\end{equation}
+where $H_{\mu\nu}|_{\text{dS}}$ involves only constant-curvature
+contributions.  Since $\Box R_0 = 0$ and $\nabla_\mu R_0 = 0$, the
+$H_{\mu\nu}$ tensor simplifies to:
+\begin{equation}
+  H_{\mu\nu}\big|_{\text{dS}}
+  = -\frac{1}{2}g_{\mu\nu}R_0^2 + 2R_0\cdot\frac{R_0}{4}g_{\mu\nu}
+  = 0.
+\end{equation}
+Therefore, the de~Sitter condition becomes simply
+$G_{\mu\nu} = \kappa^2 T_{\mu\nu}$ (or $G_{\mu\nu} + \Lambda g_{\mu\nu} = 0$
+in vacuum).  De~Sitter spacetime with the correct cosmological constant
+is an exact solution of the full nonlocal theory.
+\end{proposition}
+
+
+%%======================================================================
+\section{Auxiliary Field Formulation}
+\label{sec:auxiliary}
+%%======================================================================
+
+An alternative approach to deriving the field equations uses auxiliary
+fields to localize the nonlocal action.
+
+\begin{proposition}[Auxiliary field method]
+\label{prop:auxiliary}
+\fromlit{Calcagni--Modesto 2211.05606, Eq.~(AuxAction)}
+Introduce a symmetric tensor $\phi_{\mu\nu}$ and write:
+\begin{equation}\label{eq:aux-action}
+  \tilde{S}[g,\phi] = \frac{1}{2\kappa^2}\int\dd^4 x\,\sqrt{|g|}\,
+  \left[R + (2R_{\mu\nu} - \phi_{\mu\nu}
+    + \frac{1}{2}g_{\mu\nu}\phi)\,\gamma(\Box)\,\phi^{\mu\nu}\right],
+\end{equation}
+where $\phi = g^{\mu\nu}\phi_{\mu\nu}$.  The $\phi_{\mu\nu}$
+equation of motion yields $\phi_{\mu\nu} = G_{\mu\nu}$ on-shell,
+recovering the original nonlocal action.
+
+The advantage is that the $g_{\mu\nu}$ variation of
+$\tilde{S}$ is \emph{algebraically simpler} because the nonlocal
+operator $\gamma(\Box)$ now acts on the auxiliary field rather than
+directly on curvature tensors.
+\end{proposition}
+
+\begin{remark}[Degrees of freedom]
+\fromlit{Calcagni--Modesto 2211.05606}
+The auxiliary field $\phi_{\mu\nu}$ is a symmetric rank-2 tensor
+(10 components) constrained by the Bianchi identity (4 constraints)
+to have 6 degrees of freedom.  Combined with the 2 degrees of
+freedom of the graviton, the total is $2 + 6 = 8$ degrees of freedom,
+matching Stelle's gravity counting.
+
+In the nonlocal theory, the key difference is that the additional
+6 degrees of freedom are \emph{not ghosts}: the propagator
+$\propto \gamma\,e^{-H(\Box)}$ has no additional poles when $\gamma$
+is an entire function of appropriate type.
+\end{remark}
+
+
+%%======================================================================
+\section{Notation Table}
+\label{sec:notation}
+%%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{lll}
+\toprule
+\textbf{Symbol} & \textbf{Definition} & \textbf{Source} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Symbol} & \textbf{Definition} & \textbf{Source} \\
+\midrule
+\endhead
+$g_{\mu\nu}$ & spacetime metric, signature $(-,+,+,+)$ & Standard \\
+$R^\rho{}_{\sigma\mu\nu}$ & Riemann tensor
+  ($\partial_\mu\Gamma^\rho_{\nu\sigma} - \ldots$) & Standard \\
+$R_{\mu\nu}$ & Ricci tensor ($R^\rho{}_{\mu\rho\nu}$) & Standard \\
+$R$ & Ricci scalar ($g^{\mu\nu}R_{\mu\nu}$) & Standard \\
+$G_{\mu\nu}$ & Einstein tensor ($R_{\mu\nu} - \frac{1}{2}gR$) & Standard \\
+$C_{\mu\nu\rho\sigma}$ & Weyl tensor & Standard \\
+$E_4$ & Gauss--Bonnet density & Eq.~\eqref{eq:GB} \\
+$\Box$ & $g^{\mu\nu}\nabla_\mu\nabla_\nu$ (d'Alembertian) & Standard \\
+$\Lambda$ & spectral action cutoff scale & SCT P3 \\
+$\Lambda_{\mathrm{cc}}$ & cosmological constant & $S_{\mathrm{EH}}$ \\
+$\kappa^2$ & $8\pi G$ (gravitational coupling) & Standard \\
+$F_1(z)$ & Weyl form factor ($z = \Box/\Lambda^2$) & NT-1b \\
+$F_2(z,\xi)$ & $R^2$ form factor & NT-1b \\
+$\hat{F}_i(z)$ & normalized form factor ($\hat{F}_i(0)=1$) & NT-4a \\
+$\alpha_C$ & $16\pi^2 F_1(0) = 13/120$ & Phase~3 \\
+$\alpha_R(\xi)$ & $16\pi^2 F_2(0) = 2(\xi-1/6)^2$ & Phase~3 \\
+$c_1, c_2$ & Stelle basis coefficients & Phase~3 \\
+$\varphi(z)$ & master function
+  $e^{-z/4}\sqrt{\pi/z}\,\erfi(\sqrt{z}/2)$ & NT-1 \\
+$\xi$ & Higgs non-minimal coupling & SM \\
+$B_{\mu\nu}$ & Bach tensor (local) & Eq.~\eqref{eq:bach} \\
+$B_{\mu\nu}^{(F)}$ & nonlocal Bach tensor & Eq.~\eqref{eq:nonlocal-bach} \\
+$H_{\mu\nu}$ & scalar curvature tensor (local) & Eq.~\eqref{eq:H-tensor} \\
+$\Theta_{\mu\nu}$ & $\alpha$-insertion contribution & BV formalism \\
+$\gamma_0, \gamma_2, \gamma_4$ & form factors in Riemann basis & CMN \\
+$\Delta_L$ & Lichnerowicz operator & Eq.~\eqref{eq:lichnerowicz} \\
+$\Pi_{\mathrm{TT}}(z)$ & spin-2 propagator denominator & NT-4a \\
+$\Pi_s(z,\xi)$ & spin-0 propagator denominator & NT-4a \\
+$m_2$ & $\Lambda\sqrt{60/13}$ (spin-2 mass) & NT-4a \\
+$m_0$ & $\Lambda/\sqrt{6(\xi-1/6)^2}$ (scalar mass) & NT-4a \\
+$N_s, N_f, N_v$ & SM multiplicities ($4, 45, 12$) & CPR \\
+$N_D$ & Dirac fermion count ($N_f/2 = 22.5$) & Phase~3 \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+
+%%======================================================================
+\section{Gap Analysis}
+\label{sec:gaps}
+%%======================================================================
+
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+\item \textbf{Explicit $\Theta_{\mu\nu}^{(C)}$ in the Weyl basis.}
+  The $\alpha$-insertion terms for the Weyl-squared variation
+  $\delta(\Weylsq F(\Box)\Weylsq)/\delta g^{\mu\nu}$ are not
+  available in closed form in a single published reference in the
+  $\{C^2, R^2\}$ basis.  The Calcagni--Modesto result is in the
+  $\{G_{\mu\nu}, R^{\mu\nu}\}$ basis.  Translation requires
+  careful application of the Weyl decomposition and Gauss--Bonnet
+  identity.
+
+\item \textbf{Tensor-valued $\alpha$-insertion.}
+  The $\alpha$-insertion formula (Theorem~\ref{thm:alpha-insertion}) is
+  stated for scalar-valued quantities $A$, $B$.  When $\Box$ acts on
+  rank-4 tensors (as in $F(\Box)\,C_{\mu\nu\rho\sigma}$), the
+  commutator $[\Box, \nabla]$ generates Riemann tensor insertions at
+  every order.  The systematic treatment requires the full
+  Barvinsky--Vilkovisky covariant perturbation theory to second order
+  in curvature.
+
+\item \textbf{Non-commutativity of $F_1$ and $F_2$ form factors.}
+  In the SCT action, $F_1$ and $F_2$ are different functions of
+  $\Box/\Lambda^2$.  When varying $g^{\mu\nu}$, the variations of
+  $F_1(\Box)$ and $F_2(\Box)$ generate different $\Theta$-type terms.
+  These must be computed separately and summed.
+
+\item \textbf{Boundary terms.}
+  The self-adjointness identity~\eqref{eq:F-selfadjoint} assumes
+  vanishing boundary contributions.  For the FLRW reduction (NT-4c),
+  boundary terms at the initial singularity or at spatial infinity
+  may need careful treatment.
+
+\item \textbf{Sign convention propagation.}
+  The Stelle equations~\eqref{eq:stelle-eom} use the convention
+  $G_{\mu\nu} + 2\alpha B_{\mu\nu} + \beta H_{\mu\nu} = \kappa^2 T_{\mu\nu}$.
+  The mapping $\alpha \to F_1(0)/(16\pi^2)$,
+  $\beta \to F_2(0)/(16\pi^2)$ must include all factors of 2 from the
+  Weyl decomposition.  This is the most common source of sign errors
+  in the literature.
+
+\item \textbf{The Gauss--Bonnet term with nonlocal form factor.}
+  If one works in the full $\{R_{\mu\nu\rho\sigma}^2, \Ricsq, R^2\}$
+  basis, the Gauss--Bonnet topological identity
+  $\delta(\sqrt{g}\,E_4)/\delta g^{\mu\nu} = 0$ holds only when the
+  form factor is unity (local case).  For
+  $\int\sqrt{g}\,R_{\mu\nu\rho\sigma}\,\gamma_4(\Box)\,R^{\mu\nu\rho\sigma}$
+  with $\gamma_4 \neq \text{const}$, the Gauss--Bonnet cancellation
+  does \emph{not} hold because $[\gamma_4(\Box), \delta/\delta g^{\mu\nu}]
+  \neq 0$.  This means the basis reduction must be done \emph{before}
+  applying the form factor, not after.
+
+\item \textbf{Connection to the spectral action.}
+  The form factors $F_1$ and $F_2$ are derived from the heat kernel
+  expansion of $\Tr(f(D^2/\Lambda^2))$.  The nonlocal effective action
+  is obtained by resumming the heat kernel to second order in curvature
+  (Barvinsky--Vilkovisky CPT-II).  The field equations are the
+  Euler--Lagrange equations of this resummed action.  The consistency
+  between the heat-kernel resummation and the variational equations
+  must be verified.
+\end{enumerate}
+
+
+%%======================================================================
+\section{Strategy for the NT-4b Derivation}
+\label{sec:strategy}
+%%======================================================================
+
+Based on the literature survey, we recommend the following strategy
+for the NT-4b derivation:
+
+\begin{enumerate}[label=\textbf{Step \arabic*.}]
+\item \textbf{Work in the $\{C^2, R^2\}$ basis.}
+  This maintains the clean spin-2/spin-0 separation throughout and
+  allows direct comparison with the NT-4a linearized results.
+
+\item \textbf{Vary $S_{R^2}$ and $S_{C^2}$ separately.}
+  Use the formulas from \S\ref{sec:nonlocal-variation} for each term.
+  The $R^2$ variation is cleaner (scalar $\times$ scalar) and should
+  be done first as a warm-up.
+
+\item \textbf{Use the $\alpha$-insertion formula for $\Theta$ terms.}
+  For each form factor, compute the $\alpha$-insertion contribution
+  using the Taylor expansion~\eqref{eq:alpha-taylor} (which is valid
+  because the SCT form factors are entire by NT-2).
+
+\item \textbf{Verify the local limit.}
+  Set $F_i \to F_i(0)$ and confirm recovery of the Stelle
+  equations~\eqref{eq:stelle-eom} with the correct coefficients
+  $\alpha = \alpha_C/(16\pi^2)$, $\beta = \alpha_R/(16\pi^2)$.
+
+\item \textbf{Verify the Bianchi identity.}
+  Check $\nabla^\mu(\delta S/\delta g^{\mu\nu}) = 0$ at the
+  full nonlinear level.
+
+\item \textbf{Linearize and recover NT-4a.}
+  Expand around flat space and verify recovery of
+  $\Pi_{\mathrm{TT}}$ and $\Pi_s$.
+
+\item \textbf{Check de~Sitter and Ricci-flat solutions.}
+  Verify that de~Sitter spacetime and Schwarzschild remain solutions.
+
+\item \textbf{Write the final field equations in canonical form.}
+  Present the result as:
+  \begin{equation}
+    G_{\mu\nu} + 2\alpha\,B_{\mu\nu}^{(F_1)}
+    + \beta\,H_{\mu\nu}^{(F_2)}
+    + \Theta_{\mu\nu}^{(1)} + \Theta_{\mu\nu}^{(2)}
+    = \kappa^2 T_{\mu\nu}.
+  \end{equation}
+\end{enumerate}
+
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{Stelle1977}
+  K.~S.~Stelle,
+  ``Renormalization of higher-derivative quantum gravity,''
+  Phys.\ Rev.\ D \textbf{16} (1977) 953.
+
+\bibitem{Stelle1978}
+  K.~S.~Stelle,
+  ``Classical gravity with higher derivatives,''
+  Gen.\ Rel.\ Grav.\ \textbf{9} (1978) 353--371.
+
+\bibitem{BV1985}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``The generalized Schwinger-DeWitt technique in gauge theories and
+  quantum gravity,''
+  Phys.\ Rep.\ \textbf{119} (1985) 1--74.
+
+\bibitem{BV1987}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Beyond the Schwinger-DeWitt technique: Converting loops into
+  trees and in-in currents,''
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163--188.
+
+\bibitem{BV1990}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Covariant perturbation theory (II): Second order in the
+  curvature. General algorithms,''
+  Nucl.\ Phys.\ B \textbf{333} (1990) 471--511.
+
+\bibitem{BV1990b}
+  A.~O.~Barvinsky, G.~A.~Vilkovisky,
+  ``Covariant perturbation theory (III): Spectral representations
+  of the third-order form factors,''
+  Nucl.\ Phys.\ B \textbf{333} (1990) 512--524.
+
+\bibitem{CZ2013}
+  A.~Codello, O.~Zanusso,
+  ``On the non-local heat kernel expansion,''
+  J.\ Math.\ Phys.\ \textbf{54} (2013) 013513,
+  arXiv:1203.2034 [hep-th].
+
+\bibitem{CPR2009}
+  A.~Codello, R.~Percacci, C.~Rahmede,
+  ``Investigating the ultraviolet properties of gravity with a
+  Wilsonian renormalization group equation,''
+  Ann.\ Phys.\ \textbf{324} (2009) 414,
+  arXiv:0805.2909 [hep-th].
+
+\bibitem{BMS2006}
+  T.~Biswas, A.~Mazumdar, W.~Siegel,
+  ``Bouncing universes in string-inspired gravity,''
+  JCAP \textbf{0603} (2006) 009,
+  hep-th/0508194.
+
+\bibitem{Modesto2012}
+  L.~Modesto,
+  ``Super-renormalizable quantum gravity,''
+  Phys.\ Rev.\ D \textbf{86} (2012) 044005,
+  arXiv:1107.2403 [hep-th].
+
+\bibitem{CalcagniModesto2022}
+  G.~Calcagni, L.~Modesto,
+  ``Classical and quantum nonlocal gravity,''
+  arXiv:2211.05606 [hep-th] (2022).
+
+\bibitem{CalcagniModesto2018}
+  G.~Calcagni, L.~Modesto, G.~Nardelli,
+  ``Initial conditions and degrees of freedom of non-local gravity,''
+  JHEP \textbf{05} (2018) 087,
+  arXiv:1803.00561 [hep-th].
+
+\bibitem{CalcagniModesto2018b}
+  G.~Calcagni, L.~Modesto, G.~Nardelli,
+  ``Non-perturbative spectrum of non-local gravity,''
+  arXiv:1803.07848 [hep-th].
+
+\bibitem{Buoninfante2020}
+  L.~Buoninfante, G.~Lambiase, Y.~Miyashita, W.~Takebe,
+  M.~Yamaguchi,
+  ``Generalized ghost-free propagators in nonlocal field theories,''
+  Phys.\ Rev.\ D \textbf{101} (2020) 084019,
+  arXiv:2001.07830 [hep-th].
+
+\bibitem{GiacchiniNetto2021}
+  B.~L.~Giacchini, T.~de~Paula~Netto,
+  ``Higher-order regularity in local and nonlocal quantum gravity,''
+  Eur.\ Phys.\ J.\ C \textbf{81} (2021) 741.
+
+\bibitem{GiacchiniNetto2018}
+  B.~L.~Giacchini, T.~de~Paula~Netto,
+  ``Effective delta sources and regularity in
+  higher-derivative and ghost-free gravity,''
+  JCAP \textbf{07} (2019) 013,
+  arXiv:1806.05664 [gr-qc].
+
+\bibitem{Tomboulis1997}
+  E.~T.~Tomboulis,
+  ``Super-renormalizable gauge and gravitational theories,''
+  hep-th/9702080 (1997).
+
+\bibitem{Avramidi2000}
+  I.~G.~Avramidi,
+  ``Heat Kernel and Quantum Gravity,''
+  Springer, Lecture Notes in Physics \textbf{M64} (2000).
+
+\bibitem{ParkerToms2009}
+  L.~Parker, D.~Toms,
+  ``Quantum Field Theory in Curved Spacetime: Quantized Fields
+  and Gravity,''
+  Cambridge University Press (2009).
+
+\bibitem{Briscese2019}
+  F.~Briscese, G.~Calcagni, L.~Modesto,
+  ``Nonlinear stability in nonlocal gravity,''
+  Phys.\ Rev.\ D \textbf{99} (2019) 084041,
+  arXiv:1901.03267 [gr-qc].
+
+\bibitem{DeserWoodard2007}
+  S.~Deser, R.~P.~Woodard,
+  ``Nonlocal cosmology,''
+  Phys.\ Rev.\ Lett.\ \textbf{99} (2007) 111301.
+
+\bibitem{CC1997}
+  A.~H.~Chamseddine, A.~Connes,
+  ``The spectral action principle,''
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731,
+  hep-th/9606001.
+
+\bibitem{NT4aLit}
+  D.~Alfyorov,
+  ``NT-4a: Literature extraction \& convention fixing for linearized
+  nonlocal field equations,''
+  SCT Theory internal document (2026).
+
+\bibitem{BGM2012}
+  T.~Biswas, E.~Gerber, A.~Mazumdar,
+  ``Towards singularity- and ghost-free theories of gravity,''
+  Phys.\ Rev.\ Lett.\ \textbf{108} (2012) 031101,
+  arXiv:1112.5430 [gr-qc].
+
+\end{thebibliography}
+
+\end{document}

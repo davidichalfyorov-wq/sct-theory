@@ -1,0 +1,124 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- NT-3 Literature}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={NT-3: Spectral Dimension Literature Review},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{NT-3: Spectral Dimension in Quantum Gravity}\\[4pt]
+  \large Literature Review and Conventions
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\tableofcontents
+
+\section{Overview}
+
+The spectral dimension $d_S(\sigma)$ quantifies how spacetime dimensionality
+changes as a function of the diffusion scale $\sigma$. This document reviews
+conventions, key formulas, and benchmarks from 20 papers spanning CDT,
+Asymptotic Safety, Horava--Lifshitz gravity, Stelle gravity, LQG,
+causal sets, and noncommutative geometry.
+
+\section{Definition}
+
+The spectral dimension is defined via the return probability $P(\sigma)$
+of a fictitious diffusion process:
+\begin{equation}\label{eq:ds-def}
+  d_S(\sigma) = -2\,\frac{\mathrm{d}\ln P(\sigma)}{\mathrm{d}\ln\sigma}\,.
+\end{equation}
+For a standard $d$-dimensional flat manifold with Laplacian $\Delta$,
+the heat kernel trace gives $P(\sigma) = (4\pi\sigma)^{-d/2}$, yielding
+$d_S = d$.
+
+\section{Multiple Definitions in Modified Gravity}
+
+Three distinct definitions arise in theories with a modified propagator
+$G(k^2)$:
+\begin{itemize}
+  \item \textbf{Heat kernel:} $P_{\mathrm{HK}}(\sigma) = \int\frac{\mathrm{d}^dk}{(2\pi)^d}\,
+    e^{-\sigma k^2}$ gives $d_S = d$ (unmodified).
+  \item \textbf{SVW:} $P_{\mathrm{SVW}}(\sigma) = \int\frac{\mathrm{d}^dk}{(2\pi)^d}\,
+    e^{-\sigma\omega^2(k)}$ where $\omega^2(k) = k^2\Pi_{\mathrm{TT}}(k^2/\Lambda^2)$.
+    For $\omega^2 \sim k^{2\alpha}$: $d_S = d/\alpha$ (Sotiriou--Visser--Weinfurtner, 1105.6098).
+  \item \textbf{CMN (propagator-weighted):} $P_{\mathrm{CMN}}(\sigma) = \int\frac{\mathrm{d}^dk}{(2\pi)^d}\,
+    G(k^2)\,e^{-\sigma k^2}$. For $G \sim 1/k^{2n}$: $d_S = d - 2n$
+    (Calcagni--Modesto--Nardelli, 1408.0199).
+\end{itemize}
+
+\section{Benchmarks}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llccl}
+\toprule
+Approach & $d_S(\mathrm{IR})$ & $d_S(\mathrm{UV})$ & Method & Reference \\
+\midrule
+GR & 4 & 4 & Exact & --- \\
+CDT & $4.02 \pm 0.10$ & $1.80 \pm 0.25$ & Monte Carlo & hep-th/0505113 \\
+Asymptotic Safety & 4 & 2 & Exact (NGFP) & hep-th/0511260 \\
+Horava--Lifshitz ($z=3$) & 4 & 2 & Exact & 0902.3657 \\
+Stelle gravity & 4 & 2 & Exact & 1408.0199 \\
+LQG (polymer) & 4 & 2 & Semi-analytic & 0912.0220 \\
+Causal sets & 4 & $>4$ & Numerical & 1311.2530 \\
+Spectral action (ASZ, full) & 4 & 0 & Analytic & 1410.7999 \\
+\bottomrule
+\end{tabular}
+\caption{Spectral dimension values in quantum gravity approaches.}
+\label{tab:benchmarks}
+\end{table}
+
+\section{SCT-Specific Input}
+
+From the verified NT-4a results, the SCT propagator has
+$\Pi_{\mathrm{TT}}(z) = 1 + \tfrac{13}{60}\,z\,\hat{F}_1(z)$
+with $\Pi_{\mathrm{TT}}(0) = 1$ and $\Pi_{\mathrm{TT}} \to -83/6$
+as $z \to +\infty$. The ghost zero lies at $z_0 \approx 2.4148$.
+
+The \emph{saturation} of $\Pi_{\mathrm{TT}}$ at a constant means the
+propagator scales as $1/k^2$ in the UV, unlike Stelle gravity where
+$G \sim 1/k^4$. This is the key structural difference that determines
+the SCT spectral dimension.
+
+\section{Bibliography}
+
+20 papers reviewed; key references: Ambjorn--Jurkiewicz--Loll (hep-th/0505113),
+Lauscher--Reuter (hep-th/0511260), Horava (0902.3657),
+Sotiriou--Visser--Weinfurtner (1105.6098),
+Calcagni--Modesto--Nardelli (1408.0199),
+Alkofer--Saueressig--Zanusso (1410.7999),
+Modesto (1209.5129).
+
+\end{document}

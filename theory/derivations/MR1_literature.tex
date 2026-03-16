@@ -1,0 +1,1386 @@
+%%======================================================================
+%%  MR-1: Literature Extraction & Convention Fixing
+%%        for Lorentzian Continuation of Spectral Causal Theory
+%%
+%%  This document collects definitions, theorems, and results from the
+%%  literature needed to formulate a Lorentzian version of SCT.
+%%  Seven topic areas are covered: Krein spaces, Lorentzian index
+%%  theory, ghost-free gravity, Lee-Wick / fakeon prescriptions,
+%%  Wick rotation, spectral action, and causal sets.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{theorem}[proposition]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\PP}{\mathcal{P}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\ind}{ind}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{MR-1: Literature \& Conventions for Lorentzian Continuation}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{MR-1: Literature Extraction \& Convention Fixing\\[4pt]
+       for Lorentzian Continuation of Spectral Causal Theory}}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all definitions, theorems, and results from the
+literature needed to establish the Lorentzian continuation of Spectral
+Causal Theory (SCT).  The central obstacle is that the Euclidean
+spectral action $\Tr f(D^2/\Lambda^2)$ relies on $D^2$ being a
+positive elliptic operator, which fails in Lorentzian signature where
+$D^2$ is hyperbolic.  We survey seven topic areas: (1)~Krein-space
+formalism and Lorentzian spectral triples; (2)~Lorentzian spectral
+geometry and index theorems; (3)~infinite-derivative gravity and
+ghost-freedom criteria; (4)~Lee-Wick mechanism and fakeon
+quantization; (5)~Wick rotation in curved spacetime; (6)~the
+Chamseddine-Connes spectral action; (7)~causal-set d'Alembertians.
+For each topic, we extract the precise mathematical definitions and
+results, identify which assumptions are satisfied by SCT and which
+constitute gaps, and assess the applicability to the MR-1 problem.
+All citations carry real arXiv identifiers.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+
+%%======================================================================
+\section{Introduction and Scope}
+\label{sec:intro}
+%%======================================================================
+
+\subsection{The Euclidean--Lorentzian Gap}
+
+The SCT spectral action is defined in Euclidean signature via
+\begin{equation}\label{eq:spectral-action}
+  S_{\mathrm{spec}} = \Tr\bigl(f(D^2 / \Lambda^2)\bigr)\,,
+\end{equation}
+where $D$ is the (Euclidean) Dirac operator and $f$ is a suitable
+cutoff function.  In the heat-kernel expansion at one loop and to order
+$\mathcal{R}^2$, this produces the effective gravitational action with
+nonlocal form factors $F_1(z)$, $F_2(z)$ that have been computed and
+verified in NT-1 through NT-4a.
+
+In Lorentzian signature $(-,+,+,+)$, the operator $D^2$ is no longer
+elliptic or positive: the principal symbol has indefinite sign, the
+heat kernel $e^{-tD^2}$ is not trace-class, and \eqref{eq:spectral-action}
+is undefined.  The task of MR-1 is to find a mathematically rigorous
+Lorentzian formulation that reduces to the known Euclidean results in
+the appropriate limit.
+
+\subsection{SCT Context: Verified Euclidean Results}
+
+From NT-1 through NT-4a, the following results are established and
+verified:
+\begin{itemize}[nosep]
+  \item Master function:
+    $\phi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi$, entire of order~1,
+    type~$1/4$.
+  \item Spin-2 propagator denominator:
+    $\Pi_{\mathrm{TT}}(z) = 1 + \frac{13}{60}\,z\,\hat{F}_1(z)$.
+  \item Spin-0 propagator denominator:
+    $\Pi_s(z;\xi) = 1 + 6(\xi - \tfrac{1}{6})^2\,z\,\hat{F}_2(z;\xi)$.
+  \item First positive-real zero of $\Pi_{\mathrm{TT}}$:
+    $z_0 \approx 2.41484$ with residue $R_2 \approx -0.493$.
+  \item Local limit coefficients:
+    $\alpha_C = 13/120$ (Weyl$^2$),
+    $\alpha_R(\xi) = 2(\xi-\tfrac{1}{6})^2$ (Ricci scalar$^2$).
+  \item Scalar mode decouples at $\xi = 1/6$ (conformal coupling).
+\end{itemize}
+
+\subsection{Document Conventions}
+
+We follow the conventions established in the NT-1 and NT-2 literature
+documents:
+\begin{itemize}[nosep]
+  \item Signature: $(-,+,+,+)$ for Lorentzian, $(+,+,+,+)$ for
+    Euclidean.
+  \item Riemann tensor: $R^\rho{}_{\sigma\mu\nu} =
+    \partial_\mu\Gamma^\rho{}_{\nu\sigma} - \cdots$ (MTW sign).
+  \item Dirac operator: $D = -\ii\gamma^\mu\nabla_\mu$ in Lorentzian,
+    $D_E = \gamma^\mu_E \nabla_\mu$ in Euclidean.
+  \item Spectral parameter: $z = \Box / \Lambda^2$ (Euclidean),
+    $z = -\Box_L / \Lambda^2$ (Lorentzian Wick-rotated).
+  \item Annotations: \fromlit{paper ref} for literature sources,
+    \gap\ for identified gaps, \oursign\ for our conventions.
+\end{itemize}
+
+
+%%======================================================================
+\section{Krein Spaces and Lorentzian Spectral Triples}
+\label{sec:krein}
+%%======================================================================
+
+\subsection{Krein Space Fundamentals}
+
+\begin{definition}[Krein space]
+\label{def:krein-space}
+\fromlit{Bogn\'{a}r 1974; Strohmaier, math-ph/0110001}
+A \textbf{Krein space} is a pair $(\mathcal{K}, [\cdot,\cdot])$ where
+$\mathcal{K}$ is a complex topological vector space and
+$[\cdot,\cdot] : \mathcal{K} \times \mathcal{K} \to \mathbb{C}$ is a
+non-degenerate sesquilinear form (not necessarily positive-definite),
+such that there exists a \textbf{fundamental symmetry} $J$ satisfying:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $J^2 = \Id$, \quad $J = J^*$ (with respect to $[\cdot,\cdot]$),
+  \item $\langle\psi,\phi\rangle := [\psi, J\phi]$ is a positive-definite
+    inner product making $\mathcal{K}$ into a Hilbert space.
+\end{enumerate}
+The eigenspaces $\mathcal{K}_\pm = \ker(J \mp \Id)$ give the
+\textbf{fundamental decomposition}
+$\mathcal{K} = \mathcal{K}_+ \oplus \mathcal{K}_-$, where
+$[\cdot,\cdot]$ is positive-definite on $\mathcal{K}_+$ and
+negative-definite on $\mathcal{K}_-$.
+\end{definition}
+
+\begin{definition}[$J$-self-adjointness]
+\label{def:J-selfadjoint}
+\fromlit{Strohmaier, math-ph/0110001, Def.~2.1}
+An operator $D$ on a Krein space $(\mathcal{K}, [\cdot,\cdot])$ is
+\textbf{Krein-self-adjoint} (or \textbf{$J$-self-adjoint}) if
+\begin{equation}\label{eq:krein-sa}
+  [D\psi, \phi] = [\psi, D\phi]
+  \quad \forall\, \psi,\phi \in \mathrm{Dom}(D)\,.
+\end{equation}
+Equivalently, $JDJ = D^*$, where $D^*$ is the Hilbert-space adjoint
+with respect to $\langle\cdot,\cdot\rangle = [\cdot,J\cdot]$.
+\end{definition}
+
+\begin{remark}[Physical interpretation]
+\fromlit{Strohmaier, math-ph/0110001, \S3}
+For the Lorentzian Dirac operator on $(M,g)$ with $g$ of signature
+$(-,+,+,+)$:
+\begin{itemize}[nosep]
+  \item The Krein inner product is the Dirac inner product:
+    $[\psi,\phi] = \int_M \bar{\psi}\phi\,\mathrm{dvol}_g$.
+  \item The fundamental symmetry is $J = \ii\gamma^0$ (or $\gamma^0$
+    depending on conventions for $\gamma^0$ Hermiticity).
+  \item The Hilbert-space inner product is $\langle\psi,\phi\rangle
+    = \int_M \psi^\dagger\phi\,\mathrm{dvol}_g$ (positive-definite).
+  \item $D = -\ii\gamma^\mu\nabla_\mu$ is $J$-self-adjoint but NOT
+    Hilbert-space self-adjoint.
+\end{itemize}
+\end{remark}
+
+\subsection{Pseudo-Riemannian Spectral Triples}
+
+\begin{definition}[Pseudo-Riemannian spectral triple]
+\label{def:pseudo-riem-st}
+\fromlit{Strohmaier, math-ph/0110001, Def.~3.1; Paschke-Sitarz,
+math-ph/0611029}
+A \textbf{pseudo-Riemannian spectral triple} is a tuple
+$(\mathcal{A}, \mathcal{K}, D, J)$ where:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $\mathcal{A}$ is a unital $*$-algebra represented faithfully on
+    $\mathcal{K}$,
+  \item $(\mathcal{K}, [\cdot,\cdot])$ is a Krein space with
+    fundamental symmetry $J$,
+  \item $D$ is a densely defined $J$-self-adjoint operator on
+    $\mathcal{K}$,
+  \item $[D, a]$ is bounded for all $a \in \mathcal{A}$.
+\end{enumerate}
+This replaces the Connes axioms where $\mathcal{H}$ is a Hilbert
+space and $D$ is self-adjoint.
+\end{definition}
+
+\begin{remark}[Comparison with Riemannian spectral triple]
+\label{rem:comparison-riem}
+The Riemannian spectral triple $(\mathcal{A}, \mathcal{H}, D)$
+with $D = D^*$ on a Hilbert space $\mathcal{H}$ is a special case
+where $J = \Id$ (trivial fundamental symmetry), so
+$\mathcal{K} = \mathcal{H}$,
+$[\cdot,\cdot] = \langle\cdot,\cdot\rangle$, and Krein-self-adjointness
+reduces to ordinary self-adjointness.
+
+The key structural difference in the Lorentzian case is that $D^2$ has
+\emph{indefinite} spectrum: it acts as a hyperbolic operator
+($-\partial_t^2 + \Delta + \text{curvature}$), with eigenvalues
+unbounded in both directions.  In particular, the heat semigroup
+$e^{-tD^2}$ is \emph{not} trace-class.
+\end{remark}
+
+
+\subsection{Van den Dungen--Rennie: Lorentzian NCG with Wick Rotation}
+
+\begin{definition}[Lorentzian spectral triple with Wick rotation]
+\label{def:vdD-rennie}
+\fromlit{van den Dungen \& Rennie, arXiv:1503.06916, Def.~3.2}
+A \textbf{Lorentzian spectral triple} is a pseudo-Riemannian
+spectral triple $(\mathcal{A}, \mathcal{K}, D, J)$ equipped with a
+\textbf{Wick rotation} operator $\beta$ satisfying:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $\beta = \beta^*$ and $\beta > 0$ (positive, self-adjoint on
+    $\mathcal{H} = (\mathcal{K}, \langle\cdot,\cdot\rangle)$),
+  \item $D_E := \beta D \beta^{-1}$ is self-adjoint on $\mathcal{H}$
+    (the \textbf{Euclidean Dirac operator}),
+  \item Compatibility with the real structure: $\beta$ commutes with
+    $J_F$ (finite part) and anticommutes with $\gamma_F$ (grading), or
+    vice versa depending on KO-dimension.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}[Explicit $\beta$ for manifolds]
+\fromlit{van den Dungen \& Rennie, arXiv:1503.06916, \S4}
+For a globally hyperbolic Lorentzian manifold $(M,g)$ with a global
+time function $t$, the Wick rotation operator is
+$\beta = (N/\sqrt{|g_{00}|})^{1/2}$ acting on spinors, where $N$ is
+the lapse function.  In the static case with $g_{00} = -1$:
+$\beta = 1$ and $D_E = D_L$ up to sign --- the Euclidean and
+Lorentzian operators coincide.
+
+For general spacetimes, $\beta$ depends on the choice of foliation,
+and the definition is coordinate-dependent.  This is a known limitation.
+\end{remark}
+
+
+\subsection{Barrett: KO-Dimension and Fermion Doubling}
+
+\begin{theorem}[Barrett's Lorentzian KO-dimension]
+\label{thm:barrett-ko}
+\fromlit{Barrett, J.\ Phys.\ A \textbf{40} (2007) 9911,
+arXiv:hep-th/0608221, Thm.~4.1}
+The finite spectral triple for the Standard Model admits a real
+structure of \textbf{KO-dimension $2 \pmod{8}$} (equivalently
+$6 \pmod{8}$ for Lorentzian signature), such that:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item The fermionic action
+    $S_f = [J\Psi, D_A\Psi]$ (Krein inner product) reproduces the
+    full Standard Model fermionic Lagrangian,
+  \item No fermion doubling is required: the fermion space is
+    $\mathcal{H}_F = \mathbb{C}^{96}$ (one generation: 16 states
+    $\times$ 3 colours $\times$ 2 chiralities), not doubled,
+  \item The grading $\gamma_F$ and real structure $J_F$ satisfy the
+    KO-dimension~$6$ sign table:
+    \begin{equation}
+      J_F^2 = \Id, \quad J_F D_F = D_F J_F, \quad
+      J_F \gamma_F = -\gamma_F J_F\,.
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Contrast with Euclidean KO = 0]
+In the Euclidean formulation (KO-dimension $0 \pmod{8}$), the sign
+table requires $J_F \gamma_F = +\gamma_F J_F$, which forces fermion
+doubling to accommodate the real structure.  The Lorentzian KO = 6
+flips this sign, eliminating the doubling.
+
+Barrett's result demonstrates that the fermionic sector of the spectral
+action has a natural Lorentzian formulation.  The bosonic sector
+(spectral action $\Tr f(D^2/\Lambda^2)$) remains the open problem.
+\end{remark}
+
+
+\subsection{Franco--Eckstein: Algebraic Causality}
+
+\begin{definition}[Causal cone in Lorentzian NCG]
+\label{def:causal-cone}
+\fromlit{Franco \& Eckstein, Symmetry \textbf{6} (2014) 1,
+arXiv:1212.5171, Def.~3.1}
+In a Lorentzian spectral triple $(\mathcal{A}, \mathcal{K}, D, J)$,
+the \textbf{causal cone} $\mathcal{C}$ is the set of Hermitian elements
+$a \in \mathcal{A}_{\mathrm{sa}}$ such that $\ii[D, a]$ is a
+non-negative operator on $\mathcal{K}$ (in the Krein sense):
+\begin{equation}
+  \mathcal{C} = \{a \in \mathcal{A}_{\mathrm{sa}} :
+  [\psi, \ii[D,a]\psi] \geq 0 \;\;\forall\,\psi \in \mathcal{K}\}\,.
+\end{equation}
+The \textbf{causal relation} $x \leq y$ between pure states is:
+$\omega_x(a) \leq \omega_y(a)$ for all $a \in \mathcal{C}$.
+\end{definition}
+
+\begin{theorem}[Recovery of commutative causality]
+\label{thm:franco-eckstein}
+\fromlit{Franco \& Eckstein, arXiv:1212.5171, Thm.~4.2}
+For the commutative Lorentzian spectral triple
+$(\mathcal{A} = C^\infty(M), \mathcal{K} = L^2(M,S),
+D = -\ii\gamma^\mu\nabla_\mu)$ on a globally hyperbolic spacetime
+$(M,g)$, the algebraic causal cone~$\mathcal{C}$ recovers the
+standard Lorentzian causal structure: $x \leq y$ if and only if
+there exists a future-directed causal curve from $x$ to $y$.
+\end{theorem}
+
+
+%%======================================================================
+\section{Lorentzian Spectral Geometry: Index Theorems}
+\label{sec:index}
+%%======================================================================
+
+\begin{theorem}[B\"{a}r--Strohmaier Lorentzian index theorem]
+\label{thm:bar-strohmaier}
+\fromlit{B\"{a}r \& Strohmaier, Amer.\ J.\ Math.\ \textbf{141}
+(2019) 1421, arXiv:1506.00959, Thm.~1.1}
+Let $(M, g)$ be a compact globally hyperbolic Lorentzian $4$-manifold
+with spin structure and spacelike boundary
+$\partial M = \Sigma_0 \sqcup \Sigma_1$ (initial and final Cauchy
+surfaces).  With Atiyah-Patodi-Singer (APS) type boundary conditions,
+the Lorentzian Dirac operator $D$ is a \textbf{Fredholm} operator, and
+\begin{equation}\label{eq:lor-index}
+  \ind(D) = \int_M \hat{A}(M) -
+  \frac{1}{2}\bigl(\eta(\Sigma_0) + \eta(\Sigma_1)\bigr)\,,
+\end{equation}
+where $\hat{A}(M)$ is the $\hat{A}$-genus density and
+$\eta(\Sigma_i)$ are the $\eta$-invariants of the induced Dirac
+operators on the boundary Cauchy surfaces.
+\end{theorem}
+
+\begin{remark}[Equality with Riemannian index]
+The formula \eqref{eq:lor-index} is \emph{identical} to the
+Atiyah-Patodi-Singer index theorem for the Riemannian case.  This is a
+non-trivial result: it shows that the topological content of the Dirac
+operator is \emph{signature-independent}.
+
+The key technical ingredient is that the Lorentzian Dirac operator,
+while not self-adjoint in the Hilbert-space sense, is Fredholm (finite
+kernel and cokernel) when equipped with APS boundary conditions.
+\end{remark}
+
+\begin{remark}[Implications for the spectral action]
+\label{rem:index-spectral-action}
+The index theorem uses only the \emph{kernel} of $D$ (and its formal
+adjoint), not the full spectrum.  The spectral action
+$\Tr f(D^2/\Lambda^2)$ depends on the \emph{entire} spectrum.
+Therefore, the B\"{a}r--Strohmaier theorem establishes that the
+topological sector is well-defined in Lorentzian signature, but says
+nothing about the non-topological (curvature-dependent) terms in the
+spectral action.
+
+\gap\ Extending the spectral action beyond the topological sector to
+Lorentzian signature is the core open problem of MR-1.
+\end{remark}
+
+
+%%======================================================================
+\section{Infinite-Derivative Gravity and Ghost-Freedom}
+\label{sec:ghost-free}
+%%======================================================================
+
+\subsection{Ghost-Freedom in Nonlocal Gravity}
+
+\begin{definition}[Ghost-free propagator (BMS criterion)]
+\label{def:ghost-free-bms}
+\fromlit{Biswas, Mazumdar, Siegel, JCAP \textbf{0603} (2006) 009,
+hep-th/0508194, Eq.~(7)}
+Consider the gravitational action with nonlocal form factors:
+\begin{equation}\label{eq:idg-action}
+  S = \int \dd^4 x\,\sqrt{g}\left[
+    \frac{R}{16\pi G}
+    + R\,F_R(\Box/\Lambda^2)\,R
+    + C_{\mu\nu\rho\sigma}\,F_C(\Box/\Lambda^2)\,C^{\mu\nu\rho\sigma}
+    + \cdots\right]\,.
+\end{equation}
+The spin-2 propagator around flat space takes the form
+\begin{equation}\label{eq:idg-prop}
+  G^{-1}_{\mathrm{TT}}(k^2)
+  = k^2\bigl[1 + c_2\, k^2 \,a(k^2/\Lambda^2)\bigr]\,,
+\end{equation}
+where $a(z)$ depends on $F_C$.  The propagator is
+\textbf{ghost-free} if $1 + c_2\, z\, a(z) \neq 0$ for all $z > 0$
+(no additional real poles beyond $k^2 = 0$).
+\end{definition}
+
+\begin{theorem}[Tomboulis: exponential entire form factor]
+\label{thm:tomboulis}
+\fromlit{Tomboulis, hep-th/9702146, \S2--3; Modesto,
+arXiv:1107.2403, Thm.~1}
+\textbf{Sufficient condition for ghost-freedom:}
+If $a(z) = e^{H(z)}$ where $H(z)$ is an entire function with
+$H(0) = 0$, then:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item The propagator $G(k^2) \propto k^{-2}\,e^{-H(k^2/\Lambda^2)}$
+    has no additional poles (ghost-free),
+  \item The theory is power-counting super-renormalizable for
+    $H(z) \sim z^n$, $n \geq 2$,
+  \item UV behaviour is exponentially suppressed:
+    $G(k^2) \sim k^{-2}\,e^{-|k|^{2n}/\Lambda^{2n}} \to 0$ as
+    $|k| \to \infty$.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[BMS-Tomboulis-Modesto programme]
+\label{rem:bms-programme}
+The standard choices in the literature are:
+\begin{align}
+  H(z) &= z \quad \text{(Krasnikov, Kuz'min, Tomboulis)},\\
+  H(z) &= \bigl(e^z - 1\bigr)/z
+    \quad \text{(Biswas--Mazumdar--Siegel)},\\
+  H(z) &= z^n, \; n \geq 2
+    \quad \text{(Modesto super-renormalizable)}.
+\end{align}
+All share the property: $a(z) = e^{H(z)}$ has no zeros (the
+exponential of an entire function never vanishes), hence the
+propagator denominator $1 + c_2\,z\,a(z)$ cannot vanish for $z > 0$
+if $c_2 > 0$ and $a(z) > 0$.
+\end{remark}
+
+
+\subsection{SCT Form Factors vs.\ Ghost-Free Condition}
+
+\begin{convention}[SCT propagator denominators]
+\label{conv:sct-denominators}
+\oursign\ \fromlit{NT-4a, verified}
+The SCT propagator denominators are:
+\begin{align}
+  \Pi_{\mathrm{TT}}(z) &= 1 + \frac{13}{60}\, z\,\hat{F}_1(z)\,,
+    \label{eq:Pi-TT-sct}\\
+  \Pi_s(z;\xi) &= 1 + 6\left(\xi - \frac{1}{6}\right)^2
+    z\,\hat{F}_2(z;\xi)\,,
+    \label{eq:Pi-s-sct}
+\end{align}
+where $\hat{F}_i(z) = F_i(z)/F_i(0)$ are normalized form factors and
+$z = \Box_E/\Lambda^2$ is the Euclidean spectral parameter.
+\end{convention}
+
+\begin{remark}[SCT does NOT satisfy the BMS ghost-free criterion]
+\label{rem:sct-not-ghost-free}
+\gap\
+The SCT form factors are \emph{derived} from the heat kernel, not
+\emph{engineered} to be ghost-free.  Specifically:
+\begin{enumerate}[nosep]
+  \item $F_1(z)$ and $F_2(z)$ are expressed through the master
+    function $\phi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi$,
+    which is entire of order~1, type~$1/4$.
+  \item $\hat{F}_1(z) \neq e^{H(z)}$ for any entire $H$.  The form
+    factors are \emph{not} of exponential type in the sense of
+    Tomboulis's theorem.
+  \item $\Pi_{\mathrm{TT}}(z_0) = 0$ at $z_0 \approx 2.41484$
+    (MR-2 d.5, verified to 30~digits).
+  \item The residue at $z_0$ is
+    $R_2 = 1/\Pi'_{\mathrm{TT}}(z_0) \approx -0.493$ (negative
+    $=$ ghost).
+\end{enumerate}
+The SCT ghost pole is \emph{real} and has residue $|R_2| = 0.493$,
+compared to $|R_2^{\mathrm{Stelle}}| = 1$ for Stelle gravity.  This
+is a 50.7\% suppression of the ghost residue.
+\end{remark}
+
+
+%%======================================================================
+\section{Lee-Wick Mechanism and Fakeon Quantization}
+\label{sec:lee-wick}
+%%======================================================================
+
+\subsection{Lee-Wick Propagators}
+
+\begin{definition}[Lee-Wick propagator]
+\label{def:lw-prop}
+\fromlit{Lee \& Wick, Nucl.\ Phys.\ B \textbf{9} (1969) 209}
+A \textbf{Lee-Wick propagator} is a propagator of the form
+\begin{equation}\label{eq:lw-prop}
+  G(k^2) = \frac{1}{k^2 - m^2 + \ii\epsilon}
+    - \frac{1}{k^2 - M^2 + \ii\epsilon'}\,,
+\end{equation}
+where $M > m$ is the Lee-Wick partner mass.  The second pole has
+\emph{negative residue} (ghost), but the theory maintains perturbative
+unitarity through the \textbf{CLOP prescription}.
+\end{definition}
+
+\begin{definition}[CLOP prescription]
+\label{def:clop}
+\fromlit{Cutkosky, Landshoff, Olive, Polkinghorne, Nucl.\ Phys.\ B
+\textbf{12} (1969) 281}
+The \textbf{CLOP prescription} for the ghost pole at $k^2 = M^2$:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item In the complex $k^0$-plane, the ghost pole is displaced by
+    $+\ii\epsilon'$ (opposite to the normal Feynman prescription).
+  \item The integration contour is deformed to run between the normal
+    and ghost poles, avoiding both.
+  \item In Cutkosky cutting rules, the ghost contributes with opposite
+    sign, leading to cancellations that preserve unitarity order by
+    order in perturbation theory.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}[Lee-Wick in higher-derivative gravity]
+\label{rem:lw-gravity}
+\fromlit{Grinstein, O'Connell, Wise, arXiv:0710.5528}
+Stelle's fourth-derivative gravity is equivalent to a Lee-Wick theory:
+the action $R + \alpha\Weylsq + \beta R^2$ propagates a massless
+spin-2 (graviton), a massive spin-2 (ghost, mass
+$m_2 = \Lambda/\sqrt{2\alpha}$), and a massive spin-0
+(mass $m_0 = \Lambda/\sqrt{6\beta}$).
+
+For SCT in the \emph{local limit} (form factors $\to$ constants):
+$\alpha = 13/120$, $\beta = 2(\xi-1/6)^2$.  Hence:
+\begin{align}
+  m_2^{\mathrm{Stelle}} &= \Lambda\sqrt{60/13} \approx 2.148\,\Lambda\,,\\
+  m_0^{\mathrm{Stelle}}(\xi=0) &= \Lambda\sqrt{6} \approx 2.449\,\Lambda\,.
+\end{align}
+In the full nonlocal theory, the ghost mass is shifted to
+$m_2^{\mathrm{SCT}} = \Lambda\sqrt{z_0} \approx 1.554\,\Lambda$
+(where $z_0 \approx 2.415$).
+\end{remark}
+
+
+\subsection{Anselmi-Piva Fakeon Prescription}
+
+\begin{definition}[Fakeon quantization]
+\label{def:fakeon}
+\fromlit{Anselmi \& Piva, JHEP \textbf{1706} (2017) 066,
+arXiv:1703.04584, Def.~2.1}
+The \textbf{fakeon} (fake particle) is a quantization prescription for
+a ghost pole at $k^2 = m_f^2$ (negative residue), defined by replacing
+the Feynman $\ii\epsilon$ with the \textbf{principal value}:
+\begin{equation}\label{eq:fakeon-pv}
+  \frac{1}{k^2 - m_f^2 + \ii\epsilon}
+  \;\longrightarrow\;
+  \PP\frac{1}{k^2 - m_f^2}
+  = \frac{1}{2}\left(
+    \frac{1}{k^2 - m_f^2 + \ii\epsilon}
+    + \frac{1}{k^2 - m_f^2 - \ii\epsilon}
+  \right).
+\end{equation}
+Equivalently, the fakeon propagator is the average of the retarded and
+advanced propagators.
+\end{definition}
+
+\begin{theorem}[Perturbative unitarity of fakeon gravity]
+\label{thm:anselmi-unitarity}
+\fromlit{Anselmi \& Piva, JHEP \textbf{1806} (2018) 039,
+arXiv:1803.07777; Anselmi, JHEP \textbf{2006} (2020) 086,
+arXiv:2003.12486}
+The gravitational theory
+\begin{equation}\label{eq:stelle-action}
+  S = \int \dd^4 x\,\sqrt{g}\left[
+    \frac{R}{16\pi G} + \alpha\,\Weylsq + \beta\,R^2
+  \right]
+\end{equation}
+is \textbf{perturbatively unitary} when the massive spin-2 mode is
+quantized with the fakeon prescription~\eqref{eq:fakeon-pv}.
+Specifically:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item The optical theorem $2\,\mathrm{Im}\,\mathcal{T}
+    = \sum_n |\mathcal{T}_n|^2$ is satisfied at every loop order,
+    where the sum runs over \emph{physical} (non-fakeon) intermediate
+    states.
+  \item The theory is renormalizable (Stelle's power-counting argument
+    applies independently of the quantization prescription).
+  \item The fakeon does not appear as an asymptotic state, does not
+    contribute to physical cross-sections, and has zero on-shell
+    residue in the $S$-matrix.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Applicability to SCT]
+\label{rem:fakeon-sct}
+The SCT ghost pole at $z_0 \approx 2.415$ in $\Pi_{\mathrm{TT}}$
+satisfies the prerequisites for the fakeon prescription:
+\begin{enumerate}[nosep]
+  \item The pole is on the \emph{real axis} (required for principal
+    value to be well-defined).
+  \item The residue is \emph{negative}: $R_2 \approx -0.493$ (the pole
+    is a ghost, not a normal particle).
+  \item $|R_2| < 1 = |R_2^{\mathrm{Stelle}}|$: the ghost coupling is
+    suppressed relative to the local (Stelle) theory.
+\end{enumerate}
+\gap\ What remains to be verified:
+\begin{itemize}[nosep]
+  \item Whether the nonlocal structure of $\Pi_{\mathrm{TT}}(z)$
+    (infinitely many complex zeros from Hadamard factorization) is
+    compatible with the fakeon prescription at higher loops.
+  \item Whether the optical theorem cancellations extend to the
+    nonlocal vertices that arise in SCT.
+  \item The fate of complex conjugate zeros: pairs of complex zeros
+    could correspond to Lee-Wick partner pairs, requiring the CLOP
+    contour prescription rather than the fakeon principal value.
+\end{itemize}
+\end{remark}
+
+\begin{remark}[Fakeon vs.\ CLOP]
+\label{rem:fakeon-vs-clop}
+\fromlit{Anselmi, arXiv:2003.12486, \S4}
+The Anselmi-Piva fakeon prescription generalizes and replaces the
+original CLOP prescription.  Key differences:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item CLOP requires complex conjugate pole pairs; the fakeon applies
+    to real poles as well.
+  \item CLOP gives a specific contour deformation; the fakeon gives a
+    local prescription (principal value) that is easier to implement in
+    loop calculations.
+  \item Both agree for theories where they both apply (complex
+    conjugate poles on the real axis).
+\end{enumerate}
+For SCT: the real ghost pole at $z_0$ should use the fakeon
+prescription; potential complex conjugate zeros (if found) would use
+the CLOP contour.
+\end{remark}
+
+
+%%======================================================================
+\section{Wick Rotation in Curved Spacetime}
+\label{sec:wick}
+%%======================================================================
+
+\subsection{Visser: Metric Deformation}
+
+\begin{convention}[Visser Wick rotation]
+\label{conv:visser}
+\fromlit{Visser, Phys.\ Lett.\ B \textbf{159} (1985) 22}
+For a globally hyperbolic spacetime with ADM decomposition
+\begin{equation}
+  \dd s^2 = -N^2\,\dd t^2 + h_{ij}(\dd x^i + N^i\,\dd t)
+    (\dd x^j + N^j\,\dd t)\,,
+\end{equation}
+the \textbf{Visser deformation} introduces a parameter
+$\epsilon \in [-1, +1]$:
+\begin{equation}\label{eq:visser}
+  g_\epsilon = -\epsilon\, N^2\,\dd t^2
+    + h_{ij}(\dd x^i + N^i\,\dd t)(\dd x^j + N^j\,\dd t)\,.
+\end{equation}
+At $\epsilon = +1$: Lorentzian signature $(-,+,+,+)$ (original metric).
+At $\epsilon = -1$: Euclidean signature $(+,+,+,+)$.
+
+This is a deformation of the \emph{metric}, not the time coordinate.
+It avoids the ambiguity of complexifying $t$ in curved spacetime.
+\end{convention}
+
+\begin{remark}[Status and limitations]
+The Visser deformation is a heuristic: there is no proof that the
+gravitational path integral (or the spectral action) is analytic in
+$\epsilon$ along the full interval $[-1, +1]$.  Phase transitions,
+singularities of the ADM decomposition, or topology changes could
+produce non-analyticities.
+
+For SCT, the relevant question is: are the form factors $F_i(z)$
+analytic under $z \to z(\epsilon)$ as $\epsilon$ varies from $+1$ to
+$-1$?  Since $F_i(z)$ are entire functions of $z$, the answer is yes
+\emph{for fixed momentum} $k^2$.  The issue is whether the
+\emph{spectral action functional} (which integrates over all momenta)
+is analytic in $\epsilon$.
+\end{remark}
+
+
+\subsection{Kontsevich-Segal: Allowable Complex Metrics}
+
+\begin{definition}[Allowable metric]
+\label{def:allowable}
+\fromlit{Kontsevich \& Segal, arXiv:2105.10161, Def.~1.1}
+A complex metric $g$ on a smooth manifold $M$ is \textbf{allowable} if
+at every point $x \in M$, the complex symmetric matrix
+$g_{\mu\nu}(x)$ satisfies:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $\mathrm{Re}\bigl(\sqrt{\det g}\bigr) > 0$,
+  \item For each eigenvalue $\lambda_i$ of $g_{\mu\nu}(x)$:
+    $|\arg(\lambda_i)| < \pi/2$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Allowable signatures]
+\label{thm:ks-signatures}
+\fromlit{Kontsevich \& Segal, arXiv:2105.10161, Thm.~1.3;
+Witten, arXiv:2111.06514, \S3}
+Among \emph{real} metrics on a $d$-dimensional manifold, only
+signatures $(d, 0)$ (Euclidean) and $(d-1, 1)$ (Lorentzian) are
+allowable.  Specifically:
+\begin{itemize}[nosep]
+  \item Euclidean metrics (all eigenvalues positive, $\arg = 0$):
+    strictly allowable, in the interior of the allowable domain.
+  \item Lorentzian metrics (one negative eigenvalue, $\arg = \pi$):
+    on the \emph{boundary} of the allowable domain (the negative
+    eigenvalue has $|\arg| = \pi$, which saturates the bound but is
+    included as a limiting case).
+  \item All other real signatures (e.g., $(2,2)$, $(3,1,0)$) are
+    \emph{not} allowable.
+\end{itemize}
+\end{theorem}
+
+\begin{remark}[Implications for Wick rotation]
+\label{rem:ks-wick}
+The Kontsevich-Segal criterion provides a mathematical justification
+for the Visser deformation: the one-parameter family $g_\epsilon$
+with $\epsilon \in [-1, +1]$ passes through only allowable metrics
+(for $\epsilon > 0$: Euclidean; for $\epsilon = -1$: Lorentzian on
+the boundary; for $-1 < \epsilon < 0$: complex with
+$|\arg| < \pi$).
+
+For the gravitational path integral, Kontsevich and Segal conjecture
+(and Witten elaborates) that restricting to allowable metrics gives a
+convergent integral.  For SCT, this suggests that the effective action
+computed in Euclidean signature via the spectral action can be
+analytically continued to Lorentzian signature along the Visser path,
+\emph{provided} the integrand (form factors) has no singularities along
+this path.
+
+Since $F_1(z)$ and $F_2(z)$ are entire, they have no singularities
+anywhere in $\mathbb{C}$, including along the Wick-rotation path.
+The potential obstruction is the zero of $\Pi_{\mathrm{TT}}$ at
+$z_0 \approx 2.415$, which produces a pole in the propagator.
+\end{remark}
+
+
+%%======================================================================
+\section{The Chamseddine-Connes Spectral Action}
+\label{sec:spectral-action}
+%%======================================================================
+
+\begin{definition}[Spectral action]
+\label{def:spectral-action}
+\fromlit{Chamseddine \& Connes, Commun.\ Math.\ Phys.\ \textbf{186}
+(1997) 731, hep-th/9606001, Eq.~(1.1)}
+For a spectral triple $(\mathcal{A}, \mathcal{H}, D)$ (Riemannian),
+the \textbf{bosonic spectral action} is:
+\begin{equation}\label{eq:cc-spectral-action}
+  S_b = \Tr\bigl(f(D^2/\Lambda^2)\bigr)
+  + \frac{1}{2}\langle J\Psi, D_A\Psi\rangle\,,
+\end{equation}
+where $f$ is a positive even function (cutoff), $\Lambda$ is the
+energy scale, $D_A = D + A + JAJ^{-1}$ is the fluctuated Dirac
+operator, and the second term is the fermionic action.
+
+The bosonic part has the asymptotic expansion for
+$\Lambda \to \infty$:
+\begin{equation}\label{eq:cc-expansion}
+  \Tr f(D^2/\Lambda^2) \sim \sum_{k \geq 0}
+  f_k\,\Lambda^{4-k}\,a_k(D^2)\,,
+\end{equation}
+where $a_k$ are the Seeley-DeWitt coefficients and
+$f_k = \int_0^\infty f(u)\,u^{(4-k)/2-1}\,\dd u$ are the moments of
+the cutoff function.
+\end{definition}
+
+\begin{remark}[Assumptions requiring Riemannian signature]
+\label{rem:riem-assumptions}
+The spectral action \eqref{eq:cc-spectral-action} relies on:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $D$ is self-adjoint on a Hilbert space $\Rightarrow$
+    $D^2 \geq 0$ (non-negative spectrum).
+  \item $f(D^2/\Lambda^2)$ is a bounded operator (since $f$ is
+    a Schwartz-class cutoff and $D^2 \geq 0$).
+  \item The heat kernel $e^{-tD^2}$ is trace-class for $t > 0$,
+    enabling the Seeley-DeWitt expansion.
+\end{enumerate}
+All three fail in Lorentzian signature:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item $D$ is $J$-self-adjoint on a Krein space, but $D^2$ has
+    indefinite spectrum.
+  \item $f(D^2/\Lambda^2)$ is not bounded if $D^2$ has negative
+    eigenvalues and $f$ grows.
+  \item $e^{-tD^2}$ is not trace-class (exponential growth in the
+    negative spectral direction).
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Chamseddine-Connes-Marcolli: full Standard Model]
+\label{rem:ccm}
+\fromlit{Chamseddine, Connes, Marcolli, hep-th/0610241}
+The spectral action for the \emph{almost-commutative} geometry
+$M \times F$ (where $F$ is the finite spectral triple encoding the
+Standard Model) produces the full Einstein-Hilbert + Standard Model
+Lagrangian at order $\Lambda^0$ in the asymptotic expansion
+\eqref{eq:cc-expansion}.  The non-local form factors $F_1$, $F_2$
+arise from keeping the \emph{exact} heat kernel rather than its
+asymptotic expansion.
+
+The entire NCG Standard Model programme is formulated in Euclidean
+signature.  Barrett's Lorentzian KO-dimension fix (\S\ref{sec:krein})
+addresses only the fermionic action; the bosonic spectral action
+remains Euclidean.
+\end{remark}
+
+
+%%======================================================================
+\section{Causal Set d'Alembertians}
+\label{sec:causal-sets}
+%%======================================================================
+
+\begin{definition}[Causal set d'Alembertian]
+\label{def:cs-dalembert}
+\fromlit{Sorkin, arXiv:gr-qc/0703099; Benincasa \& Dowker, Phys.\ Rev.\
+Lett.\ \textbf{104} (2010) 181301}
+On a causal set $\mathcal{C}$ (a locally finite partial order
+approximating a Lorentzian manifold), the \textbf{causal set
+d'Alembertian} $B_\ell$ acting on a scalar field is:
+\begin{equation}\label{eq:cs-box}
+  B_\ell\,\phi(x) = \frac{1}{\ell^2}\sum_{n=0}^{N_d}
+  C_n^{(d)}\sum_{y \prec_n x} \phi(y)\,,
+\end{equation}
+where $\ell$ is the discreteness scale, $\prec_n$ denotes the
+$n$-th layer of causal predecessors, and $C_n^{(d)}$ are
+dimension-dependent coefficients chosen so that
+$B_\ell \to \Box$ in the continuum limit.
+\end{definition}
+
+\begin{theorem}[Nonlocal massive modes in continuum limit]
+\label{thm:belenchia}
+\fromlit{Belenchia, Benincasa, Liberati, JHEP \textbf{1503} (2015)
+036, arXiv:1411.6513, Thm.~1}
+In the continuum limit of the causal set d'Alembertian $B_\ell$, the
+retarded Green's function acquires a \textbf{continuum of massive
+modes}: the spectral density $\rho(m^2)$ is non-zero for all
+$m^2 > 0$, even as $\ell \to 0$.  These massive modes are
+\emph{non-perturbative} in $\ell$ (they survive the continuum limit)
+and represent a form of discreteness-induced nonlocality.
+
+The momentum-space propagator of $B_\ell$ in the continuum limit
+takes the form:
+\begin{equation}
+  \tilde{G}_\ell(k) = \frac{1}{-k^2 + f_\ell(k^2)}\,,
+\end{equation}
+where $f_\ell(k^2)$ is a nonlocal correction that contains the
+massive spectral density.
+\end{theorem}
+
+\begin{remark}[Analogy with SCT]
+\label{rem:cs-sct}
+The causal set d'Alembertian provides a conceptual parallel to SCT:
+\begin{itemize}[nosep]
+  \item Both produce nonlocal modifications of $\Box$.
+  \item Both generate a continuum of massive modes (in SCT: from the
+    form factors $F_1$, $F_2$; in causal sets: from discreteness).
+  \item Both are intrinsically Lorentzian (causal sets have causal
+    order built in; SCT inherits it from the spectral triple).
+\end{itemize}
+However, the mathematical frameworks are fundamentally different:
+causal sets are discrete structures, while SCT is a continuum theory
+based on spectral geometry.  The analogy is suggestive but not
+directly useful for deriving the Lorentzian SCT action.
+\end{remark}
+
+
+%%======================================================================
+\section{Conventions Summary}
+\label{sec:conventions}
+%%======================================================================
+
+\begin{center}
+\small
+\begin{longtable}{lll}
+\toprule
+\textbf{Quantity} & \textbf{Convention} & \textbf{Source} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Quantity} & \textbf{Convention} & \textbf{Source} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Krein space & $(\mathcal{K}, [\cdot,\cdot])$,
+  $J^2 = \Id$, $J = J^*$
+  & Bogn\'{a}r 1974 \\
+Fundamental symmetry & $J = \ii\gamma^0$ (Lorentzian)
+  & Strohmaier \\
+$J$-self-adjointness & $[D\psi,\phi] = [\psi,D\phi]$
+  $\Leftrightarrow$ $JDJ = D^*$
+  & Strohmaier \\
+KO-dimension & $6 \pmod{8}$ (Lorentzian SM)
+  & Barrett \\
+Lorentzian Dirac & $D = -\ii\gamma^\mu\nabla_\mu$
+  & standard \\
+Visser deformation & $g_\epsilon$,
+  $\epsilon \in [-1,+1]$
+  & Visser 1985 \\
+Allowable metrics & $|\arg(\lambda_i)| < \pi/2$
+  & Kontsevich-Segal \\
+Ghost-free criterion & $\Pi(z) \neq 0$ for $z \geq 0$
+  & BMS \\
+Fakeon prescription & $\PP(k^2 - m_f^2)^{-1}$
+  & Anselmi-Piva \\
+SCT master function & $\phi(z) = \int_0^1 e^{-\xi(1-\xi)z}\,\dd\xi$
+  & NT-1 \\
+SCT form factors & $\hat{F}_i(z) = F_i(z)/F_i(0)$
+  & NT-4a \\
+Ghost pole & $z_0 \approx 2.415$,
+  $R_2 \approx -0.493$
+  & MR-2 d.5 \\
+\end{longtable}
+\end{center}
+
+
+%%======================================================================
+\section{Gap Analysis}
+\label{sec:gaps}
+%%======================================================================
+
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+
+\item \textbf{Lorentzian spectral action [CRITICAL]:}
+  \label{gap:lor-sa}
+  The spectral action $\Tr f(D^2/\Lambda^2)$ is undefined in
+  Lorentzian signature because $D^2$ is hyperbolic with indefinite
+  spectrum.  Recent work by Dang and Wrochna
+  \cite{DangWrochna2022,DangWrochna2022b} defines complex powers of
+  the wave operator and Lorentzian spectral zeta functions on
+  asymptotically Minkowski spacetimes, providing a candidate
+  replacement.  However, the connection to the Chamseddine-Connes
+  spectral action (which uses heat kernel regularization, not zeta
+  functions) remains to be established.
+
+  \emph{Candidate resolutions:}
+  \begin{enumerate}[nosep,label=(\alph*)]
+    \item Accept the Euclidean spectral action as fundamental; Wick-rotate
+      the \emph{effective action} (a functional of the metric) via
+      Visser deformation (\S\ref{sec:wick}).
+    \item Define a distributional or regularized Lorentzian trace
+      (e.g., using the advanced-minus-retarded propagator instead of
+      the heat kernel).
+    \item Use the Barvinsky-Vilkovisky in-in formalism, which is
+      intrinsically Lorentzian, to derive the same nonlocal effective
+      action.
+    \item Use Lorentzian spectral zeta functions (Dang-Wrochna)
+      as an alternative regularization of the spectral action.
+  \end{enumerate}
+
+\item \textbf{Fate of the ghost pole [CRITICAL]:}
+  \label{gap:ghost}
+  $\Pi_{\mathrm{TT}}(z_0) = 0$ at $z_0 \approx 2.415$.  In
+  Lorentzian signature, this becomes a physical propagating massive
+  spin-2 mode with mass $m_2^2 = z_0\Lambda^2$ and negative norm.
+
+  \emph{Candidate resolutions:}
+  \begin{enumerate}[nosep,label=(\alph*)]
+    \item Anselmi-Piva fakeon prescription: quantize the ghost as
+      a fakeon (principal value).
+    \item Lee-Wick (CLOP) contour: if complex conjugate partner
+      zeros exist, use the CLOP contour for the pair.
+    \item Accept the ghost and investigate whether the theory is
+      asymptotically safe (ghost decouples at high energies where
+      $\Pi_{\mathrm{TT}} \to 1$).
+  \end{enumerate}
+
+\item \textbf{Complex zero structure of $\Pi_{\mathrm{TT}}$:}
+  \label{gap:complex-zeros}
+  $\Pi_{\mathrm{TT}}(z)$ is entire of order~1.  By Hadamard's theorem
+  it has infinitely many zeros.  The complex zeros (off the real axis)
+  will become relevant in Lorentzian continuation: pairs of complex
+  conjugate zeros correspond to Lee-Wick partner pairs.
+
+  \emph{Required:} Systematic numerical survey of zeros in the complex
+  $z$-plane, classification into real/complex conjugate pairs, and
+  determination of which prescription (fakeon or CLOP) applies to each.
+
+\item \textbf{Wick rotation analyticity:}
+  \label{gap:wick-analyticity}
+  The Visser deformation $g_\epsilon$ provides a path from Euclidean
+  to Lorentzian, but there is no proof that the spectral action
+  (or effective action) is analytic in $\epsilon$ along the entire
+  path.  Non-analyticities could arise from: phase transitions in the
+  path integral, singularities of the ADM decomposition, or level
+  crossings in the Dirac spectrum.
+
+\item \textbf{Scalar mode at $\xi \neq 1/6$:}
+  \label{gap:scalar}
+  At conformal coupling $\xi = 1/6$, $\Pi_s = 1$ (no scalar ghost).
+  For $\xi \neq 1/6$, $\Pi_s$ develops its own zero structure, producing
+  additional ghost poles.  The full Lorentzian theory must address both
+  spin-2 and spin-0 ghosts.
+
+\item \textbf{Non-perturbative definition:}
+  \label{gap:nonpert}
+  All verified SCT results are perturbative (one-loop,
+  $O(\mathcal{R}^2)$).  A complete Lorentzian formulation would
+  require either a non-perturbative spectral action or a proof that
+  perturbative results capture the essential physics.
+
+\item \textbf{Higher-loop stability:}
+  \label{gap:higher-loop}
+  The fakeon prescription is proved for perturbative unitarity at
+  \emph{all} loop orders for the local Stelle action.  For the
+  nonlocal SCT action, the proof has not been extended beyond tree
+  level.
+\end{enumerate}
+
+
+%%======================================================================
+\section{Comparison of Approaches}
+\label{sec:comparison}
+%%======================================================================
+
+\begin{center}
+\small
+\begin{longtable}{p{2.5cm}p{3cm}p{3cm}p{3cm}p{2cm}}
+\toprule
+\textbf{Approach} & \textbf{Spectral action} & \textbf{Ghost handling}
+  & \textbf{SCT fit} & \textbf{Maturity} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Approach} & \textbf{Spectral action} & \textbf{Ghost handling}
+  & \textbf{SCT fit} & \textbf{Maturity} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Krein space (Strohmaier, van den Dungen)
+  & Fermionic: defined. Bosonic: \textbf{undefined}
+  & Not addressed
+  & Correct framework for $D$
+  & Medium \\
+Wick rotation (Visser, KS)
+  & Defined in Euclidean; continued via $g_\epsilon$
+  & Poles rotate in complex $k^2$ plane
+  & Natural bridge for existing results
+  & Low--Medium \\
+Fakeon (Anselmi-Piva)
+  & N/A (prescription for propagator)
+  & Ghost $\to$ fakeon: removed from spectrum
+  & Directly addresses $\Pi_{\mathrm{TT}}$ ghost
+  & High \\
+CLOP / Lee-Wick
+  & N/A
+  & Complex conjugate pairs: contour deformation
+  & Applies if complex zeros pair up
+  & High \\
+Ghost-free IDG (BMS, Tomboulis)
+  & N/A (action design)
+  & $a(z) = e^{H(z)}$: no zeros by construction
+  & SCT does NOT satisfy
+  & High \\
+Causal sets (Sorkin)
+  & Different framework
+  & Nonlocality = UV regulator
+  & Conceptual analogy only
+  & Low \\
+\end{longtable}
+\end{center}
+
+
+%%======================================================================
+\section{Recommended Strategy for MR-1 Derivation}
+\label{sec:strategy}
+%%======================================================================
+
+Based on the literature survey, we recommend a three-component
+approach to the Lorentzian continuation of SCT:
+
+\begin{enumerate}[label=\textbf{(\Alph*)}]
+
+\item \textbf{Krein-space foundation:}
+  Adopt Strohmaier's pseudo-Riemannian spectral triple
+  (Definition~\ref{def:pseudo-riem-st}) as the mathematical framework.
+  Barrett's KO-dimension fix (Theorem~\ref{thm:barrett-ko}) resolves
+  fermion doubling.  The fermionic action is well-defined in Lorentzian
+  signature.
+
+\item \textbf{Effective action via Wick rotation:}
+  For the bosonic sector, accept the Euclidean spectral action as the
+  fundamental definition.  Wick-rotate the \emph{effective action}
+  (functional of $g_{\mu\nu}$) via Visser deformation
+  (Convention~\ref{conv:visser}).  The form factors are entire functions,
+  hence well-defined under analytic continuation.  Verify that the
+  Kontsevich-Segal criterion (Theorem~\ref{thm:ks-signatures}) is
+  satisfied along the deformation path.
+
+\item \textbf{Fakeon prescription for the ghost pole:}
+  Quantize the spin-2 ghost at $z_0 \approx 2.415$ using the
+  Anselmi-Piva fakeon prescription
+  (Definition~\ref{def:fakeon}).  The prerequisites are satisfied:
+  real pole, negative residue, suppressed coupling.  For complex zeros
+  (if found in pairs), use the CLOP contour.
+\end{enumerate}
+
+The deliverable of MR-1 is a self-consistent Lorentzian formulation of
+SCT at the one-loop, $O(\mathcal{R}^2)$ level, with:
+\begin{itemize}[nosep]
+  \item A well-defined kinematic framework (Krein spectral triple),
+  \item A well-defined bosonic action (Wick-rotated effective action),
+  \item A ghost-free physical spectrum (fakeon prescription),
+  \item Agreement with all verified Euclidean results in the
+    appropriate limit.
+\end{itemize}
+
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{Bognar1974}
+  J.~Bogn\'{a}r,
+  \emph{Indefinite Inner Product Spaces},
+  Springer, Berlin, 1974.
+
+\bibitem{Strohmaier2001}
+  A.~Strohmaier,
+  ``On noncommutative and pseudo-Riemannian geometry,''
+  J.\ Geom.\ Phys.\ \textbf{56} (2006) 175
+  [math-ph/0110001].
+
+\bibitem{PaschkeSitarz2006}
+  M.~Paschke, A.~Sitarz,
+  ``Equivariant Lorentzian spectral triples,''
+  preprint, math-ph/0611029 (2006).
+
+\bibitem{vdDR2015}
+  K.~van den Dungen, A.~Rennie,
+  ``Indefinite Kasparov modules and pseudo-Riemannian manifolds,''
+  Ann.\ Henri Poincar\'{e} \textbf{17} (2016) 3255
+  [arXiv:1503.06916 [math-ph]].
+
+\bibitem{vdD2016}
+  K.~van den Dungen,
+  ``Krein spectral triples and the fermionic action,''
+  Math.\ Phys.\ Anal.\ Geom.\ \textbf{19} (2016) 4
+  [arXiv:1505.01939 [math-ph]].
+
+\bibitem{Barrett2007}
+  J.~W.~Barrett,
+  ``A Lorentzian version of the non-commutative geometry of the
+  Standard Model of particle physics,''
+  J.\ Math.\ Phys.\ \textbf{48} (2007) 012303
+  [hep-th/0608221].
+
+\bibitem{FrancoEckstein2014}
+  N.~Franco, M.~Eckstein,
+  ``An algebraic formulation of causality for noncommutative
+  geometry,''
+  Class.\ Quantum Grav.\ \textbf{30} (2013) 135007
+  [arXiv:1212.5171 [math-ph]].
+
+\bibitem{BarStrohmaier2019}
+  C.~B\"{a}r, A.~Strohmaier,
+  ``An index theorem for Lorentzian manifolds with compact spacelike
+  Cauchy boundary,''
+  Amer.\ J.\ Math.\ \textbf{141} (2019) 1421
+  [arXiv:1506.00959 [math.DG]].
+
+\bibitem{BarStrohmaier2015}
+  C.~B\"{a}r, A.~Strohmaier,
+  ``A rigorous geometric derivation of the chiral anomaly in curved
+  backgrounds,''
+  Commun.\ Math.\ Phys.\ \textbf{347} (2016) 703
+  [arXiv:1508.05345 [math-ph]].
+
+\bibitem{Tomboulis1997}
+  E.~T.~Tomboulis,
+  ``Super-renormalizable gauge and gravitational theories,''
+  hep-th/9702146 (1997).
+
+\bibitem{BMS2006}
+  T.~Biswas, A.~Mazumdar, W.~Siegel,
+  ``Bouncing universes in string-inspired gravity,''
+  JCAP \textbf{0603} (2006) 009
+  [hep-th/0508194].
+
+\bibitem{Modesto2012}
+  L.~Modesto,
+  ``Super-renormalizable quantum gravity,''
+  Phys.\ Rev.\ D \textbf{86} (2012) 044005
+  [arXiv:1107.2403 [hep-th]].
+
+\bibitem{BGKM2012}
+  T.~Biswas, E.~Gerwick, T.~Koivisto, A.~Mazumdar,
+  ``Towards singularity and ghost free theories of gravity,''
+  Phys.\ Rev.\ Lett.\ \textbf{108} (2012) 031101
+  [arXiv:1110.5249 [gr-qc]].
+
+\bibitem{BLM2018}
+  L.~Buoninfante, G.~Lambiase, A.~Mazumdar,
+  ``Ghost-free infinite derivative quantum field theory,''
+  Nucl.\ Phys.\ B \textbf{944} (2019) 114646
+  [arXiv:1805.03559 [hep-th]].
+
+\bibitem{LeeWick1969}
+  T.~D.~Lee, G.~C.~Wick,
+  ``Negative metric and the unitarity of the $S$-matrix,''
+  Nucl.\ Phys.\ B \textbf{9} (1969) 209.
+
+\bibitem{LeeWick1970}
+  T.~D.~Lee, G.~C.~Wick,
+  ``Finite theory of quantum electrodynamics,''
+  Phys.\ Rev.\ D \textbf{2} (1970) 1033.
+
+\bibitem{CLOP1969}
+  R.~E.~Cutkosky, P.~V.~Landshoff, D.~I.~Olive,
+  J.~C.~Polkinghorne,
+  ``A non-analytic $S$-matrix,''
+  Nucl.\ Phys.\ B \textbf{12} (1969) 281.
+
+\bibitem{GOW2008}
+  B.~Grinstein, D.~O'Connell, M.~B.~Wise,
+  ``The Lee-Wick standard model,''
+  Phys.\ Rev.\ D \textbf{77} (2008) 025012
+  [arXiv:0710.5528 [hep-ph]].
+
+\bibitem{AP2017}
+  D.~Anselmi, M.~Piva,
+  ``A new formulation of Lee-Wick quantum field theory,''
+  JHEP \textbf{1706} (2017) 066
+  [arXiv:1703.04584 [hep-th]].
+
+\bibitem{AP2018}
+  D.~Anselmi, M.~Piva,
+  ``The ultraviolet behavior of quantum gravity,''
+  JHEP \textbf{1806} (2018) 039
+  [arXiv:1803.07777 [hep-th]].
+
+\bibitem{AP2018micro}
+  D.~Anselmi, M.~Piva,
+  ``Quantum gravity, fakeons and microcausality,''
+  JHEP \textbf{1811} (2018) 021
+  [arXiv:1806.03605 [hep-th]].
+
+\bibitem{Anselmi2020}
+  D.~Anselmi,
+  ``Diagrammar of physical and fake particles and spectral optical
+  theorem,''
+  JHEP \textbf{2006} (2020) 086
+  [arXiv:2003.12486 [hep-th]].
+
+\bibitem{Anselmi2020b}
+  D.~Anselmi,
+  ``Fakeons, quantum gravity and the correspondence principle,''
+  JHEP \textbf{2002} (2020) 141
+  [arXiv:1911.10343 [hep-th]].
+
+\bibitem{Visser1985}
+  M.~Visser,
+  ``How to Wick rotate generic curved spacetime,''
+  preprint (1991); see also
+  Phys.\ Lett.\ B \textbf{159} (1985) 22 (related discussion).
+
+\bibitem{KS2021}
+  M.~Kontsevich, G.~Segal,
+  ``Wick rotation and the positivity of energy in quantum field
+  theory,''
+  Quart.\ J.\ Math.\ Oxford \textbf{72} (2021) 673
+  [arXiv:2105.10161 [hep-th]].
+
+\bibitem{Witten2021}
+  E.~Witten,
+  ``A note on complex spacetime metrics,''
+  in \emph{Contributions to Algebraic Geometry, Arithmetic, and
+  Related Topics} (Springer, 2023)
+  [arXiv:2111.06514 [hep-th]].
+
+\bibitem{CC1997}
+  A.~H.~Chamseddine, A.~Connes,
+  ``The spectral action principle,''
+  Commun.\ Math.\ Phys.\ \textbf{186} (1997) 731
+  [hep-th/9606001].
+
+\bibitem{CCM2007}
+  A.~H.~Chamseddine, A.~Connes, M.~Marcolli,
+  ``Gravity and the standard model with neutrino mixing,''
+  Adv.\ Theor.\ Math.\ Phys.\ \textbf{11} (2007) 991
+  [hep-th/0610241].
+
+\bibitem{vanSuijlekom2015}
+  W.~D.~van Suijlekom,
+  \emph{Noncommutative Geometry and Particle Physics},
+  Mathematical Physics Studies, Springer, 2015.
+
+\bibitem{Sorkin2007}
+  R.~D.~Sorkin,
+  ``Does locality fail at intermediate length-scales,''
+  in \emph{Approaches to Quantum Gravity}
+  [arXiv:gr-qc/0703099].
+
+\bibitem{BenincasaDowker2010}
+  D.~M.~T.~Benincasa, F.~Dowker,
+  ``The scalar curvature of a causal set,''
+  Phys.\ Rev.\ Lett.\ \textbf{104} (2010) 181301
+  [arXiv:1001.2725 [gr-qc]].
+
+\bibitem{BBL2015}
+  A.~Belenchia, D.~M.~T.~Benincasa, S.~Liberati,
+  ``Nonlocal scalar quantum field theory from causal sets,''
+  JHEP \textbf{1503} (2015) 036
+  [arXiv:1411.6513 [gr-qc]].
+
+\bibitem{Stelle1977}
+  K.~S.~Stelle,
+  ``Renormalization of higher-derivative quantum gravity,''
+  Phys.\ Rev.\ D \textbf{16} (1977) 953.
+
+\bibitem{DangWrochna2022}
+  N.~V.~Dang, M.~Wrochna,
+  ``Complex powers of the wave operator and the spectral action on
+  Lorentzian scattering spaces,''
+  J.\ Eur.\ Math.\ Soc.\ (to appear)
+  [arXiv:2012.00712 [math-ph]].
+
+\bibitem{DangWrochna2022b}
+  N.~V.~Dang, M.~Wrochna,
+  ``Lorentzian spectral zeta functions on asymptotically Minkowski
+  spacetimes,''
+  preprint, arXiv:2202.06408 [math-ph] (2022).
+
+\bibitem{MartinettSingh2019}
+  P.~Martinetti, S.~Singh,
+  ``Lorentzian fermionic action by twisting Euclidean spectral
+  triples,''
+  preprint, arXiv:1907.02485 [math-ph] (2019).
+
+\bibitem{GerardMurroWrochna2022}
+  C.~G\'{e}rard, S.~Murro, M.~Wrochna,
+  ``Quantization of linearized gravity by Wick rotation in curved
+  spacetime,''
+  preprint, arXiv:2204.01094 [math-ph] (2022).
+
+\end{thebibliography}
+
+\end{document}

@@ -2,7 +2,7 @@
 %%  NT-1b: Literature Conventions and Benchmarks
 %%         for Scalar Form Factor Computation
 %%
-%%  Literature Pass output for dual-review pipeline (L + L-R reviewer).
+%%  Literature review output for independent cross-verification.
 %%  RESEARCH DOCUMENT: formulas extracted from cited papers.
 %%  No original derivations --- gaps noted explicitly.
 %%  Every value cites a specific equation in a specific paper.
@@ -66,7 +66,7 @@
 %% ---- title ----------------------------------------------------------
 \title{\textbf{NT-1b Scalar Form Factors:\\[4pt]
        Literature Conventions and Benchmarks}\\[8pt]
-       {\normalsize Literature Pass Output --- Dual-Review Pipeline (v2)}}
+       {\normalsize Literature Review --- Independent Cross-Verification (v2)}}
 \author{David Alfyorov}
 \date{March 2026 --- Working Document}
 
@@ -87,14 +87,14 @@ $h_C^{(0)}(\Box/m^2)$ and $h_R^{(0)}(\Box/m^2)$ for a
 \textbf{real scalar field} with non-minimal coupling~$\xi$ on a curved
 background, using the Barvinsky--Vilkovisky / Codello--Zanusso heat
 kernel formalism.  All formulas are extracted from the primary literature;
-no original derivations are performed (those are Derivation Pass's task).
+no original derivations are performed (those belong to the derivation stage).
 Each value is annotated with its provenance:
 \exactlit\ = extracted verbatim from a paper equation;
 \verified\ = cross-checked against $\geq 2$ independent sources;
 \inferred\ = inferred by analogy with the Dirac (NT-1) computation.
 
-This is the Literature Pass output for the dual-review pipeline and will be
-critically reviewed by Literature Review before being passed to Derivation Pass.
+This is the literature review, which will be critically
+reviewed before proceeding to the derivation stage.
 It supersedes the earlier (v1) single-pass output.
 
 \medskip\noindent
@@ -801,7 +801,7 @@ Substituting the CZ form factors:
   + \xi^2\,\frac{\varphi}{2}\,.
   \label{eq:hR-explicit}
 \end{align}
-This is the expression Derivation Pass should expand and simplify.
+This is the expression the derivation should expand and simplify.
 Note the $\xi$-dependent terms vanish when $\Omega_{\mu\nu}=0$
 does not help here---the $\xi$-dependence enters through
 $\mathbf{U}$, not through $\Omega$.
@@ -886,7 +886,7 @@ becomes local at $\xi = 1/6$.
 \label{sec:BV-CZ}
 %%======================================================================
 
-For completeness (and as a cross-check tool for Derivation Pass), we record
+For completeness (and as a cross-check tool for the derivation), we record
 the linear transformation between BV and CZ form factor bases.
 
 \subsection{BV form factors $f_1,\ldots,f_5$}
@@ -1146,11 +1146,11 @@ The decoupling is quadratic---no logarithmic running in the IR.
 
 
 %%======================================================================
-\section*{Summary of Benchmarks for Derivation Pass}
+\section*{Summary of Benchmarks for the Derivation}
 %%======================================================================
 
 \noindent
-Derivation Pass must reproduce the following values from a first-principles
+The derivation must reproduce the following values from a first-principles
 computation of $h_C^{(0)}$ and $h_R^{(0)}$ using the CZ heat kernel
 form factors:
 

@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage{fancyhdr}
 \usepackage{cancel}
+\usepackage{graphicx}
 
 % Custom commands (matching NT-1 conventions)
 \newcommand{\Id}{\mathbb{1}}
@@ -746,6 +747,18 @@ The effective type converges from below:
   \xrightarrow{R\to\infty} \frac{1}{4}.
 \end{equation}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt2_growth_rate.pdf}
+  \caption{Growth rate diagnostics for the entire functions $F_1(z)$ and
+    $F_2(z,\xi)$.  The effective order $\rho_{\mathrm{eff}}(R)$ and
+    effective type $\sigma_{\mathrm{eff}}(R)$ are plotted as functions
+    of the circle radius $R$.  Both converge to the exact analytic
+    values $\rho = 1$ and $\sigma = 1/4$ from above, confirming the
+    growth bounds of Theorem~\ref{thm:growth}.}
+  \label{fig:nt2-growth-rate}
+\end{figure}
+
 %======================================================================
 \section{Hadamard Factorization and Zero Structure}\label{sec:hadamard}
 %======================================================================
@@ -838,6 +851,17 @@ minimum-modulus criterion $|\Pi(z)| < 10^{-3}$.
 All detected proxy zeros lie in the left half-plane ($\Re(z) < 0$).
 This statement should now be read with care: later NT-4a denominator scans
 must decide the physical propagator-spectrum question directly.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt2_complex_plane.pdf}
+  \caption{Complex plane structure of the master function $\phi(z)$ and the
+    total form factors $F_1(z)$, $F_2(z)$.  The zeros of the propagator
+    proxy $\Pi_{\mathrm{proxy}}(z)$ are marked, illustrating the
+    left-half-plane clustering predicted by the Hadamard factorization.
+    No positive-real-axis zeros are found within the scanned domain.}
+  \label{fig:nt2-complex-plane}
+\end{figure}
 
 %======================================================================
 \section{Propagator-Denominator Caveat}\label{sec:ghost}

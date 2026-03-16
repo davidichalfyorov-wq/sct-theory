@@ -1,0 +1,257 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage[shortlabels]{enumitem}
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\half}{\tfrac{1}{2}}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+
+\definecolor{proven}{RGB}{0,100,0}
+\definecolor{near}{RGB}{0,0,160}
+
+\hypersetup{
+  pdftitle={Chirality Theorem for Quartic Weyl Structure in the Spectral Action},
+  pdfauthor={David Alfyorov},
+  colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue
+}
+
+\title{\textbf{Chirality Theorem for Quartic Weyl Structure\\[4pt]
+in the Spectral Action}}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\begin{abstract}
+We prove that the traced Seeley--DeWitt coefficient $\tr(a_8)$ for the Dirac
+operator on a Ricci-flat four-manifold has the form $c(p^2 + q^2)$ with
+\emph{zero} cross-term~$pq$, where $p = |C^+|^2$ and $q = |C^-|^2$ are the
+norms of the self-dual and anti-self-dual Weyl tensors.  The proof rests on a
+chirality theorem: the generators $\sigma^{rs} = \frac{i}{4}[\gamma^r,\gamma^s]$
+commute with $\gamma_5$ in $d = 4$, rendering the spin connection curvature
+$\Omega_{\mu\nu}$ block-diagonal in the chiral basis.  Consequently the heat
+kernel $e^{-tD^2}$ splits into left- and right-handed sectors, each coupled to
+only one half of the Weyl tensor (crossed chirality assignment).  This result
+applies to the full Standard Model Dirac operator $D$ on the product geometry
+$M \times F$ and holds at all orders in the Seeley--DeWitt expansion.
+The spectral action at mass dimension~8 therefore generates a single effective
+quartic Weyl structure, reducing the three-loop finiteness problem from an
+overdetermined system to a single ratio condition.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%===========================================================================
+\section{Introduction}
+%===========================================================================
+
+The spectral action $S = \Tr(f(D^2/\Lam^2))$ generates, via the Seeley--DeWitt
+expansion, curvature invariants at each mass dimension.  At dimension~8 (the
+$a_8$ coefficient, equivalently $a_4$ in Avramidi convention), the on-shell
+quartic Weyl invariants in $d = 4$ form a two-dimensional space spanned by
+$(C^2)^2$ and $({}^*\!CC)^2$.  The FUND program (Sec.~\ref{sec:fund}) established
+that the Molien series gives $P(4) = 3$ parity-even quartic Weyl invariants,
+reduced to~2 by the Cayley--Hamilton identity.
+
+If the spectral action generates both invariants independently, the single
+spectral parameter $\delta f_8$ cannot absorb a generic three-loop counterterm
+with two independent coefficients.  The question is whether the spectral action's
+specific structure constrains the quartic Weyl ratio.
+
+\section{The Chirality Theorem}
+\label{sec:chirality}
+
+\begin{theorem}[Chirality of the spin connection]
+In $d = 4$ Euclidean (or Lorentzian) dimensions, the spin connection generators
+$\sigma^{rs} = \frac{i}{4}[\gamma^r, \gamma^s]$ commute with the chirality
+operator~$\gamma_5$:
+\begin{equation}\label{eq:sigma-g5}
+  [\sigma^{rs},\, \gamma_5] = 0 \quad \forall\; r, s \in \{0,1,2,3\}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The chirality operator $\gamma_5 = \gamma^0\gamma^1\gamma^2\gamma^3$ satisfies
+$\{\gamma_5, \gamma^\mu\} = 0$ for each $\mu$.  Therefore
+$\gamma_5\, \gamma^r\gamma^s = (-\gamma^r\gamma_5)\gamma^s
+= \gamma^r\gamma^s\,\gamma_5$, giving
+$[\gamma_5, \gamma^r\gamma^s] = 0$.  Since
+$\sigma^{rs} \propto [\gamma^r, \gamma^s] = \gamma^r\gamma^s - \gamma^s\gamma^r$,
+and both products commute with $\gamma_5$, the result follows.
+\end{proof}
+
+\begin{corollary}[Block-diagonal spin connection curvature]
+The spin connection curvature
+$\Omega_{\mu\nu} = \frac{1}{4}R_{\mu\nu\rho\sigma}\sigma^{\rho\sigma}$
+commutes with $\gamma_5$ and is block-diagonal in the chiral basis
+$\gamma_5 = \mathrm{diag}(I_2, -I_2)$:
+\begin{equation}
+  \Omega_{\mu\nu} = \begin{pmatrix} \Omega^L_{\mu\nu} & 0 \\ 0 & \Omega^R_{\mu\nu} \end{pmatrix}.
+\end{equation}
+\end{corollary}
+
+\begin{corollary}[Crossed chirality assignment]
+\label{cor:crossed}
+The left-handed block $\Omega^L$ couples exclusively to the anti-self-dual
+Weyl tensor $C^-$ (parameter~$q$), and the right-handed block $\Omega^R$
+couples exclusively to the self-dual Weyl tensor $C^+$ (parameter~$p$):
+\begin{equation}
+  \tr_L(\Omega^2) = -\half\, q, \qquad
+  \tr_R(\Omega^2) = -\half\, p.
+\end{equation}
+This follows from the 't~Hooft symbol assignment:
+$\eta^i_{ab}\sigma^{ab}$ lives in~$P_R$ and
+$\bar\eta^i_{ab}\sigma^{ab}$ lives in~$P_L$.
+\end{corollary}
+
+\section{Heat Kernel Decomposition}
+\label{sec:heat}
+
+On a Ricci-flat background ($R_{\mu\nu} = 0$), the Lichnerowicz--Weitzenb\"ock
+formula gives $D^2 = -\nabla^2_{\mathrm{spin}}$ with endomorphism $E = -R/4 = 0$.
+Since the spin connection $\nabla_\mu = \partial_\mu + \Gamma_\mu$ with
+$\Gamma_\mu = \frac{1}{4}\omega_\mu^{ab}\gamma_a\gamma_b$ commutes
+with~$\gamma_5$ (Theorem~1), the operator~$D^2$ commutes with~$\gamma_5$:
+\begin{equation}
+  [D^2,\, \gamma_5] = 0 \quad \text{on Ricci-flat } M^4.
+\end{equation}
+Therefore $e^{-tD^2}$ is block-diagonal in the chiral basis, and the traced
+heat kernel coefficients decompose:
+\begin{equation}
+  \tr(a_n) = \tr_L(a_n^L) + \tr_R(a_n^R)
+\end{equation}
+where $a_n^L$ depends only on~$q$ (anti-self-dual Weyl) and $a_n^R$ depends
+only on~$p$ (self-dual Weyl).
+
+\begin{theorem}[Quartic Weyl ratio]
+At the quartic level ($n = 4$ in Avramidi convention, corresponding to mass
+dimension~8):
+\begin{equation}\label{eq:ratio}
+  \tr(a_8) = c\,(p^2 + q^2) = \frac{c}{2}\bigl[(C^2)^2 + ({}^*\!CC)^2\bigr],
+\end{equation}
+with zero $pq$ cross-term.  The ratio
+$(C^2)^2 : ({}^*\!CC)^2 = 1{:}1$ is exact.
+\end{theorem}
+
+\begin{proof}
+By the chiral decomposition: $\tr(a_8) = f_4(p) + f_4(q)$ where $f_4$ is a
+degree-2 polynomial (quartic in Weyl = degree~2 in $p$ or~$q$).  By parity
+($p \leftrightarrow q$): $f_4(p) = f_4(q)$, so $f_4(x) = c\,x^2$ for some
+constant~$c$.  Therefore $\tr(a_8) = c(p^2 + q^2)$.
+\end{proof}
+
+\section{Extension to the Full Standard Model}
+\label{sec:sm}
+
+The Standard Model Dirac operator on the almost-commutative geometry
+$M \times F$ takes the form:
+\begin{equation}
+  D = D_M \otimes \mathbf{1}_F + \gamma_5 \otimes D_F.
+\end{equation}
+On a pure-gravity background (no gauge field fluctuations):
+\begin{equation}
+  D^2 = D_M^2 \otimes \mathbf{1}_F + \{D_M, \gamma_5\} \otimes D_F
+  + \mathbf{1} \otimes D_F^2.
+\end{equation}
+In $d = 4$: $\{D_M, \gamma_5\} = i\{\gamma^\mu, \gamma_5\}\nabla_\mu = 0$
+(since $\{\gamma^\mu, \gamma_5\} = 0$).  Therefore:
+\begin{equation}
+  [D^2,\, \gamma_5 \otimes \mathbf{1}_F] = [D_M^2, \gamma_5] \otimes \mathbf{1}_F = 0.
+\end{equation}
+The chirality theorem extends to the full SM spectral triple.  The spectral action
+$\Tr(f(D^2/\Lam^2))$ generates quartic Weyl invariants with ratio~$1{:}1$ at
+all orders in the Seeley--DeWitt expansion.
+
+\section{Quartic $\Omega$-Structure Decomposition}
+\label{sec:omega}
+
+Four quartic $\Omega$-structures appear in the heat kernel:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Structure & $(p^2{+}q^2)$ coeff & $pq$ coeff & Block-diagonal? \\
+\midrule
+$S_1 = \tr(\Omega^4_{\mathrm{chain}})$ & $1/16$ & $0$ & Yes \\
+$S_2 = \tr(\Omega_{\mathrm{sq}}^2)$ & $1/8$ & $0$ & Yes \\
+$S_3 = [\tr(\Omega^2)]^2$ & $1/4$ & $1/2$ & \textbf{No} \\
+$S_4 = \text{double trace}$ & $1/8$ & $0$ & Yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Only $S_3$ has a nonzero $pq$ coefficient.  However, the chirality theorem
+guarantees that the \emph{total} $\tr(a_8)$ has zero~$pq$.  This implies
+a non-trivial cancellation: the $pq$ from~$S_3$ (with its universal Avramidi
+coefficient) must cancel against $pq$ contributions from geometry-sector
+terms (pure Riemann$^4 \times \mathbf{1}$ in fiber space).  The cancellation
+is forced by the chiral block structure of each sector's heat kernel.
+
+\section{Implications for the Three-Loop Problem}
+\label{sec:fund}
+
+The spectral action at mass dimension~8 generates:
+\begin{equation}
+  S_8 = f_8 \cdot c \int d^4x\,\sqrt{g}\; (p^2 + q^2)
+  = \frac{f_8 c}{2} \int d^4x\,\sqrt{g}\;
+  \bigl[(C^2)^2 + ({}^*\!CC)^2\bigr].
+\end{equation}
+This is a \emph{single} effective structure controlled by one parameter~$f_8$.
+The three-loop counterterm absorption requires:
+\begin{equation}
+  \delta f_8 \cdot c = \alpha_{\mathrm{ct}} \quad \text{(coefficient of } p^2{+}q^2)
+\end{equation}
+which is one equation in one unknown---always solvable---provided the
+three-loop counterterm also has the form $\alpha_{\mathrm{ct}}(p^2 + q^2)$
+with zero~$pq$.
+
+\subsection{Status of the counterterm ratio}
+
+The chirality theorem proves $pq = 0$ for:
+\begin{itemize}
+  \item The spectral action heat kernel $\tr(a_n)$ at all orders (proven).
+  \item The one-loop counterterm (which \emph{is} $\tr(a_8)$, proven).
+\end{itemize}
+For multi-loop counterterms ($L \geq 2$), the argument requires that the
+spectral action class is preserved under renormalization.  van~Nuland and
+van~Suijlekom (arXiv:2107.08485) proved this for Yang--Mills on flat space.
+Extension to the gravitational sector is supported by:
+\begin{enumerate}[(i)]
+  \item All vertices $\delta^n S/\delta g^n$ inherit chirality from~$D^2$.
+  \item The kinetic operator $\delta^2 S/\delta h^2$ acts on symmetric
+    tensors in the $(3,3)$ representation of $\mathrm{SU}(2)_L \times \mathrm{SU}(2)_R$,
+    which admits a chiral decomposition.
+  \item The propagator $G = K^{-1}$ inherits the block structure if $K$
+    preserves it.
+\end{enumerate}
+A formal proof for the gravitational sector remains open.
+
+\section{Conclusion}
+
+The chirality theorem reduces the three-loop finiteness problem from a
+structurally overdetermined system ($P(4) = 3$ invariants, reduced to~2 by
+Cayley--Hamilton, versus~1 spectral parameter) to a single ratio condition
+with zero free parameters.  The spectral action side is proven to generate
+only the $(p^2 + q^2)$ combination.  Resolution of the three-loop problem
+is conditional on the counterterm sharing this structure, which is guaranteed
+if the spectral action class is renormalizably closed for gravity.
+
+\end{document}

@@ -1,0 +1,580 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\order}{\mathcal{O}}
+\newcommand{\MPl}{M_{\mathrm{Pl}}}
+\newcommand{\MPlred}{M_{\mathrm{Pl,red}}}
+\newcommand{\Neff}{N_{\mathrm{eff}}}
+\newcommand{\Imag}{\mathrm{Im}}
+\newcommand{\Real}{\mathrm{Re}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- A3}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={A3: Ghost Decay Width from First Principles},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{A3: Ghost Decay Width}\\[4pt]
+  \textbf{from First Principles}\\[6pt]
+  \large HLZ Partial Widths, Residue Factorization,\\
+  and Comparison with Stelle Gravity
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\begin{abstract}
+We compute the decay width of the spin-2 ghost in Spectral Causal
+Theory from first principles, using the Han--Lykken--Zhang (HLZ) partial
+widths for massive spin-2 decay, the Donoghue--Menezes framework for
+ghost propagator treatment, and the MR-2 ghost catalogue data.  The
+master formula is
+\begin{equation*}
+  \frac{\Gamma}{m}
+  = C_\Gamma \left(\frac{\Lambda}{\MPlred}\right)^{\!2},
+  \qquad
+  C_\Gamma
+  = \frac{|R_L| \cdot 2|z_L| \cdot \Neff^{\mathrm{width}}}
+         {960\pi}
+  = 0.065540118532926767,
+\end{equation*}
+where $|R_L| = 0.5378$ (ghost residue), $|z_L| = 1.2807$ (ghost pole
+location), and $\Neff^{\mathrm{width}} = N_s + 3N_D + 6N_v = 143.5$
+(decay-channel weighted SM degrees of freedom).  The coefficient is
+verified to 17~significant digits by independent 100-digit computation.
+The ghost is always unstable ($\Gamma > 0$ for any $\Lambda > 0$),
+always a narrow resonance ($\Gamma/m \ll 1$ for $\Lambda \ll \MPl$),
+and has a width suppressed by 85\% relative to Stelle gravity.
+This resolves GAP-1 of MR-2.
+\end{abstract}
+
+\tableofcontents
+
+
+% =========================================================================
+\section{Introduction}
+\label{sec:intro}
+% =========================================================================
+
+The MR-2 unitarity analysis established that the SCT graviton propagator
+contains a ghost pole at $z_L = -1.2807$ with residue $R_L = -0.538$.
+A rough estimate of the ghost width was provided but with several
+compounding errors (wrong $\Neff$ convention, missing $|R_L|$ and
+$|z_L|$ factors).  The present document derives the width from first
+principles using the well-established HLZ partial widths for massive
+spin-2 particles~\cite{HLZ1999}.
+
+
+% =========================================================================
+\section{Ghost Propagator Near the Pole}
+\label{sec:pole}
+% =========================================================================
+
+The full TT-sector graviton propagator is
+\begin{equation}\label{eq:G}
+  G_{\mathrm{TT}}(k^2)
+  = \frac{1}{k^2\,\PiTT(-k^2/\Lambda^2)}.
+\end{equation}
+At the zero $z = z_L$ of~$\PiTT$, where $k^2 = m^2 \equiv
+|z_L|\,\Lambda^2$, the propagator has a simple pole:
+\begin{equation}\label{eq:pole}
+  G_{\mathrm{TT}}(k^2)
+  \approx \frac{R_L}{k^2 - m^2},
+  \qquad
+  R_L = \frac{1}{z_L\,\PiTT'(z_L)} = -0.5378.
+\end{equation}
+The negative residue $R_L < 0$ is the ghost signature: opposite sign
+to the healthy graviton pole at $k^2 = 0$ (which has residue~$+1$).
+
+
+% =========================================================================
+\section{Vertex Structure}
+\label{sec:vertex}
+% =========================================================================
+
+The graviton--matter vertex in SCT is \textbf{not} modified by the form
+factors $F_1$, $F_2$, which appear only in the curvature-squared sector.
+The interaction vertex $h_{\mu\nu}\,T^{\mu\nu}$ follows from varying the
+matter action $S_{\mathrm{matter}}$ with respect to the metric, and is
+therefore identical to the standard vertex used in Stelle gravity and GR.
+
+Three independent arguments confirm this:
+\begin{enumerate}[nosep]
+  \item $S_{\mathrm{matter}}$ is independent of $F_1$, $F_2$.
+  \item At $\order(h^1, \phi^2)$, the curvature-squared terms produce
+    no cross-terms on a flat background.
+  \item Confirmed by Edholm--Koshelev--Mazumdar~\cite{EKM2025} and the
+    NT-4a derivation.
+\end{enumerate}
+
+
+% =========================================================================
+\section{HLZ Partial Widths}
+\label{sec:hlz}
+% =========================================================================
+
+For a massive spin-2 particle of mass~$m$ with gravitational coupling
+$\kappa^2 = 2/\MPlred^2$, the HLZ partial widths~\cite{HLZ1999} are:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Channel & Width per species & Formula & Ratio \\
+\midrule
+Real scalar & $\Gamma_s$ & $\kappa^2 m^3 / (960\pi)$ & 1 \\
+Dirac fermion & $\Gamma_D$ & $\kappa^2 m^3 / (320\pi)$ & 3 \\
+Massless vector & $\Gamma_v$ & $\kappa^2 m^3 / (160\pi)$ & 6 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The exact ratios $1:3:6$ (scalar : Dirac : vector) follow from the
+spin-2 polarization tensor structure and are confirmed to 15+~digits
+in the numerical computation.
+
+
+% =========================================================================
+\section{Ghost Residue Factor}
+\label{sec:residue}
+% =========================================================================
+
+The ghost width is proportional to $|R_L|$ (linearly, not quadratically).
+This follows from two independent arguments:
+
+\paragraph{LSZ argument.}
+One external ghost line contributes $\sqrt{|R_L|}$ to the amplitude,
+so $|\mathcal{M}|^2 \propto |R_L|$.
+
+\paragraph{Donoghue--Menezes argument.}
+The width is~\cite{DM2019}
+\begin{equation}
+  \Gamma
+  = \frac{\Imag[\Sigma(m^2)]}{m\,|D'(m^2)|}
+  = \frac{\Imag[\Sigma(m^2)]}{m}\,|R_L|,
+\end{equation}
+since $|D'(m^2)| = 1/|R_L|$ for a simple pole with residue~$R_L$.
+
+
+% =========================================================================
+\section{Master Formula}
+\label{sec:master}
+% =========================================================================
+
+Combining the HLZ widths (\Cref{sec:hlz}) with the residue factor
+(\Cref{sec:residue}) and $m^2 = |z_L|\,\Lambda^2$:
+
+\begin{theorem}[Ghost width master formula]
+\label{thm:master}
+\begin{equation}\label{eq:master}
+  \boxed{
+  \frac{\Gamma}{m}
+  = C_\Gamma \left(\frac{\Lambda}{\MPlred}\right)^{\!2},
+  \qquad
+  C_\Gamma
+  = \frac{|R_L| \cdot 2|z_L| \cdot \Neff^{\mathrm{width}}}
+         {960\pi}
+  }
+\end{equation}
+where
+\begin{equation}
+  \Neff^{\mathrm{width}}
+  = N_s + 3N_D + 6N_v
+  = 4 + 67.5 + 72
+  = 143.5.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The total width is
+\begin{equation}
+  \Gamma_{\mathrm{total}}
+  = |R_L| \cdot \frac{\kappa^2 m^3}{960\pi}
+    \cdot (N_s + 3N_D + 6N_v).
+\end{equation}
+Substituting $\kappa^2 = 2/\MPlred^2$ and $m^3 = |z_L|^{3/2}\Lambda^3$:
+\begin{equation}
+  \frac{\Gamma}{m}
+  = |R_L| \cdot \frac{2|z_L|\,\Neff^{\mathrm{width}}}{960\pi}
+    \cdot \left(\frac{\Lambda}{\MPlred}\right)^{\!2}.
+\end{equation}
+\end{proof}
+
+\subsection{Numerical evaluation}
+
+The intermediate steps at 50-digit precision:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Quantity & Value \\
+\midrule
+$2|R_L|$ & 1.07554415665461 \\
+$2|R_L|\,|z_L|$ & 1.37745185158543 \\
+$2|R_L|\,|z_L|\,\Neff$ & 197.664340702509 \\
+$960\pi$ & 3015.92894744620 \\
+$C_\Gamma$ & $\mathbf{0.065540118532926767}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Independently confirmed at 100-digit precision: agreement to 17~significant
+figures (limited by the 17-digit precision of the $R_L$ and $z_L$ inputs).
+
+
+% =========================================================================
+\section{Convention Comparison}
+\label{sec:conventions}
+% =========================================================================
+
+Two conventions appear in the literature:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & Reduced ($\MPlred$) & Unreduced ($\MPl^{\mathrm{unred}}$) \\
+\midrule
+$\MPl$ value & $2.435 \times 10^{18}$~GeV &
+  $1.221 \times 10^{19}$~GeV \\
+$\kappa^2$ & $2/\MPlred^2$ & $1/(\MPl^{\mathrm{unred}})^2$ \\
+$\Neff^{\mathrm{lr}}$ & -- & 2.392 \\
+$C$ coefficient & 0.06554 & 1.6472 \\
+Conversion & \multicolumn{2}{c}{$C_{\mathrm{red}} =
+  C_{\mathrm{unred}}/(8\pi)$} \\
+Agreement & \multicolumn{2}{c}{$< 2.1 \times 10^{-16}$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% =========================================================================
+\section{Comparison with Stelle Gravity}
+\label{sec:stelle}
+% =========================================================================
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Quantity & Stelle & SCT & Ratio \\
+\midrule
+Ghost pole $|z|$ & $60/13 = 4.615$ & 1.281 & 0.277 \\
+Residue $|R|$ & 1.0 & 0.538 & 0.538 \\
+$m/\Lambda$ & 2.148 & 1.132 & 0.527 \\
+$C$ (reduced) & 0.439 & 0.0655 & 0.149 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The SCT ghost width is 14.9\% of the Stelle width.  Two effects
+contribute:
+\begin{enumerate}[nosep]
+  \item The residue is suppressed: $|R_L| = 0.538$ vs.~1.0 in Stelle.
+  \item The ghost mass is lower: $|z_L| = 1.281$ vs.~$60/13 = 4.615$,
+    reducing the phase space.
+\end{enumerate}
+
+\begin{proposition}
+\begin{equation}
+  \frac{C_{\mathrm{SCT}}}{C_{\mathrm{Stelle}}}
+  = \frac{|R_L|\,|z_L|}{1 \times 60/13}
+  = 0.1492.
+\end{equation}
+\end{proposition}
+
+
+% =========================================================================
+\section{Numerical Results at Representative Scales}
+\label{sec:scales}
+% =========================================================================
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\Lambda/\MPlred$ & $\Gamma/m$ & $\tau$ (seconds) &
+  Classification \\
+\midrule
+$1$ & $6.554 \times 10^{-2}$ & $3.6 \times 10^{-42}$ &
+  Narrow resonance \\
+$10^{-1}$ & $6.554 \times 10^{-4}$ & $3.6 \times 10^{-39}$ &
+  Very narrow \\
+$10^{-3}$ & $6.554 \times 10^{-8}$ & $3.6 \times 10^{-33}$ &
+  Very narrow \\
+$10^{-5}$ & $6.554 \times 10^{-12}$ & $3.6 \times 10^{-27}$ &
+  Quasi-stable \\
+$10^{-10}$ & $6.554 \times 10^{-22}$ & $3.6 \times 10^{-12}$ &
+  Quasi-stable \\
+$10^{-17}$ & $6.554 \times 10^{-36}$ & $3.6 \times 10^{9}$ &
+  Effectively stable \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{E\"ot-Wash boundary}
+
+At $\Lambda = 2.38 \times 10^{-3}$~eV (the strongest experimental
+bound from PPN-1):
+\begin{align}
+  m_{\mathrm{ghost}} &= 2.693 \times 10^{-3}~\text{eV}, \\
+  \Gamma/m &= 6.26 \times 10^{-62}, \\
+  \tau &\approx 3.9 \times 10^{48}~\text{s}
+  \;\gg\; t_{\mathrm{universe}}.
+\end{align}
+The ghost is effectively stable at this scale.
+
+
+% =========================================================================
+\section{Partial Width Decomposition}
+\label{sec:channels}
+% =========================================================================
+
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Channel & $\Neff$ contribution & Fraction & Dominant? \\
+\midrule
+Vectors ($N_v = 12$, weight~6) & 72 & 50.2\% &
+  \textbf{Yes} \\
+Dirac fermions ($N_D = 22.5$, weight~3) & 67.5 & 47.0\% &
+  Co-dominant \\
+Real scalars ($N_s = 4$, weight~1) & 4 & 2.8\% &
+  Subdominant \\
+\midrule
+\textbf{Total} & \textbf{143.5} & \textbf{100\%} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Gauge bosons and fermions dominate the ghost decay.  The Higgs sector
+contributes less than 3\%.
+
+
+% =========================================================================
+\section{Physical Implications}
+\label{sec:implications}
+% =========================================================================
+
+\begin{enumerate}
+  \item \textbf{Ghost always unstable.}
+    For any $\Lambda > 0$, $\Gamma > 0$.  The ghost decays to SM
+    particles through gravitational coupling and does not appear as an
+    asymptotic state (Donoghue--Menezes mechanism~\cite{DM2019}).
+
+  \item \textbf{Ghost always narrow.}
+    Even at $\Lambda = \MPlred$, $\Gamma/m = 0.066 \ll 1$.  The
+    Breit--Wigner pole approximation used throughout is self-consistent.
+
+  \item \textbf{SCT quantitatively better than Stelle.}
+    The width is suppressed by 85\% ($\Gamma/m$) or 92\% (absolute
+    $\Gamma$) relative to Stelle.  Both effects are \emph{derived},
+    not \emph{tuned}: the form factors determine $|R_L|$ and $|z_L|$.
+
+  \item \textbf{Falsifiable prediction.}
+    The formula $\Gamma/m = C_\Gamma(\Lambda/\MPlred)^2$ with
+    $C_\Gamma = 0.06554$ is parameter-free (modulo the single free
+    parameter~$\Lambda$).
+
+  \item \textbf{Lower bound.}
+    $C_\Gamma$ includes only matter loops.  Graviton self-interaction
+    loops contribute at the same order~$\kappa^2$ but are not computed.
+    The true width may be higher.
+\end{enumerate}
+
+
+% =========================================================================
+\section{Correction of the MR-2 Estimate}
+\label{sec:correction}
+% =========================================================================
+
+The MR-2 rough estimate used $\Neff = 118.75$ (thermal $g_*$, which
+counts effective relativistic degrees of freedom for energy density)
+and omitted the $|R_L|$ and $|z_L|$ factors.  The first-principles
+result differs due to three corrections:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Source & MR-2 & Correct & \\
+\midrule
+$\Neff$ convention & 118.75 (thermal) & 143.5 (decay) &
+  Different quantities \\
+$|R_L|$ factor & 1.0 (implicit) & 0.538 & 0.538$\times$ \\
+$|z_L|$ factor & 1.0 (implicit) & 1.281 & 1.281$\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The qualitative conclusion is unchanged: the ghost is always unstable
+for any $\Lambda/\MPl > 0$.
+
+
+% =========================================================================
+\section{Conditions and Caveats}
+\label{sec:caveats}
+% =========================================================================
+
+\begin{enumerate}
+  \item \textbf{MR-2 conditions.}
+    The width calculation is physically meaningful only under
+    Conditions~1--3 of MR-2 (fakeon extension, DM mechanism, Kubo--Kugo
+    resolution).
+
+  \item \textbf{Tree-level vertex.}
+    Form factors modify only the propagator, not the graviton--matter
+    vertex at leading order.
+
+  \item \textbf{Massless final states.}
+    All SM particles are treated as massless ($m_{\mathrm{SM}} \ll
+    m_{\mathrm{ghost}}$), valid for $\Lambda \gg m_{\mathrm{top}}$.
+
+  \item \textbf{Perturbative validity.}
+    Requires $\Lambda \ll \MPl$ (gravitational loop expansion in
+    $\kappa^2 m^2 \ll 1$).
+
+  \item \textbf{Three-graviton vertex.}
+    The ghost$\to$graviton decay channel (modified by form factors)
+    was not included.  Expected subdominant: the Weyl action produces
+    no on-shell tree-level scattering in flat space.
+\end{enumerate}
+
+
+% =========================================================================
+\section{Verification}
+\label{sec:verification}
+% =========================================================================
+
+\subsection{Verification summary}
+
+The A3~calculation was verified through systematic cross-checks:
+literature review, dual derivation, and numerical verification.
+
+\subsection{Test results}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Suite & Tests & Status \\
+\midrule
+A3 dedicated (7 layers) & 76 & 76/76 PASS \\
+MR-2 unitarity regression & 79 & 79/79 PASS \\
+MR-2 residue regression & 31 & 31/31 PASS \\
+\midrule
+\textbf{Total} & \textbf{186} & \textbf{186/186 PASS} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{100-digit independent verification}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Quantity & Value (25 digits) & Status \\
+\midrule
+$C_\Gamma$ & 0.06554011853292676680152977 & Confirmed \\
+$m/\Lambda$ & 1.13168117332731357495724 & Confirmed \\
+$C_{\mathrm{Stelle}}$ & 0.4392064294939803977468235 & Confirmed \\
+$C_\Gamma/C_{\mathrm{Stelle}}$ & 0.1492239505884215104157981 & Confirmed \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Chain verification: $2|R_L| \to 2|R_L||z_L| \to
+2|R_L||z_L|\Neff \to C_\Gamma$.  Each step verified independently
+at 100~digits.  Chain matches direct computation to $< 10^{-50}$.
+
+
+% =========================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =========================================================================
+
+The SCT ghost decay width has been computed from first principles:
+\begin{equation}
+  C_\Gamma = 0.065540118532926767
+  \quad\text{(17 significant digits)}.
+\end{equation}
+The ghost is always unstable and always narrow, with a width 85\%
+smaller than Stelle gravity.  This is a parameter-free prediction
+of the theory (lower bound, pending graviton loop corrections).
+Verified by 186~tests (76~dedicated + 110~regression) with 0~failures.
+Resolves MR-2 GAP-1.
+
+
+% =========================================================================
+% References
+% =========================================================================
+\begin{thebibliography}{99}
+
+\bibitem{HLZ1999}
+T.~Han, J.~D.~Lykken, R.-J.~Zhang,
+``Kaluza-Klein States from Large Extra Dimensions in Gauge Boson Pair
+Production,''
+Phys.\ Rev.\ D \textbf{59}, 105006 (1999),
+\href{https://arxiv.org/abs/hep-ph/9811350}{arXiv:hep-ph/9811350}.
+
+\bibitem{DM2019}
+J.~F.~Donoghue, G.~Menezes,
+``Unitarity, stability and loops of unstable ghosts,''
+Phys.\ Rev.\ D \textbf{100}, 105006 (2019),
+\href{https://arxiv.org/abs/1908.02416}{arXiv:1908.02416}.
+
+\bibitem{EKM2025}
+J.~Edholm, A.~S.~Koshelev, A.~Mazumdar,
+``Universality of gravitational scattering in nonlocal QG,''
+(2025),
+\href{https://arxiv.org/abs/2510.10270}{arXiv:2510.10270}.
+
+\bibitem{Stelle1977}
+K.~S.~Stelle,
+``Renormalization of Higher-Derivative Quantum Gravity,''
+Phys.\ Rev.\ D \textbf{16}, 953 (1977).
+
+\bibitem{MR2}
+D.~Alfyorov,
+``MR-2: Unitarity and Stability Analysis of the SCT Graviton Propagator,''
+SCT Theory internal document (2026).
+
+\end{thebibliography}
+
+\end{document}

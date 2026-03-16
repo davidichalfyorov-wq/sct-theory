@@ -1,0 +1,1233 @@
+%%======================================================================
+%%  NT-4c: Literature Extraction & Convention Fixing
+%%         for FLRW Reduction of Nonlocal Field Equations
+%%
+%%  This document collects formulas from the literature needed to
+%%  reduce the NT-4b nonlinear field equations to FLRW symmetry,
+%%  derive modified Friedmann equations, and extract the perturbation
+%%  framework for tensor and scalar modes.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[12pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{tcolorbox}
+
+%% ---- theorem-like environments --------------------------------------
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{theorem}[proposition]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{convention}[proposition]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Rsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\sgn}{sgn}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{blue!70!black}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+\newcommand{\exactlit}{\textcolor{blue!60!black}{\textsf{[exact from lit.]}}}
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+\newcommand{\signcorrection}[1]{%
+  \par\noindent\colorbox{red!10}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep}{%
+      \textcolor{red!50!black}{\textbf{[Sign correction]}}
+      \textcolor{red!50!black}{#1}%
+    }%
+  }\par%
+}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{NT-4c: Literature \& Conventions for
+FLRW Reduction}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ---- hyperref -------------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={NT-4c: Literature Extraction for FLRW Reduction of Nonlocal Field Equations},
+  pdfauthor={David Alfyorov},
+}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{NT-4c: Literature Extraction \& Convention Fixing\\[4pt]
+       for FLRW Reduction of Nonlocal Field Equations}\\[8pt]
+       \large From Nonlinear SCT Field Equations to Modified Friedmann
+       Equations\\and Cosmological Perturbation Framework}
+\author{David Alfyorov}
+\date{March 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\thispagestyle{empty}
+
+\begin{abstract}
+This document collects all formulas, conventions, and computational
+recipes from the literature needed to reduce the full nonlinear SCT
+field equations (NT-4b) to spatially flat FLRW symmetry and derive
+the modified Friedmann equations. The central simplification is that
+the Weyl tensor vanishes identically on conformally flat backgrounds
+($C_{\mu\nu\rho\sigma} = 0$ on FLRW), so the entire $C^2$ sector
+governed by $F_1(\Box/\Lambda^2)$ drops out of the \emph{background}
+equations. Only the $R^2$ sector, controlled by
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$, contributes nonlocal corrections
+to the Friedmann equations. At conformal coupling $\xi = 1/6$,
+$\alpha_R = 0$ and the spectral action produces no background
+modifications beyond the Einstein--Hilbert term.
+
+The document covers: (1)~FLRW geometry and curvature identities;
+(2)~the d'Alembertian on FLRW and its action on scalars;
+(3)~reduction of the $R^2$ sector including the
+$\Theta^{(R)}_{\mu\nu}$ alpha-insertion terms;
+(4)~the resulting modified Friedmann equations;
+(5)~de~Sitter self-consistency;
+(6)~scalar, vector, and tensor perturbations on FLRW;
+(7)~gravitational wave speed and the GW170817 constraint;
+(8)~comparison with Deser--Woodard, Maggiore--Mancarella,
+Koshelev--Kumar--Starobinsky, and Biswas--Koshelev--Mazumdar
+nonlocal cosmological models.
+All formulas are extracted from the literature with source
+annotations; no original derivations are performed. Gaps requiring
+resolution in the derivation phase are noted explicitly.
+
+\medskip\noindent
+\textbf{Key references:}
+\begin{itemize}[nosep]
+\item NT-4b: Full nonlinear field equations (this project).
+\item NT-4a: Linearized field equations (this project).
+\item Stelle: Phys.\ Rev.\ D \textbf{16} (1977) 953;
+  Gen.\ Rel.\ Grav.\ \textbf{9} (1978) 353.
+\item Barvinsky--Vilkovisky (BV): Phys.\ Rep.\ \textbf{119} (1985) 1;
+  Nucl.\ Phys.\ B \textbf{282} (1987) 163;
+  B \textbf{333} (1990) 471.
+\item Deser--Woodard (DW): Phys.\ Rev.\ Lett.\ \textbf{99} (2007) 111301
+  \cite{DW07}; arXiv:1307.6639 \cite{DW13}; arXiv:1902.08075 \cite{DW19}.
+\item Belgacem--Dirian--Foffa--Maggiore (BDFM): arXiv:1712.07066
+  \cite{BDFM18}.
+\item Dirian--Foffa--Khosravi--Kunz--Maggiore (DFKKM):
+  arXiv:1403.6068 \cite{DFKKM14}.
+\item Koshelev--Kumar--Starobinsky (KKS): arXiv:2305.18716 \cite{KKS23}.
+\item Biswas--Mazumdar--Siegel (BMS): hep-th/0508194 \cite{BMS06}.
+\item Biswas--Koivisto--Mazumdar (BKM): arXiv:1005.0590 \cite{BKM10}.
+\item Briscese--Calcagni--Modesto (BCM): arXiv:1901.03267 \cite{BCM19}.
+\item Calcagni--Modesto (CM): arXiv:2211.05606 \cite{CM22}.
+\item Nersisyan--Lima--Amendola (NLA): arXiv:1801.06683 \cite{NLA18}.
+\item Belgacem--Dirian--Foffa--Maggiore: arXiv:1805.08731 \cite{BDFM18gw}.
+\item Nojiri--Odintsov (NO): arXiv:0810.1557 \cite{NO08}.
+\end{itemize}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Input: The NT-4b Field Equations}\label{sec:input}
+%%======================================================================
+
+\subsection{The Canonical Field Equations (NT-4b, Theorem 4.1)}
+
+The starting point for the FLRW reduction is the full nonlinear
+field equation derived in NT-4b:
+\begin{equation}\label{eq:full-eom}
+  \boxed{
+  \frac{1}{\kappa^2}\,G_{\mu\nu}
+  + \frac{1}{16\pi^2}\bigl[2\,F_1(\Box/\Lambda^2)\,B_{\mu\nu}
+    + \Theta^{(C)}_{\mu\nu}\bigr]
+  + \frac{1}{16\pi^2}\bigl[F_2(\Box/\Lambda^2,\xi)\,H_{\mu\nu}
+    + \Theta^{(R)}_{\mu\nu}\bigr]
+  = \frac{1}{2}\,T_{\mu\nu},
+  }
+\end{equation}
+where \fromlit{NT-4b, Eq.~(full-eom)}:
+\begin{itemize}[nosep]
+  \item $G_{\mu\nu} = R_{\mu\nu} - \tfrac{1}{2}g_{\mu\nu}R$
+    is the Einstein tensor,
+  \item $B_{\mu\nu} = \nabla^\rho\nabla^\sigma C_{\mu\rho\nu\sigma}
+    + \tfrac{1}{2}R^{\rho\sigma}C_{\mu\rho\nu\sigma}$ is the Bach
+    tensor (traceless, divergence-free),
+  \item $H_{\mu\nu} = 2\nabla_\mu\nabla_\nu R - 2g_{\mu\nu}\Box R
+    - \tfrac{1}{2}g_{\mu\nu}R^2 + 2R\,R_{\mu\nu}$ is the $R^2$-sector
+    tensor with trace $g^{\mu\nu}H_{\mu\nu} = -6\Box R$,
+  \item $\Theta^{(R)}_{\mu\nu}$ and $\Theta^{(C)}_{\mu\nu}$ are the
+    BV alpha-insertion corrections,
+  \item $\kappa^2 = 8\pi G$, $\Lambda$ is the spectral cutoff.
+\end{itemize}
+
+\subsection{Canonical Coefficients}
+
+From NT-1b Phase~3 \fromlit{NT-1b, Phase~3 handoff}:
+\begin{align}
+  \alpha_C &= 16\pi^2\,F_1(0) = \frac{13}{120},
+  \label{eq:alphaC}\\
+  \alpha_R(\xi) &= 16\pi^2\,F_2(0,\xi) = 2\Bigl(\xi - \frac{1}{6}\Bigr)^2,
+  \label{eq:alphaR}\\
+  c_2 &= 2\alpha_C = \frac{13}{60},
+  \label{eq:c2}\\
+  3c_1 + c_2 &= 6\Bigl(\xi - \frac{1}{6}\Bigr)^2.
+  \label{eq:3c1c2}
+\end{align}
+
+\subsection{The $\Theta^{(R)}$ Alpha-Insertion (NT-4b, \S4)}
+
+\begin{equation}\label{eq:Theta-R}
+  \Theta^{(R)}_{\mu\nu} = -\sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1}
+  \Bigl[\nabla_\mu(\Box^k R)\,\nabla_\nu(\Box^{n-1-k} R)
+  - \frac{1}{2}g_{\mu\nu}\,\nabla_\rho(\Box^k R)\,
+  \nabla^\rho(\Box^{n-1-k} R)\Bigr],
+\end{equation}
+where $F_2(z,\xi) = \sum_{n=0}^{\infty} c_n^{(2)}\,(z/\Lambda^2)^n$.
+
+\verified{NT-4b: 110/110 tests pass. Dual derivation (Methods A and
+B1) exact agreement. De Sitter, Bianchi, trace, local limit all
+verified.}
+
+%%======================================================================
+\section{FLRW Geometry}\label{sec:flrw}
+%%======================================================================
+
+\subsection{Metric and Symmetry}
+
+The spatially flat FLRW metric in cosmic time is \fromlit{Weinberg
+(2008), \S1.1; Mukhanov (2005), \S5.1}:
+\begin{equation}\label{eq:flrw-metric}
+  \dd s^2 = -\dd t^2 + a(t)^2\,\delta_{ij}\,\dd x^i\,\dd x^j,
+\end{equation}
+with scale factor $a(t)$, Hubble parameter $H \equiv \dot{a}/a$,
+and spatial curvature $k = 0$.
+
+In conformal time $\tau$ defined by $\dd\tau = \dd t/a(t)$:
+\begin{equation}\label{eq:flrw-conformal}
+  \dd s^2 = a(\tau)^2\bigl(-\dd\tau^2 + \delta_{ij}\,\dd x^i\,\dd x^j\bigr).
+\end{equation}
+
+\begin{convention}[Signature and time]
+We use Lorentzian signature $(-,+,+,+)$ throughout this document,
+consistent with MR-1 (Wick rotation from Euclidean). Cosmic time
+derivatives are denoted by overdots, conformal time derivatives by
+primes.
+\end{convention}
+
+\subsection{Curvature Tensors on FLRW}\label{sec:flrw-curvature}
+
+The nonvanishing components of the Ricci tensor and Ricci scalar on
+the metric~\eqref{eq:flrw-metric} are
+\fromlit{Weinberg (2008), \S1.5; Carroll (2004), \S8.3}:
+\begin{align}
+  R_{00} &= -3(\dot{H} + H^2) = -3\frac{\ddot{a}}{a},
+  \label{eq:R00}\\
+  R_{ij} &= \bigl(\dot{H} + 3H^2\bigr)\,a^2\,\delta_{ij}
+  = \bigl(a\ddot{a} + 2\dot{a}^2\bigr)\,\delta_{ij},
+  \label{eq:Rij}\\
+  R &= 6\bigl(\dot{H} + 2H^2\bigr)
+  = 6\Bigl(\frac{\ddot{a}}{a} + H^2\Bigr).
+  \label{eq:R-flrw}
+\end{align}
+
+The Riemann tensor on a spatially flat FLRW metric with $k = 0$
+has components \fromlit{Carroll (2004), \S8.3; Weinberg (2008), \S1.5}:
+\begin{equation}\label{eq:Riem-flrw}
+  R^0{}_{i0j} = \frac{\ddot{a}}{a}\,\delta_{ij},
+  \qquad
+  R^i{}_{jkl} = H^2\bigl(\delta^i_k\,\delta_{jl}
+  - \delta^i_l\,\delta_{jk}\bigr),
+\end{equation}
+where the spatial $\delta_{ij}$ is the coordinate Kronecker delta.
+Note: in Cartesian FLRW coordinates $\dd s^2 = -\dd t^2 +
+a^2\delta_{ij}\dd x^i\dd x^j$, the component with all spatial
+indices lowered is $R_{0i0j} = g_{00}\,R^0{}_{i0j} = -\ddot{a}\,a
+\,\delta_{ij}$ (includes an extra factor of $a^2$ relative to the
+mixed component).
+
+\begin{proposition}[Weyl tensor on FLRW]\label{prop:weyl-flrw}
+The Weyl tensor vanishes identically on any FLRW spacetime:
+\begin{equation}\label{eq:weyl-zero}
+  C_{\mu\nu\rho\sigma}\big|_{\mathrm{FLRW}} = 0.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+An FLRW spacetime is conformally flat (the metric is conformal to
+Minkowski space). The Weyl tensor is conformally invariant in $d = 4$
+and vanishes on flat space, hence
+$C_{\mu\nu\rho\sigma}|_{\mathrm{FLRW}} = 0$.
+Alternatively, on a spacetime of the form $g_{\mu\nu} = a^2(\tau)\,
+\eta_{\mu\nu}$, the Weyl tensor vanishes because the Riemann tensor
+has the maximally symmetric structure.
+\end{proof}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black,
+  title={\textbf{Critical Consequence: Weyl Sector Drops Out of
+  Background}}]
+Since $C_{\mu\nu\rho\sigma} = 0$ on FLRW:
+\begin{enumerate}[nosep]
+  \item The Bach tensor vanishes: $B_{\mu\nu}\big|_{\mathrm{FLRW}} = 0$.
+  \item The entire $F_1(\Box/\Lambda^2)$ sector does not contribute
+    to the \textbf{background} Friedmann equations.
+  \item The alpha-insertion $\Theta^{(C)}_{\mu\nu}\big|_{\mathrm{FLRW}} = 0$
+    since all terms involve $C_{\mu\nu\rho\sigma}$ or its derivatives.
+  \item Only the $R^2$ sector survives, governed by
+    $\alpha_R(\xi) = 2(\xi - 1/6)^2$.
+  \item At conformal coupling $\xi = 1/6$: $\alpha_R = 0$, so all
+    spectral corrections vanish and one recovers the standard
+    Friedmann equations exactly.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{The Ricci Tensor in Maximally Symmetric Form}
+
+On FLRW, the Ricci tensor takes the ``perfect fluid'' form:
+\begin{equation}\label{eq:Ric-pf}
+  R_{\mu\nu} = (\dot{H} + 3H^2)\,g_{\mu\nu}
+  - 2\dot{H}\,u_\mu u_\nu,
+\end{equation}
+where $u^\mu = (1, 0, 0, 0)$ is the comoving 4-velocity ($u_\mu =
+(-1, 0, 0, 0)$). One verifies: $R_{00} = -(\dot{H} + 3H^2) -
+2\dot{H}\cdot 1 = -3(\dot{H} + H^2)$; $R_{ij} = (\dot{H} + 3H^2)\,
+a^2\delta_{ij}$.
+
+\signcorrection{LR audit correction: The original formula
+$R_{\mu\nu} = (R/4)\,g_{\mu\nu} + (R/4 + 3\dot{H})\,u_\mu u_\nu$
+is incorrect on general FLRW. It holds only on de~Sitter where
+$\dot{H} = 0$ and $R/4 = 3H^2 = \dot{H} + 3H^2$. On general FLRW,
+$R/4 = \frac{3}{2}(\dot{H} + 2H^2) \neq \dot{H} + 3H^2$.}
+
+On exact de~Sitter ($\dot{H} = 0$, $R = 12H^2$):
+\begin{equation}\label{eq:Ric-dS}
+  R_{\mu\nu}\big|_{\mathrm{dS}} = \frac{R}{4}\,g_{\mu\nu} = 3H^2\,g_{\mu\nu}.
+\end{equation}
+
+%%======================================================================
+\section{The d'Alembertian on FLRW}\label{sec:box-flrw}
+%%======================================================================
+
+\subsection{Scalar d'Alembertian}
+
+For a scalar field $\phi(t)$ depending only on cosmic time
+\fromlit{Weinberg (2008), \S10.8; Mukhanov (2005), \S5.2}:
+\begin{equation}\label{eq:box-scalar}
+  \Box\phi = g^{\mu\nu}\nabla_\mu\nabla_\nu\phi
+  = -\ddot{\phi} - 3H\dot{\phi}.
+\end{equation}
+
+In conformal time:
+\begin{equation}\label{eq:box-scalar-conformal}
+  \Box\phi = -\frac{1}{a^2}\bigl(\phi'' + 2\mathcal{H}\phi'\bigr),
+\end{equation}
+where $\mathcal{H} = a'/a = aH$ is the conformal Hubble parameter.
+
+\subsection{$\Box R$ on FLRW}\label{sec:box-R}
+
+Since $R = R(t)$ on FLRW, applying~\eqref{eq:box-scalar}:
+\begin{equation}\label{eq:boxR}
+  \Box R = -\ddot{R} - 3H\dot{R}.
+\end{equation}
+
+The explicit expression requires differentiating~\eqref{eq:R-flrw}:
+\begin{align}
+  \dot{R} &= 6(\ddot{H} + 4H\dot{H}),
+  \label{eq:Rdot}\\
+  \ddot{R} &= 6\bigl(\dddot{H} + 4\dot{H}^2 + 4H\ddot{H}\bigr).
+  \label{eq:Rddot}
+\end{align}
+
+\begin{remark}[De Sitter limit]
+On de~Sitter ($H = \mathrm{const}$): $\dot{R} = 0$,
+$\Box R = 0$, and $\Box^n R = 0$ for all $n \geq 1$.
+\end{remark}
+
+\subsection{Iterated $\Box^n R$}\label{sec:boxnR}
+
+For the alpha-insertion terms~\eqref{eq:Theta-R}, one needs
+$\Box^n R$ for $n = 1, 2, \ldots$. On FLRW each $\Box^n R$ is a
+function of $t$ alone, computed iteratively:
+\begin{equation}\label{eq:boxnR-iter}
+  \Box^{n+1} R = -\frac{\dd^2}{\dd t^2}(\Box^n R)
+  - 3H\,\frac{\dd}{\dd t}(\Box^n R).
+\end{equation}
+
+\gap{} The convergence of the infinite series in~\eqref{eq:Theta-R}
+on a general FLRW background must be established. The entireness of
+$F_2$ (NT-2) ensures $|c_n^{(2)}| \sim 1/n!$, which suggests
+convergence, but an explicit proof on FLRW is needed.
+
+\subsection{$F_2(\Box/\Lambda^2)$ Acting on $R$}
+
+The form factor acts on the Ricci scalar as:
+\begin{equation}\label{eq:F2-action-R}
+  F_2(\Box/\Lambda^2,\xi)\,R = \sum_{n=0}^{\infty}
+  c_n^{(2)}\,\frac{\Box^n R}{\Lambda^{2n}}.
+\end{equation}
+
+On de~Sitter, this reduces to
+$F_2(\Box/\Lambda^2,\xi)\,R = c_0^{(2)}\,R_0 = F_2(0,\xi)\,R_0$,
+since $\Box^n R = 0$ for $n \geq 1$.
+
+%%======================================================================
+\section{Reduction of the $R^2$ Sector to FLRW}\label{sec:r2-flrw}
+%%======================================================================
+
+\subsection{The $H_{\mu\nu}$ Tensor on FLRW}
+
+The $R^2$-sector tensor (NT-4b, Eq.~(H-tensor)) is:
+\begin{equation}\label{eq:H-def}
+  H_{\mu\nu} = 2\nabla_\mu\nabla_\nu R
+  - 2g_{\mu\nu}\Box R
+  - \tfrac{1}{2}g_{\mu\nu}R^2
+  + 2R\,R_{\mu\nu}.
+\end{equation}
+
+On FLRW with $R = R(t)$, each term evaluates as follows.
+
+\paragraph{(i) $\nabla_\mu\nabla_\nu R$:}
+Since $R = R(t)$, $\nabla_\mu R = \dot{R}\,\delta^0_\mu$
+\fromlit{standard: $\nabla_\mu R = \partial_\mu R$ for a scalar},
+and:
+\begin{align}
+  \nabla_0\nabla_0 R &= \ddot{R},
+  \label{eq:nnR-00}\\
+  \nabla_i\nabla_j R &= -H\dot{R}\,a^2\,\delta_{ij}
+  = -H\dot{R}\,g_{ij},
+  \label{eq:nnR-ij}\\
+  \nabla_0\nabla_i R &= 0.
+  \label{eq:nnR-0i}
+\end{align}
+
+\signcorrection{LR audit correction:
+$\nabla_0 R = +\dot{R}$ (positive), not $-\dot{R}$.
+The raised-index gradient $\nabla^0 R = g^{00}\nabla_0 R = -\dot{R}$
+has the minus sign; the lowered-index gradient does not.
+$\nabla_0\nabla_0 R = +\ddot{R}$ (via
+$\partial_0(\dot{R}) - \Gamma^\lambda_{00}\,\nabla_\lambda R
+= \ddot{R} - 0$).
+$\nabla_i\nabla_j R = -\Gamma^0_{ij}\,\nabla_0 R
+= -(a\dot{a}\,\delta_{ij})\dot{R} = -H\dot{R}\,a^2\delta_{ij}$
+(negative, from the Christoffel connection).}
+
+\paragraph{(ii) Combining:} The $(0,0)$ and $(i,j)$ components of
+$H_{\mu\nu}$ on FLRW are (using
+$-2g_{00}\Box R = +2\Box R$,
+$-\tfrac{1}{2}g_{00}R^2 = +\tfrac{1}{2}R^2$):
+\begin{align}
+  H_{00} &= 2\ddot{R} + 2\Box R + \tfrac{1}{2}R^2
+  + 2R\cdot R_{00} \notag\\
+  &= 2\ddot{R} + 2(-\ddot{R} - 3H\dot{R}) + \tfrac{1}{2}R^2
+  - 6R(\dot{H} + H^2) \notag\\
+  &= -6H\dot{R} + \tfrac{1}{2}R^2
+  - 6R(\dot{H} + H^2),
+  \label{eq:H00}\\[6pt]
+  H_{ij} &= -2H\dot{R}\,a^2\delta_{ij}
+  - 2\Box R\,a^2\delta_{ij}
+  - \tfrac{1}{2}R^2\,a^2\delta_{ij}
+  + 2R(\dot{H} + 3H^2)\,a^2\delta_{ij} \notag\\
+  &= -2H\dot{R}\,a^2\delta_{ij}
+  + 2(\ddot{R} + 3H\dot{R})\,a^2\delta_{ij}
+  - \tfrac{1}{2}R^2\,a^2\delta_{ij}
+  + 2R(\dot{H} + 3H^2)\,a^2\delta_{ij} \notag\\
+  &= \bigl[2\ddot{R} + 4H\dot{R} + 2R(\dot{H} + 3H^2)
+  - \tfrac{1}{2}R^2\bigr]\,a^2\delta_{ij}.
+  \label{eq:Hij}
+\end{align}
+
+\signcorrection{LR audit correction: The original computation had
+sign errors from $\nabla_0\nabla_0 R = -\ddot{R}$ and missing
+$g_{00} = -1$ sign flips. With $\nabla_0\nabla_0 R = +\ddot{R}$
+and correct metric sign factors, $H_{00}$ has $-6H\dot{R}$ and
+$+\tfrac{1}{2}R^2$ (signs flipped from original), and $H_{ij}$ has
+coefficient $4H\dot{R}$ (not $8H\dot{R}$). Verified by the trace
+cross-check: $g^{\mu\nu}H_{\mu\nu} = -H_{00} + 3\cdot H_{ij}/(a^2)
+= -6\Box R$, which holds with these corrected signs but fails with
+the original ones.}
+
+\begin{proposition}[De Sitter check]\label{prop:H-dS}
+On de~Sitter ($\dot{H} = 0$, $R = 12H^2 = \mathrm{const}$):
+$\dot{R} = \ddot{R} = 0$, so
+\begin{align}
+  H_{00}\big|_{\mathrm{dS}} &= +\tfrac{1}{2}(12H^2)^2
+  - 6\cdot 12H^2\cdot H^2 = 72H^4 - 72H^4
+  = 0, \notag\\
+  H_{ij}\big|_{\mathrm{dS}} &= \bigl[2\cdot 12H^2 \cdot 3H^2
+  - \tfrac{1}{2}(12H^2)^2\bigr]\,a^2\delta_{ij}
+  = (72 - 72)\,H^4\,a^2\delta_{ij} = 0. \notag
+\end{align}
+\end{proposition}
+
+\verified{De Sitter check: $H_{\mu\nu}|_{\mathrm{dS}} = 0$ directly
+from the corrected formulas, consistent with NT-4b Check~5.
+The $+\tfrac{1}{2}R^2$ and $2R\cdot R_{00} = -6R H^2$ terms cancel exactly.}
+
+\subsection{The $\Theta^{(R)}_{\mu\nu}$ Terms on FLRW}
+
+On FLRW, $R = R(t)$ implies $\nabla_\mu R = +\dot{R}\,\delta^0_\mu$,
+and more generally $\nabla_\mu(\Box^k R) = +\frac{\dd}{\dd t}(\Box^k R)
+\,\delta^0_\mu$. Therefore the alpha-insertion~\eqref{eq:Theta-R}
+gives (with
+$\nabla_\rho(\Box^k R)\,\nabla^\rho(\Box^{n-1-k} R)
+= \nabla_0\cdot g^{00}\nabla_0 = -\dot{R}_k\,\dot{R}_{n-1-k}$):
+
+\begin{align}
+  \Theta^{(R)}_{00} &= -\sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1}
+  \Bigl[\dot{R}_k\,\dot{R}_{n-1-k}
+  - \tfrac{1}{2}\dot{R}_k\,\dot{R}_{n-1-k}\Bigr] \notag\\
+  &= -\frac{1}{2}\sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1} \dot{R}_k\,\dot{R}_{n-1-k},
+  \label{eq:Theta00}\\[6pt]
+  \Theta^{(R)}_{ij} &= -\frac{1}{2}\,a^2\delta_{ij}
+  \sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1} \dot{R}_k\,\dot{R}_{n-1-k},
+  \label{eq:Thetaij}
+\end{align}
+where we abbreviated $R_k \equiv \Box^k R/\Lambda^{2k}$ and
+$\dot{R}_k \equiv \frac{\dd}{\dd t}(\Box^k R/\Lambda^{2k})$.
+
+\signcorrection{LR audit correction: (1) In $\Theta^{(R)}_{00}$,
+the intermediate step uses ``$-$'' (not ``$+$'') for the second term
+in the bracket, because $-(1/2)\,g_{00}\,\nabla_\rho\nabla^\rho
+= -(1/2)(-1)(-\dot{R}_k\dot{R}_{n-1-k}) = -(1/2)\dot{R}_k\dot{R}_{n-1-k}$.
+The final result $-(1/2)\mathcal{S}$ is unchanged.
+(2) In $\Theta^{(R)}_{ij}$, the sign is $-1/2$ (not $+1/2$), because
+$\nabla_i(\Box^k R) = 0$ and the only contribution is
+$-(1/2)g_{ij}(-\dot{R}_k\dot{R}_{n-1-k}) = +(1/2)a^2\delta_{ij}
+\dot{R}_k\dot{R}_{n-1-k}$ inside the bracket, which is then multiplied
+by the overall $-\sum$ to give $-(1/2)a^2\delta_{ij}\mathcal{S}$.}
+
+\begin{remark}[Structure of $\Theta^{(R)}$ on FLRW]
+On FLRW, $\Theta^{(R)}_{\mu\nu}$ takes a ``perfect fluid'' form:
+\begin{equation}\label{eq:Theta-pf}
+  \Theta^{(R)}_{\mu\nu} = (\rho_\Theta + p_\Theta)\,u_\mu u_\nu
+  + p_\Theta\,g_{\mu\nu},
+\end{equation}
+with effective energy density and pressure:
+\begin{equation}\label{eq:rho-p-Theta}
+  \rho_\Theta = -\frac{1}{2}\,\mathcal{S},
+  \qquad
+  p_\Theta = -\frac{1}{2}\,\mathcal{S},
+  \qquad
+  \mathcal{S} \equiv \sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1} \dot{R}_k\,\dot{R}_{n-1-k}.
+\end{equation}
+Note the stiff equation of state $p_\Theta = +\rho_\Theta$
+($w = +1$), characteristic of kinetic-energy terms involving time
+derivatives of $R$.
+\end{remark}
+
+\gap{} The exact relation between the infinite series $\mathcal{S}$
+and the nonlocal operator $F_2(\Box/\Lambda^2)$ acting on $R$
+needs to be made explicit. This connects to the integral
+representation of the alpha-insertion.
+
+%%======================================================================
+\section{Modified Friedmann Equations}\label{sec:friedmann}
+%%======================================================================
+
+\subsection{Standard Friedmann Equations}
+
+With a perfect fluid $T_{\mu\nu} = (\rho + p)\,u_\mu u_\nu
++ p\,g_{\mu\nu}$, the standard Friedmann equations are
+\fromlit{Weinberg (2008), \S1.5}:
+\begin{align}
+  H^2 &= \frac{8\pi G}{3}\,\rho
+  \quad \text{(first Friedmann)},
+  \label{eq:fried1}\\
+  \dot{H} + H^2 &= -\frac{4\pi G}{3}(\rho + 3p)
+  \quad \text{(acceleration / Raychaudhuri)}.
+  \label{eq:fried2}
+\end{align}
+
+\subsection{SCT-Modified Friedmann Equations}\label{sec:sct-friedmann}
+
+On FLRW, the full field equations~\eqref{eq:full-eom} reduce to
+(using $B_{\mu\nu} = 0$, $\Theta^{(C)} = 0$):
+\begin{equation}\label{eq:eom-flrw}
+  \frac{1}{\kappa^2}\,G_{\mu\nu}
+  + \frac{1}{16\pi^2}\bigl[F_2(\Box/\Lambda^2,\xi)\,H_{\mu\nu}
+  + \Theta^{(R)}_{\mu\nu}\bigr]
+  = \frac{1}{2}\,T_{\mu\nu}.
+\end{equation}
+
+Taking the $(0,0)$ component and the trace, we obtain the modified
+Friedmann equations.
+
+\begin{theorem}[Modified first Friedmann equation]\label{thm:fried1-mod}
+The $(0,0)$ component of~\eqref{eq:eom-flrw} gives:
+\begin{equation}\label{eq:fried1-mod}
+  3H^2 + \frac{\kappa^2}{16\pi^2}\Bigl[
+  F_2(\Box/\Lambda^2,\xi)\,H_{00}
+  + \Theta^{(R)}_{00}\Bigr]
+  = \kappa^2\,\rho,
+\end{equation}
+where $H_{00}$ is given by~\eqref{eq:H00} and $\Theta^{(R)}_{00}$
+by~\eqref{eq:Theta00}.
+\end{theorem}
+
+\begin{theorem}[Modified trace equation]\label{thm:trace-mod}
+Taking the trace of~\eqref{eq:eom-flrw}:
+\begin{equation}\label{eq:trace-mod}
+  -\frac{R}{\kappa^2}
+  + \frac{1}{16\pi^2}\bigl[
+  -6\,F_2(\Box/\Lambda^2,\xi)\,\Box R
+  + g^{\mu\nu}\Theta^{(R)}_{\mu\nu}\bigr]
+  = \frac{1}{2}\,(-\rho + 3p),
+\end{equation}
+using $g^{\mu\nu}G_{\mu\nu} = -R$,
+$g^{\mu\nu}H_{\mu\nu} = -6\Box R$ (NT-4b Prop.~3.1),
+and $g^{\mu\nu}\Theta^{(R)}_{\mu\nu} = -\rho_\Theta + 3p_\Theta
+= 2\rho_\Theta = -\mathcal{S}$ from~\eqref{eq:rho-p-Theta}
+(using $p_\Theta = \rho_\Theta$, $w = +1$).
+\end{theorem}
+
+\subsection{Local Limit: $R + R^2$ Gravity (Starobinsky)}
+
+In the local limit $F_2 \to F_2(0,\xi) = \alpha_R(\xi)/(16\pi^2)$,
+$\Theta^{(R)} = 0$, the trace equation reduces to:
+\begin{equation}\label{eq:trace-local}
+  R + \frac{6\alpha_R(\xi)}{16\pi^2\kappa^{-2}}\,\Box R
+  = -\kappa^2\,(\rho - 3p)/2.
+\end{equation}
+
+Comparing with Starobinsky's $R + R^2/(6M^2)$ model
+\fromlit{Starobinsky (1980); Mukhanov \& Chibisov (1981)}: the
+correspondence is $M^2 = 16\pi^2/(6\alpha_R(\xi)\kappa^2)
+= 1/(6\alpha_R(\xi)\cdot 8\pi G)$.
+
+\subsection{De Sitter Self-Consistency}
+
+On de~Sitter ($H = \mathrm{const}$, $R = 12H^2$):
+\begin{itemize}[nosep]
+  \item $\dot{R} = 0$, $\Box R = 0$, $\Box^n R = 0$ for all
+    $n \geq 1$.
+  \item $H_{\mu\nu}|_{\mathrm{dS}} = 0$ (NT-4b, Prop.~4.2).
+  \item $\Theta^{(R)}_{\mu\nu}|_{\mathrm{dS}} = 0$ (all terms
+    involve $\nabla R$).
+\end{itemize}
+Therefore the modified Friedmann equation~\eqref{eq:fried1-mod}
+reduces to $3H^2 = \kappa^2\rho$, i.e., standard Einstein gravity.
+De~Sitter is an exact vacuum solution for $\rho = p = 0$ with
+$H^2 = \Lambda_{\mathrm{eff}}/3$.
+
+\verified{This is consistent with NT-4b Check~5 (de~Sitter exact
+solution). The FLRW reduction inherits this check automatically.}
+
+%%======================================================================
+\section{Comparison with Nonlocal Cosmological Models}
+\label{sec:comparison}
+%%======================================================================
+
+\subsection{Deser--Woodard Model}\label{sec:DW}
+
+The DW model \cite{DW07,DW13,DW19} modifies gravity via:
+\begin{equation}\label{eq:DW-action}
+  S_{\mathrm{DW}} = \frac{1}{16\pi G}\int\dd^4 x\,\sqrt{-g}\,
+  \Bigl[R + R\,f\Bigl(\frac{R}{\Box}\Bigr)\Bigr],
+\end{equation}
+where $f$ is a dimensionless function. The model introduces no
+additional mass scale (both $R$ and $\Box$ have dimension
+$[\mathrm{length}]^{-2}$).
+
+\paragraph{Differences from SCT:}
+\begin{enumerate}[nosep]
+  \item DW uses $\Box^{-1}$ (retarded Green's function), which is
+    infrared-motivated. SCT uses entire form factors
+    $F_i(\Box/\Lambda^2)$, which are UV-motivated.
+  \item DW modifies gravity in the IR (dark energy). SCT modifies
+    it at the spectral cutoff scale $\Lambda$.
+  \item DW has $c_T = c$ (GWs travel at the speed of light)
+    \cite{NLA18}. SCT needs verification (see \S\ref{sec:gw-speed}).
+\end{enumerate}
+
+\paragraph{Key result \fromlit{Deser--Woodard (2013), \S2}:}
+On FLRW, the DW model introduces an auxiliary field
+$X \equiv \Box^{-1}R$ satisfying $\Box X = R$, which localizes the
+dynamics. The modified Friedmann equations involve $X(t)$ and its
+derivatives, producing an effective dark energy component.
+
+\subsection{Maggiore--Mancarella RR Model}\label{sec:MM}
+
+The RR model \cite{BDFM18,DFKKM14} adds $m^2\,R\,\Box^{-2}\,R$ to
+the Einstein--Hilbert action:
+\begin{equation}\label{eq:RR-action}
+  S_{\mathrm{RR}} = \frac{1}{16\pi G}\int\dd^4 x\,\sqrt{-g}\,
+  \Bigl[R - \frac{m^2}{6}\,R\,\frac{1}{\Box^2}\,R\Bigr].
+\end{equation}
+
+\paragraph{Key results \fromlit{Belgacem et al.\ (2018), \S3}:}
+\begin{itemize}[nosep]
+  \item The model introduces two auxiliary fields $U = -\Box^{-1}R$
+    and $S = -\Box^{-1}U$ to localize the dynamics.
+  \item On FLRW, the modified Friedmann equation becomes:
+    \begin{equation}\label{eq:RR-friedmann}
+      H^2 = \frac{8\pi G}{3}\rho
+      + \frac{m^2}{6}\bigl[\text{terms involving }U, S, \dot{U},
+      \dot{S}\bigr].
+    \end{equation}
+  \item The dark energy equation of state is phantom:
+    $w_{\mathrm{DE}}(0) \approx -1.14$.
+  \item GWs propagate at the speed of light: $c_T = c$.
+  \item The model reduces $H_0$ tension to $2.0\sigma$.
+\end{itemize}
+
+\paragraph{Differences from SCT:}
+The RR model uses $\Box^{-2}$ (IR nonlocality), while SCT uses
+entire functions (UV nonlocality). The RR model has one free parameter
+$m$ replacing $\Omega_\Lambda$; SCT has $\Lambda$ (spectral cutoff)
+and $\xi$ (Higgs non-minimal coupling).
+
+\subsection{Koshelev--Kumar--Starobinsky Nonlocal Inflation}
+\label{sec:KKS}
+
+The KKS approach \cite{KKS23} considers the action:
+\begin{equation}\label{eq:KKS-action}
+  S_{\mathrm{KKS}} = \frac{1}{2}\int\dd^4 x\,\sqrt{-g}\,
+  \Bigl[M_p^2\,R + R\,\mathcal{F}_R(\Box_s)\,R
+  + W_{\mu\nu\rho\sigma}\,\mathcal{F}_C(\Box_s)\,
+  W^{\mu\nu\rho\sigma}\Bigr],
+\end{equation}
+where $\Box_s = \Box/\mathcal{M}_s^2$ and $\mathcal{F}_R$,
+$\mathcal{F}_C$ are analytic infinite-derivative (AID) operators.
+
+\paragraph{Key results \fromlit{KKS (2023), \S2--3}:}
+\begin{itemize}[nosep]
+  \item On FLRW, the Weyl sector drops out (same as SCT).
+  \item The trace equation reduces to $\Box R = M^2 R$, the
+    Starobinsky scalaron equation, under the condition
+    $\mathcal{F}_R(M^2/\mathcal{M}_s^2) = M_p^2/(6M^2)$.
+  \item Ghost-free form factors require
+    $\mathcal{O}_0 = (1 - \Box/M^2)\,e^{H_0(\Box_s)}$ and
+    $\mathcal{O}_2 = e^{H_2(\Box_s)}$ where $H_0$, $H_2$ are
+    entire functions.
+  \item The form factors are \emph{background-dependent} on curved
+    spacetimes, necessitating cubic and higher curvature terms
+    for a background-independent formulation.
+  \item On FLRW, the scalaron equation of motion provides
+    $R^2$-like inflation.
+\end{itemize}
+
+\paragraph{Relevance to SCT:} The SCT form factors $F_1$, $F_2$
+are derived from the spectral action, not postulated. The KKS
+ghost-freedom conditions correspond to the SCT requirement that
+$F_1$, $F_2$ are entire (NT-2). The scalaron mass in KKS corresponds
+to the SCT effective mass $m_0(\xi) = \Lambda/\sqrt{6(\xi - 1/6)^2}$.
+
+\subsection{Biswas--Koshelev--Mazumdar Bouncing Cosmology}
+\label{sec:BKM}
+
+The BKM approach \cite{BMS06,BKM10} obtains bouncing cosmological
+solutions from ghost-free nonlocal gravity:
+\begin{equation}\label{eq:BKM-action}
+  S_{\mathrm{BKM}} = \frac{M_p^2}{2}\int\dd^4 x\,\sqrt{-g}\,
+  \bigl[R + R\,\mathcal{F}(\Box)\,R\bigr].
+\end{equation}
+
+\paragraph{Key results \fromlit{BKM (2010), \S3}:}
+\begin{itemize}[nosep]
+  \item Stable inflationary attractor solutions exist with positive
+    cosmological constant.
+  \item Cyclic universe solutions emerge with negative cosmological
+    constant.
+  \item Super-Hubble perturbations are tracked through the bounce.
+  \item Bouncing solutions are free from perturbative instability.
+\end{itemize}
+
+\paragraph{Relevance to SCT:} The BKM action is structurally identical
+to the $R^2$ sector of the SCT spectral action, with
+$\mathcal{F}(\Box) \leftrightarrow F_2(\Box/\Lambda^2,\xi)/(16\pi^2)$.
+The SCT form factor $F_2$ is derived from first principles (spectral
+action + heat kernel), while BKM postulates $\mathcal{F}$.
+
+%%======================================================================
+\section{Gravitational Wave Speed}\label{sec:gw-speed}
+%%======================================================================
+
+\subsection{The GW170817 Constraint}
+
+The joint detection of GW170817 and GRB~170817A established
+\fromlit{LIGO--Virgo Collaboration (2017)}:
+\begin{equation}\label{eq:gw170817}
+  \bigl|c_T/c - 1\bigr| \leq 1 \times 10^{-15},
+\end{equation}
+where $c_T$ is the speed of gravitational waves. This constraint
+applies at $z \approx 0$ (the source was at 40~Mpc).
+
+\subsection{Tensor Perturbations on FLRW}\label{sec:tensor-pert}
+
+Consider tensor perturbations $h_{ij}^{\mathrm{TT}}$ on the FLRW
+background \fromlit{Mukhanov (2005), \S7; Maggiore (2008), \S19}:
+\begin{equation}\label{eq:metric-tensor-pert}
+  \dd s^2 = -\dd t^2 + a^2(t)\bigl(\delta_{ij}
+  + h_{ij}^{\mathrm{TT}}\bigr)\,\dd x^i\,\dd x^j,
+\end{equation}
+where $h_{ij}^{\mathrm{TT}}$ is transverse and traceless:
+$\partial_i h^{ij}_{\mathrm{TT}} = 0$, $h^i{}_i = 0$.
+
+In GR, the tensor perturbation equation is:
+\begin{equation}\label{eq:gw-GR}
+  \ddot{h}_{ij} + 3H\dot{h}_{ij} - \frac{\nabla^2}{a^2}\,h_{ij} = 0.
+\end{equation}
+
+\subsection{GW Propagation in SCT on FLRW}
+
+\begin{tcolorbox}[colback=yellow!5!white, colframe=orange!60!black,
+  title={\textbf{Critical: The Weyl Sector Contributes to
+  Perturbations}}]
+Although $C_{\mu\nu\rho\sigma} = 0$ on the FLRW \emph{background},
+the perturbation $\delta C_{\mu\nu\rho\sigma} \neq 0$ for tensor
+modes. Therefore the $F_1$ (Weyl) sector \emph{does} contribute to
+the tensor perturbation equation, even though it does not appear in
+the background Friedmann equations.
+
+This is a standard feature of higher-derivative gravity theories:
+the linearized equation of motion for perturbations around a curved
+background can involve terms from sectors that vanish on the
+background itself.
+\end{tcolorbox}
+
+From the NT-4b field equations linearized on FLRW, the tensor
+perturbation equation takes the schematic form:
+\begin{equation}\label{eq:gw-sct}
+  \bigl[1 + \mathcal{G}_T(\Box/\Lambda^2)\bigr]\,
+  \bigl(\ddot{h}_{ij} + 3H\dot{h}_{ij}
+  - \frac{\nabla^2}{a^2}\,h_{ij}\bigr) = 0,
+\end{equation}
+where $\mathcal{G}_T$ encodes the nonlocal modification from
+the Weyl sector.
+
+\gap{} The exact form of $\mathcal{G}_T$ on a general FLRW
+background needs to be derived. On flat background, it reduces to
+the NT-4a result $\Pi_{\mathrm{TT}}(z) = 1 + (13/60)\,z\,\hat{F}_1(z)$.
+
+\paragraph{The GW speed:}
+For a mode $h_{ij} \propto e^{i(\omega t - \mathbf{k}\cdot\mathbf{x})}$,
+the dispersion relation from~\eqref{eq:gw-sct} gives:
+\begin{equation}\label{eq:gw-dispersion}
+  \omega^2 = \frac{k^2}{a^2}\cdot c_T^2(k,t),
+\end{equation}
+where $c_T$ depends on $k$ in general (nonlocal dispersion).
+
+\paragraph{Low-$k$ limit:}
+In the limit $k \to 0$ (long wavelengths, relevant for GW170817):
+\begin{equation}\label{eq:cT-lowk}
+  c_T^2(k \to 0) = 1,
+\end{equation}
+because the form factors reduce to their $z = 0$ values and the
+effective action becomes the local Einstein--Hilbert action
+(plus local curvature-squared terms that do not modify the GW speed
+in $d = 4$).
+
+\begin{proposition}[GW speed in SCT at low momenta]
+\label{prop:cT}
+At momenta $k \ll \Lambda$ (equivalently $z = k^2/\Lambda^2 \ll 1$),
+the SCT prediction for the GW speed on FLRW is
+$c_T = c$, consistent with the GW170817 bound~\eqref{eq:gw170817}.
+\end{proposition}
+
+This follows from the fact that:
+\begin{enumerate}[nosep]
+  \item In the local limit ($z \to 0$), the Weyl sector gives
+    $2F_1(0)\,B_{\mu\nu} = (13/60)\cdot B_{\mu\nu}/(16\pi^2)$.
+  \item The local $C^2$ term does not modify the GW speed in 4D
+    \fromlit{Stelle (1977); Nersisyan et al.\ (2018), \S3}.
+  \item The $R^2$ term does not affect tensor perturbations at
+    leading order (it couples to the scalar sector only).
+\end{enumerate}
+
+\paragraph{Comparison:} Both the DW model \cite{NLA18} and the
+Maggiore RR model \cite{BDFM18} have $c_T = c$ exactly. The
+Horndeski models with $G_4(X) \neq 0$ or $G_5 \neq 0$ are
+excluded \cite{NLA18}. The SCT prediction $c_T(k \to 0) = c$
+places it in the same class as DW and RR.
+
+\gap{} The high-$k$ behavior of $c_T(k)$ (UV dispersion) is
+determined by $F_1(z)$ and may show deviations from $c$ at
+$k \sim \Lambda$. This is expected from the MR-3 causality
+analysis (micro-causality violated at $\ell \sim 1/\Lambda$).
+
+%%======================================================================
+\section{Cosmological Perturbation Theory on FLRW}
+\label{sec:perturbations}
+%%======================================================================
+
+\subsection{SVT Decomposition}
+
+The perturbed FLRW metric in the Newtonian (longitudinal) gauge is
+\fromlit{Mukhanov (2005), \S7; Bardeen (1980)}:
+\begin{equation}\label{eq:perturbed-metric}
+  \dd s^2 = -(1 + 2\Phi)\,\dd t^2
+  + a^2(t)\bigl[(1 - 2\Psi)\,\delta_{ij}
+  + h_{ij}^{\mathrm{TT}}\bigr]\,\dd x^i\,\dd x^j,
+\end{equation}
+where $\Phi$ and $\Psi$ are the Bardeen scalar potentials and
+$h_{ij}^{\mathrm{TT}}$ is the transverse-traceless tensor perturbation.
+Vector perturbations decay in an expanding universe and are omitted.
+
+\subsection{Scalar Perturbations and Gravitational Slip}
+
+In GR, $\Phi = \Psi$ in the absence of anisotropic stress. In
+modified gravity, the gravitational slip parameter
+\fromlit{Amendola et al.\ (2008)}:
+\begin{equation}\label{eq:grav-slip}
+  \eta \equiv -\frac{\Phi}{\Psi}
+\end{equation}
+can differ from unity. For the DW model,
+$\eta \approx -0.05 + 1.79\,a^2 - 0.54\,a^3$ \cite{NLA18}.
+
+In SCT on FLRW, the $R^2$ sector generates anisotropic stress via
+the $H_{\mu\nu}$ tensor, producing $\Phi \neq \Psi$. The Weyl
+sector $F_1$ also contributes to scalar perturbations through
+$\delta C_{\mu\nu\rho\sigma}$.
+
+\gap{} The explicit expressions for $\eta(k, z)$ in SCT need
+to be derived in the NT-4c derivation phase. This is important
+for INF-1 ($n_s$, $r$) and MT-2 ($H_0$, $S_8$ tensions).
+
+\subsection{Inflationary Observables (Preview for INF-1)}
+
+For $R^2$-like inflation driven by the $F_2$ sector, the key
+observables are \fromlit{KKS (2023), \S4}:
+\begin{align}
+  n_s &= 1 - \frac{2}{N}
+  \quad \text{(spectral index, at leading order)},
+  \label{eq:ns}\\
+  r &= \frac{12}{N^2}
+  \quad \text{(tensor-to-scalar ratio, at leading order)},
+  \label{eq:r}
+\end{align}
+where $N$ is the number of e-folds. For $N = 55$:
+$n_s \approx 0.964$, $r \approx 0.004$, consistent with Planck 2018
+constraints $n_s = 0.9649 \pm 0.0042$ and $r < 0.064$ (95\% CL).
+
+In the SCT framework, nonlocal corrections from $F_2(\Box/\Lambda^2)$
+modify both $n_s$ and $r$ at sub-leading order. These corrections
+depend on the ratio $M^2/\mathcal{M}_s^2$ (scalaron mass vs.\
+nonlocality scale).
+
+\gap{} The computation of $n_s$ and $r$ in SCT, including
+nonlocal corrections, is deferred to INF-1.
+
+%%======================================================================
+\section{Notation Table}\label{sec:notation}
+%%======================================================================
+
+\begin{center}
+\begin{longtable}{ll}
+\toprule
+\textbf{Symbol} & \textbf{Definition / Convention} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Symbol} & \textbf{Definition / Convention} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+$g_{\mu\nu}$ & Lorentzian metric, signature $(-,+,+,+)$ \\
+$a(t)$ & Scale factor \\
+$H = \dot{a}/a$ & Hubble parameter \\
+$\mathcal{H} = a'/a$ & Conformal Hubble parameter \\
+$\tau$ & Conformal time: $\dd\tau = \dd t/a$ \\
+$R$ & Ricci scalar: $6(\dot{H} + 2H^2)$ on FLRW \\
+$\Box$ & d'Alembertian: $-\ddot{\phantom{x}} - 3H\dot{\phantom{x}}$
+  for scalars on FLRW \\
+$\Lambda$ & Spectral cutoff scale \\
+$\xi$ & Higgs non-minimal coupling \\
+$\kappa^2$ & $8\pi G$ \\
+$\alpha_C$ & $13/120$ (Weyl coefficient) \\
+$\alpha_R(\xi)$ & $2(\xi - 1/6)^2$ (Ricci-scalar coefficient) \\
+$F_1(z)$ & Weyl form factor, $z = \Box/\Lambda^2$ \\
+$F_2(z,\xi)$ & $R^2$ form factor \\
+$B_{\mu\nu}$ & Bach tensor (from $\delta C^2/\delta g^{\mu\nu}$) \\
+$H_{\mu\nu}$ & $R^2$-sector tensor \\
+$\Theta^{(R)}_{\mu\nu}$ & BV alpha-insertion, $R^2$ sector \\
+$\Theta^{(C)}_{\mu\nu}$ & BV alpha-insertion, Weyl sector \\
+$\Phi, \Psi$ & Bardeen scalar potentials \\
+$h_{ij}^{\mathrm{TT}}$ & Tensor perturbation \\
+$c_T$ & Gravitational wave speed \\
+$n_s$ & Scalar spectral index \\
+$r$ & Tensor-to-scalar ratio \\
+$N$ & Number of e-folds \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+%%======================================================================
+\section{Summary of Gaps for the Derivation Phase}\label{sec:gaps}
+%%======================================================================
+
+\begin{center}
+\begin{tabular}{clp{8cm}l}
+\toprule
+\textbf{\#} & \textbf{Gap} & \textbf{Description} & \textbf{Priority} \\
+\midrule
+G1 & $H_{\mu\nu}$ on FLRW &
+  Verify the explicit $(0,0)$ and $(i,j)$ components of $H_{\mu\nu}$
+  on FLRW, including the action of $F_2(\Box/\Lambda^2)$.
+  & HIGH \\
+G2 & $\Theta^{(R)}$ convergence &
+  Prove convergence of the alpha-insertion series on FLRW.
+  Establish connection between the series $\mathcal{S}$ and the
+  integral representation.
+  & HIGH \\
+G3 & Tensor perturbation equation &
+  Derive the exact form of $\mathcal{G}_T(\Box/\Lambda^2)$ on FLRW
+  from the linearization of the Weyl sector around the FLRW
+  background. Extract $c_T(k)$.
+  & HIGH \\
+G4 & Scalar perturbation equations &
+  Derive the coupled equations for $\Phi$, $\Psi$ from the
+  linearization of both the $R^2$ and Weyl sectors on FLRW.
+  Extract $\eta(k, z)$.
+  & MEDIUM \\
+G5 & Eigenvalue ansatz &
+  Test the KKS ansatz $\Box R = M^2 R$ in the SCT context.
+  Determine whether the SCT form factor $F_2$ admits this
+  simplification on the FLRW background.
+  & MEDIUM \\
+G6 & Conformal coupling limit &
+  At $\xi = 1/6$, $\alpha_R = 0$ and the $R^2$ sector vanishes.
+  Verify that the tensor perturbation equation still receives
+  contributions from the Weyl sector $F_1$ (which has $\alpha_C =
+  13/120 \neq 0$).
+  & HIGH \\
+G7 & Energy conditions &
+  Check whether the effective energy density and pressure from
+  the nonlocal terms satisfy standard energy conditions (null,
+  weak, strong).
+  & LOW \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%%======================================================================
+\section{Benchmarks for the Derivation Phase}\label{sec:benchmarks}
+%%======================================================================
+
+The following benchmarks must be satisfied by any correct derivation:
+
+\begin{enumerate}[label=\textbf{B\arabic*}]
+  \item \textbf{De Sitter:} The modified Friedmann equations must
+    reduce to $3H^2 = \kappa^2\rho$ on de~Sitter, consistent with
+    NT-4b Check~5.
+  \item \textbf{Local limit:} Setting $F_2 \to F_2(0,\xi)$,
+    $\Theta^{(R)} \to 0$, the equations must reproduce the local
+    $R + \beta R^2$ Friedmann equations with
+    $\beta = \alpha_R(\xi)/(16\pi^2)$.
+  \item \textbf{Conformal coupling:} At $\xi = 1/6$,
+    $\alpha_R = 0$, and the \emph{background} Friedmann equations
+    must reduce to standard GR.
+  \item \textbf{GW speed:} $c_T(k \to 0) = c$ at low momenta,
+    consistent with GW170817.
+  \item \textbf{Linearized recovery:} On flat background ($a = 1$,
+    $H = 0$), the perturbation equations must reproduce NT-4a
+    $\Pi_{\mathrm{TT}}$ and $\Pi_{\mathrm{s}}$.
+  \item \textbf{Energy conservation:} The modified equations must be
+    consistent with $\nabla^\mu T_{\mu\nu} = 0$ (Bianchi identity).
+  \item \textbf{Trace consistency:} The trace of the modified
+    Friedmann equations must give the Raychaudhuri equation with the
+    same nonlocal corrections.
+  \item \textbf{KKS scalaron equation:} Under the ansatz
+    $\Box R = M^2 R$, the SCT trace equation must reduce to the
+    Starobinsky scalaron equation.
+\end{enumerate}
+
+%%======================================================================
+\begin{thebibliography}{99}
+%%======================================================================
+
+\bibitem{DW07}
+S.~Deser and R.~P.~Woodard,
+``Nonlocal cosmology,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{99} (2007) 111301,
+\href{https://arxiv.org/abs/0706.2151}{arXiv:0706.2151}.
+
+\bibitem{DW13}
+S.~Deser and R.~P.~Woodard,
+``Observational viability and stability of nonlocal cosmology,''
+\emph{JCAP} \textbf{1311} (2013) 036,
+\href{https://arxiv.org/abs/1307.6639}{arXiv:1307.6639}.
+
+\bibitem{DW19}
+S.~Deser and R.~P.~Woodard,
+``Nonlocal cosmology~II --- Cosmic acceleration without fine tuning
+or dark energy,''
+\emph{JCAP} \textbf{1906} (2019) 034,
+\href{https://arxiv.org/abs/1902.08075}{arXiv:1902.08075}.
+
+\bibitem{BDFM18}
+E.~Belgacem, Y.~Dirian, S.~Foffa, and M.~Maggiore,
+``Nonlocal gravity. Conceptual aspects and cosmological predictions,''
+\emph{JCAP} \textbf{1803} (2018) 002,
+\href{https://arxiv.org/abs/1712.07066}{arXiv:1712.07066}.
+
+\bibitem{DFKKM14}
+Y.~Dirian, S.~Foffa, N.~Khosravi, M.~Kunz, and M.~Maggiore,
+``Cosmological perturbations and structure formation in nonlocal
+infrared modifications of general relativity,''
+\emph{JCAP} \textbf{1406} (2014) 033,
+\href{https://arxiv.org/abs/1403.6068}{arXiv:1403.6068}.
+
+\bibitem{BDFM18gw}
+E.~Belgacem, Y.~Dirian, S.~Foffa, and M.~Maggiore,
+``Modified gravitational-wave propagation and standard sirens,''
+\emph{Phys.\ Rev.\ D} \textbf{98} (2018) 023510,
+\href{https://arxiv.org/abs/1805.08731}{arXiv:1805.08731}.
+
+\bibitem{KKS23}
+A.~S.~Koshelev, K.~Sravan~Kumar, and A.~A.~Starobinsky,
+``Cosmology in nonlocal gravity,''
+in \emph{Handbook of Quantum Gravity}, Springer, 2023,
+\href{https://arxiv.org/abs/2305.18716}{arXiv:2305.18716}.
+
+\bibitem{BMS06}
+T.~Biswas, A.~Mazumdar, and W.~Siegel,
+``Bouncing universes in string-inspired gravity,''
+\emph{JCAP} \textbf{0603} (2006) 009,
+\href{https://arxiv.org/abs/hep-th/0508194}{hep-th/0508194}.
+
+\bibitem{BKM10}
+T.~Biswas, T.~Koivisto, and A.~Mazumdar,
+``Towards a resolution of the cosmological singularity in non-local
+higher derivative theories of gravity,''
+\emph{JCAP} \textbf{1011} (2010) 008,
+\href{https://arxiv.org/abs/1005.0590}{arXiv:1005.0590}.
+
+\bibitem{BCM19}
+F.~Briscese, G.~Calcagni, and L.~Modesto,
+``Nonlinear stability in nonlocal gravity,''
+\emph{Phys.\ Rev.\ D} \textbf{99} (2019) 084041,
+\href{https://arxiv.org/abs/1901.03267}{arXiv:1901.03267}.
+
+\bibitem{CM22}
+A.~Bas~i~Beneito, G.~Calcagni, and L.~Rachwa\l{},
+``Classical and quantum nonlocal gravity,''
+in \emph{Handbook of Quantum Gravity}, Springer, 2022,
+\href{https://arxiv.org/abs/2211.05606}{arXiv:2211.05606}.
+
+\bibitem{NLA18}
+H.~Nersisyan, N.~A.~Lima, and L.~Amendola,
+``Gravitational wave speed: Implications for models without a
+mass scale,''
+\emph{Phys.\ Lett.\ B} \textbf{783} (2018) 188--193,
+\href{https://arxiv.org/abs/1801.06683}{arXiv:1801.06683}.
+
+\bibitem{NO08}
+S.~Nojiri and S.~D.~Odintsov,
+``Modified gravity as realistic candidate for dark energy, inflation
+and dark matter,''
+\href{https://arxiv.org/abs/0810.1557}{arXiv:0810.1557}.
+
+\bibitem{Ste77}
+K.~S.~Stelle,
+``Renormalization of higher-derivative quantum gravity,''
+\emph{Phys.\ Rev.\ D} \textbf{16} (1977) 953--969.
+
+\bibitem{Ste78}
+K.~S.~Stelle,
+``Classical gravity with higher derivatives,''
+\emph{Gen.\ Rel.\ Grav.} \textbf{9} (1978) 353--371.
+
+\bibitem{BV87}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``The generalized Schwinger-DeWitt technique in gauge theories and
+quantum gravity,''
+\emph{Phys.\ Rep.} \textbf{119} (1985) 1--74;
+\emph{Nucl.\ Phys.\ B} \textbf{282} (1987) 163--188.
+
+\bibitem{BV90}
+A.~O.~Barvinsky and G.~A.~Vilkovisky,
+``Covariant perturbation theory (II): second order in the curvature,''
+\emph{Nucl.\ Phys.\ B} \textbf{333} (1990) 471--511.
+
+\bibitem{Star80}
+A.~A.~Starobinsky,
+``A new type of isotropic cosmological models without singularity,''
+\emph{Phys.\ Lett.\ B} \textbf{91} (1980) 99--102.
+
+\bibitem{CPR09}
+A.~Codello, R.~Percacci, and C.~Rahmede,
+``Investigating the ultraviolet properties of gravity with a
+Wilsonian renormalization group equation,''
+\emph{Ann.\ Phys.} \textbf{324} (2009) 414--469,
+\href{https://arxiv.org/abs/0805.2909}{arXiv:0805.2909}.
+
+\bibitem{CZ12}
+A.~Codello and O.~Zanusso,
+``On the non-local heat kernel expansion,''
+\emph{J.\ Math.\ Phys.} \textbf{54} (2013) 013513,
+\href{https://arxiv.org/abs/1203.2034}{arXiv:1203.2034}.
+
+\bibitem{LIGO17}
+B.~P.~Abbott \emph{et al.}\ (LIGO Scientific Collaboration and
+Virgo Collaboration),
+``Gravitational waves and gamma-rays from a binary neutron star
+merger: GW170817 and GRB~170817A,''
+\emph{Astrophys.\ J.\ Lett.} \textbf{848} (2017) L13.
+
+\bibitem{Muk05}
+V.~F.~Mukhanov,
+\emph{Physical Foundations of Cosmology},
+Cambridge University Press, 2005.
+
+\bibitem{Wei08}
+S.~Weinberg,
+\emph{Cosmology},
+Oxford University Press, 2008.
+
+\bibitem{Car04}
+S.~M.~Carroll,
+\emph{Spacetime and Geometry: An Introduction to General Relativity},
+Addison-Wesley, 2004.
+
+\bibitem{Bar80}
+J.~M.~Bardeen,
+``Gauge-invariant cosmological perturbations,''
+\emph{Phys.\ Rev.\ D} \textbf{22} (1980) 1882--1905.
+
+\end{thebibliography}
+
+\end{document}

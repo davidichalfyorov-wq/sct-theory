@@ -28,6 +28,35 @@ import numpy as np
 from scipy.integrate import quad
 from scipy.special import dawsn
 
+__all__ = [
+    # Master function
+    "phi", "phi_closed", "phi_fast", "phi_vec", "phi_mp",
+    # CZ basis form factors
+    "f_Ric", "f_R", "f_RU", "f_U", "f_Omega",
+    # Scalar (spin-0)
+    "hC_scalar", "hR_scalar", "hC_scalar_fast", "hR_scalar_fast",
+    "scan_hC_scalar", "scan_hR_scalar",
+    "hC_scalar_mp", "hR_scalar_mp", "hC_scalar_taylor", "hR_scalar_taylor",
+    # Dirac (spin-1/2)
+    "hC_dirac", "hR_dirac", "hC_dirac_fast", "hR_dirac_fast",
+    "scan_hC_dirac", "scan_hR_dirac",
+    "hC_dirac_mp", "hR_dirac_mp",
+    # Vector (spin-1)
+    "hC_vector", "hR_vector", "hC_vector_fast", "hR_vector_fast",
+    "scan_hC_vector", "scan_hR_vector",
+    "hC_vector_mp", "hR_vector_mp",
+    # Combined SM
+    "F1_total", "F2_total", "F1_spectral", "F2_spectral",
+    "alpha_C_SM", "alpha_R_SM", "c1_c2_ratio_SM", "scalar_mode_mass_SM",
+    "uv_asymptotic_F1_total",
+    # Derivatives
+    "dphi_dx", "dphi_dx_fast",
+    "dhC_scalar_dx", "dhC_dirac_dx", "dhR_dirac_dx", "dhR_scalar_dx",
+    "dhC_vector_dx", "dhR_vector_dx",
+    # Utilities
+    "get_taylor_coefficients", "asymptotic_expansion",
+]
+
 # =============================================================================
 # MASTER FUNCTION phi(x) — numpy (fast, ~15 digits)
 # =============================================================================
@@ -345,10 +374,7 @@ def f_Ric(x):
 
 
 def f_R(x):
-    """CZ form factor f_R(x) = phi/32 + phi/(8x) - 7/(48x) - (phi-1)/(8x^2).
-
-    NOTE: This uses the CORRECTED formula after checking NT-1 conventions.
-    """
+    """CZ form factor f_R(x) = phi/32 + phi/(8x) - 7/(48x) - (phi-1)/(8x^2)."""
     x = float(x)
     if not np.isfinite(x):
         raise ValueError(f"f_R: requires finite x, got {x}")
@@ -617,7 +643,6 @@ def F1_total(x, N_s=4, N_f=45, N_v=12, xi=0.0):
         N_f counts 2-component WEYL spinors (SM default: 45).
         h_C^(1/2) is the form factor for one 4-component DIRAC fermion.
         Therefore N_D = N_f / 2 Dirac fermions contribute to the sum.
-        This was corrected in Phase 3 (previously used N_f directly — bug).
         Reference: CPR 0805.2909, eq. (3.14).
 
     Parameters:
@@ -642,7 +667,7 @@ def F1_total(x, N_s=4, N_f=45, N_v=12, xi=0.0):
             raise ValueError(f"F1_total: requires finite {name}, got {val}")
     # N_f is Weyl count; h_C^(1/2) is per-Dirac → divide by 2
     N_D = N_f / 2
-    result = N_s * hC_scalar(x) + N_D * hC_dirac(x) + N_v * hC_vector(x)
+    result = N_s * hC_scalar_fast(x) + N_D * hC_dirac_fast(x) + N_v * hC_vector_fast(x)
     return result / (16 * np.pi**2)
 
 
@@ -668,7 +693,7 @@ def F2_total(x, N_s=4, N_f=45, N_v=12, xi=0.0):
             raise ValueError(f"F2_total: requires finite {name}, got {val}")
     # N_f is Weyl count; h_R^(1/2) is per-Dirac → divide by 2
     N_D = N_f / 2
-    result = N_s * hR_scalar(x, xi) + N_D * hR_dirac(x) + N_v * hR_vector(x)
+    result = N_s * hR_scalar_fast(x, xi) + N_D * hR_dirac_fast(x) + N_v * hR_vector_fast(x)
     return result / (16 * np.pi**2)
 
 
@@ -797,7 +822,7 @@ def uv_asymptotic_F1_total(N_s=4, N_f=45, N_v=12):
         a_s^(1/2) = -1/6    (from h_C^(1/2): x->inf, phi->0, leading term -1/(6x))
         a_s^(1) = -1/3      (from asymptotic: h_C^(1) -> -1/(3x) + ...)
 
-    CORRECTED: x * alpha_C_total(x) -> N_s/12 + (N_f/2)*(-1/6) + N_v*(-1/3)
+    x * alpha_C_total(x) -> N_s/12 + (N_f/2)*(-1/6) + N_v*(-1/3)
     = 4/12 + 22.5*(-1/6) + 12*(-1/3)
     = 1/3 - 15/4 - 4 = 4/12 - 45/12 - 48/12 = -89/12
 
@@ -807,17 +832,15 @@ def uv_asymptotic_F1_total(N_s=4, N_f=45, N_v=12):
         Leading UV coefficient of x * alpha_C(x), NOT divided by 16*pi^2.
     """
     N_D = N_f / 2
-    # Leading 1/x coefficients of each h_C^(s):
-    # h_C^(0)(x) ~ 1/(12*x) for large x (phi -> 0)
-    # h_C^(1/2)(x) ~ -1/(6*x) for large x (phi -> 0: (3*0-1)/(6x) = -1/(6x))
-    # h_C^(1)(x) ~ -1/(3*x) for large x (phi -> 0: 0/4 + (0-5)/(6x) + ... = -5/(6x),
-    #   but leading is phi/4 -> 0, then (6*0-5)/(6x) = -5/(6x), then (0-1)/x^2 -> sub-leading
-    #   Actually: phi/4 ~ sqrt(pi/x)*exp(-x/4)/4 -> 0 exponentially.
-    #   (6phi-5)/(6x) -> -5/(6x). (phi-1)/x^2 -> -1/x^2. So leading: -5/(6x).
-    #   Hmm, let me check using asymptotic_expansion.
+    # Leading 1/x coefficients: x * h_C^(s)(x) -> a_s as x -> inf.
+    # Using phi(x) ~ 2/x for large x:
+    #   h_C^(0)   ~ 1/(12x)   [from 1/(12x) + O(1/x^2)]
+    #   h_C^(1/2) ~ -1/(6x)   [from (3*0-1)/(6x) + O(1/x^2)]
+    #   h_C^(1)   ~ -1/(3x)   [phi/4 ~ 1/(2x), (6phi-5)/(6x) ~ -5/(6x);
+    #                           sum: 1/(2x) - 5/(6x) = -1/(3x)]
     a_scalar = 1 / 12
-    a_dirac = -1 / 6    # from asymptotic: (3*0-1)/(6x) = -1/(6x)
-    a_vector = -1 / 3   # from asymptotic_expansion('hC_vector', x): -1/(3x) + ...
+    a_dirac = -1 / 6
+    a_vector = -1 / 3
     return N_s * a_scalar + N_D * a_dirac + N_v * a_vector
 
 
@@ -887,6 +910,46 @@ def F2_spectral(z, psi, psi1, psi2, psi1_0, psi2_0):
 # HIGH-PRECISION VERSIONS (mpmath, >= 100 digits)
 # =============================================================================
 
+_MP_TAYLOR_NTERMS = 80
+
+
+def _mp_taylor_eval(form_factor, x, xi=None):
+    """Evaluate a form factor via Taylor series in mpmath arithmetic.
+
+    Avoids catastrophic cancellation at small x by analytically cancelling
+    the 1/x and 1/x^2 poles in the coefficient formulas.  Called by
+    the _mp functions when 0 < x < 2.
+    """
+    from mpmath import fac, mpf
+    N = _MP_TAYLOR_NTERMS
+    x = mpf(x)
+    # Precompute phi Taylor coefficients: a_n = (-1)^n n! / (2n+1)!
+    a = [(-1)**n * fac(n) / fac(2 * n + 1) for n in range(N + 3)]
+    s = mpf(0)
+    xk = mpf(1)
+    for k in range(N):
+        if form_factor == 'hC_scalar':
+            ck = a[k + 2] / 2
+        elif form_factor == 'hR_scalar':
+            xi_m = mpf(xi)
+            ck = (a[k] / 32 + a[k + 1] / 8 + 5 * a[k + 2] / 24
+                  + xi_m * (-a[k] / 4 - a[k + 1] / 2)
+                  + xi_m**2 * a[k] / 2)
+        elif form_factor == 'hC_dirac':
+            ck = a[k + 1] / 2 + 2 * a[k + 2]
+        elif form_factor == 'hR_dirac':
+            ck = a[k + 1] / 12 + 5 * a[k + 2] / 6
+        elif form_factor == 'hC_vector':
+            ck = a[k] / 4 + a[k + 1] + a[k + 2]
+        elif form_factor == 'hR_vector':
+            ck = -a[k] / 48 - a[k + 1] / 12 + 5 * a[k + 2] / 12
+        else:
+            raise ValueError(f"_mp_taylor_eval: unknown form factor '{form_factor}'")
+        s += ck * xk
+        xk *= x
+    return s
+
+
 def phi_mp(x, dps=100):
     """High-precision master function using mpmath.
 
@@ -931,6 +994,8 @@ def hC_scalar_mp(x, dps=100):
             raise ValueError(f"hC_scalar_mp: requires x >= 0, got {float(x)}")
         if x == 0:
             return mpf(1) / 120
+        if x < 2:
+            return _mp_taylor_eval('hC_scalar', x)
         p = phi_mp(x, dps)
         return mpf(1) / (12 * x) + (p - 1) / (2 * x**2)
     finally:
@@ -958,6 +1023,8 @@ def hR_scalar_mp(x, xi=0, dps=100):
             raise ValueError(f"hR_scalar_mp: requires finite xi, got {float(xi)}")
         if x == 0:
             return (xi - mpf(1) / 6)**2 / 2
+        if x < 2:
+            return _mp_taylor_eval('hR_scalar', x, xi=xi)
         p = phi_mp(x, dps)
 
         A = p / 32 + (p / 8 - mpf(13) / 144) / x + 5 * (p - 1) / (24 * x**2)
@@ -986,6 +1053,8 @@ def hC_dirac_mp(x, dps=100):
             raise ValueError(f"hC_dirac_mp: requires x >= 0, got {float(x)}")
         if x == 0:
             return mpf(-1) / 20
+        if x < 2:
+            return _mp_taylor_eval('hC_dirac', x)
         p = phi_mp(x, dps)
         return (3 * p - 1) / (6 * x) + 2 * (p - 1) / x**2
     finally:
@@ -1010,6 +1079,8 @@ def hR_dirac_mp(x, dps=100):
             raise ValueError(f"hR_dirac_mp: requires x >= 0, got {float(x)}")
         if x == 0:
             return mpf(0)
+        if x < 2:
+            return _mp_taylor_eval('hR_dirac', x)
         p = phi_mp(x, dps)
         return (3 * p + 2) / (36 * x) + 5 * (p - 1) / (6 * x**2)
     finally:
@@ -1034,6 +1105,8 @@ def hC_vector_mp(x, dps=100):
             raise ValueError(f"hC_vector_mp: requires x >= 0, got {float(x)}")
         if x == 0:
             return mpf(1) / 10
+        if x < 2:
+            return _mp_taylor_eval('hC_vector', x)
         p = phi_mp(x, dps)
         return p / 4 + (6 * p - 5) / (6 * x) + (p - 1) / x**2
     finally:
@@ -1058,6 +1131,8 @@ def hR_vector_mp(x, dps=100):
             raise ValueError(f"hR_vector_mp: requires x >= 0, got {float(x)}")
         if x == 0:
             return mpf(0)
+        if x < 2:
+            return _mp_taylor_eval('hR_vector', x)
         p = phi_mp(x, dps)
         return -p / 48 + (11 - 6 * p) / (72 * x) + 5 * (p - 1) / (12 * x**2)
     finally:
@@ -1224,8 +1299,10 @@ def dhR_scalar_dx(x, xi=0.0):
     """Derivative d/dx h_R^(0)(x; xi) for scalar field.
 
     Uses Taylor series derivative for x < 2 (cancellation-safe) and
-    4th-order central differences for x >= 2. Needed for NT-4 field
-    equation derivations.
+    analytic derivative via phi_fast/dphi_dx_fast for x >= 2.
+
+    h_R = fRic/3 + fR + xi*fRU + xi^2*fU, so
+    d/dx h_R = d(fRic/3)/dx + d(fR)/dx + xi*d(fRU)/dx + xi^2*d(fU)/dx.
 
     Parameters:
         x: dimensionless argument (= -s*Box/Lambda^2), must be >= 0
@@ -1243,20 +1320,23 @@ def dhR_scalar_dx(x, xi=0.0):
     if not np.isfinite(xi):
         raise ValueError(f"dhR_scalar_dx: requires finite xi, got {xi}")
     if abs(x) < _TAYLOR_THRESH:
-        # Analytic Taylor derivative: d/dx [sum c_k x^k] = sum k*c_k x^{k-1}
-        # h_R(x; xi) = sum [A_k + xi*B_k + xi^2*C_k] x^k
         deriv_coeffs = np.array([
             k * (_HR0_A[k] + xi * _HR0_B[k] + xi * xi * _HR0_C[k])
             for k in range(1, _N_TAYLOR)
         ])
         return _horner(deriv_coeffs, x)
-    # For x >= 2: 4th-order central difference (stencil stays in x >= 0)
-    h = max(abs(x) * 1e-5, 1e-10)
-    fp2 = hR_scalar_fast(x + 2*h, xi)
-    fp1 = hR_scalar_fast(x + h, xi)
-    fm1 = hR_scalar_fast(x - h, xi)
-    fm2 = hR_scalar_fast(x - 2*h, xi)
-    return (-fp2 + 8*fp1 - 8*fm1 + fm2) / (12 * h)
+    p = phi_fast(x)
+    dp = dphi_dx_fast(x)
+    # d(fRic/3)/dx: fRic = 1/(6x) + (p-1)/x^2
+    dA1 = -1.0 / (18.0 * x**2) + dp / (3.0 * x**2) - 2.0 * (p - 1.0) / (3.0 * x**3)
+    # d(fR)/dx: fR = p/32 + p/(8x) - 7/(48x) - (p-1)/(8x^2)
+    dA2 = (dp / 32.0 + dp / (8.0 * x) - p / (8.0 * x**2)
+           + 7.0 / (48.0 * x**2) - dp / (8.0 * x**2) + (p - 1.0) / (4.0 * x**3))
+    # d(fRU)/dx: fRU = -p/4 - (p-1)/(2x)
+    dB = -dp / 4.0 - dp / (2.0 * x) + (p - 1.0) / (2.0 * x**2)
+    # d(fU)/dx: fU = p/2
+    dC = dp / 2.0
+    return dA1 + dA2 + xi * dB + xi**2 * dC
 
 
 def dhC_vector_dx(x):

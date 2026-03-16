@@ -1,0 +1,517 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\order}{\mathcal{O}}
+\newcommand{\MPl}{M_{\mathrm{Pl}}}
+\newcommand{\Neff}{N_{\mathrm{eff}}}
+\newcommand{\Imag}{\mathrm{Im}}
+\newcommand{\Real}{\mathrm{Re}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- GP}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={GP: Dressed Graviton Propagator and Ghost Pole Structure},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{GP: Dressed Graviton Propagator}\\[4pt]
+  \textbf{and Ghost Pole Structure}\\[6pt]
+  \large Sign Chain, Optical Theorem, and Viability Assessment
+}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
+and workflow support.}
+\end{center}
+
+\begin{abstract}
+We compute the dressed graviton propagator in Spectral Causal Theory (SCT)
+by including the one-loop graviton self-energy $\Sigma(k^2)$ from Standard
+Model matter loops.  The imaginary part $\Imag[\Sigma(m^2)] > 0$ is
+established from Cutkosky rules.  Combined with the negative ghost residue
+$R_L < 0$, this yields $\Imag[k^2_{\mathrm{pole}}] = R_L \cdot
+\Imag[\Sigma] < 0$, corresponding to a decaying state in the path-integral
+formulation.  The 6-step sign chain is verified by 4 independent
+computations at 100-digit precision.  The width matches the A3
+first-principles calculation to 17 significant figures.
+This resolves GAP-2 of MR-2.
+\end{abstract}
+
+\tableofcontents
+
+
+% =========================================================================
+\section{Introduction}
+\label{sec:intro}
+% =========================================================================
+
+The MR-2 unitarity analysis~\cite{MR2} established that the SCT graviton
+propagator contains a ghost pole at $z_L = -1.2807$ (Lorentzian, timelike)
+with residue $R_L = -0.538$.  The A3 ghost width
+computation~\cite{A3} determined the decay width $\Gamma/m =
+C_\Gamma (\Lambda/\MPl)^2$ with $C_\Gamma = 0.06554$.  The present
+document connects these results by computing the dressed propagator, where
+the self-energy $\Sigma(k^2)$ from matter loops shifts the ghost pole into
+the complex plane.
+
+The central question is the \textbf{sign} of $\Imag[k^2_{\mathrm{pole}}]$:
+negative corresponds to a decaying ghost (Donoghue--Menezes mechanism),
+positive to an ``anti-unstable'' ghost (Kubo--Kugo objection).
+
+\paragraph{Result.}
+We establish a 6-step sign chain proving $\Imag[k^2_{\mathrm{pole}}] < 0$:
+\begin{enumerate}[nosep]
+  \item $z_L < 0$ (MR-2 ghost catalogue)
+  \item $\PiTT'(z_L) > 0$ (verified numerically)
+  \item $R_L = 1/(z_L \cdot \PiTT'(z_L)) < 0$ (ghost)
+  \item $\Imag[\Sigma(m^2)] > 0$ (Cutkosky rules)
+  \item $\Imag[k^2_{\mathrm{pole}}] = R_L \cdot \Imag[\Sigma] < 0$
+  \item $\Gamma = -\Imag[k^2_{\mathrm{pole}}]/m > 0$ (positive width)
+\end{enumerate}
+
+
+% =========================================================================
+\section{Tree-Level Propagator}
+\label{sec:tree}
+% =========================================================================
+
+The SCT graviton propagator in the transverse-traceless (TT) sector is
+\begin{equation}\label{eq:G-tree}
+  G_{\mathrm{tree}}(k^2)
+  = \frac{1}{k^2\,\PiTT(-k^2/\Lambda^2)}\,,
+\end{equation}
+where the form factor is
+\begin{equation}\label{eq:Pi-TT}
+  \PiTT(z)
+  = 1 + \frac{13}{60}\,z\,\Fhat_1(z)\,,
+  \qquad
+  z = k^2/\Lambda^2\,.
+\end{equation}
+
+The ghost pole occurs at $z_L = -1.28070227806348515$ where
+$\PiTT(z_L) = 0$.  The ghost mass squared is
+$m^2 = |z_L|\,\Lambda^2 = 1.28070\,\Lambda^2$, so
+$m/\Lambda = 1.13169$.
+
+The residue at the ghost pole is
+\begin{equation}\label{eq:R-L}
+  R_L
+  = \frac{1}{z_L\,\PiTT'(z_L)}
+  = \frac{1}{(-1.28070)(+1.45196)}
+  = -0.53777\,,
+\end{equation}
+confirming the ghost nature ($R_L < 0$).
+
+
+% =========================================================================
+\section{One-Loop Self-Energy}
+\label{sec:self-energy}
+% =========================================================================
+
+The graviton self-energy $\Sigma(k^2)$ receives contributions from
+one-loop diagrams with SM particles in the loop.  For the ghost question,
+only the \emph{imaginary part} at the ghost mass is needed.
+
+\subsection{Cutkosky Rules}
+
+For massless matter in the loop, the imaginary part arises when
+$k^2 > 0$ (timelike):
+\begin{equation}\label{eq:Im-Sigma}
+  \Imag[\Sigma_{\mathrm{TT}}(k^2)]
+  = \frac{\kappa^2\,(k^2)^2\,\Neff^{\mathrm{width}}}{960\pi}\,
+    \theta(k^2)\,,
+\end{equation}
+where $\kappa^2 = 2/\MPl^2$ (reduced Planck mass convention) and
+\begin{equation}\label{eq:Neff-width}
+  \Neff^{\mathrm{width}}
+  = N_s + 3\,N_D + 6\,N_v
+  = 4 + 67.5 + 72 = 143.5\,.
+\end{equation}
+
+The per-species contributions follow the Han--Lykken--Zhang partial
+widths~\cite{HLZ1999} for massive spin-2 decay:
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Channel & $\Imag[\Sigma^{(s)}]$ per species & Ratio \\
+\midrule
+Real scalar    & $\kappa^2(k^2)^2/(960\pi)$ & 1 \\
+Dirac fermion  & $\kappa^2(k^2)^2/(320\pi)$ & 3 \\
+Massless vector & $\kappa^2(k^2)^2/(160\pi)$ & 6 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Key point:} The graviton-matter vertex $h_{\mu\nu}T^{\mu\nu}$
+is \emph{not} modified by SCT form factors at tree level (confirmed by
+three independent arguments in the A3 computation).  Therefore, the
+standard Cutkosky formula applies directly.
+
+\subsection{Positivity of $\Imag[\Sigma]$}
+
+The positivity $\Imag[\Sigma(m^2)] > 0$ follows from three
+independent arguments:
+\begin{enumerate}[nosep]
+  \item \textbf{Optical theorem:} $\Imag[\Sigma]$ equals a sum of
+    positive cross-sections for graviton $\to$ matter pair production.
+  \item \textbf{Cutkosky cut:} The cut integral involves on-shell
+    matter propagators with positive spectral density.
+  \item \textbf{Explicit calculation:} All HLZ partial widths are
+    individually positive.
+\end{enumerate}
+
+\subsection{Convention Reconciliation}
+
+The Donoghue--Menezes formula~\cite{Donoghue2019} uses
+$\kappa_{\mathrm{DM}}^2 = 32\pi G = 4/\MPl^2$:
+\begin{equation}
+  \Imag[\Sigma]_{\mathrm{DM}}
+  = \frac{\kappa_{\mathrm{DM}}^2 \cdot q^4 \cdot
+    \Neff^{\mathrm{DM}}}{640\pi}\,,
+  \qquad
+  \Neff^{\mathrm{DM}} = \tfrac{1}{3}\,\Neff^{\mathrm{width}}
+  = 47.833\,.
+\end{equation}
+Both formulas give identical numerical values:
+$\Imag[\Sigma]_{\mathrm{DM}} = \Imag[\Sigma]_{\mathrm{SCT}}$
+(verified to $< 10^{-16}$).
+
+
+% =========================================================================
+\section{Dressed Propagator and Complex Pole}
+\label{sec:dressed}
+% =========================================================================
+
+\subsection{Pole Equation}
+
+The dressed propagator is
+\begin{equation}\label{eq:G-dressed}
+  G_{\mathrm{dr}}^{-1}(k^2)
+  = k^2\,\PiTT(-k^2/\Lambda^2) - \Sigma(k^2)\,.
+\end{equation}
+
+Near the ghost mass $k^2 \approx m^2$, expand $\PiTT$ to first order
+around $z_L$:
+\begin{equation}
+  k^2\,\PiTT(-k^2/\Lambda^2)
+  \approx \frac{k^2 - m^2}{R_L}\,.
+\end{equation}
+
+The dressed propagator becomes
+\begin{equation}\label{eq:G-near-pole}
+  G_{\mathrm{dr}}(k^2)
+  \approx \frac{R_L}{k^2 - m^2 - R_L\,\Sigma(m^2)}\,,
+\end{equation}
+with the pole at
+\begin{equation}\label{eq:pole}
+  \boxed{
+    k^2_{\mathrm{pole}}
+    = m^2 + R_L\,\Sigma(m^2)
+  }
+\end{equation}
+
+\subsection{Imaginary Part of the Pole}
+
+Taking the imaginary part:
+\begin{equation}\label{eq:Im-pole}
+  \boxed{
+    \Imag[k^2_{\mathrm{pole}}]
+    = R_L \cdot \Imag[\Sigma(m^2)]
+  }
+\end{equation}
+
+Since $R_L = -0.538 < 0$ and $\Imag[\Sigma(m^2)] > 0$:
+\begin{equation}
+  \Imag[k^2_{\mathrm{pole}}] < 0\,.
+\end{equation}
+
+
+% =========================================================================
+\section{Sign Chain Analysis}
+\label{sec:sign-chain}
+% =========================================================================
+
+The complete sign chain, verified at 50- and 100-digit precision by
+4 independent computations:
+
+\begin{center}
+\begin{tabular}{clccl}
+\toprule
+Step & Quantity & Value & Sign & Source \\
+\midrule
+1 & $z_L$ & $-1.28070$ & $< 0$ & MR-2 ghost catalogue \\
+2 & $\PiTT'(z_L)$ & $+1.45196$ & $> 0$ & MR-2 residue analysis \\
+3 & $R_L = 1/(z_L\,\PiTT')$ & $-0.53777$ & $< 0$ & Ghost \\
+4 & $\Imag[\Sigma(m^2)]$ & $>0$ & $> 0$ & Cutkosky rules \\
+5 & $\Imag[k^2_{\mathrm{pole}}]$ & $R_L\!\cdot\!\Imag[\Sigma]$
+    & $< 0$ & $(-){\times}(+)$ \\
+6 & $\Gamma = -\Imag[k^2]/m$ & $>0$ & $> 0$ & Positive width \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% =========================================================================
+\section{Optical Theorem Verification}
+\label{sec:optical}
+% =========================================================================
+
+The physical width extracts as
+\begin{equation}\label{eq:width}
+  m\,\Gamma
+  = -\Imag[k^2_{\mathrm{pole}}]
+  = |R_L|\,\Imag[\Sigma(m^2)]\,.
+\end{equation}
+
+Substituting Eq.~\eqref{eq:Im-Sigma}:
+\begin{equation}
+  \Gamma
+  = \frac{|R_L|\,\kappa^2\,m^3\,\Neff^{\mathrm{width}}}{960\pi}
+  = C_\Gamma\,m\left(\frac{\Lambda}{\MPl}\right)^{\!2}\,,
+\end{equation}
+where
+\begin{equation}\label{eq:C-Gamma}
+  C_\Gamma
+  = \frac{2\,|R_L|\,|z_L|\,\Neff^{\mathrm{width}}}{960\pi}
+  = 0.06554011853292677\,.
+\end{equation}
+
+This matches the A3 first-principles result to all \textbf{17 significant
+figures}.  The optical theorem is satisfied identically.
+
+
+% =========================================================================
+\section{Pole Trajectory}
+\label{sec:trajectory}
+% =========================================================================
+
+As $\Lambda/\MPl$ varies, the ghost width scales quadratically:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$\Lambda/\MPl$ & $\Gamma/m$ & Classification \\
+\midrule
+$1$         & $6.554 \times 10^{-2}$ & Narrow resonance \\
+$10^{-1}$   & $6.554 \times 10^{-4}$ & Very narrow \\
+$10^{-3}$   & $6.554 \times 10^{-8}$ & Very narrow \\
+$10^{-5}$   & $6.554 \times 10^{-12}$ & Quasi-stable \\
+$10^{-10}$  & $6.554 \times 10^{-22}$ & Quasi-stable \\
+$10^{-17}$  & $6.554 \times 10^{-36}$ & Effectively stable \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At the Eotvos boundary ($\Lambda = 2.38 \times 10^{-3}$~eV):
+$\Gamma/m \approx 6.3 \times 10^{-62}$, i.e., the ghost is
+effectively eternal.
+
+
+% =========================================================================
+\section{Real Part and Mass Shift}
+\label{sec:real-part}
+% =========================================================================
+
+The full self-energy has the structure
+\begin{equation}
+  \Sigma(k^2)
+  = \kappa^2(k^2)^2\!\left[
+    \frac{A}{\epsilon}
+    + B\ln\!\frac{\mu^2}{k^2}
+    + C_{\mathrm{finite}}
+  \right]\!,
+  \qquad
+  B = \frac{\Neff^{\mathrm{width}}}{960\pi}\,.
+\end{equation}
+
+The UV divergence ($A/\epsilon$) is absorbed by the $R^2$ and
+$C_{\mu\nu\rho\sigma}^2$ counterterms already present in the SCT
+effective action.  The real mass shift is
+\begin{equation}
+  \Real[\delta k^2]
+  = R_L\,\Real[\Sigma_{\mathrm{ren}}(m^2)]\,,
+  \qquad
+  \frac{|\Real[\delta k^2]|}{|\Imag[\delta k^2]|}
+  \sim \frac{C_{\mathrm{finite}}}{\pi}
+  \sim \order(1/\pi)
+  \approx 0.3\,.
+\end{equation}
+
+The \textbf{width dominates} over the mass shift.
+
+
+% =========================================================================
+\section{Physical Interpretation}
+\label{sec:interpretation}
+% =========================================================================
+
+\subsection{Points of Agreement}
+
+Both the Donoghue--Menezes~\cite{Donoghue2019} and
+Kubo--Kugo~\cite{KuboKugo2023} camps agree on:
+\begin{itemize}[nosep]
+  \item Pole location: $k^2_{\mathrm{pole}} = m^2 + R_L\,\Sigma(m^2)$
+    with $\Imag[k^2_{\mathrm{pole}}] < 0$
+  \item First Riemann sheet: the ghost pole sits on the physical sheet
+    \cite{Buoninfante2025}
+  \item Width formula: $m\Gamma = |R_L|\,\Imag[\Sigma(m^2)]$
+  \item Width is positive: $\Gamma > 0$
+\end{itemize}
+
+\subsection{Points of Disagreement}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Aspect & Donoghue--Menezes & Kubo--Kugo \\
+\midrule
+Formalism & Path integral & Operator \\
+Ghost outcome & Decays away & Anti-unstable (persists) \\
+Asymptotic state? & No & Yes \\
+Unitarity & Preserved & Violated \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{SCT vs.\ Stelle}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Property & Stelle & SCT & Improvement \\
+\midrule
+$|R_{\mathrm{ghost}}|$ & 1.000 & 0.538 & 46\% suppression \\
+Ghost mass & free & $1.132\,\Lambda$ & Parameter-free \\
+$C_\Gamma$ & 0.439 & 0.066 & $85\%$ reduction \\
+Form factors & polynomial & entire function & No new UV poles \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% =========================================================================
+\section{Verification Summary}
+\label{sec:verification}
+% =========================================================================
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Category & Tests & Result \\
+\midrule
+Analytic (dimensions, limits, signs, HLZ) & 13 & 13/13 Pass \\
+Numerical (values at 15+ digits) & 17 & 17/17 Pass \\
+Cross-consistency (optical thm, Stelle, A3) & 12 & 12/12 Pass \\
+Physical (instability, scaling, trajectory) & 11 & 11/11 Pass \\
+Sign chain (all 6 steps, multi-scale) & 8 & 8/8 Pass \\
+100-digit independent & 6 & 6/6 Pass \\
+Regression (JSON, functions) & 17 & 17/17 Pass \\
+\midrule
+GP tests total & 84 & 84/84 Pass \\
+MR-2 unitarity regression & 79 & 79/79 Pass \\
+MR-2 residue regression & 31 & 31/31 Pass \\
+A3 ghost width regression & 76 & 76/76 Pass \\
+\midrule
+\textbf{Grand total} & \textbf{270} & \textbf{270/270 Pass} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% =========================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =========================================================================
+
+The dressed graviton propagator computation establishes:
+\begin{enumerate}
+  \item The ghost pole moves to
+    $k^2 = m^2 - im\Gamma$ with $\Gamma > 0$.
+  \item The sign of $\Imag[k^2_{\mathrm{pole}}]$ is \textbf{negative},
+    determined by $R_L < 0$ and $\Imag[\Sigma] > 0$.
+  \item The width $C_\Gamma = 0.06554$ is parameter-free and matches
+    the A3 first-principles result to 17 significant figures.
+  \item GAP-2 of MR-2 is \textbf{RESOLVED}.
+\end{enumerate}
+
+The remaining open question is \emph{interpretational}: whether the
+path-integral (Donoghue--Menezes) or operator (Kubo--Kugo) formalism
+correctly describes the ghost sector.  This debate applies to \emph{all}
+higher-derivative gravity theories, not only SCT.
+
+
+\begin{thebibliography}{99}
+
+\bibitem{MR2}
+D.~Alfyorov,
+\textit{MR-2: Unitarity and Stability of the SCT Graviton Propagator},
+internal report (2026).
+
+\bibitem{A3}
+D.~Alfyorov,
+\textit{A3: Ghost Decay Width from First Principles},
+internal report (2026).
+
+\bibitem{Donoghue2019}
+J.~F.~Donoghue and G.~Menezes,
+\textit{Unitarity, stability, and loops of unstable ghosts},
+Phys.\ Rev.\ D~\textbf{100}, 105006 (2019);
+\texttt{arXiv:1908.02416}.
+
+\bibitem{KuboKugo2023}
+J.~Kubo and T.~Kugo,
+\textit{Unitarity constraint on the ghost in quadratic gravity},
+\texttt{arXiv:2308.09006} (2023).
+
+\bibitem{Buoninfante2025}
+L.~Buoninfante,
+\textit{Remarks on ghost resonances},
+\texttt{arXiv:2501.04097} (2025).
+
+\bibitem{HLZ1999}
+T.~Han, J.~D.~Lykken, and R.-J.~Zhang,
+\textit{On Kaluza--Klein States from Large Extra Dimensions},
+Phys.\ Rev.\ D~\textbf{59}, 105006 (1999);
+\texttt{arXiv:hep-ph/9811350}.
+
+\bibitem{Stelle1977}
+K.~S.~Stelle,
+\textit{Renormalization of Higher-Derivative Quantum Gravity},
+Phys.\ Rev.\ D~\textbf{16}, 953 (1977).
+
+\end{thebibliography}
+
+\end{document}

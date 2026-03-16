@@ -49,6 +49,27 @@ desktop.ini
 *.fdb_latexmk
 *.synctex.gz
 
+# Test and scratch documents
+theory/NT_Test_Format.*
+theory/test_sct_standardNotes.bib
+**/TEST_*
+**/style_probe_*
+**/tmp*.pdf
+
+# Internal working scripts (underscore prefix)
+analysis/scripts/_*
+
+# MCP servers and orchestration
+.mcp-servers/
+.mcp.json
+.opencode/
+.sct_cache/
+
+# Claude / agent config (private)
+.claude/
+feedback/
+docs/claude/
+
 # Local build and vendor outputs
 .tools/
 theory/lean/.lake/

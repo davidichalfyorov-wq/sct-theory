@@ -478,12 +478,13 @@ def wsl_run(python_code, timeout=120, return_json=True):
     import shlex
     import subprocess
 
+    sct_env = ". ~/.sct_env 2>/dev/null;"
     activate = f"source {_WSL_VENV}/bin/activate"
     escaped = shlex.quote(python_code)
     cmd = [
         "wsl", "-d", _WSL_DISTRO, "--",
         "bash", "-c",
-        f"{activate} && python3 -c {escaped}"
+        f"{sct_env} {activate} && python3 -c {escaped}"
     ]
     try:
         proc = subprocess.run(
@@ -543,8 +544,9 @@ def wsl_run_script(script_path, args=None, timeout=300):
 
     import shlex
 
+    sct_env = ". ~/.sct_env 2>/dev/null;"
     activate = f"source {_WSL_VENV}/bin/activate"
-    cmd_parts = [f"{activate} && python3 {shlex.quote(wsl_path)}"]
+    cmd_parts = [f"{sct_env} {activate} && python3 {shlex.quote(wsl_path)}"]
     if args:
         arg_str = " ".join(shlex.quote(a) for a in args)
         cmd_parts[0] += " " + arg_str
@@ -585,8 +587,9 @@ packages = {
     'pySecDec': 'pySecDec',
     'numpy': 'numpy',
     'scipy': 'scipy',
+    'cupy': 'cupy',
 }
-result = {'versions': {}, 'errors': []}
+result = {'versions': {}, 'errors': [], 'gpu': False, 'tform': False, 'cuda_toolkit': False}
 for name, module in packages.items():
     try:
         mod = importlib.import_module(module)
@@ -594,6 +597,19 @@ for name, module in packages.items():
         result['versions'][name] = str(ver)
     except ImportError as e:
         result['errors'].append(f"{name}: {e}")
+import subprocess, os, shutil
+# Check GPU via cupy
+try:
+    import cupy as cp
+    result['gpu'] = bool(cp.cuda.is_available())
+except Exception:
+    pass
+# Check TFORM
+result['tform'] = shutil.which('tform') is not None
+# Check CUDA toolkit (nvcc)
+result['cuda_toolkit'] = shutil.which('nvcc') is not None
+# Check OMP_NUM_THREADS
+result['omp_threads'] = os.environ.get('OMP_NUM_THREADS', 'unset')
 print(json.dumps(result))
 """
     try:

@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+
+% ===== Packages =====
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={MR-4: Two-Loop Literature Review},
+  pdfauthor={David Alfyorov}
+}
+
+\title{\textbf{MR-4: Two-Loop Effective Action\\Literature Review}}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+\tableofcontents
+\newpage
+
+% ======================================================================
+\section{The Goroff--Sagnotti Result}
+% ======================================================================
+
+The two-loop counterterm in pure Einstein gravity is
+(Goroff--Sagnotti 1986, Nucl.\ Phys.\ B~\textbf{266}, 709;
+confirmed by van de Ven 1992, Nucl.\ Phys.\ B~\textbf{378}, 309):
+\begin{equation}
+  \Gamma_{\text{div}}^{(2)} = \frac{209}{2880}\,\frac{1}{\epsilon}\,
+  \frac{\kappa^2}{(16\pi^2)^2}\,
+  \int d^4x\,\sqrt{g}\;
+  R_{\mu\nu}{}^{\alpha\beta}\,R_{\alpha\beta}{}^{\gamma\delta}\,
+  R_{\gamma\delta}{}^{\mu\nu}.
+\end{equation}
+The coefficient $209/2880 \approx 0.0726$ was independently confirmed
+by Bern \textit{et al.}\ (2015, arXiv:1507.06118) using modern
+unitarity-cut methods.
+
+% ======================================================================
+\section{Stelle Gravity: Power-Counting Renormalizability}
+% ======================================================================
+
+The action $R + \alpha\,R^2 + \beta\,C^2$ gives a propagator scaling
+as $1/k^4$ in the UV, with superficial degree of divergence
+$D = 4 - E_{\text{ext}}$ independent of the loop order $L$
+(Stelle 1977, PRD~\textbf{16}, 953). This means:
+\begin{itemize}
+  \item No $R^3$ counterterm at any loop order (dimension 6 exceeds the
+    allowed dimension 4).
+  \item The counterterm basis $\{\Lambda_{\text{CC}}, R, R^2, C^2\}$
+    suffices at all loop orders.
+  \item However: the theory has a spin-2 ghost (negative residue pole).
+\end{itemize}
+
+% ======================================================================
+\section{Nonlocal Gravity and Super-Renormalizability}
+% ======================================================================
+
+For gravity theories with entire-function form factors growing as
+$\exp(k^2/\Lambda^2)$ in the UV (Tomboulis 1997, hep-th/9702146;
+Modesto 2012, arXiv:1107.2403; Modesto--Rachwal 2014, arXiv:1407.8036),
+the theory is super-renormalizable: divergences appear only at finitely
+many loop orders. In particular, for exponential form factors, the theory
+is finite from two loops onward.
+
+\textbf{SCT does not belong to this class.} The SCT form factors grow only
+linearly: $z \cdot \hat{F}_1(z) \to -890/13$ (constant), giving
+$\Pi_{\text{TT}}(z) \to -83/6$ (saturation). The propagator scales as
+$1/k^2$, the same as GR.
+
+% ======================================================================
+\section{The Fakeon Prescription at Two Loops}
+% ======================================================================
+
+Anselmi (2021, arXiv:2109.06889) established the diagrammar for theories
+with both physical particles and fakeons at arbitrary loop order. The key
+results for two loops:
+\begin{enumerate}
+  \item Ghost--ghost intermediate states are dropped by the fakeon
+    prescription.
+  \item The spectral optical theorem holds with physical cuts only.
+  \item The divergent part of the two-loop computation with fakeons is
+    identical to the standard Euclidean theory
+    (Anselmi 2022, arXiv:2203.02516).
+\end{enumerate}
+
+% ======================================================================
+\section{Background Field Method and Heat Kernel at Two Loops}
+% ======================================================================
+
+The background field / heat kernel approach (Barvinsky--Vilkovisky 1985,
+1990; Avramidi 2000) provides the correct framework for extracting
+divergences in theories with nonlocal form factors. At one loop, the
+$a_4$ Seeley--DeWitt coefficient determines the logarithmic divergence
+(dimension-4 counterterms). At two loops, the $a_6$ coefficient enters,
+producing dimension-6 invariants.
+
+The spectral action generates all $a_n$ coefficients with moments
+$f_n = \Gamma(n/2)$. The $a_6$ coefficient appears with $f_6 = 2$
+and is suppressed by $\Lambda^{-2}$ relative to the one-loop terms.
+
+% ======================================================================
+\section{Reference List}
+% ======================================================================
+
+\begin{longtable}{p{5cm}p{4cm}p{5cm}}
+\toprule
+Reference & ArXiv/DOI & Content \\
+\midrule
+\endhead
+Goroff--Sagnotti (1986) & Nucl.Phys.B 266, 709 & Two-loop $R^3$ in GR \\
+van de Ven (1992) & Nucl.Phys.B 378, 309 & Confirmation of 209/2880 \\
+Stelle (1977) & PRD 16, 953 & Power-counting renormalizability \\
+Anselmi--Piva (2018) & arXiv:1803.07777 & One-loop UV with fakeons \\
+Anselmi (2021) & arXiv:2109.06889 & Diagrammar at two loops \\
+Anselmi (2022) & arXiv:2203.02516 & Fakeon = Euclidean renormalization \\
+Anselmi (2022) & arXiv:2210.14240 & Non-time-ordered products \\
+Modesto--Rachwal (2014) & arXiv:1407.8036 & Super-renormalizable gravity \\
+Tomboulis (1997) & hep-th/9702146 & Nonlocal super-renormalizability \\
+Modesto (2012) & arXiv:1107.2403 & Super-renormalizable nonlocal QG \\
+Bern et al.\ (2015) & arXiv:1507.06118 & Modern two-loop with unitarity \\
+Chamseddine--Connes (1997) & CMP 186, 731 & Spectral action principle \\
+Gilkey (1975) & J.Diff.Geom.\ 10, 601 & $a_6$ for general operators \\
+Avramidi (2000) & Springer & Heat kernel and QG \\
+Parker--Toms (2009) & Cambridge & QFT in curved spacetime \\
+Barvinsky--Vilkovisky (1990) & Nucl.Phys.B 333, 471 & Two-loop heat kernel \\
+\bottomrule
+\end{longtable}
+
+\end{document}

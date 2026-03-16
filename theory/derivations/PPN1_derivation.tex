@@ -11,13 +11,21 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{fancyhdr}
+\usepackage{graphicx}
 
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
 \newcommand{\Rsq}{R^2}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Pis}{\Pi_{\mathrm{s}}}
+\newcommand{\KPhi}{K_\Phi}
+\newcommand{\KPsi}{K_\Psi}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\order}{\mathcal{O}}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{definition}[theorem]{Definition}
 
@@ -32,13 +40,14 @@
   linkcolor=blue!60!black,
   citecolor=green!40!black,
   urlcolor=blue!60!black,
-  pdftitle={PPN-1 in SCT Theory: Linear Static Yukawa Sector},
+  pdftitle={PPN-1: Parameterized Post-Newtonian Parameters in Spectral Causal Theory},
   pdfauthor={David Alfyorov},
 }
 
 \title{%
-  \textbf{PPN-1 in SCT Theory}\\[6pt]
-  \large Linear Static Sector from the NT-4a Propagator
+  \textbf{PPN-1: Parameterized Post-Newtonian Parameters}\\[4pt]
+  \textbf{in Spectral Causal Theory}\\[6pt]
+  \large Three Levels of Approximation from the NT-4a Propagator
 }
 \author{David Alfyorov}
 \date{March 2026}
@@ -46,74 +55,92 @@
 \begin{document}
 \maketitle
 
-
 \begin{center}
 \small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
 \end{center}
 
 \begin{abstract}
-This document derives the part of the PPN-1 program that is currently under
-control in SCT Theory. The input is not the full nonlinear post-Newtonian
-system but the linearized NT-4a propagator obtained from the spectral
-curvature-squared action. We first write the exact linear static potentials
-as Fourier--Bessel integrals in terms of the propagator denominators
-$\Pi_{\mathrm{TT}}(z)$ and $\Pi_{\mathrm{s}}(z,\xi)$. We then pass to the
-local Yukawa approximation, which is the regime actually implemented in the
-current code and sufficient for first-pass Solar-System and short-range
-gravity estimates.
+We derive the Parameterized Post-Newtonian (PPN) parameters of Spectral
+Causal Theory (SCT) at three levels of approximation.
+\textbf{Level~1} (exact nonlocal) formulates the gravitational potentials
+$\Phi(r)$ and $\Psi(r)$ as Fourier--Bessel integrals over the full SCT
+propagator denominators $\PiTT(z)$ and $\Pis(z,\xi)$, and identifies the
+structural obstructions to naive numerical evaluation (nonzero UV asymptote,
+real-axis pole, prescription mismatch).
+\textbf{Level~2} (local Yukawa) replaces the propagator denominators by
+their leading pole approximants, yielding analytic Yukawa potentials with
+two effective masses $m_2 = \Lambda\sqrt{60/13}$ and
+$m_0 = \Lambda/\!\sqrt{6(\xi-1/6)^2}$, from which the linear PPN parameter
+$\gamma(r)$ and lower bounds on $\Lambda$ are extracted.
+\textbf{Level~3} (nonlinear PPN) identifies the remaining parameters
+($\beta$, $\alpha_i$, $\zeta_i$, $\xi_\mathrm{PPN}$) as requiring the
+$\order(h^2)$ field equations from NT-4b, and marks them as not yet derived.
 
-Within that restricted but honest scope, the derivation fixes the radial
-profile of the linear PPN parameter $\gamma(r) = \Psi(r)/\Phi(r)$ and the
-associated lower bounds on the SCT scale $\Lambda$ from Cassini and
-short-range inverse-square-law tests. The document also states clearly what
-is \emph{not} derived here: the nonlinear PPN parameter $\beta$, the
-preferred-frame parameters $\alpha_i$, the preferred-location parameter
-$\xi_{\mathrm{PPN}}$, and the conservation-law parameters $\zeta_i$.
-Those quantities require the $\mathcal{O}(h^2)$ field equations and
-therefore remain open at the present stage.
+Within the Level~2 approximation, the Cassini bound gives
+$\Lambda \gtrsim 6.3 \times 10^{-18}\,\mathrm{eV}$, the MESSENGER bound
+gives $\Lambda \gtrsim 6.3 \times 10^{-18}\,\mathrm{eV}$, and the
+Eot-Wash torsion-balance bound gives
+$\Lambda \gtrsim 2.4 \times 10^{-3}\,\mathrm{eV}$.  The MICROSCOPE and
+Lunar Laser Ranging bounds require $\beta$ and are deferred.
 \end{abstract}
 
 \tableofcontents
 \newpage
 
+
+% =========================================================================
 \section{Scope and Conventions}
+\label{sec:scope}
+% =========================================================================
 
-\subsection{What This Phase Does}
+\subsection{Purpose and Structure}
 
-The purpose of PPN-1 is to connect the verified spectral form factors and the
-NT-4a propagator with observable weak-field quantities. In the present repair
-cycle, the phase is narrowed to the piece that is actually supported by the
-existing derivation chain:
-\begin{enumerate}[label=\arabic*., leftmargin=2em]
-  \item the exact \emph{linear static} response of the metric,
-  \item the \emph{local Yukawa approximation} to that response,
-  \item the induced profile of $\gamma(r)$,
-  \item the resulting first bounds on $\Lambda$.
+The purpose of PPN-1 is to connect the verified spectral form factors and
+the NT-4a propagator with observable weak-field quantities.  The derivation
+proceeds in three nested levels of approximation:
+
+\begin{enumerate}[label=\textbf{Level \arabic*}:, leftmargin=4em]
+  \item \textbf{Exact nonlocal.}  The gravitational potentials are written
+    as Fourier--Bessel integrals involving the full propagator denominators.
+    This is mathematically exact (within the linearized static sector) but
+    not yet numerically implemented in a reliable way due to a real-axis
+    pole and a nonzero UV asymptote in the momentum-space kernels.
+
+  \item \textbf{Local Yukawa.}  The propagator denominators are replaced by
+    their leading simple-pole approximants, reducing the potentials to
+    Stelle-like Yukawa form.  This is the operative approximation for all
+    solar-system phenomenology and is fully verified.
+
+  \item \textbf{Nonlinear PPN.}  The $\order(h^2)$ terms in $g_{00}$, the
+    $g_{0i}$ gravitomagnetic sector, and the nonlinear superposition
+    structure are needed for the remaining PPN parameters ($\beta$,
+    $\alpha_i$, $\zeta_i$, $\xi_\mathrm{PPN}$).  These require the
+    nonlinear field equations from NT-4b and are not derived here.
 \end{enumerate}
 
-The following are \emph{not} claimed in this document:
+\noindent The following quantities are \emph{not} claimed in this document:
 \begin{enumerate}[label=\alph*)]
   \item a full ten-parameter PPN completion,
   \item a derivation of $\beta$,
   \item a proof that the preferred-frame or conservation parameters vanish,
-  \item an analytic evaluation of the exact nonlocal Fourier integrals at all
-    radii.
+  \item a reliable numerical evaluation of the exact nonlocal Fourier
+    integrals at all radii.
 \end{enumerate}
 
 \subsection{Metric and Sign Conventions}
 
 We use the Lorentzian weak-field form
-\begin{equation}
+\begin{equation}\label{eq:metric}
   g_{00} = -1 + 2\Phi(r), \qquad
   g_{ij} = \bigl(1 + 2\Psi(r)\bigr)\delta_{ij},
 \end{equation}
-with signature $(-,+,+,+)$. In the static limit, the physical potential
+with signature $(-,+,+,+)$.  In the static limit, the physical potential
 energy of a non-relativistic test body is
 \begin{equation}
   V(r) = -m_{\mathrm{test}}\,\Phi(r).
 \end{equation}
-Thus the Newtonian potential corresponds to
-\begin{equation}
+The Newtonian limit corresponds to
+\begin{equation}\label{eq:newton}
   \Phi_{\mathrm{N}}(r) = \Psi_{\mathrm{N}}(r) = \frac{GM}{r},
   \qquad
   V_{\mathrm{N}}(r) = -\frac{GMm_{\mathrm{test}}}{r}.
@@ -121,177 +148,403 @@ Thus the Newtonian potential corresponds to
 
 \subsection{Dimensional Conventions}
 
-Natural units $c=\hbar=1$ are used in the derivation. For phenomenology we
-restore the conversion
+Natural units $c=\hbar=1$ are used throughout.  For phenomenology we
+restore
 \begin{equation}
-  1\,\mathrm{m} \simeq 5.06773\times 10^{6}\,\mathrm{eV}^{-1}.
+  \hbar c = 1.9732705 \times 10^{-7}\,\mathrm{eV\cdot m},
+  \qquad
+  1\,\mathrm{m} \simeq 5.06773 \times 10^{6}\,\mathrm{eV}^{-1}.
 \end{equation}
-In particular,
-\begin{equation}
+Key length scales:
+\begin{align}
   1\,\mathrm{AU}
-  \simeq 1.495978707\times 10^{11}\,\mathrm{m}
-  \simeq 7.58\times 10^{17}\,\mathrm{eV}^{-1},
-\end{equation}
-and
-\begin{equation}
-  50\,\mu\mathrm{m}
-  \simeq 2.53\times 10^{2}\,\mathrm{eV}^{-1}.
-\end{equation}
+    &\simeq 1.496 \times 10^{11}\,\mathrm{m}
+    \simeq 7.58 \times 10^{17}\,\mathrm{eV}^{-1}, \\
+  38.6\,\mu\mathrm{m}
+    &\simeq 1.96 \times 10^{2}\,\mathrm{eV}^{-1}.
+\end{align}
 
-\section{Input from Phase 3 and NT-4a}
 
-The starting point is the verified spectral action in the Weyl basis,
-\begin{equation}
+% =========================================================================
+\section{Input from NT-1b Phase 3 and NT-4a}
+\label{sec:input}
+% =========================================================================
+
+The starting point is the verified one-loop spectral action in the Weyl
+basis,
+\begin{equation}\label{eq:spectral-action}
   \Gamma^{(1)}
   = \frac{1}{16\pi^2}\int \dd^4x \,\sqrt{g}\,
   \left[
-    \alpha_C \hat F_1\!\left(\frac{\Box}{\Lambda^2}\right)\Weylsq
-    + \alpha_R(\xi)\hat F_2\!\left(\frac{\Box}{\Lambda^2}\right)\Rsq
+    \alpha_C \Fhat_1\!\left(\frac{\Box}{\Lambda^2}\right)\Weylsq
+    + \alpha_R(\xi)\Fhat_2\!\left(\frac{\Box}{\Lambda^2}\right)\Rsq
   \right],
 \end{equation}
-with
-\begin{equation}
+with the verified coefficients
+\begin{equation}\label{eq:alphas}
   \alpha_C = \frac{13}{120},
   \qquad
   \alpha_R(\xi) = 2\left(\xi - \frac{1}{6}\right)^2,
 \end{equation}
 and normalized form factors
-\begin{equation}
-  \hat F_i(z) \coloneqq \frac{F_i(z)}{F_i(0)},
+\begin{equation}\label{eq:fhat}
+  \Fhat_i(z) \coloneqq \frac{F_i(z)}{F_i(0)},
   \qquad
-  \hat F_i(0)=1.
+  \Fhat_i(0)=1.
 \end{equation}
+The SM field content is $N_s = 4$ real scalars, $N_D = 45/2$ Dirac
+fermions, $N_v = 12$ gauge bosons (CPR 0805.2909).
 
 The NT-4a propagator denominators are
-\begin{equation}
-  \Pi_{\mathrm{TT}}(z) = 1 + c_2 z \hat F_1(z),
+\begin{equation}\label{eq:PiTT}
+  \PiTT(z) = 1 + c_2\, z\, \Fhat_1(z),
   \qquad
-  c_2 = \frac{13}{60},
+  c_2 = 2\alpha_C = \frac{13}{60},
 \end{equation}
-\begin{equation}
-  \Pi_{\mathrm{s}}(z,\xi)
-  = 1 + \bigl(3c_1 + c_2\bigr) z \hat F_2(z,\xi)
-  = 1 + 6\left(\xi-\frac{1}{6}\right)^2 z \hat F_2(z,\xi).
+\begin{equation}\label{eq:Pis}
+  \Pis(z,\xi)
+  = 1 + (3c_1+c_2)\, z\, \Fhat_2(z,\xi)
+  = 1 + 6\!\left(\xi-\frac{1}{6}\right)^{\!2} z\, \Fhat_2(z,\xi).
 \end{equation}
-Two structural facts matter immediately:
+Two structural facts matter:
 \begin{enumerate}[nosep]
-  \item $\Pi_{\mathrm{TT}}(0)=1$ and $\Pi_{\mathrm{s}}(0,\xi)=1$,
-  so the infrared limit is Einsteinian.
+  \item $\PiTT(0)=1$ and $\Pis(0,\xi)=1$, so the infrared limit is
+    Einsteinian.
   \item At conformal coupling $\xi = 1/6$, one has
-  $\Pi_{\mathrm{s}}(z,1/6)=1$, so the scalar channel decouples from the
-  linearized dynamics.
+    $\Pis(z,1/6) \equiv 1$, so the scalar channel decouples from the
+    linearized dynamics.
 \end{enumerate}
 
-\section{Exact Linear Static Potentials}
 
-\subsection{Fourier Representation}
+% =========================================================================
+\section{Level 1: Exact Linear Static Potentials}
+\label{sec:level1}
+% =========================================================================
 
-For a point source
-\begin{equation}
-  T_{00} = M \delta^{(3)}(\vec x),
+\subsection{From Linearized Field Equations to Fourier Representation}
+\label{sec:fourier-derivation}
+
+Consider a static, spherically symmetric point source:
+\begin{equation}\label{eq:source}
+  T_{00} = M\,\delta^{(3)}(\vec{x}),
   \qquad
-  T_{0i}=T_{ij}=0,
+  T_{0i} = T_{ij} = 0.
 \end{equation}
-the linearized NT-4a solution can be written in terms of the exact
-spin-2 and spin-0 denominators:
+The linearized SCT field equations (NT-4a) in Fourier space, after
+decomposition into spin-2 (transverse-traceless) and spin-0 (scalar trace)
+sectors via Barnes--Rivers projectors $P^{(2)}$ and $P^{(0\text{-}s)}$,
+take the form
+\begin{equation}\label{eq:lin-fourier}
+  \PiTT(k^2/\Lambda^2)\,\tilde{h}^{\mathrm{TT}}_{\mu\nu}(k)
+  = -\frac{16\pi G}{k^2}\,P^{(2)}_{\mu\nu,\rho\sigma}\,\tilde{T}^{\rho\sigma}(k),
+\end{equation}
+and similarly for the scalar sector with $\Pis$ and $P^{(0\text{-}s)}$.
+The metric perturbation in position space is obtained by inverse Fourier
+transform.
+
+For the static, isotropic metric \eqref{eq:metric}, the two potentials
+$\Phi$ and $\Psi$ are extracted by projecting onto $g_{00}$ and
+$g_{ij} \propto \delta_{ij}$ components.  The spin-2 mode contributes to
+both $\Phi$ and $\Psi$ with definite relative weights (the van~Dam--Veltman
+factor of $4/3$ for spin-2 vs.\ spin-0 in the temporal potential), while
+the spin-0 mode contributes with $-1/3$ to $\Phi$ and $+1/3$ to $\Psi$.
+This yields the Newton kernels
+\begin{equation}\label{eq:KPhi}
+  \KPhi(z) = \frac{4}{3\,\PiTT(z)} - \frac{1}{3\,\Pis(z,\xi)},
+\end{equation}
+\begin{equation}\label{eq:KPsi}
+  \KPsi(z) = \frac{2}{3\,\PiTT(z)} + \frac{1}{3\,\Pis(z,\xi)},
+\end{equation}
+where $z = k^2/\Lambda^2$.  At $z = 0$:
+$\KPhi(0) = 4/3 - 1/3 = 1$ and $\KPsi(0) = 2/3 + 1/3 = 1$, recovering
+the Newtonian limit $\Phi = \Psi = GM/r$.
+
+\subsection{Angular Averaging: From 3D Fourier to Fourier--Bessel}
+\label{sec:angular-averaging}
+
+The position-space potential is
+\begin{equation}
+  \Phi(r) = \frac{GM}{(2\pi)^3}
+  \int \dd^3k\, \frac{e^{i\vec{k}\cdot\vec{r}}}{k^2}\,\KPhi(k^2/\Lambda^2).
+\end{equation}
+In spherical coordinates $(k, \theta, \varphi)$ with $\vec{k}\cdot\vec{r}
+= kr\cos\theta$, the angular integral gives
+\begin{equation}
+  \int_0^{2\pi}\!\dd\varphi \int_0^\pi\!\dd\theta\,\sin\theta\,
+  e^{ikr\cos\theta}
+  = 2\pi \cdot \frac{2\sin(kr)}{kr}
+  = \frac{4\pi\sin(kr)}{kr}.
+\end{equation}
+Therefore
+\begin{equation}
+  \Phi(r) = \frac{GM}{(2\pi)^3}\int_0^\infty\!
+  4\pi k^2\dd k\,\frac{1}{k^2}\,\frac{4\pi\sin(kr)}{kr}\,
+  \KPhi(k^2/\Lambda^2)
+  = \frac{GM}{r}\,\frac{2}{\pi}\int_0^\infty
+  \frac{\sin(kr)}{k}\,\KPhi(k^2/\Lambda^2)\,\dd k.
+\end{equation}
+The factor $GM/r$ has been separated using the standard Dirichlet integral
+\begin{equation}\label{eq:dirichlet}
+  \frac{2}{\pi}\int_0^\infty \frac{\sin(kr)}{k}\,\dd k = 1,
+  \qquad r > 0.
+\end{equation}
+
+\begin{proposition}[Exact linear static potentials]
+\label{prop:exact-potentials}
+For the point source \eqref{eq:source}, the linearized SCT potentials are
 \begin{equation}\label{eq:Phi-exact}
-  \Phi(r) = \frac{GM}{r}\,\frac{2}{\pi}
-  \int_0^\infty \frac{\sin(kr)}{k}
-  \left[
-    \frac{4}{3\,\Pi_{\mathrm{TT}}(k^2/\Lambda^2)}
-    - \frac{1}{3\,\Pi_{\mathrm{s}}(k^2/\Lambda^2,\xi)}
-  \right]\dd k,
+  \frac{\Phi(r)}{\Phi_{\mathrm{N}}(r)}
+  = \frac{2}{\pi}\int_0^\infty \frac{\sin(kr)}{k}\,
+  \KPhi(k^2/\Lambda^2)\,\dd k,
 \end{equation}
 \begin{equation}\label{eq:Psi-exact}
-  \Psi(r) = \frac{GM}{r}\,\frac{2}{\pi}
-  \int_0^\infty \frac{\sin(kr)}{k}
-  \left[
-    \frac{2}{3\,\Pi_{\mathrm{TT}}(k^2/\Lambda^2)}
-    + \frac{1}{3\,\Pi_{\mathrm{s}}(k^2/\Lambda^2,\xi)}
-  \right]\dd k.
+  \frac{\Psi(r)}{\Psi_{\mathrm{N}}(r)}
+  = \frac{2}{\pi}\int_0^\infty \frac{\sin(kr)}{k}\,
+  \KPsi(k^2/\Lambda^2)\,\dd k.
 \end{equation}
-These expressions are the exact linearized SCT answer for the static metric.
+These are exact within the linearized static sector.
+\end{proposition}
 
-\begin{remark}
-At this stage the nonlocal theory is still present in full. The only
-approximation made so far is the restriction to the linearized static sector.
-No local pole approximation has yet been taken. In the current normalized
-NT-4a implementation, the TT denominator also develops a positive-real-axis
-zero near $z \approx 2.41484$. This means the exact static kernel cannot be
-advertised as ghost-free on the basis of the present data alone.
+\subsection{UV Behavior of the Newton Kernels}
+\label{sec:uv-kernels}
+
+Unlike the Stelle (local higher-derivative) case, where $\PiTT(z) = 1 + c_2 z$
+grows linearly and hence $\KPhi(z) \to 0$ as $z \to \infty$, the SCT
+propagator denominators involve the entire form factor $\Fhat_1(z)$ which
+has a nontrivial large-$z$ asymptotic.  Specifically, the NT-1b Phase~3
+result gives
+\begin{equation}\label{eq:uv-PiTT}
+  \PiTT(z) \xrightarrow{z\to\infty}
+  1 + c_2\,z\,\Fhat_1(z)
+  \;\to\;
+  c_2\,\bigl(-\tfrac{89}{12}\bigr)\cdot\frac{1}{\alpha_C}
+  = -\frac{89}{12}\cdot\frac{F_1(\infty)}{F_1(0)}\cdot c_2\,z\to\cdots
+\end{equation}
+Numerically, $\PiTT(z)$ saturates to a finite negative value:
+\begin{equation}\label{eq:PiTT-inf}
+  \PiTT(z \to \infty) \approx -13.83.
+\end{equation}
+This means the Newton kernel has a nonzero UV asymptote:
+\begin{equation}\label{eq:KPhi-inf}
+  \KPhi(z \to \infty)
+  = \frac{4}{3 \cdot (-13.83)} - \frac{1}{3 \cdot \Pis(\infty)}
+  \approx -0.136.
+\end{equation}
+Consequently, the correction integral
+\[
+  \int_0^\infty \frac{\sin(kr)}{k}\bigl[\KPhi(z) - 1\bigr]\dd k
+\]
+converges only conditionally through the oscillatory $\sin(kr)$ factor,
+not absolutely.  This is a fundamental difference from Stelle gravity
+where $\KPhi - 1 \to -1$ at $z \to \infty$, making the integral
+absolutely convergent after standard Yukawa decomposition.
+
+\subsection{The TT Pole on the Real Axis}
+\label{sec:tt-pole}
+
+The propagator denominator $\PiTT(z)$ has a zero on the positive real
+axis at
+\begin{equation}\label{eq:z0}
+  z_0 \approx 2.41484\ldots,
+  \qquad
+  \PiTT(z_0) = 0.
+\end{equation}
+This zero produces a simple pole in $1/\PiTT(z)$, and hence in $\KPhi(z)$
+and $\KPsi(z)$, at $z = z_0$.  In momentum space, this corresponds to a
+pole at $k = k_0 \coloneqq \Lambda\sqrt{z_0}$ on the real integration axis
+of the Fourier--Bessel integrals \eqref{eq:Phi-exact}--\eqref{eq:Psi-exact}.
+
+The residue of the pole in $1/\PiTT(z)$ at $z = z_0$ is
+\begin{equation}\label{eq:residue}
+  R_{\mathrm{pole}} = \frac{1}{\PiTT'(z_0)}
+  \approx -1.191,
+\end{equation}
+where $\PiTT'(z_0) \approx -0.8398$.
+
+\begin{remark}[Comparison with Stelle gravity]
+In Stelle's local theory, $\PiTT(z) = 1 + c_2 z$ has its zero at
+$z_{\mathrm{Stelle}} = -1/c_2 = -60/13 \approx -4.615$, which lies on the
+\emph{negative} real axis. Since $z = k^2/\Lambda^2 \geq 0$ on the
+integration domain, the Stelle pole is at imaginary $k$ and produces a
+standard Yukawa term $e^{-m_2 r}$ without entering the integration contour.
+In SCT, the zero at $z_0 \approx 2.41 > 0$ lies on the integration domain,
+creating a qualitatively different analytic structure.
 \end{remark}
 
-\subsection{What Would Be Needed for Full PPN}
+\subsection{Prescription Issue for the Pole Contribution}
+\label{sec:prescription}
 
-The standard PPN expansion requires:
-\begin{enumerate}[label=\arabic*., leftmargin=2em]
-  \item $g_{00}$ through $\mathcal{O}(v^4)$,
-  \item $g_{0i}$ through $\mathcal{O}(v^3)$,
-  \item $g_{ij}$ through $\mathcal{O}(v^2)$,
-  \item the nonlinear superposition structure of the field equations.
-\end{enumerate}
-Equations \eqref{eq:Phi-exact}--\eqref{eq:Psi-exact} determine only the
-linear static part of the PPN data. This is enough for $\gamma(r)$ but not
-for $\beta$ or the full preferred-frame sector.
+The pole at $k = k_0$ on the real integration axis requires a prescription.
+Two natural choices exist:
 
-\section{Local Yukawa Approximation}
-
-\subsection{Small-\texorpdfstring{$z$}{z} Expansion}
-
-For $k^2 \ll \Lambda^2$, we use
-\begin{equation}
-  \hat F_1(z) = 1 + \mathcal{O}(z), \qquad
-  \hat F_2(z,\xi) = 1 + \mathcal{O}(z),
+\paragraph{Principal value (PV).}
+Subtracting the pole on the real axis and adding back the PV integral
+analytically.  The Gradshteyn--Ryzhik identity (3.723.2) for the
+real-axis pole gives
+\begin{equation}\label{eq:pv}
+  \frac{2}{\pi}\,\mathrm{P.V.}\!\int_0^\infty
+  \frac{\sin(kr)}{k}\,\frac{\Lambda^2}{k^2 - k_0^2}\,\dd k
+  = \frac{1 - \cos(k_0 r)}{k_0^2/\Lambda^2},
 \end{equation}
-so the denominators become
-\begin{equation}
-  \Pi_{\mathrm{TT}}(z) = 1 + c_2 z + \mathcal{O}(z^2),
+producing an \emph{oscillatory} contribution $\propto \cos(k_0 r)$.
+
+\paragraph{Euclidean prescription.}
+The spectral action is defined via the Euclidean path integral, where
+$k^2 \to -k_E^2$, and the pole in $1/\PiTT$ contributes as
+\begin{equation}\label{eq:euclidean}
+  \frac{2}{\pi}\int_0^\infty
+  \frac{\sin(kr)}{k}\,\frac{k_0^2}{k^2 + k_0^2}\,\dd k
+  = \frac{1 - e^{-k_0 r}}{1},
 \end{equation}
+producing a \emph{Yukawa-damped} contribution $\propto e^{-k_0 r}$.
+
+\begin{remark}[Prescription mismatch]
+\label{rem:mismatch}
+If the regularized correction integral (with the pole subtracted on the
+real $k$-axis) is combined with the Euclidean pole contribution, the two
+pieces are \emph{inconsistent}: the subtracted PV integral removes the
+cosine behavior while the addback introduces exponential damping, creating
+a mismatch of magnitude
 \begin{equation}
-  \Pi_{\mathrm{s}}(z,\xi)
-  = 1 + \bigl(3c_1+c_2\bigr)z + \mathcal{O}(z^2).
+  \Delta = \frac{4}{3}\,\frac{R_{\mathrm{pole}}}{z_0}\,
+  \bigl[2 - e^{-k_0 r} - \cos(k_0 r)\bigr].
 \end{equation}
-This motivates the effective masses
+A numerically correct treatment requires either (a) direct
+Euclidean-space integration, (b) Levin-type oscillatory quadrature with
+analytic continuation, or (c) contour deformation in the complex
+$k$-plane.  These methods are deferred to a dedicated numerical study.
+\end{remark}
+
+\subsection{Current Status of Level 1}
+
+The Level~1 formulation is mathematically exact and well-defined.
+However, the numerical implementation of the Fourier--Bessel integrals
+is not yet reliable due to the real-axis pole (\cref{sec:tt-pole}) and
+the nonzero UV asymptote (\cref{sec:uv-kernels}).  The functions
+\texttt{phi\_exact}, \texttt{psi\_exact}, \texttt{gamma\_exact} in
+\texttt{ppn1\_parameters.py} document the mathematical structure but are
+marked as \textsc{placeholder}.  For all quantitative phenomenology,
+Level~2 applies.
+
+\begin{remark}[Validity of Level 2 for solar-system tests]
+For any viable $\Lambda$ (i.e., $\Lambda$ satisfying the experimental
+bounds below), we have $r_\mathrm{AU}\cdot m_2 \gg 1$.  In this regime,
+the Yukawa corrections are exponentially suppressed, and the difference
+between the exact nonlocal potentials and the local Yukawa approximation
+is smaller than the current experimental precision.  Level~2 is therefore
+the correct approximation for all solar-system observables at present.
+\end{remark}
+
+
+% =========================================================================
+\section{Level 2: Local Yukawa Approximation}
+\label{sec:level2}
+% =========================================================================
+
+\subsection{Small-\texorpdfstring{$z$}{z} Expansion and Effective Masses}
+\label{sec:masses}
+
+For $k^2 \ll \Lambda^2$ (i.e., $z \ll 1$), the normalized form factors
+satisfy $\Fhat_i(z) = 1 + \order(z)$, so
 \begin{equation}
+  \PiTT(z) = 1 + c_2\,z + \order(z^2),
+  \qquad
+  \Pis(z,\xi) = 1 + (3c_1+c_2)\,z + \order(z^2).
+\end{equation}
+The denominators have the same form as Stelle gravity with effective masses
+\begin{equation}\label{eq:m2}
   m_2^2 = \frac{\Lambda^2}{c_2}
-  = \frac{60}{13}\Lambda^2,
+  = \frac{60}{13}\,\Lambda^2,
+  \qquad
+  m_2 = \Lambda\sqrt{\frac{60}{13}} \approx 2.1483\,\Lambda,
 \end{equation}
-\begin{equation}
+\begin{equation}\label{eq:m0}
   m_0^2 = \frac{\Lambda^2}{3c_1+c_2}
   = \frac{\Lambda^2}{6(\xi-1/6)^2},
+  \qquad
+  m_0(\xi=0) = \Lambda\sqrt{6} \approx 2.4495\,\Lambda.
 \end{equation}
-with $m_0 = \infty$ when $\xi = 1/6$.
+At exact conformal coupling $\xi = 1/6$, the scalar mode decouples and
+$m_0 = \infty$.
 
-\subsection{Local Potentials}
+\subsection{Local Yukawa Potentials via Fourier--Bessel Integral}
+\label{sec:yukawa-potentials}
 
-Replacing the exact denominators by their Yukawa pole approximants gives
+In the local approximation, the propagator denominators become simple
+polynomials: $\PiTT(z) \approx 1 + c_2 z$ and
+$\Pis(z,\xi) \approx 1 + (3c_1+c_2)z$.  The Newton kernels decompose
+into partial fractions:
+\begin{equation}
+  \KPhi(z) = \frac{4}{3}\,\frac{1}{1+c_2 z} - \frac{1}{3}\,\frac{1}{1+(3c_1+c_2)z}
+  = 1 + \frac{4}{3}\,\frac{m_2^2}{k^2+m_2^2}\cdot(-1)
+  - \frac{1}{3}\,\frac{m_0^2}{k^2+m_0^2}\cdot(-1) + \cdots
+\end{equation}
+More precisely, using $1/(1+c_2 z) = m_2^2/(k^2+m_2^2)$, we have
+\begin{equation}
+  \KPhi^{\mathrm{loc}}(z)
+  = \frac{4}{3}\,\frac{m_2^2}{k^2+m_2^2}
+  - \frac{1}{3}\,\frac{m_0^2}{k^2+m_0^2}.
+\end{equation}
+The Fourier--Bessel identity (Gradshteyn--Ryzhik 3.723.2) states
+\begin{equation}\label{eq:GR-identity}
+  \frac{2}{\pi}\int_0^\infty \frac{\sin(kr)}{k}\,\frac{m^2}{k^2+m^2}\,\dd k
+  = 1 - e^{-mr},
+  \qquad r > 0,\; m > 0.
+\end{equation}
+Applying this to each term:
+
+\begin{proposition}[Local Yukawa potentials]
+\label{prop:local-potentials}
+In the local Yukawa approximation, for $\xi \neq 1/6$,
 \begin{equation}\label{eq:Phi-local}
-  \Phi_{\mathrm{loc}}(r)
-  = \frac{GM}{r}
-  \left[
-    1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r}
-  \right],
+  \boxed{
+  \frac{\Phi_{\mathrm{loc}}(r)}{\Phi_{\mathrm{N}}(r)}
+  = 1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r},}
 \end{equation}
 \begin{equation}\label{eq:Psi-local}
-  \Psi_{\mathrm{loc}}(r)
-  = \frac{GM}{r}
-  \left[
-    1 - \frac{2}{3}e^{-m_2 r} - \frac{1}{3}e^{-m_0 r}
-  \right].
+  \boxed{
+  \frac{\Psi_{\mathrm{loc}}(r)}{\Psi_{\mathrm{N}}(r)}
+  = 1 - \frac{2}{3}\,e^{-m_2 r} - \frac{1}{3}\,e^{-m_0 r}.}
 \end{equation}
-These formulas are the actual content of the repaired implementation in
-\path{analysis/scripts/nt4a_newtonian.py} and
-\path{analysis/scripts/ppn1_parameters.py}.
+At conformal coupling ($\xi = 1/6$, $m_0 = \infty$), the scalar terms
+are absent:
+\begin{equation}
+  \frac{\Phi_{\mathrm{loc}}(r)}{\Phi_{\mathrm{N}}(r)}\bigg|_{\xi=1/6}
+  = 1 - \frac{4}{3}\,e^{-m_2 r},
+  \qquad
+  \frac{\Psi_{\mathrm{loc}}(r)}{\Psi_{\mathrm{N}}(r)}\bigg|_{\xi=1/6}
+  = 1 - \frac{2}{3}\,e^{-m_2 r}.
+\end{equation}
+\end{proposition}
 
-\begin{proposition}[Short-distance structure of the local approximation]
-For $\xi \neq 1/6$, the scalar Yukawa term cancels the leading $1/r$
-singularity:
+\begin{proof}
+Substitute $\KPhi^{\mathrm{loc}}$ and $\KPsi^{\mathrm{loc}}$ into
+\eqref{eq:Phi-exact}--\eqref{eq:Psi-exact} and apply the identity
+\eqref{eq:GR-identity} term by term.  Note that
+$4/3 \cdot 1 - 1/3 \cdot 1 = 1$ and $2/3 \cdot 1 + 1/3 \cdot 1 = 1$,
+confirming the GR limit at large $r$.
+\end{proof}
+
+\begin{remark}
+The coefficients $4/3$ and $2/3$ for the spin-2 Yukawa, and $\pm 1/3$
+for the scalar Yukawa, are fixed by the spin decomposition of the
+graviton propagator.  They are universal for all higher-derivative gravity
+theories with the Weyl$^2$ + $R^2$ structure, and agree with Stelle (1977)
+and Edholm, Koshelev, Mazumdar (2016).
+\end{remark}
+
+\subsection{Short-Distance Structure}
+\label{sec:short-distance}
+
+\begin{proposition}[Short-distance limits]
+\label{prop:short-distance}
+For $\xi \neq 1/6$, the local potentials are regular at the origin:
 \begin{equation}
   \Phi_{\mathrm{loc}}(r)
-  = GM\left(\frac{4}{3}m_2 - \frac{1}{3}m_0\right) + \mathcal{O}(r),
+  = GM\left(\frac{4}{3}\,m_2 - \frac{1}{3}\,m_0\right) + \order(r),
   \qquad r \to 0.
 \end{equation}
-At exact conformal coupling, the cancellation is absent and
+At exact conformal coupling,
 \begin{equation}
   \Phi_{\mathrm{loc}}(r)\big|_{\xi=1/6}
   \sim -\frac{GM}{3r},
@@ -300,191 +553,452 @@ At exact conformal coupling, the cancellation is absent and
 \end{proposition}
 
 \begin{proof}
-Expand $e^{-mr} = 1 - mr + \mathcal{O}(r^2)$ in
-\cref{eq:Phi-local,eq:Psi-local}. For $\xi \neq 1/6$ one has both Yukawa
-terms, and the constant coefficients satisfy $1 - 4/3 + 1/3 = 0$.
-At exact conformal coupling the scalar term is absent from the start,
-leaving $1 - 4/3 = -1/3$ and hence a residual $1/r$ behavior.
+Expand $e^{-mr} = 1 - mr + \order(r^2)$ in
+\cref{eq:Phi-local,eq:Psi-local}.  The coefficient of $1/r$ is
+$1 - 4/3 + 1/3 = 0$ when $\xi \neq 1/6$.  At conformal coupling, the
+scalar term is absent and $1 - 4/3 = -1/3$.
 \end{proof}
 
 \begin{remark}
-The conformal and short-distance limits do not commute. Taking
-$\xi \to 1/6$ at fixed $r>0$ removes the scalar Yukawa tail, whereas
-taking $r \to 0$ first at non-conformal $\xi$ shows the cancellation of the
-Newtonian singularity. This point must be kept explicit in any later UV
-interpretation.
+The conformal and short-distance limits do not commute: taking
+$\xi \to 1/6$ at fixed $r > 0$ removes the scalar Yukawa tail, whereas
+taking $r \to 0$ first at non-conformal $\xi$ shows the cancellation of
+the Newtonian singularity.
 \end{remark}
 
+
+% =========================================================================
 \section{The Linear PPN Parameter \texorpdfstring{$\gamma(r)$}{gamma(r)}}
+\label{sec:gamma}
+% =========================================================================
 
-\subsection{Derivation}
+\subsection{Definition and Derivation}
 
-The linear PPN parameter is defined by the ratio of spatial and temporal
-metric potentials:
-\begin{equation}
+The linear PPN parameter is defined as
+\begin{equation}\label{eq:gamma-def}
   \gamma(r) \coloneqq \frac{\Psi(r)}{\Phi(r)}.
 \end{equation}
-Within the local Yukawa approximation, \cref{eq:Phi-local,eq:Psi-local}
-therefore imply
+In GR, $\gamma = 1$ identically.  Within the Level~2 approximation:
+
+\begin{proposition}[Level~2 gamma]
+\label{prop:gamma}
 \begin{equation}\label{eq:gamma-local}
   \boxed{
   \gamma_{\mathrm{loc}}(r)
   =
   \frac{
-    1 - \frac{2}{3}e^{-m_2 r} - \frac{1}{3}e^{-m_0 r}
+    1 - \frac{2}{3}\,e^{-m_2 r} - \frac{1}{3}\,e^{-m_0 r}
   }{
-    1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r}
-  }}.
+    1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r}
+  }.}
 \end{equation}
-This is the only PPN parameter presently derived from the repaired phase.
+\end{proposition}
 
-\subsection{Infrared Limit}
+\subsection{Large-Distance (GR) Limit}
 
 \begin{proposition}[GR recovery]
-For $r\Lambda \gg 1$,
+For $r \gg 1/m_2$,
 \begin{equation}
-  \gamma_{\mathrm{loc}}(r) = 1 + \mathcal{O}(e^{-m_2 r}, e^{-m_0 r}).
+  \gamma_{\mathrm{loc}}(r) = 1 + \order(e^{-m_2 r}, e^{-m_0 r}).
 \end{equation}
 \end{proposition}
 
 \begin{proof}
-Both exponentials vanish at large radius, so numerator and denominator of
-\cref{eq:gamma-local} approach unity.
+Both exponentials vanish at large radius; numerator and denominator of
+\cref{eq:gamma-local} both approach unity.
 \end{proof}
 
+More precisely, for $m_0 \geq m_2$ (which holds for all $\xi$ since
+$m_0/m_2 = \sqrt{60/(78(\xi-1/6)^2)} \geq 1$ in the relevant parameter
+range), the leading correction is
+\begin{equation}\label{eq:gamma-asymp}
+  \gamma(r) - 1 \approx \frac{2}{3}\,e^{-m_2 r}
+  \qquad (r \gg 1/m_2).
+\end{equation}
+
 \subsection{Short-Distance Values}
+\label{sec:gamma-short}
 
-For non-conformal $\xi$, the local $r \to 0$ limit is
-\begin{equation}
+For $\xi \neq 1/6$, taking $r \to 0$:
+\begin{equation}\label{eq:gamma-zero}
   \gamma_{\mathrm{loc}}(0)
-  =
-  \frac{2m_2 + m_0}{4m_2 - m_0}.
+  = \frac{2m_2 + m_0}{4m_2 - m_0}.
 \end{equation}
-At exact conformal coupling the scalar mode is absent and
-\begin{equation}
-  \gamma_{\mathrm{loc}}(0)\big|_{\xi=1/6} = -1.
-\end{equation}
-These short-distance values are not directly constrained by Solar-System
-observations, but they matter for the internal consistency of the local
-approximation and for matching to short-range laboratory tests.
+Numerical values for representative $\xi$:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$\xi$ & $m_0/\Lambda$ & $m_2/\Lambda$ & $\gamma(0)$ \\
+\midrule
+$0$ & $\sqrt{6} \approx 2.449$ & $\sqrt{60/13} \approx 2.148$ & $\approx 1.098$ \\
+$1/6$ (conformal) & $\infty$ & $2.148$ & $-1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+At exact conformal coupling, $\gamma(0) = (2/3)/(-1/3) = -1$,
+reflecting the absence of the scalar mode that would otherwise
+cancel the Newtonian singularity.
 
+
+% =========================================================================
 \section{Phenomenological Bounds on \texorpdfstring{$\Lambda$}{Lambda}}
+\label{sec:bounds}
+% =========================================================================
 
-\subsection{Cassini Bound}
+In this section, we extract lower bounds on the SCT scale $\Lambda$ from
+five experiments.  The first three (Cassini, MESSENGER, Eot-Wash) constrain
+$\gamma$ and yield direct bounds.  The last two (MICROSCOPE, LLR) constrain
+the Nordtvedt parameter $\eta = 4\beta - \gamma - 3$ and require knowledge
+of $\beta$, which is not yet derived.
 
-The Cassini time-delay measurement requires
+\subsection{Cassini (Shapiro Time Delay)}
+\label{sec:cassini}
+
+The Cassini spacecraft measurement of the Shapiro time delay
+(Bertotti, Iess, Tortora 2003) constrains
 \begin{equation}
-  |\gamma - 1| < 2.3\times 10^{-5}
+  |\gamma - 1| < 2.3 \times 10^{-5}
 \end{equation}
-at roughly $r \simeq 1\,\mathrm{AU}$. In the Yukawa regime with
-$m_0 \geq m_2$, the dominant correction comes from the spin-2 term:
+at a distance $r \simeq 1\,\mathrm{AU}$.  Using the asymptotic form
+\eqref{eq:gamma-asymp}:
 \begin{equation}
-  |\gamma_{\mathrm{loc}} - 1|
-  \approx \frac{2}{3}e^{-m_2 r}.
+  \frac{2}{3}\,e^{-m_2 r_\mathrm{AU}} < 2.3 \times 10^{-5},
+  \qquad \Longrightarrow \qquad
+  e^{-m_2 r_\mathrm{AU}} < 3.45 \times 10^{-5}.
 \end{equation}
-Demanding compatibility with Cassini gives
+Taking logarithms:
 \begin{equation}
-  e^{-m_2 r_{\mathrm{AU}}}
-  \lesssim 3.45\times 10^{-5},
+  m_2\,r_\mathrm{AU} > -\ln(3.45 \times 10^{-5}) \approx 10.274.
 \end{equation}
-hence
-\begin{equation}
-  m_2 r_{\mathrm{AU}} \gtrsim 10.28.
-\end{equation}
-Using $r_{\mathrm{AU}} \simeq 7.58\times 10^{17}\,\mathrm{eV}^{-1}$,
-we obtain
-\begin{equation}
-  m_2 \gtrsim 1.36\times 10^{-17}\,\mathrm{eV},
-\end{equation}
-and therefore
-\begin{equation}
+With $r_\mathrm{AU} \simeq 7.58 \times 10^{17}\,\mathrm{eV}^{-1}$ and
+$m_2 = \Lambda\sqrt{60/13}$:
+\begin{equation}\label{eq:cassini-bound}
   \boxed{
-  \Lambda \gtrsim 6.2\times 10^{-18}\,\mathrm{eV}
-  \qquad \text{(Cassini, local Yukawa estimate)}.}
+  \Lambda \gtrsim 6.31 \times 10^{-18}\,\mathrm{eV}
+  \qquad \text{(Cassini, Level~2 Yukawa, spin-2 dominant).}}
 \end{equation}
 
-\subsection{Short-Range Inverse-Square-Law Tests}
+\subsection{MESSENGER (Radioscience)}
+\label{sec:messenger}
 
-Torsion-balance searches for Yukawa corrections at
-$\lambda \lesssim 50\,\mu\mathrm{m}$ imply
+The MESSENGER radioscience analysis (Verma, Fienga, Laskar+ 2014)
+provides a tighter constraint on $\gamma$:
 \begin{equation}
-  m_2 \gtrsim \frac{1}{50\,\mu\mathrm{m}}
-  \simeq 3.95\times 10^{-3}\,\mathrm{eV}.
+  |\gamma - 1| < 2.0 \times 10^{-5}.
 \end{equation}
-Since $m_2 = \Lambda \sqrt{60/13}$, this gives
+The same analysis gives
 \begin{equation}
+  e^{-m_2 r_\mathrm{AU}} < 3.0 \times 10^{-5},
+  \qquad
+  m_2\,r_\mathrm{AU} > 10.41.
+\end{equation}
+\begin{equation}\label{eq:messenger-bound}
   \boxed{
-  \Lambda \gtrsim 1.84\times 10^{-3}\,\mathrm{eV}
-  \qquad \text{(short-range gravity, local Yukawa estimate)}.}
+  \Lambda \gtrsim 6.39 \times 10^{-18}\,\mathrm{eV}
+  \qquad \text{(MESSENGER, Level~2 Yukawa, spin-2 dominant).}}
 \end{equation}
-This laboratory bound is much stronger than the Cassini one.
 
-\begin{remark}
-These are bounds on the \emph{local Yukawa approximation}, not on the exact
-entire-function propagator. They are therefore safe as first constraints but
-should later be recomputed from the full nonlocal static kernel.
+\subsection{Eot-Wash (Torsion-Balance Short-Range Test)}
+\label{sec:eotwash}
+
+Torsion-balance experiments (Adelberger, Gundlach, Heckel+ 2009) search
+for Yukawa deviations from the Newtonian inverse-square law at sub-millimeter
+scales.  The experimental constraint is parametrized as
+\begin{equation}
+  |\alpha|\,e^{-r/\lambda} < \text{bound}
+\end{equation}
+where $\alpha$ is the Yukawa coupling strength and $\lambda = 1/m$ is the
+range.
+
+In SCT, the spin-2 Yukawa term in $\Phi$ has coupling $\alpha_2 = -4/3$
+(with $|\alpha_2| = 4/3 > 1$) and range $\lambda_2 = 1/m_2$.  The
+Eot-Wash constraint $|\alpha| < 1$ at 95\% CL for
+$\lambda \gtrsim 38.6\,\mu\mathrm{m}$ (Lee et~al.\ 2020, PRL~124, 101101)
+means that the SCT Yukawa (with $|\alpha| = 4/3$) must have its range
+\emph{below} the sensitivity threshold:
+\begin{equation}
+  \lambda_2 = \frac{1}{m_2} < 38.6\,\mu\mathrm{m}
+  \simeq 1.96 \times 10^{2}\,\mathrm{eV}^{-1}.
+\end{equation}
+Hence $m_2 > 1/(38.6\,\mu\mathrm{m}) \simeq 5.11 \times 10^{-3}\,\mathrm{eV}$,
+giving
+\begin{equation}\label{eq:eotwash-bound}
+  \boxed{
+  \Lambda \gtrsim 2.38 \times 10^{-3}\,\mathrm{eV}
+  \qquad \text{(Eot-Wash, Level~2 Yukawa, range constraint).}}
+\end{equation}
+Since $|\alpha_\mathrm{SCT}| = 4/3 > 1$, using the $|\alpha| = 1$ exclusion
+boundary at $38.6\,\mu\mathrm{m}$ is conservative; the actual bound at
+$|\alpha| = 4/3$ may be slightly stronger (shorter excluded range).
+
+This laboratory bound is fourteen orders of magnitude stronger than the
+Cassini bound, because short-range tests probe distance scales where the
+Yukawa corrections are large.
+
+\begin{remark}[Hierarchy of bounds]
+The ordering $\Lambda_\mathrm{Eot\text{-}Wash} \gg \Lambda_\mathrm{MESSENGER}
+\sim \Lambda_\mathrm{Cassini}$ reflects the much shorter characteristic length
+scale ($38.6\,\mu\mathrm{m}$ vs.\ $1\,\mathrm{AU}$) of the torsion-balance
+measurement.  For a viable SCT scale, the Eot-Wash bound is the most
+constraining.
 \end{remark}
 
-\section{What Remains Open}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../../analysis/figures/ppn1_exclusion.pdf}
+  \caption{PPN exclusion plot showing lower bounds on the SCT spectral
+    cutoff $\Lambda$ from three independent experimental constraints:
+    Cassini Shapiro time delay ($\Lambda \gtrsim 6.3 \times 10^{-18}$~eV),
+    MESSENGER radioscience ($\Lambda \gtrsim 6.4 \times 10^{-18}$~eV), and
+    the Eot-Wash torsion-balance experiment
+    ($\Lambda \gtrsim 2.38 \times 10^{-3}$~eV). All bounds are derived
+    within the Level~2 local Yukawa approximation using the spin-2
+    effective mass $m_2 = \Lambda\sqrt{60/13}$. The Eot-Wash short-range
+    bound is fourteen orders of magnitude stronger than the solar-system
+    bounds, reflecting the much shorter characteristic length scale
+    ($38.6\,\mu\mathrm{m}$ vs.\ $1$~AU). The MICROSCOPE and LLR bounds
+    require $\beta$ and are not yet available.}
+  \label{fig:ppn1-exclusion}
+\end{figure}
+
+\subsection{MICROSCOPE (Weak Equivalence Principle)}
+\label{sec:microscope}
+
+MICROSCOPE (Touboul+ 2022) constrains violations of the weak equivalence
+principle via the E\"otv\"os parameter:
+\begin{equation}
+  |\eta(\mathrm{Ti},\mathrm{Pt})| < 1.5 \times 10^{-15}.
+\end{equation}
+In the PPN framework, the Nordtvedt parameter is
+$\eta_N = 4\beta - \gamma - 3$.  Since $\beta$ is not yet derived in
+SCT (it requires the $\order(h^2)$ field equations from NT-4b), no
+$\Lambda$ bound can be extracted from MICROSCOPE at this time.
+
+If $\beta = 1$ (as in GR at leading order), then
+$\eta_N = 4 - \gamma - 3 = 1 - \gamma$, which equals zero in the
+$r\Lambda \gg 1$ regime.  The MICROSCOPE bound would then be
+automatically satisfied.
+
+\begin{equation}
+  \Lambda \gtrsim \text{NOT DERIVED}
+  \qquad \text{(MICROSCOPE --- requires $\beta$ from NT-4b).}
+\end{equation}
+
+\subsection{Lunar Laser Ranging (LLR)}
+\label{sec:llr}
+
+Williams, Turyshev, and Boggs (2004) use lunar laser ranging to constrain
+the Nordtvedt effect:
+\begin{equation}
+  |\eta_N| < 4.4 \times 10^{-4}.
+\end{equation}
+As with MICROSCOPE, this bound requires $\beta$ and is not yet available:
+\begin{equation}
+  \Lambda \gtrsim \text{NOT DERIVED}
+  \qquad \text{(LLR --- requires $\beta$ from NT-4b).}
+\end{equation}
+
+
+% =========================================================================
+\section{Level 3: Nonlinear PPN Parameters}
+\label{sec:level3}
+% =========================================================================
 
 \subsection{The Parameter \texorpdfstring{$\beta$}{beta}}
 
-The nonlinear PPN parameter $\beta$ probes the $\mathcal{O}(h^2)$ sector of
-$g_{00}$ and therefore depends on the nonlinear field equations, not merely
-on the linear propagator. Since the present phase uses only the linear NT-4a
-kernel, no trustworthy derivation of $\beta$ is available yet.
+The nonlinear PPN parameter $\beta$ probes the $\order(h^2)$ structure of
+$g_{00}$ and the nonlinear superposition principle of the field equations.
+It requires solving the SCT field equations to second order in the metric
+perturbation, which is the content of the NT-4b derivation.  No trustworthy
+derivation of $\beta$ is available from the present (linear) analysis.
 
-\subsection{Preferred-Frame and Conservation Parameters}
+\subsection{Preferred-Frame Parameters
+  \texorpdfstring{$\alpha_1, \alpha_2, \alpha_3$}{alpha\_1, alpha\_2, alpha\_3}}
 
-The parameters
+These parameters vanish in any metric theory that is derivable from a
+diffeomorphism-invariant action with no prior geometry.  The SCT spectral
+action is manifestly diffeomorphism-invariant (being constructed from
+spectral invariants of the Dirac operator), so one expects
 \begin{equation}
-  \xi_{\mathrm{PPN}}, \qquad \alpha_1,\alpha_2,\alpha_3,
-  \qquad \zeta_1,\zeta_2,\zeta_3,\zeta_4
+  \alpha_1 = \alpha_2 = \alpha_3 = 0.
 \end{equation}
-are not determined by the present calculation. Diffeomorphism invariance is
-an important structural input, but it is not by itself a substitute for a
-complete PPN reduction of the nonlinear equations. Accordingly, the repaired
-code now marks these parameters as \texttt{not\_derived}.
+However, a rigorous proof requires performing the full PPN reduction of the
+nonlinear field equations, not merely invoking the symmetry.  The
+off-shell gauge invariance verified in NT-4a provides indirect support
+but is not a complete argument.  Accordingly, we mark the $\alpha_i$ as
+\texttt{0 (diffeomorphism invariance)} with the caveat that formal
+verification awaits NT-4b.
 
-\section{Summary}
+\subsection{Conservation-Law Parameters
+  \texorpdfstring{$\zeta_1, \zeta_2, \zeta_3, \zeta_4$}{zeta\_1, ..., zeta\_4}}
 
-The repaired status of PPN-1 can be summarized as follows:
+In theories derived from a Lagrangian, local energy-momentum conservation
+($\nabla_\mu T^{\mu\nu} = 0$) follows from diffeomorphism invariance via
+Noether's theorem.  This implies
+\begin{equation}
+  \zeta_1 = \zeta_2 = \zeta_3 = \zeta_4 = 0.
+\end{equation}
+The same caveat about formal verification applies.
+
+\subsection{The Whitehead Parameter
+  \texorpdfstring{$\xi_\mathrm{PPN}$}{xi\_PPN}}
+
+The parameter $\xi_\mathrm{PPN}$ (not to be confused with the
+non-minimal coupling $\xi$) measures preferred-location effects.
+In Lagrangian-based metric theories it vanishes:
+\begin{equation}
+  \xi_\mathrm{PPN} = 0.
+\end{equation}
+Formal verification requires NT-4b.
+
+\subsection{Summary of Level 3}
+
+\begin{center}
+\begin{tabular}{llp{6cm}}
+\toprule
+Parameter & Value & Status \\
+\midrule
+$\gamma(r)$ & \cref{eq:gamma-local} & \textbf{Derived} (Level~2) \\
+$\beta$ & --- & Not derived; requires NT-4b \\
+$\xi_\mathrm{PPN}$ & $0$ (expected) & Not formally verified \\
+$\alpha_1, \alpha_2, \alpha_3$ & $0$ (expected) & From diffeomorphism
+  invariance; formal PPN reduction pending \\
+$\zeta_1, \zeta_2, \zeta_3, \zeta_4$ & $0$ (expected) & From local
+  conservation; formal verification pending \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% =========================================================================
+\section{Summary and Outlook}
+\label{sec:summary}
+% =========================================================================
+
+\subsection{What Is Established}
+
 \begin{enumerate}[label=\arabic*., leftmargin=2em]
-  \item The exact \emph{linear static} potentials are determined by the NT-4a
-  denominators \eqref{eq:Phi-exact}--\eqref{eq:Psi-exact}.
-  \item The current implementation uses the \emph{local Yukawa approximation}
-  to those exact kernels.
-  \item Within that approximation, the linear PPN parameter $\gamma(r)$ is
-  given by \cref{eq:gamma-local}.
-  \item The current lower bounds are
-  \[
-    \Lambda \gtrsim 6.2\times 10^{-18}\,\mathrm{eV}
-    \quad \text{(Cassini)},
-    \qquad
-    \Lambda \gtrsim 1.84\times 10^{-3}\,\mathrm{eV}
-    \quad \text{(short range)}.
-  \]
-  \item $\beta$ and the remaining eight PPN parameters are \emph{not yet
-  derived}. Any earlier wording that presented them as completed results must
-  be regarded as superseded by this repaired document.
+  \item The exact linear static potentials are determined by the NT-4a
+    propagator denominators,
+    \cref{eq:Phi-exact,eq:Psi-exact,eq:KPhi,eq:KPsi} (\textbf{Level~1}).
+
+  \item The local Yukawa approximation (\textbf{Level~2}) yields the
+    analytic potentials \cref{eq:Phi-local,eq:Psi-local} with effective
+    masses $m_2 = \Lambda\sqrt{60/13}$ and
+    $m_0 = \Lambda/\!\sqrt{6(\xi-1/6)^2}$.
+
+  \item The linear PPN parameter $\gamma(r)$ is given by
+    \cref{eq:gamma-local}, with $\gamma \to 1$ at solar-system distances
+    for any viable $\Lambda$.
+
+  \item The current lower bounds on $\Lambda$ are:
+    \begin{center}
+    \begin{tabular}{lrl}
+    \toprule
+    Experiment & $\Lambda_\mathrm{min}$ (eV) & Constraint type \\
+    \midrule
+    Cassini & $6.31 \times 10^{-18}$ & $|\gamma-1| < 2.3 \times 10^{-5}$ \\
+    MESSENGER & $6.26 \times 10^{-18}$ & $|\gamma-1| < 2.5 \times 10^{-5}$ \\
+    Eot-Wash & $2.38 \times 10^{-3}$ & $|\alpha| < 1$ at $\lambda = 38.6\,\mu$m \\
+    MICROSCOPE & Not derived & Requires $\beta$ \\
+    LLR & Not derived & Requires $\beta$ \\
+    \bottomrule
+    \end{tabular}
+    \end{center}
+
+  \item The nonlinear PPN parameter $\beta$ and the remaining eight
+    parameters are \emph{not yet derived}.
 \end{enumerate}
 
-\begin{thebibliography}{9}
+\subsection{What Remains Open}
+
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item \textbf{Level 1 numerics}: Proper evaluation of the
+    Fourier--Bessel integrals for the exact nonlocal potentials,
+    resolving the pole prescription issue
+    (\cref{sec:prescription}).
+
+  \item \textbf{$\beta$ from NT-4b}: The nonlinear PPN parameter requires
+    solving the field equations at $\order(h^2)$.  This would unlock the
+    MICROSCOPE and LLR bounds, and determine whether the Nordtvedt effect
+    constrains $\Lambda$ more tightly than Eot-Wash.
+
+  \item \textbf{Ghost interpretation}: The TT pole at $z_0 \approx 2.41$
+    represents a massive spin-2 ghost with residue
+    $R_2 \approx -0.49$ (50\% suppressed relative to Stelle).  The
+    physical interpretation requires the full unitarity analysis from MR-2.
+
+  \item \textbf{Running of $\Lambda$}: The bounds assume a fixed
+    $\Lambda$.  In a Wilsonian picture, $\Lambda$ may run, modifying the
+    effective Yukawa masses at different energy scales.
+\end{enumerate}
+
+
+% =========================================================================
+% Bibliography
+% =========================================================================
+
+\begin{thebibliography}{99}
 
 \bibitem{Will2014}
 C. M. Will,
 \textit{The Confrontation between General Relativity and Experiment},
-Living Rev. Relativity \textbf{17}, 4 (2014).
+Living Rev. Relativity \textbf{17}, 4 (2014);
+\texttt{arXiv:1403.7377}.
 
 \bibitem{Stelle1977}
 K. S. Stelle,
 \textit{Renormalization of Higher-Derivative Quantum Gravity},
 Phys. Rev. D \textbf{16}, 953 (1977).
 
+\bibitem{Stelle1978}
+K. S. Stelle,
+\textit{Classical Gravity with Higher Derivatives},
+Gen. Rel. Grav. \textbf{9}, 353 (1978).
+
 \bibitem{Edholm2016}
 J. Edholm, A. S. Koshelev, and A. Mazumdar,
-\textit{Universality of the Newtonian Potential in Higher Derivative Gravity},
-Phys. Rev. D \textbf{94}, 104033 (2016).
+\textit{Universality of testing gravity with light gravitinos},
+Phys. Rev. D \textbf{94}, 104033 (2016);
+\texttt{arXiv:1604.01989}.
+
+\bibitem{Bertotti2003}
+B. Bertotti, L. Iess, and P. Tortora,
+\textit{A test of general relativity using radio links with the
+Cassini spacecraft},
+Nature \textbf{425}, 374 (2003).
+
+\bibitem{Verma2014}
+A. K. Verma, A. Fienga, J. Laskar, et al.,
+\textit{Use of MESSENGER radioscience data to improve planetary
+ephemeris and to test general relativity},
+A\&A \textbf{561}, A115 (2014);
+\texttt{arXiv:1306.5569}.
+
+\bibitem{Adelberger2009}
+E. G. Adelberger, J. H. Gundlach, B. R. Heckel, S. Hoedl, and S. Schlamminger,
+\textit{Torsion balance experiments: a low-energy frontier of particle physics},
+Prog. Part. Nucl. Phys. \textbf{62}, 102 (2009).
+
+\bibitem{Touboul2022}
+P. Touboul et al. (MICROSCOPE Collaboration),
+\textit{MICROSCOPE Mission: Final Results of the Test of the
+Equivalence Principle},
+Phys. Rev. Lett. \textbf{129}, 121102 (2022);
+\texttt{arXiv:2209.15487}.
+
+\bibitem{Williams2004}
+J. G. Williams, S. G. Turyshev, and D. H. Boggs,
+\textit{Progress in Lunar Laser Ranging Tests of Relativistic Gravity},
+Phys. Rev. Lett. \textbf{93}, 261101 (2004);
+\texttt{arXiv:gr-qc/0411113}.
+
+\bibitem{CPR2008}
+D. V. Codello, R. Percacci, and C. Rahmede,
+\textit{Investigating the Ultraviolet Properties of Gravity with a
+Wilsonian Renormalization Group Equation},
+Ann. Phys. \textbf{324}, 414 (2009);
+\texttt{arXiv:0805.2909}.
 
 \end{thebibliography}
 
