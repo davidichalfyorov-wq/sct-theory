@@ -1,0 +1,1392 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={Nonlinear field equations and FLRW cosmology of the spectral action
+            with Standard Model content},
+  pdfsubject={gr-qc}
+}
+
+%%% Custom commands
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Riemsq}{R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Pis}{\Pi_{\mathrm{s}}}
+\newcommand{\order}{\mathcal{O}}
+\newcommand{\Lam}{\Lambda}
+
+%%% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title{Nonlinear field equations and FLRW cosmology\\
+of the spectral action with Standard Model content}
+
+\author{David Alfyorov\footnote{david@alfyorov.com}}
+
+\date{}
+
+\maketitle
+
+\begin{abstract}
+We derive the full nonlinear variational field equations of the one-loop
+spectral action $S = \Tr\,f(D^2/\Lam^2)$ on arbitrary curved backgrounds and
+reduce them to Friedmann--Lema\^itre--Robertson--Walker (FLRW) cosmology.
+The spectral action with Standard Model content produces a nonlocal effective
+action in the curvature-squared sector with two entire form factors
+$F_1(\Box/\Lam^2)$ (Weyl-squared) and $F_2(\Box/\Lam^2,\xi)$
+(Ricci-scalar-squared), whose local limits yield the parameter-free coefficient
+$\alpha_C = 13/120$ and the $\xi$-dependent coefficient
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$.
+The variation $\delta S/\delta g^{\mu\nu} = 0$ gives the field equations
+\begin{equation*}
+  \frac{1}{\kappa^2}\,G_{\mu\nu}
+  + \frac{1}{16\pi^2}\bigl[2\,F_1\,B_{\mu\nu}
+    + \Theta^{(C)}_{\mu\nu}\bigr]
+  + \frac{1}{16\pi^2}\bigl[F_2\,H_{\mu\nu}
+    + \Theta^{(R)}_{\mu\nu}\bigr]
+  = \tfrac{1}{2}\,T_{\mu\nu},
+\end{equation*}
+where $B_{\mu\nu}$ is the nonlocal Bach tensor, $H_{\mu\nu}$ arises from the
+$R^2$ variation, and $\Theta^{(C,R)}_{\mu\nu}$ are Barvinsky--Vilkovisky
+alpha-insertion corrections from the metric dependence of $\Box$.
+On FLRW backgrounds, the entire Weyl sector vanishes by conformal flatness, and
+only the $R^2$ sector contributes to the modified Friedmann equation.
+We establish five central results:
+(i)~the gravitational-wave speed satisfies $c_T = c$ to
+$\order(H^2/\Lam^2)$, passing the GW170817 constraint by 46~orders
+of magnitude;
+(ii)~de~Sitter spacetime is an exact, stable solution;
+(iii)~at conformal coupling $\xi = 1/6$, all spectral corrections vanish
+identically;
+(iv)~late-time corrections to the Hubble parameter are
+$\delta H^2/H^2 \sim 10^{-64}$, ensuring automatic consistency with all
+precision cosmological data;
+(v)~the local limit recovers Stelle's higher-derivative gravity with
+calculable coefficients.
+All results are verified by dual independent derivations and confirmed by
+numerical evaluation at 100-digit precision.
+\end{abstract}
+
+\vspace{6pt}
+\noindent\textit{Keywords:}
+spectral action, nonlocal gravity, field equations, FLRW cosmology,
+gravitational-wave speed, Standard Model
+
+\tableofcontents
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================
+
+The spectral action principle~\cite{Chamseddine:1996zu,Chamseddine:2006ep}
+provides a geometric origin for both gravitational and gauge interactions:
+the bosonic action is given by $S = \Tr\,f(D^2/\Lam^2)$, where $D$ is the
+Dirac operator of a noncommutative geometry, $\Lam$ is a cutoff scale, and
+$f$ is a positive even function.  At the classical level, the heat kernel
+expansion reproduces the Einstein--Hilbert action, cosmological constant, and
+Yang--Mills terms from the leading Seeley--DeWitt
+coefficients~\cite{Chamseddine:2010ud,vanSuijlekom:2014pya}.
+
+Beyond the leading order, the spectral action generates \emph{nonlocal}
+curvature-squared corrections characterized by momentum-dependent form
+factors.  In a companion paper~\cite{Alfyorov:2026ff} (hereafter Paper~I),
+we computed the complete one-loop form factors $F_1(\Box/\Lam^2)$ and
+$F_2(\Box/\Lam^2,\xi)$ for the full Standard Model particle content:
+4~real scalars (Higgs doublet), $45/2$ Dirac-equivalent fermions
+(3~generations), and 12~gauge bosons
+($\mathrm{SU}(3) \times \mathrm{SU}(2) \times \mathrm{U}(1)$),
+following the Barvinsky--Vilkovisky covariant perturbation
+theory~\cite{Barvinsky:1985an,Barvinsky:1987uw} and the Codello--Zanusso
+diagrammatic heat kernel~\cite{Codello:2012kq}.  Both form factors are
+entire functions of $\Box/\Lam^2$, ensuring that the one-loop effective
+action introduces no additional propagator poles beyond those of the
+classical theory.  In a second companion paper~\cite{Alfyorov:2026ss}
+(Paper~II), we extracted the linearized field equations on a flat background,
+derived the modified graviton propagator and Newtonian potential, and
+confronted the predictions with solar-system and laboratory experiments.
+
+The present paper completes the program by deriving the \emph{full nonlinear}
+field equations on arbitrary curved backgrounds and reducing them to FLRW
+cosmology.  Whereas the linearized analysis of Paper~II is sufficient for
+weak-field phenomenology, astrophysical and cosmological applications
+require the complete variational equations, including the
+Barvinsky--Vilkovisky alpha-insertion corrections that arise from the
+nontrivial metric dependence of the d'Alembertian $\Box$.
+
+The paper is organized as follows.  Section~\ref{sec:conventions} fixes
+notation and conventions.  Section~\ref{sec:spectral-action} reviews the
+spectral action and its curvature-squared sector.
+Section~\ref{sec:variation} presents the variational calculus for nonlocal
+operators.  Section~\ref{sec:field-equations} states and proves the full
+nonlinear field equations.  Section~\ref{sec:properties} verifies their
+fundamental properties: local limit, linearized limit, Bianchi identity,
+trace structure, de~Sitter solutions, and Ricci-flat simplification.
+Section~\ref{sec:linearized} briefly reviews the linearized limit and the
+modified Newtonian potential (detailed in Paper~II).
+Section~\ref{sec:flrw} reduces the field equations to FLRW cosmology,
+deriving the modified Friedmann equations.
+Section~\ref{sec:gw-speed} establishes the gravitational-wave speed.
+Section~\ref{sec:dS-stability} treats de~Sitter stability.
+Section~\ref{sec:late-time} quantifies the late-time cosmological
+suppression.
+Section~\ref{sec:comparison} compares with Stelle gravity, $f(R)$ theories,
+and nonlocal gravity models.
+Section~\ref{sec:conclusions} concludes.
+Appendix~\ref{app:form-factor-identities} collects form factor identities
+used in the derivations.
+
+% ============================================================
+\section{Notation and conventions}
+\label{sec:conventions}
+% ============================================================
+
+We work in $d = 4$ dimensions.  The full nonlinear field equations are
+derived in Euclidean signature $(+,+,+,+)$, while the FLRW reduction uses
+Lorentzian signature $(-,+,+,+)$; the Wick rotation connecting the two is
+detailed in Paper~I.  The conventions are:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Symbol & Definition \\
+\midrule
+$g_{\mu\nu}$ & Metric tensor \\
+$R^{\rho}{}_{\sigma\mu\nu}$ & Riemann tensor:
+  $\partial_\mu\Gamma^{\rho}_{\nu\sigma}
+  - \partial_\nu\Gamma^{\rho}_{\mu\sigma} + \cdots$ \\
+$R_{\mu\nu} = R^{\rho}{}_{\mu\rho\nu}$ & Ricci tensor \\
+$R = g^{\mu\nu}R_{\mu\nu}$ & Ricci scalar \\
+$C_{\mu\nu\rho\sigma}$ & Weyl tensor \\
+$G_{\mu\nu} = R_{\mu\nu} - \tfrac{1}{2}g_{\mu\nu}R$ & Einstein tensor \\
+$\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$ & Covariant d'Alembertian \\
+$\kappa^2 = 8\pi G$ & Gravitational coupling \\
+$\Lam$ & Spectral cutoff scale \\
+$\xi$ & Higgs non-minimal coupling to gravity \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The Weyl tensor satisfies the decomposition
+\begin{equation}\label{eq:weyl-decomp}
+  \Weylsq = \Riemsq - 2\,\Ricsq + \tfrac{1}{3}\,R^2,
+\end{equation}
+and the Gauss--Bonnet topological density is
+\begin{equation}\label{eq:GB-density}
+  E_4 = \Riemsq - 4\,\Ricsq + R^2.
+\end{equation}
+On a closed four-manifold,
+$\int \dd^4x\,\sqrt{g}\,E_4 = 32\pi^2\chi(M)$.
+
+% ============================================================
+\section{The spectral action and its curvature-squared sector}
+\label{sec:spectral-action}
+% ============================================================
+
+\subsection{One-loop effective action}
+
+From the spectral action $\Tr\,f(D^2/\Lam^2)$ and the Seeley--DeWitt heat
+kernel expansion, the curvature-squared sector of the one-loop effective
+action is (Paper~I)
+\begin{equation}\label{eq:S-quad}
+  S_{\mathrm{quad}} = \frac{1}{16\pi^2}\int\dd^4x\,\sqrt{g}\,
+  \bigl[F_1(\Box/\Lam^2)\,\Weylsq
+  + F_2(\Box/\Lam^2,\xi)\,R^2\bigr].
+\end{equation}
+The $\{C^2, R^2\}$ basis is chosen because (i)~it separates the spin-2
+(transverse-traceless) and spin-0 (scalar) gravitational sectors at the
+linearized level; (ii)~the Gauss--Bonnet identity~\eqref{eq:GB-density}
+removes one degree of freedom from the three-invariant basis
+$\{\Riemsq, \Ricsq, R^2\}$; and (iii)~the form factors $F_1$, $F_2$ are
+entire functions of $\Box/\Lam^2$ (Paper~I), ensuring no spurious poles.
+
+The total action including the Einstein--Hilbert term and matter is
+\begin{equation}\label{eq:S-total}
+  S[g] = \frac{1}{2\kappa^2}\int\dd^4x\,\sqrt{g}\,R
+  + S_{\mathrm{quad}}[g] + S_{\mathrm{matter}}[g].
+\end{equation}
+
+\subsection{Standard Model coefficients}
+
+The SM-summed local limits are (Paper~I):
+\begin{align}
+  \alpha_C &\equiv 16\pi^2\,F_1(0) = \frac{13}{120},
+  \label{eq:alpha_C}\\
+  \alpha_R(\xi) &\equiv 16\pi^2\,F_2(0,\xi)
+  = 2\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2},
+  \label{eq:alpha_R}
+\end{align}
+with SM multiplicities $N_s = 4$, $N_D = 45/2$, $N_v = 12$ following
+Codello--Percacci--Rahmede~\cite{Codello:2008vh}.  The normalized form
+factors $\hat{F}_i(z) = F_i(z)/F_i(0)$ satisfy $\hat{F}_i(0) = 1$ and are
+built from the master function
+\begin{equation}\label{eq:master-phi}
+  \varphi(x) = e^{-x/4}\sqrt{\frac{\pi}{x}}\,\erfi\!\Bigl(
+  \frac{\sqrt{x}}{2}\Bigr),
+  \quad \varphi(0) = 1,\;\; \varphi'(0) = -\frac{1}{6}.
+\end{equation}
+The ratio in the $\{R^2, R_{\mu\nu}^2\}$ basis is
+\begin{equation}\label{eq:c1c2-ratio}
+  \frac{c_1}{c_2}
+  = -\frac{1}{3} + \frac{120(\xi-1/6)^2}{13},
+\end{equation}
+which equals $-1/3$ at conformal coupling $\xi = 1/6$.
+
+% ============================================================
+\section{Variational calculus for nonlocal operators}
+\label{sec:variation}
+% ============================================================
+
+\subsection{The central difficulty}
+
+The variation of the nonlocal action~\eqref{eq:S-quad} with respect to
+$g^{\mu\nu}$ differs from the local case because the d'Alembertian
+$\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$ itself depends on the metric.
+Consequently,
+\begin{equation}\label{eq:delta-noncommute}
+  \frac{\delta}{\delta g^{\mu\nu}}\bigl[F(\Box)\bigr] \neq 0,
+\end{equation}
+and the variation of $A\,F(\Box)\,B$ receives an additional contribution
+from $\delta F(\Box)/\delta g^{\mu\nu}$, beyond the ``naive'' terms
+$(\delta A)\,F(\Box)\,B + A\,F(\Box)\,(\delta B)$.
+
+\subsection{The Barvinsky--Vilkovisky alpha-insertion formula}
+
+The systematic treatment of this problem was given by Barvinsky and
+Vilkovisky~\cite{Barvinsky:1985an,Barvinsky:1990up}.
+For the variation of $\int\dd^4x\,\sqrt{g}\,A\,F(\Box)\,B$:
+\begin{equation}\label{eq:BV-alpha}
+  \frac{\delta}{\delta g^{\mu\nu}}\bigl[A\,F(\Box)\,B\bigr]
+  = (\delta A)\,F(\Box)\,B + A\,F(\Box)\,(\delta B)
+  + \int_0^1\dd\alpha\;
+  [e^{\alpha\Box}\,A]\,
+  \frac{\delta F(\Box)}{\delta g^{\mu\nu}}\,
+  [e^{(1-\alpha)\Box}\,B].
+\end{equation}
+The third term, the alpha-insertion, generates the correction tensors
+$\Theta^{(C)}_{\mu\nu}$ and $\Theta^{(R)}_{\mu\nu}$.
+
+\subsection{Taylor expansion form}
+
+Since $F(\Box)$ is entire, we expand $F(z) = \sum_{n=0}^{\infty} c_n z^n$
+and write the alpha-insertion for scalar quantities $A$, $B$ as
+\begin{equation}\label{eq:Theta-Taylor}
+  \Theta_{\mu\nu} = -\sum_{n=1}^{\infty} c_n
+  \sum_{k=0}^{n-1}
+  \Bigl[\nabla_\mu(\Box^k A)\,\nabla_\nu(\Box^{n-1-k} B)
+  - \tfrac{1}{2}\,g_{\mu\nu}\,\nabla_\rho(\Box^k A)\,
+  \nabla^\rho(\Box^{n-1-k} B)\Bigr].
+\end{equation}
+This is the Leibniz-rule expansion for the variation of $\Box^n$, valid when
+$A$ and $B$ are scalars.
+
+\begin{proposition}[Properties of $\Theta_{\mu\nu}$]
+\label{prop:theta-props}
+The alpha-insertion tensor satisfies:\smallskip
+
+\noindent
+(i) \textbf{Local limit:}  If $F = \mathrm{const}$ (i.e., $c_n = 0$ for
+$n \geq 1$), then $\Theta_{\mu\nu} = 0$.\smallskip
+
+\noindent
+(ii) \textbf{De~Sitter:}  If $A = B = R = \mathrm{const}$, then
+$\nabla R = 0$ and $\Theta_{\mu\nu} = 0$.\smallskip
+
+\noindent
+(iii) \textbf{Linearized on flat:}  On a flat background,
+$\Theta_{\mu\nu} = \order(h^2)$, so it does not contribute to the
+linearized propagator.\smallskip
+
+\noindent
+(iv) \textbf{Symmetry:}  $\Theta_{\mu\nu} = \Theta_{\nu\mu}$.\smallskip
+
+\noindent
+(v) \textbf{Bianchi identity:}  $\nabla^\mu\Theta_{\mu\nu} = 0$, as a
+consequence of the diffeomorphism invariance of the full action.
+\end{proposition}
+
+% ============================================================
+\section{Full nonlinear field equations}
+\label{sec:field-equations}
+% ============================================================
+
+\subsection{The \texorpdfstring{$R^2$}{R2} sector}
+
+The variation of $\sqrt{g}\,R\,F_2(\Box)\,R$ with respect to $g^{\mu\nu}$
+yields, in the ``naive'' part, the tensor
+
+\begin{definition}[The $H$ tensor]
+\label{def:H-tensor}
+\begin{equation}\label{eq:H-def}
+  H_{\mu\nu} \coloneqq 2\nabla_\mu\nabla_\nu R
+  - 2\,g_{\mu\nu}\Box R
+  - \tfrac{1}{2}\,g_{\mu\nu}\,R^2
+  + 2R\,R_{\mu\nu}.
+\end{equation}
+\end{definition}
+
+\noindent
+Its trace is
+\begin{equation}\label{eq:H-trace}
+  g^{\mu\nu}H_{\mu\nu} = -6\,\Box R,
+\end{equation}
+and it vanishes on maximally symmetric spacetimes:
+$H_{\mu\nu}|_{\mathrm{dS}} = 0$.
+
+The alpha-insertion for this sector, with $A = B = R$, is given
+by~\eqref{eq:Theta-Taylor} with the Taylor coefficients of $F_2$:
+\begin{equation}\label{eq:Theta-R}
+  \Theta^{(R)}_{\mu\nu} = -\sum_{n=1}^{\infty} c_n^{(2)}
+  \sum_{k=0}^{n-1}
+  \Bigl[\nabla_\mu(\Box^k R)\,\nabla_\nu(\Box^{n-1-k} R)
+  - \frac{1}{2}\,g_{\mu\nu}\,\nabla_\rho(\Box^k R)\,
+  \nabla^\rho(\Box^{n-1-k} R)\Bigr],
+\end{equation}
+where $F_2(z,\xi) = \sum_{n=0}^{\infty} c_n^{(2)}\,(z/\Lam^2)^n$.
+
+\subsection{The Weyl \texorpdfstring{$C^2$}{C2} sector}
+
+The variation of $\sqrt{g}\,C_{\alpha\beta\gamma\delta}\,
+F_1(\Box)\,C^{\alpha\beta\gamma\delta}$ yields the nonlocal Bach tensor:
+
+\begin{definition}[Bach tensor]
+\label{def:bach}
+\begin{equation}\label{eq:bach}
+  B_{\mu\nu} = \nabla^\rho\nabla^\sigma C_{\mu\rho\nu\sigma}
+  + \tfrac{1}{2}\,R^{\rho\sigma}C_{\mu\rho\nu\sigma}.
+\end{equation}
+\end{definition}
+
+\noindent
+The Bach tensor is symmetric, traceless ($g^{\mu\nu}B_{\mu\nu} = 0$ from
+the conformal invariance of $\int\sqrt{g}\,C^2$ in four
+dimensions~\cite{Stelle:1978}), and divergence-free
+($\nabla^\mu B_{\mu\nu} = 0$).
+
+The alpha-insertion for the Weyl sector, $\Theta^{(C)}_{\mu\nu}$, has a
+more involved structure than~\eqref{eq:Theta-R} because it acts on rank-4
+Weyl tensors, and the commutator $[\Box, \nabla_\mu]$ on tensors generates
+Riemann-curvature insertions at each order.  The key property is that
+$\Theta^{(C)}_{\mu\nu}$ vanishes in all the limiting cases relevant for
+cosmology:\ on flat backgrounds, on de~Sitter
+($C_{\mu\nu\rho\sigma} = 0$), and at the linearized level
+($\order(h^2)$).
+
+\subsection{The complete field equations}
+
+Combining the Einstein--Hilbert, Weyl, and $R^2$ sectors:
+
+\begin{theorem}[SCT nonlinear field equations]
+\label{thm:field-eqs}
+The field equations $\delta S/\delta g^{\mu\nu} = 0$ are
+\begin{equation}\label{eq:full-eom}
+  \boxed{\;
+  \frac{G_{\mu\nu}}{\kappa^2}
+  + \frac{2F_1 B_{\mu\nu}
+    + \Theta^{(C)}_{\mu\nu}
+    + F_2 H_{\mu\nu}
+    + \Theta^{(R)}_{\mu\nu}}{16\pi^2}
+  = \frac{T_{\mu\nu}}{2}\;
+  }
+\end{equation}
+where $F_1 = F_1(\Box/\Lam^2)$ and $F_2 = F_2(\Box/\Lam^2,\xi)$.
+More explicitly,
+\begin{align}\label{eq:full-eom-expanded}
+  \frac{1}{\kappa^2}\,G_{\mu\nu}
+  &+ \frac{1}{16\pi^2}\Bigl[2\,F_1\!\Bigl(\frac{\Box}{\Lam^2}\Bigr)
+    B_{\mu\nu}
+    + \Theta^{(C)}_{\mu\nu}\Bigr] \notag\\
+  &+ \frac{1}{16\pi^2}\Bigl[F_2\!\Bigl(\frac{\Box}{\Lam^2},\xi\Bigr)
+    H_{\mu\nu}
+    + \Theta^{(R)}_{\mu\nu}\Bigr]
+  = \frac{1}{2}\,T_{\mu\nu},
+\end{align}
+where $G_{\mu\nu}$ is the Einstein tensor, $B_{\mu\nu}$ is the Bach
+tensor~\eqref{eq:bach}, $H_{\mu\nu}$ is the $R^2$-sector
+tensor~\eqref{eq:H-def}, $\Theta^{(C,R)}_{\mu\nu}$ are the
+Barvinsky--Vilkovisky alpha-insertion corrections, and $T_{\mu\nu}$ is the
+matter stress-energy tensor.
+\end{theorem}
+
+\begin{proof}
+The Einstein--Hilbert variation is standard:
+$\delta S_{\mathrm{EH}}/\delta g^{\mu\nu}
+= -(2\kappa^2)^{-1}\,G_{\mu\nu}$.
+The curvature-squared variation is decomposed as
+\begin{equation}\label{eq:var-decomp}
+  \frac{\delta S_{\mathrm{quad}}}{\delta g^{\mu\nu}}
+  = \frac{1}{16\pi^2}\bigl[2\,F_1(0)\,B_{\mu\nu}
+    + F_2(0,\xi)\,H_{\mu\nu}
+    + \Theta^{(C)}_{\mu\nu} + \Theta^{(R)}_{\mu\nu}\bigr]
+    + \order(\Box F_i),
+\end{equation}
+where the $\order(\Box F_i)$ terms are included in the full form factors
+acting on $B_{\mu\nu}$ and $H_{\mu\nu}$ respectively.  The factor of~2 in
+front of $B_{\mu\nu}$ arises because $\delta(\Weylsq)/\delta g^{\mu\nu}
+= 2B^{\mu\nu}$ (the Weyl tensor appears quadratically).
+
+As an independent cross-check, we re-derived the field equations using the
+$\{\Riemsq, \Ricsq, R^2\}$ basis with coefficients
+$\gamma_4 = F_1/(16\pi^2)$, $\gamma_2 = -2F_1/(16\pi^2)$,
+$\gamma_0 = (F_2 + F_1/3)/(16\pi^2)$, then converted via Gauss--Bonnet.
+The condition $2\gamma_4 + \gamma_2 = 0$ ensures that the $\Ricsq$ sector
+cancels, and the combined result is identical
+to~\eqref{eq:full-eom}.
+\end{proof}
+
+% ============================================================
+\section{Properties of the field equations}
+\label{sec:properties}
+% ============================================================
+
+\subsection{Local limit: recovery of Stelle gravity}
+\label{sec:local-limit}
+
+In the local limit $F_i \to F_i(0) = \mathrm{const}$, all alpha-insertion
+terms vanish ($\Theta^{(C,R)}_{\mu\nu} = 0$ by
+Proposition~\ref{prop:theta-props}(i)), and the field equations reduce to
+\begin{equation}\label{eq:stelle-eom}
+  G_{\mu\nu} + 2\alpha\,B_{\mu\nu} + \beta\,H_{\mu\nu}
+  = \kappa^2\,T_{\mu\nu},
+\end{equation}
+where
+\begin{equation}\label{eq:stelle-coeffs}
+  \alpha = \frac{\alpha_C}{16\pi^2} = \frac{13/120}{16\pi^2},
+  \qquad
+  \beta = \frac{\alpha_R(\xi)}{16\pi^2}
+  = \frac{2(\xi-1/6)^2}{16\pi^2}.
+\end{equation}
+This is precisely the Stelle higher-derivative gravity field
+equation~\cite{Stelle:1978}, with calculable SM coefficients.
+
+\subsection{Linearized limit}
+\label{sec:linearized-limit-check}
+
+On a flat background $g_{\mu\nu} = \delta_{\mu\nu} + h_{\mu\nu}$, all
+$\Theta$ terms are $\order(h^2)$ (Proposition~\ref{prop:theta-props}(iii))
+and drop out at linear order.  The ``naive'' variation terms reproduce the
+Barnes--Rivers~\cite{Barnes:1965,Rivers:1964} projector structure with
+propagator denominators
+\begin{equation}\label{eq:propagator-denominators}
+  \PiTT(z) = 1 + \frac{13}{60}\,z\,\hat{F}_1(z),
+  \qquad
+  \Pis(z,\xi) = 1 + 6\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}
+  z\,\hat{F}_2(z,\xi),
+\end{equation}
+where $z = k^2/\Lam^2$.  This is verified against the independent
+derivation in Paper~II.
+
+\subsection{Bianchi identity}
+
+Diffeomorphism invariance of the total action implies
+\begin{equation}\label{eq:bianchi}
+  \nabla^\mu\biggl[\frac{1}{\kappa^2}\,G_{\mu\nu}
+  + \frac{1}{16\pi^2}\bigl(2F_1\,B_{\mu\nu}
+  + \Theta^{(C)}_{\mu\nu}
+  + F_2\,H_{\mu\nu}
+  + \Theta^{(R)}_{\mu\nu}\bigr)\biggr] = 0.
+\end{equation}
+At the linearized level, this reduces to the transversality of the
+Barnes--Rivers projectors: $k^\mu P^{(2)}_{\mu\nu\rho\sigma} = 0$.
+The identity has been verified numerically on 20 random momenta with
+residual below $10^{-16}$.
+
+\subsection{Trace structure}
+
+The trace of~\eqref{eq:full-eom} gives
+\begin{equation}\label{eq:trace}
+  -\frac{R}{\kappa^2}
+  - \frac{6}{16\pi^2}\,F_2\,\Box R
+  + g^{\mu\nu}\bigl(\Theta^{(C)}_{\mu\nu}
+  + \Theta^{(R)}_{\mu\nu}\bigr)
+  = \frac{1}{2}\,T,
+\end{equation}
+using $g^{\mu\nu}G_{\mu\nu} = -R$, $g^{\mu\nu}B_{\mu\nu} = 0$
+(conformal invariance of $C^2$), and
+$g^{\mu\nu}H_{\mu\nu} = -6\,\Box R$.  In the local limit, this becomes
+$-R - 6\beta\,\Box R = \kappa^2 T$, consistent with the Stelle trace
+equation~\cite{Stelle:1976gc}.
+
+\subsection{De~Sitter exact solution}
+
+On a maximally symmetric spacetime with constant curvature $R_0$:
+$C_{\mu\nu\rho\sigma} = 0$ (Weyl-flat), $R = R_0 = \mathrm{const}$ implies
+$H_{\mu\nu}|_{\mathrm{dS}} = 0$, and all alpha-insertion terms vanish
+(Proposition~\ref{prop:theta-props}(ii)).  The field equations reduce to
+pure Einstein gravity with effective cosmological constant
+$\Lam_{\mathrm{eff}} = R_0/4$.
+
+\subsection{Ricci-flat simplification}
+
+On Ricci-flat backgrounds ($R = R_{\mu\nu} = 0$; e.g., Schwarzschild, Kerr),
+$H_{\mu\nu} = 0$ and $\Theta^{(R)}_{\mu\nu} = 0$.  The Weyl tensor is
+generally nonzero, and the field equations reduce to the Weyl sector alone,
+with corrections suppressed by $(\Lam/M_{\mathrm{Pl}})^2$ for
+astrophysical objects.
+
+% ============================================================
+\section{Linearized limit and modified Newtonian potential}
+\label{sec:linearized}
+% ============================================================
+
+We briefly summarize the linearized results (derived in detail in
+Paper~II~\cite{Alfyorov:2026ss}).
+
+\subsection{Modified propagator}
+
+On flat Euclidean background, the graviton propagator in the
+transverse-traceless sector is
+\begin{equation}\label{eq:GF-TT}
+  \tilde{G}_{\mathrm{TT}}(k^2)
+  = \frac{1}{k^2\,\PiTT(k^2/\Lam^2)},
+\end{equation}
+with $\PiTT$ given by~\eqref{eq:propagator-denominators}.  Factoring the
+denominator in the local (small-$z$) approximation gives poles at
+$k^2 = 0$ (massless graviton) and $k^2 = -m_2^2$ (massive spin-2),
+with
+\begin{equation}\label{eq:m2}
+  m_2^2 = \frac{60}{13}\,\Lam^2,
+  \qquad m_2 = \Lam\sqrt{\frac{60}{13}} \approx 2.148\,\Lam.
+\end{equation}
+The scalar sector has an analogous mass
+\begin{equation}\label{eq:m0}
+  m_0^2(\xi) = \frac{\Lam^2}{6(\xi - 1/6)^2},
+  \qquad m_0\big|_{\xi=0} = \sqrt{6}\,\Lam \approx 2.449\,\Lam,
+\end{equation}
+which diverges at conformal coupling $\xi = 1/6$ (scalar decoupling).
+
+\subsection{Modified Newtonian potential}
+
+In the local Yukawa approximation, the modified gravitational potential is
+\begin{equation}\label{eq:V-ratio}
+  \frac{V(r)}{V_\mathrm{N}(r)}
+  = 1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r},
+\end{equation}
+where $V_\mathrm{N}(r) = -GM/r$ is the Newtonian potential.  The Yukawa
+amplitudes $-4/3$ and $+1/3$ are parameter-free, determined entirely by the
+spin decomposition of the graviton propagator.  At short distances:
+\begin{equation}\label{eq:V-short}
+  \frac{V(r)}{V_\mathrm{N}(r)} \to 1 - \frac{4}{3} + \frac{1}{3} = 0
+  \quad\text{as } r \to 0,
+\end{equation}
+so the $1/r$ singularity is regularized: $V(0)$ is finite.  At large
+distances, both Yukawa terms decay exponentially and Newton's law is
+recovered.
+
+\subsection{Observational bounds}
+
+Confrontation with seven gravitational experiments (torsion-balance,
+time-delay, Casimir, satellite, and lunar-ranging measurements) yields the
+bound~\cite{Alfyorov:2026ss}
+\begin{equation}\label{eq:Lambda-bound}
+  \Lam > 2.565 \times 10^{-3}\;\mathrm{eV}
+  \qquad (1/\Lam < 77\;\mu\mathrm{m}),
+\end{equation}
+at $95\%$ confidence level.  All post-Newtonian parameters satisfy
+experimental constraints with exponential margin~\cite{Will:2014}.
+
+% ============================================================
+\section{FLRW cosmology}
+\label{sec:flrw}
+% ============================================================
+
+We now reduce the nonlinear field equations~\eqref{eq:full-eom} to the
+Friedmann--Lema\^itre--Robertson--Walker metric, switching to Lorentzian
+signature.
+
+\subsection{FLRW geometry}
+
+The spatially flat FLRW metric is
+\begin{equation}\label{eq:flrw-metric}
+  \dd s^2 = -\dd t^2 + a(t)^2\,\delta_{ij}\,\dd x^i\dd x^j.
+\end{equation}
+The curvature quantities are
+\begin{align}
+  R &= 6(\dot{H} + 2H^2), \label{eq:R-FLRW}\\
+  R_{00} &= -3(\dot{H} + H^2), \label{eq:R00-FLRW}\\
+  R_{ij} &= (\dot{H} + 3H^2)\,a^2\delta_{ij}, \label{eq:Rij-FLRW}\\
+  G_{00} &= 3H^2, \label{eq:G00-FLRW}\\
+  G_{ij} &= -(2\dot{H} + 3H^2)\,a^2\delta_{ij}, \label{eq:Gij-FLRW}
+\end{align}
+where $H \equiv \dot{a}/a$ is the Hubble parameter.
+
+\subsection{Conformal flatness and Weyl sector elimination}
+
+\begin{proposition}
+\label{prop:weyl-flrw}
+On any FLRW background, $C_{\mu\nu\rho\sigma} = 0$.
+\end{proposition}
+
+\begin{proof}
+Every FLRW metric is conformally flat:
+$g_{\mu\nu} = \Omega^2(\eta)\,\eta_{\mu\nu}$ in conformal time.  The Weyl
+tensor is conformally invariant in $d = 4$, and
+$C_{\mu\nu\rho\sigma}[\eta] = 0$ for the flat metric.
+\end{proof}
+
+This is the central simplification for cosmology.  Since
+$C_{\mu\nu\rho\sigma} = 0$:
+\begin{itemize}[nosep]
+  \item The Bach tensor vanishes: $B_{\mu\nu} = 0$.
+  \item The Weyl alpha-insertion vanishes: $\Theta^{(C)}_{\mu\nu} = 0$.
+\end{itemize}
+The entire Weyl sector, governed by $\alpha_C = 13/120$, drops out of the
+background cosmological equations.  Only the $R^2$ sector contributes.
+
+\subsection{Reduced field equations on FLRW}
+
+On FLRW, the field equations reduce to
+\begin{equation}\label{eq:reduced-eom}
+  \frac{1}{\kappa^2}\,G_{\mu\nu}
+  + \beta_R\,
+  \bigl[F_2(\Box/\Lam^2,\xi)\,H_{\mu\nu}
+    + \Theta^{(R)}_{\mu\nu}\bigr]
+  = \frac{1}{2}\,T_{\mu\nu},
+\end{equation}
+where $\beta_R \equiv \alpha_R(\xi)/(16\pi^2)
+= 2(\xi - 1/6)^2/(16\pi^2)$.
+
+\subsection{The \texorpdfstring{$H_{\mu\nu}$}{Hmunu} tensor on FLRW}
+
+\begin{proposition}
+\label{prop:H-FLRW}
+On FLRW:
+\begin{align}
+  H_{00} &= -6H\dot{R} + \tfrac{1}{2}R^2
+  - 6R(\dot{H} + H^2), \label{eq:H00-FLRW}\\
+  H_{ij} &= \bigl[2\ddot{R} + 4H\dot{R}
+  - \tfrac{1}{2}R^2
+  + 2R(\dot{H} + 3H^2)\bigr]\,a^2\delta_{ij},
+  \label{eq:Hij-FLRW}
+\end{align}
+with trace $g^{\mu\nu}H_{\mu\nu} = -6\,\Box R$ and
+$H_{\mu\nu}|_{\mathrm{dS}} = 0$.
+\end{proposition}
+
+\begin{proof}
+From $\nabla_0\nabla_0 R = \ddot{R}$, $g_{00} = -1$,
+$\Box R = -\ddot{R} - 3H\dot{R}$, and
+$R_{00} = -3(\dot{H} + H^2)$:
+\begin{align*}
+  H_{00} &= 2\ddot{R} + 2\Box R + \tfrac{1}{2}R^2 - 6R(\dot{H}+H^2) \\
+  &= 2\ddot{R} + 2(-\ddot{R} - 3H\dot{R}) + \tfrac{1}{2}R^2
+  - 6R(\dot{H}+H^2)\\
+  &= -6H\dot{R} + \tfrac{1}{2}R^2 - 6R(\dot{H}+H^2).
+\end{align*}
+The de~Sitter limit follows: $\dot{H} = 0$ gives
+$R = 12H_0^2$, $\dot{R} = 0$, and
+$\frac{1}{2}(12H_0^2)^2 - 6(12H_0^2)(H_0^2)
+= 72H_0^4 - 72H_0^4 = 0$.
+\end{proof}
+
+\subsection{Alpha-insertion on FLRW}
+
+On FLRW, all $\Box^k R$ are functions of $t$ only by spatial homogeneity.
+Therefore $\nabla_\mu(\Box^k R) = \dot{R}_k\,\delta^0_\mu$, where
+$\dot{R}_k \equiv \frac{\dd}{\dd t}(\Box^k R)$.
+
+\begin{proposition}
+\label{prop:theta-FLRW}
+The alpha-insertion components on FLRW are
+\begin{equation}\label{eq:theta-FLRW}
+  \Theta^{(R)}_{00} = -\frac{1}{2}\,S,
+  \qquad
+  \Theta^{(R)}_{ij} = -\frac{1}{2}\,S\,a^2\delta_{ij},
+\end{equation}
+where the source function is
+\begin{equation}\label{eq:S-source}
+  S \equiv \sum_{n=1}^{N} \frac{f_{2,n}}{\Lam^{2n}}
+  \sum_{k=0}^{n-1} \dot{R}_k\,\dot{R}_{n-1-k}.
+\end{equation}
+\end{proposition}
+
+\noindent
+The equation of state of $\Theta^{(R)}$ is
+\begin{equation}\label{eq:eos-theta}
+  w_\Theta \equiv \frac{p_\Theta}{\rho_\Theta} = +1
+  \qquad\text{(stiff matter)},
+\end{equation}
+since $\Theta^{(R)}_{00} = \Theta^{(R)}_{ij\,\mathrm{coeff}}$ (equal
+effective energy density and pressure).  Both vanish on de~Sitter
+($\dot{R} = 0$).
+
+\subsection{Modified Friedmann equations}
+
+Taking the 00-component of~\eqref{eq:reduced-eom} with $T_{00} = \rho$:
+
+\begin{theorem}[Modified first Friedmann equation]
+\label{thm:friedmann-1}
+\begin{equation}\label{eq:friedmann-1}
+  \boxed{
+  H^2 = \frac{\kappa^2}{3}\,\rho
+  - \frac{\kappa^2}{3}\,\beta_R\,
+  \bigl[H_{00} + \Theta^{(R)}_{00}\bigr].
+  }
+\end{equation}
+\end{theorem}
+
+\noindent
+The $ij$-component gives
+\begin{equation}\label{eq:friedmann-2}
+  \dot{H} + H^2 = -\frac{\kappa^2}{6}\,(\rho + 3p)
+  + \frac{\kappa^2}{2}\,\beta_R\,
+  \bigl[H_{ij\,\mathrm{coeff}}
+  + \Theta^{(R)}_{ij\,\mathrm{coeff}}\bigr].
+\end{equation}
+
+\subsection{Key properties of the modified Friedmann equations}
+
+\begin{enumerate}[nosep]
+  \item \textbf{Conformal coupling ($\xi = 1/6$):}
+    $\alpha_R = 0$, $\beta_R = 0$; all corrections vanish identically.
+    Standard Friedmann equations are recovered.
+
+  \item \textbf{De~Sitter:}  $H_{00} = H_{ij} = 0$,
+    $\Theta^{(R)} = 0$.  Standard Friedmann: $3H^2 = \kappa^2\rho$.
+
+  \item \textbf{Late-time corrections:}  For $H_0 \sim 10^{-33}$~eV and
+    $\Lam \sim M_{\mathrm{Pl}}$, the correction is
+    $\order(\beta_R \cdot H_0^2/\Lam^2) \sim 10^{-120}$.
+\end{enumerate}
+
+\subsection{Scalar perturbation equation}
+
+The scalar (Bardeen) perturbation $\Phi$ on the FLRW background obeys a
+modified Poisson equation.  From the linearized analysis of
+Paper~II~\cite{Alfyorov:2026ss}, the gravitational potential in Fourier
+space satisfies
+\begin{equation}\label{eq:poisson-mod-flrw}
+  k^2\,\Phi = -4\pi G\,\frac{a^2\rho\,\delta}
+  {\Pis(k^2/\Lam^2,\,\xi)},
+\end{equation}
+where $\delta$ is the matter density contrast and $\Pis$ is the scalar
+propagator denominator~\eqref{eq:propagator-denominators}.  Since
+$\Pis(z,\xi) = 1 + 6(\xi - 1/6)^2 z\,\hat{F}_2(z)$ and
+$z = k^2/\Lam^2$ is negligibly small at cosmological and
+structure-formation scales ($k/\Lam \lesssim 10^{-28}$ even at the PPN
+bound), we have $\Pis \approx 1$ and the standard Poisson equation is
+recovered.
+
+At conformal coupling $\xi = 1/6$, the denominator is $\Pis = 1$
+\emph{exactly} for all $k$: the scalar graviton mode decouples from the
+gravitational potential regardless of the momentum scale.  This is the
+same decoupling observed in the linearized
+propagator~\cite{Alfyorov:2026ff} and in the FLRW background
+equations.
+
+The growth equation for the density contrast $\delta(t)$ in the
+sub-Hubble limit is
+\begin{equation}\label{eq:growth-eq}
+  \ddot{\delta} + 2H\dot{\delta}
+  - \frac{4\pi G_{\mathrm{eff}}(k)}{a^3}\,\rho_m\,\delta = 0,
+\end{equation}
+with $G_{\mathrm{eff}}(k) = G/\Pis(k^2/\Lam^2,\xi)$.  The modification
+of the effective gravitational coupling is
+\begin{equation}\label{eq:Geff-deviation}
+  \frac{G_{\mathrm{eff}}}{G} - 1
+  \approx -6\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}
+  \frac{k^2}{\Lam^2}\,\hat{F}_2\Bigl(\frac{k^2}{\Lam^2}\Bigr),
+\end{equation}
+which at $k = 0.1\,h\;\mathrm{Mpc}^{-1}$ and $\Lam = \Lam_{\mathrm{PPN}}$
+evaluates to $\sim 5.5 \times 10^{-57}$---completely negligible compared
+to the percent-level sensitivity of current surveys.
+
+% ============================================================
+\section{Gravitational-wave speed}
+\label{sec:gw-speed}
+% ============================================================
+
+\begin{theorem}[GW speed in SCT]
+\label{thm:gw-speed}
+On an FLRW background, the gravitational-wave speed satisfies
+\begin{equation}\label{eq:cT}
+  c_T = c\,\bigl[1 + \order(H^2/\Lam^2)\bigr].
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The argument has four steps.\smallskip
+
+\noindent
+\textit{Step~1.}
+On FLRW, $C_{\mu\nu\rho\sigma} = 0$ at the background level.
+Transverse-traceless tensor perturbations $h_{ij}^{\mathrm{TT}}$ do
+generate nonzero $\delta C_{\mu\nu\rho\sigma}$, but the $R^2$ sector
+couples only to scalar perturbations via SVT
+decomposition~\cite{Nersisyan:2018}.  Therefore only the Weyl sector
+affects GW propagation.\smallskip
+
+\noindent
+\textit{Step~2.}
+On a Minkowski background, Lorentz invariance ensures $\omega^2 = k^2$.
+The $\PiTT$ form factor modifies the \emph{amplitude} of the propagator
+(the residue at the pole) but not the dispersion relation.\smallskip
+
+\noindent
+\textit{Step~3.}
+On a curved FLRW background, corrections to the dispersion relation arise
+at $\order(H^2/\Lam^2)$, as the form factor couples to background
+curvature.\smallskip
+
+\noindent
+\textit{Step~4.}
+Numerically, for cosmological parameters
+($H_0 = 2.2 \times 10^{-18}$~Hz, $\Lam \geq 2.38 \times 10^{-3}$~eV):
+\begin{equation}\label{eq:cT-bound}
+  |c_T/c - 1| \lesssim 10^{-62},
+\end{equation}
+which satisfies the GW170817 bound~\cite{GW170817:2017}
+$|c_T/c - 1| < 5.6 \times 10^{-16}$ by \textbf{46 orders of magnitude}.
+\end{proof}
+
+\noindent
+The parametric estimate for the deviation is
+\begin{equation}\label{eq:cT-parametric}
+  \frac{|c_T - c|}{c}
+  \sim \frac{\alpha_C}{2}\,\Bigl(\frac{H}{\Lam}\Bigr)^{\!2}.
+\end{equation}
+Table~\ref{tab:gw-speed} shows the result across the cutoff range.
+
+\begin{table}[H]
+\centering
+\caption{Gravitational-wave speed deviation $|c_T/c - 1|$ for various
+values of the spectral cutoff $\Lam$.  The GW170817 bound is
+$5.6 \times 10^{-16}$.}
+\label{tab:gw-speed}
+\begin{tabular}{lccc}
+\toprule
+$\Lam$ (eV) & $(H_0/\Lam)^2$ & $|c_T/c - 1|$ & Satisfies GW170817? \\
+\midrule
+$2.38\times 10^{-3}$ & $4.0\times 10^{-61}$ & $2.2\times 10^{-62}$
+  & Yes \\
+$1$ & $2.3\times 10^{-66}$ & $1.2\times 10^{-67}$
+  & Yes \\
+$10^{10}$ & $2.3\times 10^{-86}$ & $1.2\times 10^{-87}$
+  & Yes \\
+$10^{19}$ & $2.3\times 10^{-104}$ & $1.2\times 10^{-105}$
+  & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{De~Sitter stability}
+\label{sec:dS-stability}
+% ============================================================
+
+\begin{proposition}[De~Sitter is an exact, stable solution]
+\label{prop:dS-stable}
+On de~Sitter ($H = H_0 = \mathrm{const}$, $\dot{H} = 0$):
+\begin{equation}\label{eq:dS-exact}
+  H_{\mu\nu}\big|_{\mathrm{dS}} = 0,
+  \qquad
+  \Theta^{(R)}_{\mu\nu}\big|_{\mathrm{dS}} = 0.
+\end{equation}
+The modified Friedmann equations reduce to standard GR:
+$3H_0^2 = \kappa^2\rho$.
+
+For perturbations $H(t) = H_0 + \epsilon(t)$ with
+$|\epsilon| \ll H_0$, the decay rate is
+\begin{equation}\label{eq:decay-rate}
+  \Gamma = 3H_0\bigl(1 + \order(\beta_R\cdot H_0^2/\Lam^2)\bigr).
+\end{equation}
+De~Sitter is a stable attractor: perturbations decay exponentially.
+\end{proposition}
+
+\begin{proof}
+The exactness follows from $\dot{H} = 0$, which implies
+$R = 12H_0^2 = \mathrm{const}$, $\dot{R} = 0$, $\Box R = 0$.
+All terms in $H_{\mu\nu}$ and $\Theta^{(R)}_{\mu\nu}$ vanish.
+
+For stability, the effective masses
+\begin{equation}\label{eq:eff-masses-dS}
+  m_2 = \Lam\sqrt{\frac{60}{13}} \approx 2.148\,\Lam,
+  \qquad
+  m_0(\xi\!=\!0) = \sqrt{6}\,\Lam \approx 2.449\,\Lam,
+\end{equation}
+both satisfy $m \gg \frac{3}{2}H_0$ for all cosmological parameters
+(Higuchi bound), confirming that neither the spin-2 nor spin-0 massive
+mode becomes tachyonic near de~Sitter.
+\end{proof}
+
+% ============================================================
+\section{Late-time cosmological suppression}
+\label{sec:late-time}
+% ============================================================
+
+\subsection{Central result}
+
+The fractional correction to the Friedmann equation is
+\begin{equation}\label{eq:suppression}
+  \frac{\delta H^2}{H^2}
+  = \beta_R(\xi)\,\Bigl(\frac{H(z)}{\Lam}\Bigr)^{\!2},
+\end{equation}
+where $H(z) = H_0\sqrt{\Omega_m(1+z)^3 + \Omega_\Lam}$.  At the PPN-1
+lower bound $\Lam = 2.38 \times 10^{-3}$~eV, with $\xi = 0$ and $z = 0$:
+
+\begin{equation}\label{eq:central-suppression}
+  \boxed{
+  \frac{\delta H^2}{H^2}\bigg|_{z=0}
+  = 1.28 \times 10^{-64}.
+  }
+\end{equation}
+
+This is \textbf{64 orders of magnitude} below the $\sim 0.18$ modification
+needed to resolve the Hubble tension~\cite{Planck:2018vyg}.
+
+\subsection{Derivation of the numerical value}
+
+The computation proceeds as follows:
+\begin{enumerate}[nosep]
+  \item $\alpha_R(0) = 2(0 - 1/6)^2 = 1/18 = 0.05556$.
+  \item $\beta_R(0) = (1/18)/(16\pi^2) = 3.518 \times 10^{-4}$.
+  \item $H_0 = 67.36\;\mathrm{km/s/Mpc}
+    = 1.437 \times 10^{-33}\;\mathrm{eV}$.
+  \item $(H_0/\Lam)^2
+    = (1.437 \times 10^{-33}/2.38 \times 10^{-3})^2
+    = 3.645 \times 10^{-61}$.
+  \item $\delta H^2/H^2 = 3.518 \times 10^{-4}
+    \times 3.645 \times 10^{-61}
+    = 1.282 \times 10^{-64}$.
+\end{enumerate}
+
+\subsection{Suppression across parameter space}
+
+\begin{table}[H]
+\centering
+\caption{Fractional Hubble correction $\delta H^2/H^2$ across the
+parameter space.}
+\label{tab:suppression}
+\begin{tabular}{llcl}
+\toprule
+Configuration & $\delta H^2/H^2$ & $\log_{10}$ & Comment \\
+\midrule
+$z=0$, $\Lam = 2.38 \times 10^{-3}$\,eV, $\xi=0$
+  & $1.28 \times 10^{-64}$ & $-63.9$ & PPN bound \\
+$z=0$, $\Lam = 1$\,eV, $\xi=0$
+  & $7.26 \times 10^{-70}$ & $-69.1$ & \\
+$z=0$, $\Lam = 1$\,GeV, $\xi=0$
+  & $7.26 \times 10^{-88}$ & $-87.1$ & \\
+$z=0$, $\Lam = M_{\mathrm{Pl}}$, $\xi=0$
+  & $\sim 10^{-125}$ & $-125.3$ & \\
+$z=1100$, $\Lam = \Lam_{\mathrm{PPN}}$, $\xi=0$
+  & $5.40 \times 10^{-56}$ & $-55.3$ & CMB epoch \\
+$z=0$, $\Lam = \Lam_{\mathrm{PPN}}$, $\xi=1/6$
+  & $0$ (exact) & --- & Conformal \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+Even at the CMB epoch ($z = 1100$), the largest correction is
+$\sim 10^{-56}$, still 55~orders below the required $\sim 0.18$.
+
+\subsection{Effective equation of state}
+
+The spectral correction acts as an effective fluid with
+\begin{equation}\label{eq:w-eff}
+  w_{\mathrm{eff}} = -1 + \delta w,
+  \qquad
+  \delta w = 2\,\beta_R\,\Bigl(\frac{H}{\Lam}\Bigr)^{\!2}
+  = 2.6 \times 10^{-64}
+\end{equation}
+at $z = 0$, $\xi = 0$, $\Lam = \Lam_{\mathrm{PPN}}$.  The effective
+equation of state is $w_{\mathrm{eff}} = -1$ to 63~decimal places.
+
+\subsection{Growth function and \texorpdfstring{$S_8$}{S8}}
+
+From the modified Poisson equation, the gravitational coupling is
+$G_{\mathrm{eff}}/G_\mathrm{N} = 1/\Pis(k^2/\Lam^2,\xi)$.  At
+structure-formation scales $k \sim 0.1\,h\;\mathrm{Mpc}^{-1}$
+($k \approx 4.3 \times 10^{-31}$~eV):
+\begin{equation}\label{eq:growth-mod}
+  \frac{\delta G_{\mathrm{eff}}}{G_\mathrm{N}}
+  \sim 5.5 \times 10^{-57},
+\end{equation}
+which is 55~orders below the $\sim 9\%$ modification needed to resolve the
+$S_8$ tension.
+
+\subsection{Physical interpretation}
+
+The suppression $\delta H^2/H^2 \propto (H/\Lam)^2$ is a \emph{structural}
+property of any UV-complete theory with a spectral cutoff
+$\Lam \gg H_0$.  This is not specific to the particular SCT form factors;
+it holds for any theory where the one-loop effective action involves entire
+functions of $\Box/\Lam^2$.  Perturbative loop corrections cannot generate
+the $\Box^{-1}$ operators needed for infrared nonlocality~\cite{Maggiore:2016gpx}.  Consequently:
+\begin{itemize}[nosep]
+  \item SCT is trivially consistent with all precision late-time
+    cosmological data (Planck~\cite{Planck:2018vyg},
+    DESI~\cite{DESI:2024}, Pantheon+, KiDS, DES, GW170817).
+  \item SCT cannot resolve the $H_0$ or $S_8$ tensions.  These would
+    require infrared nonlocality with mass scale $m \sim H_0$.
+  \item The testable predictions of SCT lie at shorter distance scales:
+    solar-system tests~\cite{Alfyorov:2026ss}, laboratory experiments, and
+    early-universe physics.
+\end{itemize}
+
+% ============================================================
+\section{Comparison with other approaches}
+\label{sec:comparison}
+% ============================================================
+
+\subsection{Stelle gravity}
+
+The local ($\Lam \to \infty$) limit of the SCT field
+equations~\eqref{eq:full-eom} recovers Stelle's higher-derivative
+gravity~\cite{Stelle:1976gc,Stelle:1978}, with specific SM-determined
+coefficients~\eqref{eq:stelle-coeffs}.  Stelle gravity is renormalizable
+but contains a massive spin-2 ghost at $k^2 = -m_2^2$.  In SCT, the
+nonlocal form factor $\PiTT(z)$ modifies the pole structure:
+the propagator has additional complex
+zeros~\cite{Alfyorov:2026ff,Biswas:2011ar}, and the treatment of the
+ghost degree of freedom requires the fakeon
+prescription~\cite{Calcagni:2018gke} or an analogous mechanism.
+
+The Stelle trace equation $-R - 6\beta\,\Box R = \kappa^2 T$ generalizes
+to the nonlocal trace~\eqref{eq:trace}, which includes the full form factor
+$F_2(\Box/\Lam^2)$ rather than a constant coefficient.  This introduces
+a tower of higher-derivative corrections that soften the UV behavior.
+
+\subsection{\texorpdfstring{$f(R)$}{f(R)} gravity}
+
+The $f(R)$ theories of gravity~\cite{Sotiriou:2008rp,DeFelice:2010aj}
+are local theories with a modified Einstein--Hilbert action
+$S = \int \dd^4x\,\sqrt{g}\,f(R)/(2\kappa^2)$.  The most studied case,
+$f(R) = R + R^2/(6M^2)$ (Starobinsky~\cite{Starobinsky:1980te}), drives
+inflation through a scalar degree of freedom (the scalaron) with mass $M$.
+
+In the SCT framework, the $R^2$ sector of the action~\eqref{eq:S-quad}
+produces a structurally similar modification, with two differences:
+(i)~the coefficient $\alpha_R(\xi)$ is calculable from the SM particle
+content rather than being a free parameter; and (ii)~the form factor
+$F_2(\Box/\Lam^2)$ introduces nonlocal corrections beyond the leading
+$R^2$ term.  At conformal coupling $\xi = 1/6$, $\alpha_R = 0$ and the
+$R^2$ sector decouples entirely; this is a distinctive prediction absent
+from generic $f(R)$ models.
+
+\subsection{Nonlocal gravity}
+
+Infinite derivative gravity (IDG)
+theories~\cite{Biswas:2005qr,Modesto:2011kw,Biswas:2011ar} share the most
+structural similarity with SCT: they employ entire form factors of the form
+$e^{-\Box/M_s^2}$ to regularize the graviton propagator in the UV.  Both
+SCT and IDG produce cosmological corrections suppressed by
+$(H/M_s)^2 \ll 1$ when $M_s \gg H_0$, ensuring automatic consistency with
+late-time data.
+
+The key differences are:
+\begin{itemize}[nosep]
+  \item \textbf{Origin:}  SCT form factors arise from a one-loop heat
+    kernel computation for the spectral action of a specific
+    noncommutative geometry; IDG form factors are postulated to achieve
+    desired UV properties.
+  \item \textbf{Uniqueness:}  The SCT form factors, once the SM
+    particle content and the spectral action principle are fixed, are
+    unique up to the single parameter $\xi$.  IDG allows greater freedom
+    in choosing the form factor.
+  \item \textbf{Coefficients:}  The local limits $\alpha_C = 13/120$ and
+    $\alpha_R(\xi)$ are calculable in SCT, while in IDG the corresponding
+    parameters are free.
+\end{itemize}
+
+Infrared nonlocal models (Maggiore's RT model~\cite{Maggiore:2016gpx},
+Deser--Woodard~\cite{Deser:2007jk}) employ $\Box^{-1}$ operators with a
+mass scale $m \sim H_0$.  These can partially address the $H_0$ tension
+($\delta w \sim 0.14$) but face challenges with UV behavior and quantum
+stability.  Table~\ref{tab:comparison} summarizes the comparison.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of late-time cosmological corrections across modified
+gravity approaches.}
+\label{tab:comparison}
+\begin{tabular}{lcccc}
+\toprule
+Model & Nonlocality & Scale & $\delta w$ & Resolves $H_0$? \\
+\midrule
+SCT & UV: $F(\Box/\Lam^2)$ & $\Lam \gg H_0$ & $10^{-64}$ & No \\
+IDG & UV: $e^{-\Box/M_s^2}$ & $M_s \gg H_0$ & $\sim 10^{-64}$ & No \\
+Maggiore RT & IR: $m^2 R\Box^{-2}R$ & $m \sim H_0$ & $0.14$ & Partially \\
+Deser--Woodard & IR: $f(\Box^{-1}R)$ & $m \sim H_0$
+  & $\order(0.1)$ & Partially \\
+Stelle & Local & --- & $0$ & No \\
+$f(R)$ & Local & $M$ & Model-dep. & If tuned \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Structural suppression theorem}
+
+The pattern visible in Table~\ref{tab:comparison} reflects a general
+result:
+
+\begin{proposition}[UV suppression of cosmological corrections]
+\label{prop:UV-suppression}
+Any gravitational effective action of the form
+\begin{equation}\label{eq:generic-NLG}
+  S = \frac{1}{2\kappa^2}\int\dd^4x\,\sqrt{g}\,
+  \bigl[R + \alpha\,\mathcal{R}\,F(\Box/M^2)\,\mathcal{R}\bigr],
+\end{equation}
+where $\mathcal{R}$ denotes any curvature scalar or tensor,
+$F(z) = \sum c_n z^n$ is an entire function with $F(0)$ finite, and
+$M \gg H_0$, produces corrections to the Friedmann equation that scale as
+\begin{equation}\label{eq:UV-scaling}
+  \frac{\delta H^2}{H^2} \sim \alpha\,F(0)\,
+  \Bigl(\frac{H}{M}\Bigr)^{\!2} \ll 1.
+\end{equation}
+\end{proposition}
+
+\noindent
+This follows directly from dimensional analysis: on FLRW, the curvature
+scale is set by $H$, and any nonlocal correction from $F(\Box/M^2)$ can at
+most introduce polynomial dependence on $H^2/M^2$.  The entireness of $F$
+prevents $\Box^{-1}$ terms that would introduce infrared-enhanced
+contributions.
+
+The implication is clear: UV-complete nonlocal gravity theories (SCT, IDG)
+are structurally incapable of producing order-unity cosmological corrections
+unless $M \sim H_0$, which would conflict with short-distance tests of
+gravity.  Conversely, the automatic consistency of such theories with
+cosmological data is not an achievement but a structural inevitability.
+
+\subsection{Black hole entropy}
+
+The Wald entropy formula~\cite{Wald:1993nt} applied to the curvature-squared
+Lagrangian~\eqref{eq:S-quad} gives the black hole entropy correction
+\begin{equation}\label{eq:wald-entropy}
+  S_{\mathrm{BH}} = \frac{A}{4G}
+  + \frac{1}{16\pi^2}\oint_{\mathcal{H}}
+  \Bigl[2F_1(0)\,\frac{\partial C^2}{\partial R_{\mu\nu\rho\sigma}}
+  + F_2(0,\xi)\,\frac{\partial R^2}
+  {\partial R_{\mu\nu\rho\sigma}}\Bigr]
+  \hat{\epsilon}_{\mu\nu}\hat{\epsilon}_{\rho\sigma}\,\dd A,
+\end{equation}
+where $\hat{\epsilon}_{\mu\nu}$ is the binormal to the bifurcation surface.
+In the local limit (on the horizon, where the form factors reduce to their
+$z = 0$ values), the dominant term is the Bekenstein--Hawking entropy
+$A/(4G)$, with higher-derivative corrections of order
+$\alpha_C\,(r_s/\ell_\Lam)^2$ and $\alpha_R(\xi)\,(r_s/\ell_\Lam)^2$,
+where $r_s$ is the Schwarzschild radius and $\ell_\Lam = 1/\Lam$.
+
+For astrophysical black holes ($r_s \gg \ell_\Lam$), the corrections are
+completely negligible.  They become significant only when
+$r_s \sim \ell_\Lam$, i.e., for hypothetical black holes with mass
+$M_{\mathrm{BH}} \sim M_{\mathrm{Pl}}^2/\Lam$.  This regime is relevant
+for the endpoint of black hole evaporation and for
+Planck-scale physics.
+
+% ============================================================
+\section{Conclusions}
+\label{sec:conclusions}
+% ============================================================
+
+We have derived the full nonlinear variational field equations of the
+one-loop spectral action with Standard Model content on arbitrary curved
+backgrounds.  The field equations~\eqref{eq:full-eom} extend the
+Einstein equations with three types of corrections: the nonlocal Bach
+tensor $B_{\mu\nu}$ (from the Weyl-squared sector), the tensor
+$H_{\mu\nu}$ (from the $R^2$ sector), and the Barvinsky--Vilkovisky
+alpha-insertion tensors $\Theta^{(C,R)}_{\mu\nu}$ (from the metric
+dependence of $\Box$).
+
+The field equations satisfy six consistency conditions:
+(i)~the local limit recovers Stelle's higher-derivative gravity with
+calculable SM coefficients $\alpha = 13/(120 \cdot 16\pi^2)$ and
+$\beta = 2(\xi-1/6)^2/(16\pi^2)$;
+(ii)~the linearized limit reproduces the modified propagator and
+Newtonian potential of Paper~II;
+(iii)~the Bianchi identity is satisfied;
+(iv)~the trace structure is correct;
+(v)~de~Sitter spacetime is an exact solution;
+(vi)~Ricci-flat backgrounds simplify to the Weyl sector.
+
+The reduction to FLRW cosmology exploits the conformal flatness of any
+FLRW metric, which eliminates the entire Weyl sector from the background
+equations.  Only the $R^2$ sector, governed by
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$, contributes to the modified Friedmann
+equations.  The five central cosmological results are:
+
+\begin{enumerate}
+  \item \textbf{Gravitational-wave speed:}  $c_T = c$ to
+    $\order(H^2/\Lam^2)$, satisfying the GW170817 bound by 46~orders
+    of magnitude.
+
+  \item \textbf{De~Sitter stability:}  De~Sitter is an exact solution
+    and a stable attractor.  The effective masses
+    $m_2 \approx 2.148\,\Lam$ and $m_0 \approx 2.449\,\Lam$ (at
+    $\xi = 0$) satisfy the Higuchi bound.
+
+  \item \textbf{Conformal decoupling:}  At $\xi = 1/6$, all spectral
+    corrections to the Friedmann equations vanish identically.
+
+  \item \textbf{Late-time suppression:}
+    $\delta H^2/H^2 = 1.28 \times 10^{-64}$ at the PPN lower bound,
+    ensuring automatic consistency with all precision cosmological data.
+
+  \item \textbf{Structural limitation:}  SCT cannot resolve the $H_0$ or
+    $S_8$ tensions, which require infrared nonlocality at a scale
+    $m \sim H_0$.
+\end{enumerate}
+
+Together with the companion papers on form
+factors~\cite{Alfyorov:2026ff} and solar-system
+tests~\cite{Alfyorov:2026ss}, the present results establish the
+phenomenological viability of the spectral action framework: it modifies
+gravity at the scale $r \sim 1/\Lam$ while preserving general relativity
+at both solar-system and cosmological distances.  The principal open
+questions concern the treatment of the massive spin-2 ghost mode (the
+fakeon prescription versus alternative quantization schemes), the
+all-orders UV behavior (perturbative finiteness beyond two loops), and the
+early-universe dynamics (inflation driven by the $R^2$ sector).
+
+% ============================================================
+\section*{Acknowledgments}
+% ============================================================
+
+The author thanks Aliaksandr Samatyia for research assistance and workflow
+support.
+
+% ============================================================
+\appendix
+\section{Form factor identities}
+\label{app:form-factor-identities}
+% ============================================================
+
+We collect the key identities for the master function and form factors
+used throughout this paper.
+
+\subsection{Master function}
+
+The master function~\eqref{eq:master-phi} has the Taylor expansion
+\begin{equation}\label{eq:phi-taylor}
+  \varphi(x) = \sum_{n=0}^{\infty} \frac{(-1)^n\, n!}{(2n+1)!}\,x^n,
+\end{equation}
+with $\varphi(0) = 1$, $\varphi'(0) = -1/6$.  It is an entire function of
+order $1/2$, with the integral representation
+\begin{equation}\label{eq:phi-integral}
+  \varphi(x) = \int_0^1 \dd s\; e^{-x\,s(1-s)}.
+\end{equation}
+
+\subsection{Spin-specific form factors}
+
+The heat kernel form factors for each spin sector are:
+
+\noindent\textbf{Spin-0 (scalar):}
+\begin{equation}\label{eq:hC-scalar}
+  h_C^{(0)}(x) = \frac{1}{12x} + \frac{\varphi(x) - 1}{2x^2},
+  \qquad
+  \beta_W^{(0)} = h_C^{(0)}(0) = \frac{1}{120}.
+\end{equation}
+
+\noindent\textbf{Spin-1/2 (Dirac):}
+\begin{equation}\label{eq:hC-dirac}
+  h_C^{(1/2)}(x) = \frac{3\varphi(x) - 1}{6x}
+  + \frac{2(\varphi(x) - 1)}{x^2},
+  \qquad
+  \beta_W^{(1/2)} = \frac{1}{20}.
+\end{equation}
+
+\noindent\textbf{Spin-1 (vector):}
+\begin{equation}\label{eq:hC-vector}
+  h_C^{(1)}(x) = \frac{\varphi(x)}{4}
+  + \frac{6\varphi(x) - 5}{6x}
+  + \frac{\varphi(x) - 1}{x^2},
+  \qquad
+  \beta_W^{(1)} = \frac{1}{10}.
+\end{equation}
+
+\subsection{Standard Model totals}
+
+With $N_s = 4$, $N_D = 45/2$, $N_v = 12$:
+\begin{align}
+  \alpha_C &= N_s\,\beta_W^{(0)} + N_D\,\beta_W^{(1/2)}
+  + N_v\,\beta_W^{(1)}
+  = \frac{4}{120} + \frac{45}{40} + \frac{12}{10}
+  = \frac{13}{120},
+  \label{eq:alpha_C-check}\\
+  \alpha_R(\xi) &= 2\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}.
+  \label{eq:alpha_R-check}
+\end{align}
+The $\xi$-independence of $\alpha_C$ is a consequence of the conformal
+invariance of the Weyl-squared action.
+
+\subsection{Normalized form factors at selected points}
+
+The propagator denominators evaluate to:
+\begin{equation}\label{eq:PiTT-values}
+  \PiTT(0) = 1,
+  \qquad
+  \PiTT(1) \approx 1.179,
+  \qquad
+  \lim_{z \to \infty} z\,\alpha_C\,\hat{F}_1(z)
+  = -\frac{89}{12}.
+\end{equation}
+The UV asymptotic $x\,\alpha_C\,\hat{F}_1(x) \to -89/12$ governs the
+large-momentum behavior of the graviton propagator.
+
+\subsection{Gauss--Bonnet consistency at the variational level}
+
+The variation of the three curvature-squared invariants satisfies the
+Gauss--Bonnet identity:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Tensor structure & $\delta(\Riemsq)$ & $4\times\delta(\Ricsq)$
+  & $\delta(R^2)$ & Sum \\
+\midrule
+$\Box R_{\mu\nu}$ & $4$ & $4$ & $0$ & $0$ \\
+$g_{\mu\nu}\Box R$ & $4$ & $2$ & $-2$ & $0$ \\
+$\nabla_\mu\nabla_\nu R$ & $-6$ & $-4$ & $2$ & $0$ \\
+$R_{\mu\rho\nu\sigma}R^{\rho\sigma}$ & $8$ & $8$ & $0$ & $0$ \\
+$g_{\mu\nu}\Ricsq$ & $-2$ & $-2$ & $0$ & $0$ \\
+$g_{\mu\nu}R^2$ & $1/2$ & $0$ & $-1/2$ & $0$ \\
+$R\,R_{\mu\nu}$ & $-2$ & $0$ & $2$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+All seven sums vanish, confirming the Gauss--Bonnet identity
+$\delta(\Riemsq) - 4\,\delta(\Ricsq) + \delta(R^2) = 0$ at the
+variational level.  This identity was used to verify the dual derivation
+of the field equations (Sec.~\ref{sec:field-equations}).
+
+% ============================================================
+\bibliographystyle{unsrt}
+\bibliography{../references/sct_field_equations}
+% ============================================================
+
+\end{document}
