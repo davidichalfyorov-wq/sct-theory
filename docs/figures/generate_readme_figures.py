@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from scipy.special import erfi
+from scipy.special import erfi, erf
 from pathlib import Path
 
 OUT = Path(__file__).parent
@@ -32,35 +32,65 @@ SCT_GRAY = '#7f8c8d'
 
 
 # ===== Helper: master function =====
-def phi(x):
-    """SCT master function: phi(x) = e^{-x/4} sqrt(pi/x) erfi(sqrt(x)/2)."""
+def phi_real(x):
+    """SCT master function for real x (positive and negative).
+
+    phi(x) = e^{-x/4} sqrt(pi/x) erfi(sqrt(x)/2)  for x > 0
+    phi(0) = 1
+    phi(-y) = e^{y/4} sqrt(pi/y) erf(sqrt(y)/2)    for y > 0
+    """
     x = np.asarray(x, dtype=float)
     result = np.ones_like(x)
-    mask = x > 1e-10
-    xm = x[mask]
-    result[mask] = np.exp(-xm / 4) * np.sqrt(np.pi / xm) * erfi(np.sqrt(xm) / 2)
+
+    # Positive x: use erfi
+    mask_pos = x > 1e-10
+    xp = x[mask_pos]
+    result[mask_pos] = np.exp(-xp / 4) * np.sqrt(np.pi / xp) * erfi(np.sqrt(xp) / 2)
+
+    # Negative x: phi(-y) = e^{y/4} sqrt(pi/y) erf(sqrt(y)/2)
+    mask_neg = x < -1e-10
+    y = -x[mask_neg]
+    result[mask_neg] = np.exp(y / 4) * np.sqrt(np.pi / y) * erf(np.sqrt(y) / 2)
+
     return result
 
 
 # ===== 1. Master function phi(x) =====
-fig, ax = plt.subplots(figsize=(7, 4))
-x = np.linspace(0, 20, 500)
-y = phi(x)
+# Show both Euclidean (x<0, growth) and Lorentzian (x>0, decay) regimes.
+fig, ax = plt.subplots(figsize=(7, 4.2))
+
+x = np.linspace(-8, 20, 600)
+y = phi_real(x)
 
 ax.plot(x, y, color=SCT_BLUE, linewidth=2.2,
-        label=r'$\varphi(x) = e^{-x/4}\sqrt{\pi/x}\;\mathrm{erfi}(\sqrt{x}/2)$')
+        label=r'$\varphi(x)$')
 ax.axhline(1, color=SCT_GRAY, linestyle='--', linewidth=0.8, alpha=0.5)
+ax.axvline(0, color=SCT_GRAY, linestyle=':', linewidth=0.8, alpha=0.3)
 ax.set_xlabel(r'$x = -k^2 / \Lambda^2$')
 ax.set_ylabel(r'$\varphi(x)$')
 ax.set_title('SCT Master Function')
-ax.set_ylim(-0.1, 3.5)
-ax.legend(loc='upper left', framealpha=0.9)
+ax.set_ylim(-0.3, 8)
+ax.legend(loc='upper right', framealpha=0.9)
 
-ax.annotate(r'$\varphi(0) = 1$', xy=(0.3, 1), fontsize=10, color=SCT_GRAY,
-            xytext=(2, 1.8), arrowprops=dict(arrowstyle='->', color=SCT_GRAY, lw=1.2))
-ax.annotate('exponential growth\n(entire function)', xy=(15, phi(15)), fontsize=9,
-            color=SCT_BLUE,
-            xytext=(10, 3.0), arrowprops=dict(arrowstyle='->', color=SCT_BLUE, lw=1.0))
+# Annotate the two regimes correctly
+ax.annotate(r'$\varphi(0) = 1$', xy=(0.2, 1), fontsize=10, color=SCT_GRAY,
+            xytext=(4, 2.5), arrowprops=dict(arrowstyle='->', color=SCT_GRAY, lw=1.2))
+
+ax.annotate(r'Euclidean: $\sim e^{|x|/4}$' + '\n(exponential growth)',
+            xy=(-7, phi_real(-7)), fontsize=9, color=SCT_RED,
+            xytext=(-6, 7),
+            arrowprops=dict(arrowstyle='->', color=SCT_RED, lw=1.0))
+
+ax.annotate(r'Lorentzian: $\sim 2/x$' + '\n(power-law decay)',
+            xy=(12, phi_real(12)), fontsize=9, color=SCT_BLUE,
+            xytext=(8, 2),
+            arrowprops=dict(arrowstyle='->', color=SCT_BLUE, lw=1.0))
+
+# Shade the two regimes
+ax.axvspan(-8, 0, alpha=0.04, color=SCT_RED)
+ax.axvspan(0, 20, alpha=0.04, color=SCT_BLUE)
+ax.text(-6.5, 0.3, 'Euclidean\n' + r'($k^2 > 0$)', fontsize=8, color=SCT_RED, alpha=0.7)
+ax.text(14, 0.3, 'Lorentzian\n' + r'($k^2 < 0$)', fontsize=8, color=SCT_BLUE, alpha=0.7)
 
 fig.savefig(OUT / 'master_function.png')
 plt.close()
@@ -71,102 +101,75 @@ print('[1/4] master_function.png')
 fig, ax = plt.subplots(figsize=(7, 4))
 
 r = np.linspace(0.01, 8, 500)
+# m_2 = Lambda * sqrt(60/13)  (spin-2, xi-independent)
+# m_0 = Lambda * sqrt(6)      (spin-0, at xi=0)
 m2 = np.sqrt(60 / 13)
 m0 = np.sqrt(6)
 ratio = 1 - (4 / 3) * np.exp(-m2 * r) + (1 / 3) * np.exp(-m0 * r)
 
 ax.plot(r, ratio, color=SCT_BLUE, linewidth=2.2,
-        label=r'SCT:  $V/V_{\rm N} = 1 - \frac{4}{3}e^{-m_2 r}'
+        label=r'SCT ($\xi = 0$):  $V/V_{\rm N} = 1 - \frac{4}{3}e^{-m_2 r}'
               r' + \frac{1}{3}e^{-m_0 r}$')
 ax.axhline(1, color=SCT_GRAY, linestyle='--', linewidth=1,
            label=r'Newton: $V/V_{\rm N} = 1$')
 ax.axhline(0, color=SCT_RED, linestyle=':', linewidth=0.8, alpha=0.5)
 ax.set_xlabel(r'$r \cdot \Lambda$  (distance in units of $1/\Lambda$)')
 ax.set_ylabel(r'$V(r) / V_{\rm Newton}(r)$')
-ax.set_title('Modified Newtonian Potential')
+ax.set_title(r'Modified Newtonian Potential ($\xi = 0$)')
 ax.set_ylim(-0.15, 1.35)
 ax.legend(loc='lower right', framealpha=0.9, fontsize=9)
 
-ax.annotate(r'$V(0) = 0$  (finite!)', xy=(0.05, 0), fontsize=10, color=SCT_GREEN,
+ax.annotate(r'$V(0) = 0$  (finite)', xy=(0.05, 0), fontsize=10, color=SCT_GREEN,
             xytext=(1.5, -0.1),
             arrowprops=dict(arrowstyle='->', color=SCT_GREEN, lw=1.2))
-
-ax.fill_between(r, 0.99, 1.01, alpha=0.08, color=SCT_BLUE)
 
 fig.savefig(OUT / 'newtonian_potential.png')
 plt.close()
 print('[2/4] newtonian_potential.png')
 
 
-# ===== 3. SM sector contributions (bar chart) =====
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2), gridspec_kw={'width_ratios': [1, 1.3]})
+# ===== 3. SM sector contributions =====
+# Left: bar chart of beta_W per degree of freedom.
+# Right: form factors h_C^(s)(x) directly, showing momentum-dependent running.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2),
+                                gridspec_kw={'width_ratios': [1, 1.3]})
 
-# Left: bar chart of beta_W contributions to alpha_C = 13/120
-sectors = ['Scalars\n(Higgs)', 'Fermions\n(quarks + leptons)', 'Gauge bosons\n(W, Z, g, γ)']
-# beta_W values: 1/120, 1/20, 1/10
-# Multiplicities: N_s=4, N_D=22.5 (=N_f/2), N_v=12
-# Contributions to alpha_C:
-contrib = [4 * (1/120), 22.5 * (1/20), 12 * (1/10)]
-total = sum(contrib)  # Should be 13/120... let me check
-# 4/120 + 22.5/20 + 12/10 = 1/30 + 9/8 + 6/5 ... this is NOT 13/120
-# The beta_W are the LOGARITHMIC coefficients; alpha_C is the LOCAL coefficient of the nonlocal form factor
-# For the README, let me just show the relative split differently.
-# Actually, alpha_C = 13/120 = sum of N_i * beta_W_i IS the definition.
-# Let me recheck: the multiplicities in the Seeley-DeWitt trace are different.
-# From the actual verified code:
-#   alpha_C = (N_s/120 + N_f/20 + N_v/10) but with specific normalization
-# The correct formula is alpha_C = 4*(1/120) + 45*(1/20) + 12*(1/10)
-# = 4/120 + 45/20 + 12/10 = 1/30 + 9/4 + 6/5
-# That's way more than 13/120.
-# So the actual breakdown must be different. The 13/120 comes from the LOCAL limit
-# of the total h_C form factor.
-# For the bar chart, let me just show the verified β_W values themselves as indicators
-# of each sector's importance.
-
+sectors = ['Scalars\n(Higgs)', 'Fermions\n(quarks +\nleptons)', 'Gauge bosons\n(W, Z, g, ' + r'$\gamma$)']
 beta_W = [1/120, 1/20, 1/10]
 bar_colors = [SCT_GREEN, SCT_ORANGE, SCT_BLUE]
 
 bars = ax1.bar(sectors, beta_W, color=bar_colors, edgecolor='white', linewidth=1.5, width=0.6)
-ax1.set_ylabel(r'$\beta_W^{(s)}$ (Weyl$^2$ coefficient per d.o.f.)')
-ax1.set_title(r'Heat Kernel Coefficients by Spin')
+ax1.set_ylabel(r'$\beta_W^{(s)}$  (per degree of freedom)')
+ax1.set_title(r'Weyl$^2$ Heat Kernel Coefficients')
 ax1.set_ylim(0, 0.13)
 
 for bar, val in zip(bars, beta_W):
-    ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.003,
-             f'1/{int(round(1/val))}', ha='center', fontsize=11, fontweight='bold')
+    ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.003,
+             f'1/{int(round(1 / val))}', ha='center', fontsize=11, fontweight='bold')
 
-# Right: phi(x) for different spins showing h_C behavior
-# Plot x * h_C(x) which is well-defined everywhere and → beta_W as x→0
-x = np.linspace(0.05, 12, 300)
-p = phi(x)
+# Right: h_C(x) for each spin.
+# Use x >= 0.3 to avoid the 1/x^2 singularity near x=0
+# (the singularities cancel in the full expression, but numerically they dominate at small x).
+x = np.linspace(0.3, 15, 300)
+p = phi_real(x)
 
-# x * h_C^(0) for scalar
-xhC0 = 1/12 + (p - 1) * x / (2 * x**2)  # = 1/(12) + (phi-1)/(2x)
-# More careful: x * h_C^(0) = x * [1/(12x) + (phi-1)/(2x^2)] = 1/12 + (phi-1)/(2x)
-xhC0 = 1/12 + (p - 1) / (2 * x)
+# h_C^(0)(x) = 1/(12x) + (phi-1)/(2x^2)
+hC0 = 1 / (12 * x) + (p - 1) / (2 * x**2)
+# h_C^(1/2)(x) = (3phi-1)/(6x) + 2(phi-1)/x^2
+hC12 = (3 * p - 1) / (6 * x) + 2 * (p - 1) / x**2
+# h_C^(1)(x) = phi/4 + (6phi-5)/(6x) + (phi-1)/x^2
+hC1 = p / 4 + (6 * p - 5) / (6 * x) + (p - 1) / x**2
 
-# x * h_C^(1/2) for Dirac
-# x * [(3phi-1)/(6x) + 2(phi-1)/x^2] = (3phi-1)/6 + 2(phi-1)/x
-xhC12 = (3*p - 1) / 6 + 2*(p - 1) / x
+ax2.plot(x, hC0, color=SCT_GREEN, linewidth=2, label=r'Scalar $h_C^{(0)}$')
+ax2.plot(x, hC12, color=SCT_ORANGE, linewidth=2, label=r'Dirac $h_C^{(1/2)}$')
+ax2.plot(x, hC1, color=SCT_BLUE, linewidth=2, label=r'Vector $h_C^{(1)}$')
+ax2.axhline(0, color=SCT_GRAY, linestyle=':', linewidth=0.8, alpha=0.5)
 
-# x * h_C^(1) for vector
-# x * [phi/4 + (6phi-5)/(6x) + (phi-1)/x^2] = x*phi/4 + (6phi-5)/6 + (phi-1)/x
-xhC1 = x*p/4 + (6*p - 5) / 6 + (p - 1) / x
-
-ax2.plot(x, xhC0, color=SCT_GREEN, linewidth=2, label=r'Scalar: $x \cdot h_C^{(0)}(x)$')
-ax2.plot(x, xhC12, color=SCT_ORANGE, linewidth=2, label=r'Dirac: $x \cdot h_C^{(1/2)}(x)$')
-ax2.plot(x, xhC1, color=SCT_BLUE, linewidth=2, label=r'Vector: $x \cdot h_C^{(1)}(x)$')
-
-# Mark the local limits
-ax2.axhline(1/120, color=SCT_GREEN, linestyle=':', linewidth=0.8, alpha=0.5)
-ax2.axhline(1/20, color=SCT_ORANGE, linestyle=':', linewidth=0.8, alpha=0.5)
-ax2.axhline(1/10, color=SCT_BLUE, linestyle=':', linewidth=0.8, alpha=0.5)
-
-ax2.set_xlabel(r'$x = -k^2/\Lambda^2$')
-ax2.set_ylabel(r'$x \cdot h_C^{(s)}(x)$')
-ax2.set_title('Form Factor Running by Spin')
+ax2.set_xlabel(r'$x = -k^2/\Lambda^2$  (momentum scale)')
+ax2.set_ylabel(r'$h_C^{(s)}(x)$')
+ax2.set_title('Weyl$^2$ Form Factors by Spin')
 ax2.legend(loc='upper right', framealpha=0.9, fontsize=9)
-ax2.set_ylim(-0.3, 0.4)
+ax2.set_ylim(-0.15, 0.35)
 
 fig.tight_layout()
 fig.savefig(OUT / 'sm_contributions.png')
@@ -215,7 +218,7 @@ ax.set_yticks(y_pos)
 ax.set_yticklabels([t[0] for t in tasks], fontsize=9.5)
 ax.set_xlim(0, 1.15)
 ax.set_xlabel('Completion')
-ax.set_title('SCT Theory — Research Roadmap Progress', fontweight='bold')
+ax.set_title('SCT Theory \u2014 Research Roadmap Progress', fontweight='bold')
 ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f'{v:.0%}'))
 
 from matplotlib.patches import Patch
