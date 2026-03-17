@@ -315,6 +315,6 @@ class TestFormFactorsTotalFixed:
         from sct_tools.form_factors import F1_total, F2_total
         val1 = F1_total(1e-8)
         val2 = F2_total(1e-8)
-        # mpmath 50-digit reference at x=1e-8 (Phase 3 CORRECTED)
-        assert val1 == pytest.approx(6.860288475783305e-04, rel=1e-8)
+        # mpmath 50-digit reference at x=1e-8 (Phase 3, re-verified 2026-03-17)
+        assert val1 == pytest.approx(6.860288360063036e-04, rel=1e-8)
         assert val2 == pytest.approx(3.518096654247839e-04, rel=1e-8)

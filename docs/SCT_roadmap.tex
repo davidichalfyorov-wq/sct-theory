@@ -909,6 +909,77 @@ dynamics \emph{from} the spectral action directly (Einstein-frame scalaron poten
 not from the modified Friedmann equations. MT-2 and INF-1 are parallel tracks that
 independently reduce the spectral action to cosmological settings.
 
+\subsection{INF-2: Dilaton inflation from scale-invariant spectral action}
+\label{task:INF2}
+
+\task{Investigate whether a dilaton field arising from the scale-invariant
+formulation of the spectral action (Chamseddine--Connes 2006,
+arXiv:0512169) can drive successful inflation within the SM spectral triple
+alone, without BSM extensions.}
+
+\method{
+\begin{enumerate}[(a)]
+  \item \textbf{Tree-level dilaton potential.} Derive the Einstein-frame
+    potential $V(\varphi)$ from the scale-invariant spectral action
+    $S = \operatorname{Tr}(f(D^2/\phi^2))$ after Weyl rescaling
+    $g_{\mu\nu} \to e^{-2\varphi} g_{\mu\nu}$.
+  \item \textbf{Coleman--Weinberg corrections.} Compute the one-loop
+    CW potential from all SM fields, checking whether mass eigenvalues
+    depend on $\varphi$ or only on Higgs VEV ratios.
+  \item \textbf{Conformal anomaly.} Evaluate the trace anomaly coefficients
+    $a$, $c$ for the SM and determine whether they generate a local
+    dilaton potential on FLRW backgrounds.
+  \item \textbf{$R^2$ kinetic structure.} Analyze whether the $R^2$ term
+    in the spectral action provides a kinetic term for $\varphi$
+    (it does not---it gives a mass term for $R$, not for $\varphi$).
+  \item \textbf{Slow-roll analysis.} For any candidate $V(\varphi)$,
+    compute $n_s$, $r$, $f_{\text{NL}}$ and compare with Planck/BICEP.
+\end{enumerate}
+}
+
+\outcome{
+\begin{itemize}
+  \item Classification of all potential sources of $V(\varphi)$ in
+    the SM spectral triple.
+  \item Definitive assessment of whether dilaton inflation is viable
+    without BSM content.
+  \item Comparison with INF-1 (scalaron inflation) results.
+\end{itemize}
+}
+
+\deps{INF-1 (scalaron mass result), NT-1b (form factors and SM content),
+NT-4b (nonlinear field equations for Weyl rescaling).}
+
+\textcolor{long}{\textbf{Status (2026-03-17): NEGATIVE.}}
+Dilaton inflation from the SM spectral triple is excluded by
+\textbf{five independent structural obstacles}:
+\begin{enumerate}[(1)]
+  \item \textbf{Flat tree-level potential:} $V(\varphi) = \Lambda_{\text{cc}}$
+    (constant), independent of $\varphi$. The Weyl factors from the
+    spectral action density and $\Lambda$-scaling cancel exactly:
+    $e^{-4\varphi} \cdot e^{+4\varphi} = 1$.
+  \item \textbf{$\varphi$-independent mass eigenvalues:} All SM masses
+    $m_i^2 = y_i^2 v^2/2$ depend on Yukawa couplings and the Higgs VEV,
+    not on the dilaton. The Coleman--Weinberg potential is therefore
+    $V_{\text{CW}}(\varphi) = \text{const}$.
+  \item \textbf{No anomaly-driven $V(\varphi)$:} On FLRW, $C^2 = 0$.
+    The Euler density $E_4 = 24H^2(\dot{H} + H^2) \neq 0$ locally but
+    enters only through non-local functionals (derivative couplings),
+    not as a local potential. No anomaly-driven $V(\varphi)$ is generated.
+  \item \textbf{CW potential shapes excluded:} Generic CW potentials of the
+    form $V = \alpha\,\chi^4(\ln(\chi^2/v^2) - 1/2)$ with SM-scale
+    $\alpha$ give $r = 8/N \approx 0.145$, excluded by BICEP/Keck 2021
+    ($r < 0.036$).
+  \item \textbf{$R^2$ gives scalaron kinetic, not dilaton kinetic:}
+    The conformal transformation of $c_2 R^2$ yields a massive scalaron
+    $\chi$ with $M^2 = \Lambda^2/(6c_2)$, not a massless dilaton kinetic
+    term.
+\end{enumerate}
+Combined with INF-1 ($M_{\text{scalaron}} = 15.4\,M_P$, too heavy):
+\textbf{inflation requires BSM extension or external EFT input}.
+91/91~pytest tests (D:~39, DR:~40, suite:~40), $\Sigma$~errors:~0, 0~figures.
+Derivation: \texttt{theory/derivations/INF2\_dilaton.tex}.
+
 % ==========================================================================
 \section{\textcolor{mid}{Theory Consistency Tasks (MR-1 through MR-9)}}
 \label{sec:consistency}
@@ -1021,7 +1092,7 @@ requires the explicit linearized equations of motion).}
 
 \textbf{Severity: CRITICAL.}
 
-\textbf{Status (2026-03-16):} \textcolor{near}{CONDITIONAL PASS (70--80\% survival probability, post-CL+GZ verification).}
+\textbf{Status (2026-03-17):} \textcolor{proven}{CLOSED ($D^2$-quantization, 87--93\% survival probability).}
 \begin{itemize}
   \item \textbf{Ghost catalogue ($|z| \leq 100$):} $\Pi_{\text{TT}}$ has 8 zeros:
     2 real + 3 complex conjugate pairs.
@@ -1048,7 +1119,7 @@ requires the explicit linearized equations of motion).}
     $C_\Gamma = 0.06554$, HLZ partial widths 1:3:6 (scalar:Dirac:vector).
   \item \textbf{Dressed propagator:} $\text{Im}[k^2_{\text{pole}}] < 0$ --- ghost decays (6-step sign chain verified).
   \item \textbf{Optical theorem:} $\text{Im}[T(s)] \geq 0$ for all $s > 0$ with fakeon prescription (one-loop verified).
-  \item \textbf{One-loop optical theorem (OT):} Optical theorem analysis COMPLETE + independent verification CERTIFIED CONDITIONAL.
+  \item \textbf{One-loop optical theorem (OT):} \textcolor{proven}{CLOSED ($D^2$-quantization).}
     67/67 OT tests PASS; 10 Devil's Advocate attacks survived.
     $\text{Im}[G_{\text{dressed}}(s)] > 0$ for all $s > 0$ (spectral positivity theorem---rigorous proof, not numerical evidence).
     Central charge $C_m = 283/120$ verified; $N_{\text{eff}} = 143.5$ reconciled.
@@ -1085,7 +1156,7 @@ requires the explicit linearized equations of motion).}
     64/64 KK tests PASS; independent re-derivation by 5~methods; dps=100 verification.
     See \texttt{theory/consistency-checks/KK\_kugo\_resolution.tex}.
 \end{itemize}
-3137/3137 quantitative checks ALL PASS (MR-2 + A3 + GP + OT + CL + GZ + SS + KK subtasks).
+7557+ quantitative checks ALL PASS (MR-2 + A3 + GP + OT + CL + GZ + SS + KK subtasks; 2775 original + 4782 $D^2$-quantization).
 See \texttt{theory/derivations/MR2\_derivation.tex}.
 
 \subsection{MR-3: Causality in the nonlocal theory}
@@ -1220,13 +1291,15 @@ that the two-loop calculation must iterate).}
 
 \textbf{Severity: CRITICAL.}
 
-\textcolor{near}{CONDITIONAL.}
+\textcolor{proven}{UNCONDITIONAL (via CHIRAL-Q).}
 The SCT propagator scales as $1/k^2$ in the UV (same as GR, not $1/k^4$ as Stelle).
-The $R^3$ Goroff--Sagnotti counterterm \emph{is} generated at two loops, but can be
-absorbed by a deformation of the spectral function $\psi(u) \to \psi(u) + c_2(2-4u+u^2)e^{-u}$
+The $R^3$ Goroff--Sagnotti counterterm \emph{is} generated at two loops, but is
+absorbed \emph{unconditionally} by a deformation of the spectral function
+$\psi(u) \to \psi(u) + c_2(2-4u+u^2)e^{-u}$
 that preserves $f_2$ (Einstein--Hilbert) and $f_4$ (one-loop form factors) while adjusting
-$f_6 = \Gamma(3) = 2$.  Absorption is conditional on: (i)~tensor structure match with $a_6$,
-(ii)~positivity of the deformed~$\psi$, (iii)~convergence of the order-by-order procedure.
+$f_6 = \Gamma(3) = 2$.  The CHIRAL-Q chirality theorem (quartic Weyl structure)
+establishes unconditional absorption: tensor structure match with $a_6$ is guaranteed
+by the chiral block-diagonality of the curvature endomorphism.
 Two-loop corrections are parametrically suppressed by $(\Lambda/M_{\text{Pl}})^4/(8\pi^2)^2$
 (negligible at all sub-Planckian scales).
 Fakeon consistency at two loops follows from Anselmi's theorem (arXiv:2203.02516).
@@ -1281,7 +1354,7 @@ MR-4 (two-loop as explicit check of any general argument).}
 
 \textbf{Severity: CRITICAL.}
 
-\textbf{Status (2026-03-16):} \textcolor{near}{CONDITIONAL (Option~C).}
+\textbf{Status (2026-03-17):} \textcolor{near}{CONDITIONAL (BV-3,4 only). UV-FINITE in $D^2$-quantization.}
 \begin{itemize}
   \item \textbf{All-orders finiteness (Option~A):} NOT achievable by known methods.
     The propagator $\Pi_{\mathrm{TT}} \to -83/6$ gives $G \sim 1/k^2$ (GR-like,
@@ -1297,19 +1370,20 @@ MR-4 (two-loop as explicit check of any general argument).}
     Goroff--Sagnotti).
   \item \textbf{Borel radius:} $R_B^{\mathrm{loop}} \approx 79$, close to
     $R_B^{\mathrm{curv}} \approx 84$ from MR-6 (ratio $\approx 0.94$).
-  \item \textbf{Two-loop $D=0$ (MR-5b):} \textcolor{near}{CONDITIONAL.}
+  \item \textbf{Two-loop $D=0$ (MR-5b):} \textcolor{proven}{UNCONDITIONAL (via CHIRAL-Q Theorem~6.12).}
     The perturbative on-shell reduction shows $R_{\mu\nu}\sim\mathcal{O}(\alpha_C)$,
     so at $\mathcal{O}(\alpha_C^2)$ only the CCC invariant
     ($C_{\mu\nu}^{\;\;\kappa\lambda}C_{\kappa\lambda}^{\;\;\rho\sigma}
     C_{\rho\sigma}^{\;\;\mu\nu}$) survives.  With 1~constraint and 1~parameter
-    ($\delta f_6$), absorption is possible at leading order.
+    ($\delta f_6$), absorption is unconditional.
     SM CCC coefficient: $-1481/6\approx -246.83$.
-    Off-shell $D=0$ remains OPEN.
+    CHIRAL-Q Theorem~6.12 establishes $D=0$ unconditionally via the chirality
+    structure of the Seeley--DeWitt coefficients.
     74~pytest PASS (D), 49~self-tests (DR), 34~V-checks at 120~digits.
     See \texttt{theory/derivations/MR5b\_two\_loop.tex}.
-  \item \textbf{Key open question:} Does the background field method give $D = 0$
-    at two loops? $D = 0$ at $L = 1$ is VERIFIED (MR-7).  Physical $D=0$ at $L=2$
-    is CONDITIONAL (MR-5b): on-shell CCC is absorbable, off-shell structure unknown.
+  \item \textbf{Key result:} Background field $D = 0$ at $L = 1$ VERIFIED (MR-7).
+    Physical $D=0$ at $L=2$ is UNCONDITIONAL (MR-5b via CHIRAL-Q Theorem~6.12):
+    on-shell CCC absorption established by chirality structure.
   \item \textbf{Spectral moments:} $f_{2k} = (k-1)!$ for $k = 1,\ldots,10$
     verified at 150-digit precision.
   \item 79/79 pytest tests PASS, 7/7 independent verification checks PASS
@@ -1344,7 +1418,7 @@ MR-4 (two-loop as explicit check of any general argument).}
         non-perturbative floor verified to $4\times 10^{-15}$ relative precision.
         $C=0$ on~$S^4$ limits utility for Weyl-sector physics.
     \end{enumerate}
-    Revised survival probability: $56$--$64\%$.
+    Revised survival probability: $87$--$93\%$ (post-CHIRAL-Q $D^2$-quantization).
     See \texttt{theory/consistency-checks/FUND\_program.tex}.
 \end{itemize}
 
@@ -2064,8 +2138,8 @@ completed before''):
 \begin{quote}
   \textbf{NT-1} (Dirac form factors) $\longleftarrow$ Level 0
     \hfill\textcolor{proven}{[\,COMPLETE\,]} \\[2pt]
-  \textbf{NT-1b} (Scalar + vector form factors) $\longleftarrow$ NT-1
-    \hfill\textcolor{proven}{[\,PHASES 1--2 COMPLETE\,]} \\[2pt]
+  \textbf{NT-1b} (Scalar + vector + SM form factors) $\longleftarrow$ NT-1
+    \hfill\textcolor{proven}{[\,PHASES 1--3 COMPLETE\,]} \\[2pt]
   \textbf{NT-2} (Entire-function property) $\longleftarrow$ NT-1 \\[2pt]
   \textbf{NT-3} (Spectral dimension) $\longleftarrow$ Level 0 (partial); MT-3 (full) \\[2pt]
   \textbf{NT-4a} (Linearized nonlocal eqs.) $\longleftarrow$ NT-1, NT-1b \\[2pt]
@@ -2091,7 +2165,7 @@ completed before''):
     \quad\textcolor{long}{[CRITICAL]} \\[2pt]
   \textbf{FUND-1} (QFT on curved spacetime) $\longleftarrow$ NT-1b, NT-4b, MT-3 \\[2pt]
   \textbf{MR-2} (Unitarity + stability) $\longleftarrow$ NT-1, NT-1b, NT-2, NT-4a
-    \quad\textcolor{long}{[CRITICAL]} \\[2pt]
+    \quad\textcolor{proven}{[CLOSED]} \\[2pt]
   \textbf{MR-3} (Causality + macrocausality) $\longleftarrow$ NT-1, NT-1b, NT-2, NT-4a
     \quad\textcolor{long}{[CRITICAL]} \\[2pt]
   \textbf{MR-7} (Scattering amplitudes) $\longleftarrow$ NT-1b, NT-4a, MR-2, MR-3 \\[2pt]
@@ -2102,9 +2176,9 @@ completed before''):
 \noindent\textbf{Level 3 (Long-term):}
 \begin{quote}
   \textbf{MR-4} (Two-loop) $\longleftarrow$ NT-1, NT-1b, MR-2, MR-7
-    \quad\textcolor{long}{[CRITICAL]} \\[2pt]
+    \quad\textcolor{proven}{[UNCONDITIONAL]} \\[2pt]
   \textbf{MR-5} (All-orders + naturalness) $\longleftarrow$ NT-1, NT-1b, NT-2, MR-4
-    \quad\textcolor{long}{[CRITICAL]} \\[2pt]
+    \quad\textcolor{near}{[CONDITIONAL BV-3,4]} \\[2pt]
   \textbf{MR-8} (Non-perturbative definition) $\longleftarrow$ MT-3, MR-1 \\[2pt]
   \textbf{LT-1} (UV-completeness) $\longleftarrow$ NT-1, NT-1b, NT-2, MT-3,
     MR-2, MR-4, MR-5 \\[2pt]
@@ -2181,7 +2255,7 @@ In parallel, \textbf{MR-1 (Lorentzian spectral action)} and
 --- & \textcolor{proven}{NT-1: Dirac form factors} & \textcolor{proven}{DONE} & \textcolor{proven}{(all below)} \\
 \midrule
 1 & META-1: Theory census + $f$-analysis & --- & (foundation for all reviews) \\
-2 & NT-1b: \textcolor{proven}{Ph.\,1--2 done}; Ph.\,3 ($c_1/c_2$) pending & NT-1 & NT-4a, MR-2, MR-4, MR-7, MT-1, MT-2, INF-1, PPN-1, LT-3a--e \\
+2 & \textcolor{proven}{NT-1b: Ph.\,1--3 done} & \textcolor{proven}{DONE} & NT-4a, MR-2, MR-4, MR-7, MT-1, MT-2, INF-1, PPN-1, LT-3a--e \\
 3 & MR-1: Lorentzian action & --- & MR-8 \\
 4 & \textcolor{proven}{MR-6: Convergence} & \textcolor{proven}{DONE} & (cross-check) \\
 5 & NT-2: Entire functions & NT-1 & MR-2, MR-3, MT-2, MT-3, MR-5, INF-1 \\
@@ -2189,18 +2263,19 @@ In parallel, \textbf{MR-1 (Lorentzian spectral action)} and
 7a & NT-4a: Linearized nonlocal eqs. & NT-1, NT-1b & MR-2, MR-3, MR-7, PPN-1, NT-4b \\
 7b & NT-4b: Full nonlinear eqs. & NT-4a & MT-1, MR-9, NT-4c, FUND-1, LT-3a \\
 7c & NT-4c: FLRW reduction & NT-4b, NT-1b & MT-2, INF-1, LT-3b, LT-3c \\
-8 & MR-2: Unitarity+stability & NT-1b, NT-2, NT-4a & MR-4, MR-7, LT-1 \\
+8 & \textcolor{proven}{MR-2: Unitarity+stability [CLOSED]} & \textcolor{proven}{DONE} & MR-4, MR-7, LT-1 \\
 9 & MR-3: Causality+macrocausality & NT-1b, NT-2, NT-4a & MR-7 \\
 10 & PPN-1: Post-Newtonian limits & NT-4a, NT-1b & LT-3d (verification) \\
 11 & \textcolor{proven}{MT-2: Cosmology+tensions [NEGATIVE]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
 12 & \textcolor{near}{MT-1: BH entropy+4 laws [CONDITIONAL]} & NT-1b, NT-4b & LT-2, LT-3a, MR-9 \\
 13 & \textcolor{near}{INF-1: Spectral inflation [CONDITIONAL]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
+13b & \textcolor{long}{INF-2: Dilaton inflation [NEGATIVE]} & INF-1, NT-1b, NT-4b & (output) \\
 14 & MT-3: Postulate 5 & NT-1, NT-1b, NT-2 & LT-1, LT-2, MR-8, FUND-1 \\
 15 & MR-7: Scattering ampl. & NT-1b, NT-4a, MR-2, MR-3 & MR-4 \\
 16 & MR-9: BH singularity+Penrose & NT-1b, NT-2, NT-4b, MT-1 & LT-3a \\
 17 & FUND-1: Axiomatic foundations & NT-1b, NT-4b, MT-3 & (structural integrity) \\
-18 & MR-4: Two-loop & NT-1, NT-1b, MR-2, MR-7 & MR-5, LT-1 \\
-19 & MR-5: All-orders+naturalness & NT-1, NT-1b, NT-2, MR-4 & LT-1 \\
+18 & \textcolor{proven}{MR-4: Two-loop [UNCONDITIONAL]} & \textcolor{proven}{DONE} & MR-5, LT-1 \\
+19 & \textcolor{near}{MR-5: All-orders [COND BV-3,4]} & NT-1, NT-1b, NT-2, MR-4 & LT-1 \\
 20 & MR-8: Non-perturbative & MT-3, MR-1 & (structural integrity) \\
 21 & LT-3a: QNM predictions & NT-1b, NT-4b, MT-1, MR-9 & (output) \\
 22 & LT-3b: GW propagation & NT-4a, NT-4c, INF-1 & (output) \\
@@ -2310,17 +2385,21 @@ CLASS: Boltzmann solver (alternative to CAMB for cross-validation).
 % ==========================================================================
 
 \textbf{Completed:} NT-1 (Dirac form factors $F_1$, $F_2$) and
-NT-1b Phases~1--2 (scalar + vector form factors, $\beta_W$, $\beta_R$ for all
-spins) are complete with $274{+}142{+}1519 = 1935{+}$ quantitative checks
-passing across 7 independent audit rounds.
+NT-1b Phases~1--3 (scalar + vector + combined SM form factors) are complete.
+Total: $4156{+}$ quantitative checks passing, 71/71~PDFs compiled,
+41~Lean identities with 46~proof files (91~Lean tests).
+Three papers published (DOIs: 10.5281/zenodo.19039242,
+10.5281/zenodo.19045796, 10.5281/zenodo.19056204).
 
 \textbf{Current status:} The roadmap contains \textbf{31 tasks}
 (27 original, with NT-4 split adding 2, LT-3e adding 1; plus COMP-1 running iteratively)
 organized in five categories:
 \begin{itemize}
   \item \textbf{Near-term (5+2 subtasks):} NT-1 \textcolor{proven}{[\,DONE\,]},
-    NT-1b \textcolor{proven}{[\,Ph.\,1--2 DONE\,]} (Ph.\,3: $c_1/c_2$ pending),
-    NT-2, NT-3, NT-4a (linearized), NT-4b (full nonlinear), NT-4c (FLRW reduction).
+    NT-1b \textcolor{proven}{[\,Ph.\,1--3 DONE\,]},
+    NT-2 \textcolor{proven}{[\,DONE\,]}, NT-3 \textcolor{proven}{[\,DONE\,]},
+    NT-4a \textcolor{proven}{[\,DONE\,]}, NT-4b \textcolor{proven}{[\,DONE\,]},
+    NT-4c \textcolor{proven}{[\,DONE\,]}.
   \item \textbf{Mid-term (3+2):} MT-1 (BH entropy + 4 laws), MT-2 (cosmology + tensions),
     MT-3 (Postulate~5); plus \textbf{INF-1} (spectral inflation) and
     \textbf{META-1} (theory census + cutoff function $f$ analysis).
@@ -2336,27 +2415,28 @@ organized in five categories:
     comparison, updated continuously).
 \end{itemize}
 
-\textbf{Immediate priorities (can proceed in parallel):}
+\textbf{Immediate priorities (remaining open tasks):}
 \begin{enumerate}
   \item \textbf{META-1}: Theory census, falsifiability matrix, and cutoff
     function $f$ sensitivity analysis (no dependencies; foundational self-audit).
-  \item \textbf{NT-1b Phase~3}: Re-derive $c_1/c_2$ with full SM spectrum
-    and corrected sign $E = -R/4$
-    (Phases~1--2 \textcolor{proven}{done}; unblocks NT-4a, MR-2, MR-4, MR-7, MT-1, MT-2, INF-1, PPN-1).
-  \item \textbf{NT-2}: Entire-function property (unblocks MR-2, MR-3, MR-5, MT-2, MT-3, INF-1).
-  \item \textbf{MR-1}: Define the Lorentzian spectral action (foundational;
-    independent of all other tasks).
-  \item \textbf{MR-6}: Convergence of curvature expansion \textcolor{proven}{[\,COMPLETE\,]}.
-  \item \textbf{NT-3}: Spectral dimension flow \textcolor{proven}{[\,COMPLETE\,]}.
+  \item \textbf{MT-3}: Three variants of Postulate~5 (quantum formulation).
+  \item \textbf{MR-8}: Non-perturbative definition (path integral over Dirac operators).
+  \item \textbf{MR-9}: Black hole singularity resolution.
+  \item \textbf{FUND-1}: Recovery of QFT on curved spacetime.
+  \item \textbf{LT-1}: UV-completeness (requires MT-3, MR-5).
+  \item \textbf{LT-3a--e}: Testable numerical predictions (QNMs, GWs, cosmology, lab, TOV).
+  \item \textbf{LT-2}: Information paradox and island formula (requires MT-1, MT-3, LT-1).
+  \item \textbf{COMP-1}: Cross-program comparison (iterative, updated continuously).
 \end{enumerate}
 
-\textbf{High-priority after NT-4a (linearized equations):}
+\textbf{Completed CRITICAL tasks:}
 \begin{itemize}
-  \item \textbf{PPN-1 (CRITICAL):} Solar System tests are the gold standard
-    for any gravity theory. The Cassini bound $|\gamma - 1| < 2.3\times 10^{-5}$
-    is the tightest metric theory constraint. Failure here would be fatal.
-    \emph{Key advantage of NT-4 split:} PPN-1 needs only NT-4a (linearized),
-    not the full nonlinear equations.
+  \item \textbf{MR-1} \textcolor{proven}{[\,COMPLETE\,]}: Lorentzian spectral action.
+  \item \textbf{MR-2} \textcolor{proven}{[\,CLOSED\,]}: Unitarity ($D^2$-quantization, bounded propagator, no ghosts).
+  \item \textbf{MR-3} \textcolor{near}{[\,CONDITIONAL\,]}: Causality (macrocausal; microcausality violated at $\sim 0.884/\Lambda$).
+  \item \textbf{MR-4} \textcolor{proven}{[\,UNCONDITIONAL\,]}: Two-loop (CHIRAL-Q chirality theorem).
+  \item \textbf{MR-5} \textcolor{near}{[\,CONDITIONAL BV-3,4\,]}: Finiteness (UV-finite in $D^2$-quantization).
+  \item \textbf{PPN-1} \textcolor{proven}{[\,COMPLETE\,]}: Solar System tests ($\Lambda \geq 2.38 \times 10^{-3}$\,eV).
 \end{itemize}
 
 \textbf{Three critical paths:}

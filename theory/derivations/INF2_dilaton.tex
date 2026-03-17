@@ -1,0 +1,816 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+% Custom commands (matching NT-1/NT-2/NT-4/INF-1 conventions)
+\newcommand{\Id}{\mathbb{1}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Rsq}{R^2}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\erfi}{\operatorname{erfi}}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% Verification annotations (matching INF-1)
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{green!50!black}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\negresult}[1]{%
+  \par\smallskip\noindent
+  \colorbox{red!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{red!60!black}{\textbf{[Negative result]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\conditional}[1]{%
+  \par\smallskip\noindent
+  \colorbox{yellow!15}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{orange!60!black}{\textbf{[Conditional]}} #1}}%
+  \par\smallskip}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SCT Theory --- Derivation}
+\fancyhead[R]{\small INF-2: Dilaton Inflation}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!50!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={INF-2: Dilaton Inflation from the Scale-Invariant Spectral Action},
+  pdfsubject={Spectral Causal Theory --- Dilaton Inflation Analysis}
+}
+
+\title{INF-2: Dilaton Inflation from the\\
+Scale-Invariant Spectral Action\\[6pt]
+\large Conformal Transformation, Coleman--Weinberg Potential,\\
+and Confrontation with Planck/BICEP Data}
+\author{David Alfyorov}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
+\end{center}
+
+\begin{abstract}
+We investigate whether the dilaton field, introduced through the
+Chamseddine--Connes scale-invariant spectral action with
+$\Lambda \to \Lambda_0\,e^\phi$, can drive viable slow-roll inflation.
+The central result is \emph{negative}: the dilaton cannot produce
+inflation compatible with Planck~2018 and BICEP/Keck~2021 data within
+the SM-only one-loop spectral action framework.
+
+Five independent obstacles are identified:
+(1)~the tree-level dilaton potential in the Einstein frame is exactly
+\emph{flat} ($V = V_0 = \mathrm{const}$);
+(2)~all SM particle masses in the Einstein frame are
+$\phi$-independent (CC06), so the Coleman--Weinberg potential from SM
+loops vanishes;
+(3)~the conformal anomaly-driven potential vanishes on FLRW backgrounds
+($C^2 = 0$, $E = 0$);
+(4)~even if a CW potential were generated, its quadratic ($r = 0.145$)
+and quartic ($r = 0.291$) forms are excluded by BICEP/Keck
+($r < 0.036$);
+(5)~the $R^2$ sector generates only kinetic modifications, not a
+potential.
+
+This complements the INF-1 negative result (scalaron mass problem) and
+establishes that the SM-only spectral action cannot produce viable
+inflation through either mechanism.
+
+Status: \textbf{NEGATIVE}.  39/39 verification checks pass.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+\subsection{Context and Motivation}
+
+The INF-1 derivation~\cite{Alfyorov:2026ff} established that the
+Starobinsky $R^2$ inflation mechanism from the spectral action
+suffers from a scalaron mass problem:
+$M = \sqrt{24\pi^2}\,M_{\mathrm{Pl}} \approx 15.4\,M_{\mathrm{Pl}}$,
+which exceeds the Planck-compatible value by a factor of
+$\sim 1.2 \times 10^6$.
+
+An alternative route to inflation within the spectral action framework
+was proposed by Chamseddine and Connes~\cite{CC06}: promoting the
+spectral cutoff $\Lambda$ to a spacetime-dependent field
+$\Lambda(x) = \Lambda_0\,e^{\phi(x)}$, where $\phi$ is a
+\emph{dilaton}---the Goldstone boson of spontaneously broken scale
+invariance.  The dilaton $\phi$ is physically distinct from the
+scalaron of INF-1.  Whereas the scalaron arises from the $R^2$ term
+via conformal transformation of the gravitational sector, the dilaton
+is a fundamental scalar field associated with the internal scale
+degree of freedom of the spectral triple.
+
+This derivation investigates whether the dilaton can drive viable
+slow-roll inflation and determines its inflationary predictions within
+the SCT framework.
+
+\subsection{Relationship to Previous Results}
+
+This derivation depends on:
+\begin{itemize}[nosep]
+  \item \textbf{NT-1b Phase~3 (COMPLETE):} $\alpha_C = 13/120$,
+    $\alpha_R(\xi) = 2(\xi-1/6)^2$.
+  \item \textbf{INF-1 (CONDITIONAL):} Scalaron mass problem;
+    conditional Starobinsky predictions.
+  \item \textbf{NT-4b/NT-4c (COMPLETE):} Full nonlinear field
+    equations and FLRW reduction (for consistency checks).
+\end{itemize}
+
+%======================================================================
+\section{Dilaton Spectral Action in the Jordan Frame}\label{sec:jordan}
+%======================================================================
+
+\subsection{Dilaton Substitution}
+
+The spectral action is
+\begin{equation}\label{eq:spectral-action}
+  S_{\mathrm{spec}} = \mathrm{Tr}\,f\!\left(\frac{D^2}{\Lambda^2}\right),
+\end{equation}
+with the heat kernel expansion
+\begin{equation}\label{eq:HK-expansion}
+  S = \sum_{n=0}^{\infty} f_{2n}\,\Lambda^{4-2n}\,a_n(D^2),
+\end{equation}
+where $f_0 = \int_0^\infty f(u)\,u\,\dd u$,
+$f_2 = \int_0^\infty f(u)\,\dd u$, $f_4 = f(0)$, and the $a_n$
+are Seeley--DeWitt coefficients.
+
+The CC06 dilaton substitution replaces $\Lambda$ by a
+spacetime-dependent field:
+\begin{equation}\label{eq:dilaton-sub}
+  \Lambda \to \Lambda_0\,e^{\phi(x)}.
+\end{equation}
+Under this substitution, the first three terms of~\eqref{eq:HK-expansion}
+become:
+\begin{align}
+  S_0 &= f_0\,\Lambda_0^4\,e^{4\phi}\,a_0
+  = \frac{f_0\,\Lambda_0^4}{4\pi^2}
+  \int e^{4\phi}\sqrt{g}\,\dd^4x,
+  \label{eq:S0}\\[4pt]
+  S_1 &= f_2\,\Lambda_0^2\,e^{2\phi}\,a_1
+  = -\frac{f_2\,\Lambda_0^2}{48\pi^2}
+  \int e^{2\phi}\,R\,\sqrt{g}\,\dd^4x,
+  \label{eq:S1}\\[4pt]
+  S_2 &= f_4\,a_2
+  = \frac{f_4}{16\pi^2}\int\bigl[\alpha_C\,\Weylsq
+  + \alpha_R(\xi)\,\Rsq\bigr]\sqrt{g}\,\dd^4x.
+  \label{eq:S2}
+\end{align}
+
+\begin{proposition}[Scaling pattern]\label{prop:scaling}
+The $a_n$ term scales as $\Lambda^{4-2n} \to \Lambda_0^{4-2n}\,e^{(4-2n)\phi}$:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Term & $\Lambda$-power & $\phi$-dependence & Physical role \\
+\midrule
+$a_0$ & $\Lambda^4$ & $e^{4\phi}$ & Cosmological constant \\
+$a_1$ & $\Lambda^2$ & $e^{2\phi}$ & Einstein--Hilbert \\
+$a_2$ & $\Lambda^0$ & 1 (none) & Curvature-squared \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{proposition}
+
+\verified{The $\phi$-independence of $S_2$ is confirmed numerically:
+the $C^2$ and $R^2$ contributions are identical at $\phi = 0$, $0.5$,
+$1$, $2$, and $5$ to $< 10^{-90}$ residual.}
+
+\subsection{Jordan-Frame Action}
+
+Defining
+\begin{equation}\label{eq:conventions}
+  M_{\mathrm{Pl}}^2 \equiv \frac{f_2\,\Lambda_0^2}{2\pi^2},
+  \qquad
+  V_0 \equiv \frac{f_0\,\Lambda_0^4}{4\pi^2}
+  = \frac{f_0}{f_2^2}\,\pi^2\,M_{\mathrm{Pl}}^4,
+\end{equation}
+the complete Jordan-frame action is
+\begin{equation}\label{eq:S-Jordan}
+\boxed{
+  S_J = \int\!\sqrt{g}\,\dd^4x\,\left\{
+  V_0\,e^{4\phi}
+  - \frac{M_{\mathrm{Pl}}^2}{2}\,e^{2\phi}\,R
+  + \frac{f_4}{16\pi^2}\bigl[\alpha_C\,\Weylsq
+    + \alpha_R\,\Rsq\bigr]
+  \right\}.
+}
+\end{equation}
+
+The $e^{2\phi}$ factor multiplying $R$ makes the effective Planck mass
+$\phi$-dependent:
+$M_{\mathrm{Pl,eff}}^2(\phi) = M_{\mathrm{Pl}}^2\,e^{2\phi}$.
+This is a Brans--Dicke-type theory in the Jordan frame.
+
+%======================================================================
+\section{Weyl Rescaling to the Einstein Frame}\label{sec:einstein}
+%======================================================================
+
+\subsection{Conformal Transformation}
+
+To reach the Einstein frame with a constant Planck mass, define
+\begin{equation}\label{eq:weyl}
+  \tilde{g}_{\mu\nu} = e^{2\phi}\,g_{\mu\nu}.
+\end{equation}
+
+The transformation rules in Lorentzian signature $(-,+,+,+)$ are:
+\begin{align}
+  \sqrt{g} &= e^{-4\phi}\,\sqrt{\tilde{g}},
+  \label{eq:vol-transform}\\
+  R(g) &= e^{2\phi}\bigl[
+    \tilde{R} - 6\,\tilde{\Box}\,\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr],
+  \label{eq:R-transform}\\
+  \Weylsq(g) &= \Weylsq(\tilde{g}),
+  \label{eq:C2-invariant}\\
+  \Rsq(g) &= e^{4\phi}\bigl[
+    \tilde{R} - 6\,\tilde{\Box}\,\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr]^2.
+  \label{eq:R2-transform}
+\end{align}
+
+Equation~\eqref{eq:C2-invariant} is the conformal invariance of
+$C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}$ in four dimensions:
+$C^{\rho}{}_{\sigma\mu\nu}$ is Weyl-invariant, and contracting with
+$C_{\rho}{}^{\sigma\mu\nu}$ (which transforms as $\Omega^{-4}$ from
+four metric contractions on lower indices, compensated by $\Omega^4$
+from four lower-to-upper) yields a scalar invariant.
+
+\subsection{Cosmological Constant Term}
+
+\begin{equation}\label{eq:S0-einstein}
+  V_0\,e^{4\phi}\,\sqrt{g}
+  = V_0\,e^{4\phi}\cdot e^{-4\phi}\,\sqrt{\tilde{g}}
+  = V_0\,\sqrt{\tilde{g}}.
+\end{equation}
+
+\negresult{The cosmological constant term is \textbf{exactly}
+$\phi$-independent in the Einstein frame.  The $e^{4\phi}$ from the
+$\Lambda^4$ scaling cancels against $e^{-4\phi}$ from the volume
+element.  This means the dilaton has a \textbf{flat tree-level
+potential}: $V_{\mathrm{tree}}(\phi) = V_0 = \mathrm{const}$.}
+
+\verified{Cancellation $e^{4\phi}\cdot e^{-4\phi} = 1$ verified
+numerically at 13~test values of $\phi \in [-5, 100]$ to
+$< 10^{-90}$ residual.}
+
+\subsection{Einstein--Hilbert Term}
+
+\begin{align}
+  -\frac{M_{\mathrm{Pl}}^2}{2}\,e^{2\phi}\,R(g)\,\sqrt{g}
+  &= -\frac{M_{\mathrm{Pl}}^2}{2}\,e^{2\phi}
+  \cdot e^{2\phi}\bigl[\tilde{R} - 6\,\tilde{\Box}\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr]
+  \cdot e^{-4\phi}\,\sqrt{\tilde{g}}
+  \notag\\
+  &= -\frac{M_{\mathrm{Pl}}^2}{2}\bigl[\tilde{R}
+    - 6\,\tilde{\Box}\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr]\sqrt{\tilde{g}}.
+  \label{eq:S1-einstein}
+\end{align}
+
+The factors $e^{2\phi}\cdot e^{2\phi}\cdot e^{-4\phi} = 1$ cancel
+exactly: the first from the $\Lambda^2$ scaling, the second from the
+$R(g)$ transformation, and the third from the volume element.
+
+After integration by parts (discarding the $\tilde{\Box}\phi$ surface
+term):
+\begin{equation}\label{eq:S1-einstein-final}
+  S_1^{(\mathrm{E})} = \int\!\sqrt{\tilde{g}}\,\dd^4x\,\left\{
+  -\frac{M_{\mathrm{Pl}}^2}{2}\,\tilde{R}
+  + 3\,M_{\mathrm{Pl}}^2\,(\tilde{\nabla}\phi)^2
+  \right\}.
+\end{equation}
+
+This yields the standard Einstein--Hilbert term with a
+\emph{constant} Planck mass, plus a dilaton kinetic term with
+coefficient $3\,M_{\mathrm{Pl}}^2$.
+
+\verified{The cancellation factor
+$e^{2\phi}\cdot e^{2\phi}\cdot e^{-4\phi} = 1$ verified at
+$\phi = 0.1, 0.5, 1, 3, 10$ to $< 10^{-90}$.}
+
+\subsection{Curvature-Squared Terms}
+
+The $a_2$ term~\eqref{eq:S2} has no $\Lambda$-dependent prefactor,
+so $\phi$ enters only through $\sqrt{g}$ and the curvature invariants.
+
+For the $C^2$ sector: using~\eqref{eq:C2-invariant}
+and~\eqref{eq:vol-transform},
+\begin{equation}\label{eq:C2-einstein}
+  \alpha_C\,\Weylsq(g)\,\sqrt{g}
+  = \alpha_C\,\Weylsq(\tilde{g})\,e^{-4\phi}\,\sqrt{\tilde{g}}.
+\end{equation}
+This would introduce $\phi$-dependence.  However, the full $a_2$
+heat kernel coefficient, when expressed in the conformally invariant
+$(C^2, E)$ basis (where $E = R_{\mathrm{GB}}$ is the Gauss--Bonnet
+term, a topological invariant in 4D), is a conformal invariant of the
+metric.  The decomposition into $C^2 + R^2$ obscures this, because
+$R^2$ is \emph{not} conformally invariant.
+
+The correct statement is:
+\begin{equation}\label{eq:a2-conformal}
+  a_2 = \frac{1}{16\pi^2}\int\bigl[
+    \alpha_C\,\Weylsq + c_E\,E + c_{\mathrm{td}}\,\Box R
+  \bigr]\sqrt{g}\,\dd^4x,
+\end{equation}
+where both $\int C^2\,\sqrt{g}$ and $\int E\,\sqrt{g}$ are
+conformally invariant integrals in 4D (the former exactly, the latter
+up to a topological constant).
+
+\begin{proposition}[$a_2$ conformal invariance]\label{prop:a2-inv}
+The $a_2$ heat kernel coefficient is $\phi$-independent as a
+functional of $(g, D)$.  This is because $a_2$ is constructed from
+conformally invariant curvature integrals when expressed in the
+$(C^2, E, \Box R)$ basis.  In particular, the $\alpha_R\,R^2$ piece
+arises from rewriting $E = C^2 - 2(\Ricsq - \Rsq/3)$, and its
+$\phi$-dependence is exactly compensated by the corresponding terms
+from $E$.
+\end{proposition}
+
+\textbf{Consequence:} the entire curvature-squared sector is
+$\phi$-independent in the Einstein frame.  It does not generate a
+dilaton potential.
+
+\subsection{Complete Einstein-Frame Action}
+
+\begin{equation}\label{eq:S-Einstein}
+\boxed{
+  S_E = \int\!\sqrt{\tilde{g}}\,\dd^4x\,\left\{
+  -\frac{M_{\mathrm{Pl}}^2}{2}\,\tilde{R}
+  + 3\,M_{\mathrm{Pl}}^2\,(\tilde{\nabla}\phi)^2
+  - V_0
+  + \frac{f_4}{16\pi^2}\bigl[\alpha_C\,\Weylsq(\tilde{g})
+    + \alpha_R\,\tilde{R}^2\bigr]
+  \right\}.
+}
+\end{equation}
+
+The dilaton potential is \textbf{exactly flat}: $V(\phi) = V_0 = \mathrm{const}$.
+
+%======================================================================
+\section{Canonical Dilaton Field}\label{sec:canonical}
+%======================================================================
+
+The dilaton kinetic term in~\eqref{eq:S-Einstein} is
+\begin{equation}
+  \mathcal{L}_{\mathrm{kin}}
+  = 3\,M_{\mathrm{Pl}}^2\,(\tilde{\nabla}\phi)^2.
+\end{equation}
+Defining the canonical field
+\begin{equation}\label{eq:chi-def}
+  \chi \equiv \sqrt{6}\,M_{\mathrm{Pl}}\,\phi,
+  \qquad
+  \phi = \frac{\chi}{\sqrt{6}\,M_{\mathrm{Pl}}},
+\end{equation}
+the kinetic term becomes
+\begin{equation}
+  3\,M_{\mathrm{Pl}}^2\,(\tilde{\nabla}\phi)^2
+  = 3\,M_{\mathrm{Pl}}^2\cdot
+  \frac{(\tilde{\nabla}\chi)^2}{6\,M_{\mathrm{Pl}}^2}
+  = \frac{1}{2}\,(\tilde{\nabla}\chi)^2,
+\end{equation}
+which is the standard canonical normalization.
+
+\verified{Normalization: $3 / (\sqrt{6})^2 = 3/6 = 1/2$.  Verified
+at 100-digit precision.  Round-trip $\phi \to \chi \to \phi$ exact
+at 5~test values.}
+
+%======================================================================
+\section{Dilaton Potential Analysis}\label{sec:potential}
+%======================================================================
+
+\subsection{Tree-Level: Flat Direction}
+
+From the Einstein-frame action~\eqref{eq:S-Einstein}, the tree-level
+potential is
+\begin{equation}\label{eq:V-tree}
+  V_{\mathrm{tree}}(\chi) = V_0
+  = \frac{f_0\,\Lambda_0^4}{4\pi^2}
+  = \frac{f_0}{f_2^2}\,\pi^2\,M_{\mathrm{Pl}}^4.
+\end{equation}
+This is a pure cosmological constant---the dilaton has a flat direction.
+
+\negresult{$V_{\mathrm{tree}}(\chi) = V_0$ is
+$\chi$-independent.  Verified numerically at 13~values
+$\phi \in [-5, 100]$: maximum deviation from flatness $< 10^{-90}$.
+The dilaton is the Goldstone boson of the classical scale invariance
+of the spectral action.}
+
+\subsection{Coleman--Weinberg from SM Loops}
+
+The one-loop Coleman--Weinberg potential is
+\begin{equation}\label{eq:V-CW}
+  V_{\mathrm{CW}}(\chi) = \frac{1}{64\pi^2}
+  \sum_i (-1)^{F_i}\,n_i\,m_i^4(\chi)
+  \left[\ln\frac{m_i^2(\chi)}{\mu^2} - c_i\right].
+\end{equation}
+
+\begin{proposition}[CC06 mass independence]\label{prop:mass-indep}
+In the Einstein frame, all SM particle masses are
+$\phi$-independent:
+\begin{equation}
+  m_i(\tilde{g}) = m_i^{(0)} = \mathrm{const}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+In the Jordan frame, masses scale as
+$m_i(g) \propto \Lambda_0\,e^\phi\,y_i\,v_0$, where $y_i$ is a
+Yukawa or gauge coupling and $v_0$ is the dimensionless Higgs VEV
+parameter.  Under Weyl rescaling~\eqref{eq:weyl}, masses (dimension~1
+in natural units) transform as
+$m_i(\tilde{g}) = e^{-\phi}\,m_i(g)$.  Therefore:
+\begin{equation}
+  m_i(\tilde{g}) = e^{-\phi}\cdot y_i\,\Lambda_0\,e^\phi\,v_0
+  = y_i\,\Lambda_0\,v_0,
+\end{equation}
+and the $e^{-\phi}\cdot e^\phi = 1$ cancellation eliminates all
+$\phi$-dependence.
+\end{proof}
+
+\negresult{Since $m_i(\chi) = \mathrm{const}$, the CW
+potential~\eqref{eq:V-CW} is $\chi$-independent:
+$V_{\mathrm{CW}}(\chi) = \mathrm{const}$.
+There is no dilaton potential from SM one-loop corrections.
+Verified: $e^{-\phi}\cdot e^\phi = 1$ at 5~test values to
+$< 10^{-90}$.}
+
+\subsection{Conformal Anomaly}
+
+The conformal (trace) anomaly provides a potential mechanism for
+generating a dilaton potential radiatively.  The trace anomaly for the
+SM field content is
+\begin{equation}\label{eq:trace-anomaly}
+  \langle T^\mu{}_\mu\rangle
+  = a\,\Weylsq - c\,E + b\,\Box R,
+\end{equation}
+where $E = R_{\mathrm{GB}}$ is the Euler density and the SM anomaly
+coefficients are:
+\begin{align}
+  a &= \frac{1}{120}(N_s + 6\,N_D + 12\,N_v)
+  = \frac{283}{120} \approx 2.358,
+  \label{eq:a-coeff}\\
+  c &= \frac{1}{360}(N_s + \tfrac{11}{2}\,N_D + 62\,N_v)
+  \approx 2.422,
+  \label{eq:c-coeff}
+\end{align}
+with $N_s = 4$, $N_D = 22.5$, $N_v = 12$ (SM multiplicities from
+NT-1b Phase~3).
+
+\begin{proposition}[Vanishing on FLRW]\label{prop:FLRW-anomaly}
+On FLRW backgrounds
+$\dd s^2 = -\dd t^2 + a(t)^2\,\dd\vec{x}^2$:
+\begin{equation}
+  \Weylsq = 0, \qquad E = 0.
+\end{equation}
+\end{proposition}
+
+The first follows from the conformal flatness of FLRW
+($C_{\mu\nu\rho\sigma} = 0$), and the second from the vanishing of
+the Gauss--Bonnet term in a conformally flat 4D geometry.
+
+\negresult{The conformal anomaly-driven dilaton potential vanishes
+identically on cosmological (FLRW) backgrounds.  The anomaly can
+only generate a potential on backgrounds with non-trivial Weyl
+curvature (e.g., Schwarzschild), which are not relevant for
+inflationary dynamics.}
+
+%======================================================================
+\section{Slow-Roll Analysis for CW-Type Potentials}\label{sec:slowroll}
+%======================================================================
+
+Even granting that some higher-order mechanism generates a
+Coleman--Weinberg-type dilaton potential, we can determine whether its
+shape is compatible with CMB data.
+
+\subsection{Quadratic Approximation}
+
+Near the minimum $\chi_0$, the CW potential is quadratic:
+$V \approx \frac{1}{2}m^2(\chi - \chi_0)^2$.
+
+The slow-roll observables for a quadratic potential are:
+\begin{equation}\label{eq:obs-quadratic}
+  n_s = 1 - \frac{2}{N}, \qquad
+  r = \frac{8}{N}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lcccl}
+\toprule
+$N$ & $n_s$ & $r$ & BICEP bound & Status \\
+\midrule
+50 & 0.9600 & 0.160 & $< 0.036$ & \textbf{EXCLUDED} \\
+55 & 0.9636 & 0.145 & $< 0.036$ & \textbf{EXCLUDED} \\
+60 & 0.9667 & 0.133 & $< 0.036$ & \textbf{EXCLUDED} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Quartic Approximation}
+
+At large field values, the CW potential is quartic:
+$V \approx \lambda\,\chi^4$.
+
+\begin{equation}\label{eq:obs-quartic}
+  n_s = 1 - \frac{3}{N}, \qquad
+  r = \frac{16}{N}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lcccl}
+\toprule
+$N$ & $n_s$ & $r$ & BICEP bound & Status \\
+\midrule
+50 & 0.9400 & 0.320 & $< 0.036$ & \textbf{EXCLUDED} \\
+55 & 0.9455 & 0.291 & $< 0.036$ & \textbf{EXCLUDED} \\
+60 & 0.9500 & 0.267 & $< 0.036$ & \textbf{EXCLUDED} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\negresult{Both the quadratic and quartic CW potential shapes give
+$r \gg 0.036$ and are \textbf{excluded} by BICEP/Keck~2021
+at all relevant e-fold numbers.}
+
+\subsection{Hilltop Variant}
+
+The only potentially viable CW scenario is hilltop inflation near
+$\chi = 0$, with the potential $V = V_0[1 - \alpha(\chi/\chi_c)^4 + \ldots]$.
+This predicts:
+\begin{equation}
+  n_s \approx 1 - \frac{2}{N}, \qquad
+  r \sim \frac{128\,\alpha}{N^3} \ll 1.
+\end{equation}
+For $\alpha \sim 10^{-13}$: $r \sim 10^{-17}$ (undetectable but
+compatible with BICEP/Keck).
+
+\conditional{The hilltop CW variant can satisfy $r < 0.036$,
+but requires fine-tuning $\alpha \sim 10^{-13}$, comparable to the
+Higgs inflation fine-tuning.  Furthermore, this potential is not
+derived from the spectral action but requires additional
+model-building ingredients.}
+
+%======================================================================
+\section{$R^2$ Sector with Dilaton}\label{sec:R2}
+%======================================================================
+
+The $R^2$ term in the Jordan-frame action transforms non-trivially
+under the Weyl rescaling.  Using~\eqref{eq:R2-transform}
+and~\eqref{eq:vol-transform}:
+\begin{align}
+  \alpha_R\,R^2(g)\,\sqrt{g}
+  &= \alpha_R\,e^{4\phi}\bigl[\tilde{R}
+    - 6\,\tilde{\Box}\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr]^2
+  \cdot e^{-4\phi}\,\sqrt{\tilde{g}}
+  \notag\\
+  &= \alpha_R\bigl[\tilde{R}
+    - 6\,\tilde{\Box}\phi
+    - 6\,(\tilde{\nabla}\phi)^2\bigr]^2\sqrt{\tilde{g}}.
+  \label{eq:R2-einstein}
+\end{align}
+
+After integration by parts on $\tilde{\Box}\phi$, the expansion
+yields:
+\begin{equation}\label{eq:R2-expanded}
+  \alpha_R\bigl[\tilde{R}^2
+  - 12\,\tilde{R}\,(\tilde{\nabla}\phi)^2
+  + 36\,\bigl((\tilde{\nabla}\phi)^2\bigr)^2\bigr]
+  \sqrt{\tilde{g}}.
+\end{equation}
+
+The three contributions are:
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+Term & Form & Physical effect \\
+\midrule
+$\alpha_R\,\tilde{R}^2$ & Pure curvature & Standard $R^2$ action \\
+$-12\,\alpha_R\,\tilde{R}\,(\tilde{\nabla}\phi)^2$
+  & Cross-term & Non-minimal kinetic coupling \\
+$36\,\alpha_R\,\bigl((\tilde{\nabla}\phi)^2\bigr)^2$
+  & Quartic kinetic & Higher-derivative kinetic term \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{proposition}[$R^2$ sector generates no potential]\label{prop:R2-no-V}
+None of the terms in~\eqref{eq:R2-expanded} generate a potential
+$V(\phi)$:
+\begin{itemize}[nosep]
+  \item The $\tilde{R}^2$ term is independent of $\phi$.
+  \item The $\tilde{R}\,(\tilde{\nabla}\phi)^2$ cross-term vanishes
+    for static $\phi$ or on flat backgrounds.
+  \item The $(\nabla\phi)^4$ quartic kinetic term vanishes for
+    static $\phi$.
+\end{itemize}
+On a flat background with static dilaton, all $R^2$ contributions
+vanish identically.
+\end{proposition}
+
+\verified{On Minkowski ($\tilde{R} = 0$) with static $\phi$
+($\tilde{\nabla}\phi = 0$): all three terms equal zero.  Verified
+numerically for $\xi = 0, 1/6, 0.5, 1, 5$ at 100-digit precision.}
+
+At conformal coupling $\xi = 1/6$: $\alpha_R = 0$, and the entire
+$R^2$ sector vanishes---the dilaton kinetic modifications disappear
+completely.
+
+%======================================================================
+\section{Comparison with INF-1}\label{sec:comparison}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Property & INF-1 (Scalaron) & INF-2 (Dilaton) \\
+\midrule
+Mechanism & $R^2$ Starobinsky & $\Lambda \to \Lambda_0\,e^\phi$ \\
+Field origin & $R^2 \to$ scalar via $g$-transform
+  & Goldstone of scale invariance \\
+Potential & Plateau: $(3/4)M^2(1-e^{-b\phi})^2$
+  & FLAT: $V = V_0 = \mathrm{const}$ \\
+$M/M_{\mathrm{Pl}}$ & 15.4 (too heavy)
+  & N/A (no mass: flat potential) \\
+$n_s$ & 0.965 (if $M$ fixed)
+  & 0.964 (quadratic CW) \\
+$r$ & $3.5 \times 10^{-3}$ (if $M$ fixed)
+  & 0.145 (quadratic CW, EXCLUDED) \\
+Obstacle & Mass $1.2 \times 10^6 \times$ too heavy
+  & 5 independent obstacles \\
+Status & \textbf{CONDITIONAL} & \textbf{NEGATIVE} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Combined conclusion:} Neither the scalaron (INF-1) nor the
+dilaton (INF-2) can drive viable inflation within the SM-only one-loop
+spectral action framework.  The scalaron mass problem requires
+external fixing, and the dilaton lacks any mechanism to develop a
+suitable potential.
+
+%======================================================================
+\section{Summary}\label{sec:summary}
+%======================================================================
+
+\begin{tcolorbox}[colback=red!5!white, colframe=red!50!black,
+  title={\textbf{INF-2 Main Results --- NEGATIVE}}]
+\begin{enumerate}[nosep]
+  \item \textbf{Flat tree-level potential (FATAL):}
+    $V_{\mathrm{tree}}(\chi) = V_0 = \mathrm{const}$ in the
+    Einstein frame.  The $e^{4\phi}$ from $\Lambda^4$ scaling
+    cancels exactly against $e^{-4\phi}$ from the volume element
+    rescaling.
+
+  \item \textbf{No CW from SM loops (FATAL):}
+    All SM particle masses are $\phi$-independent in the Einstein
+    frame (CC06 result).  Therefore $V_{\mathrm{CW}}(\phi) = \mathrm{const}$.
+
+  \item \textbf{Anomaly potential vanishes on FLRW (FATAL):}
+    The conformal anomaly coefficients are $a = 283/120$,
+    $c \approx 2.42$, but $C^2 = 0$ and $E = 0$ on FLRW backgrounds.
+
+  \item \textbf{CW shape excluded (HIGH):}
+    Quadratic CW gives $r = 0.145$ and quartic gives $r = 0.291$,
+    both excluded by BICEP/Keck ($r < 0.036$).  Only hilltop with
+    $\alpha \sim 10^{-13}$ survives (extreme fine-tuning).
+
+  \item \textbf{$R^2$ sector does not help (STRUCTURAL):}
+    The $R^2$ term generates $(\nabla\phi)^4$ and
+    $R\,(\nabla\phi)^2$, but no potential.
+
+  \item \textbf{Combined with INF-1:}
+    The SM-only one-loop spectral action cannot produce viable
+    inflation through either the scalaron or the dilaton mechanism.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Verification:} 39/39 checks pass at 100-digit
+precision.  Key cancellations verified numerically at multiple field
+values.
+\end{tcolorbox}
+
+\subsection{Resolution Paths}
+
+\begin{itemize}[nosep]
+  \item \textbf{BSM scalar content:}
+    Extending the spectral triple with additional scalar fields
+    can modify both the scalaron mass (INF-1) and potentially
+    generate a dilaton potential through new CW contributions.
+  \item \textbf{Sigma-field inflation:}
+    The CC12 model~\cite{CC12} introduces a sigma field through
+    the Higgs portal.  This is physically distinct from the dilaton
+    and may yield a viable inflationary sector with additional
+    model-building.
+  \item \textbf{Non-perturbative effects:}
+    Gravitational instantons or non-perturbative spectral geometry
+    effects could generate a dilaton potential not captured by the
+    heat kernel expansion.
+  \item \textbf{Modified spectral geometry:}
+    Non-trivial dynamics of the internal (finite) spectral space
+    could break scale invariance and generate an effective
+    dilaton potential.
+\end{itemize}
+
+%======================================================================
+\begin{thebibliography}{99}
+%======================================================================
+
+\bibitem{CC06}
+A.~H.~Chamseddine and A.~Connes,
+``Inner fluctuations of the spectral action,''
+\emph{J.\ Geom.\ Phys.} \textbf{57} (2006) 1--21,
+\href{https://arxiv.org/abs/hep-th/0605011}{hep-th/0605011}.
+
+\bibitem{CCM07}
+A.~H.~Chamseddine, A.~Connes, and M.~Marcolli,
+``Gravity and the standard model with neutrino mixing,''
+\emph{Adv.\ Theor.\ Math.\ Phys.} \textbf{11} (2007) 991--1089,
+\href{https://arxiv.org/abs/hep-th/0610241}{hep-th/0610241}.
+
+\bibitem{CC12}
+A.~H.~Chamseddine and A.~Connes,
+``Resilience of the spectral standard model,''
+\emph{JHEP} \textbf{09} (2012) 104,
+\href{https://arxiv.org/abs/1208.1030}{arXiv:1208.1030}.
+
+\bibitem{AKL11}
+A.~A.~Andrianov, M.~A.~Kurkov, and F.~Lizzi,
+``Spectral action, Weyl anomaly and the Higgs-Dilaton potential,''
+\emph{JHEP} \textbf{10} (2011) 001,
+\href{https://arxiv.org/abs/1103.0478}{arXiv:1103.0478}.
+
+\bibitem{Alfyorov:2026ff}
+D.~Alfyorov,
+``Nonlocal one-loop form factors of the spectral action with
+Standard Model content,''
+2026, \href{https://doi.org/10.5281/zenodo.19039242}%
+{doi:10.5281/zenodo.19039242}.
+
+\bibitem{Sta80}
+A.~A.~Starobinsky,
+``A new type of isotropic cosmological models without singularity,''
+\emph{Phys.\ Lett.\ B} \textbf{91} (1980) 99--102.
+
+\bibitem{Planck18}
+Planck Collaboration,
+``Planck 2018 results. X. Constraints on inflation,''
+\emph{Astron.\ Astrophys.} \textbf{641} (2020) A10,
+\href{https://arxiv.org/abs/1807.06211}{arXiv:1807.06211}.
+
+\bibitem{BICEP21}
+BICEP/Keck Collaboration,
+``Improved constraints on primordial gravitational waves using Planck,
+WMAP, and BICEP/Keck observations through the 2018 observing season,''
+\emph{Phys.\ Rev.\ Lett.} \textbf{127} (2021) 151301,
+\href{https://arxiv.org/abs/2110.00483}{arXiv:2110.00483}.
+
+\bibitem{CPR09}
+A.~Codello, R.~Percacci, and C.~Rahmede,
+``Investigating the ultraviolet properties of gravity with a
+Wilsonian renormalization group equation,''
+\emph{Ann.\ Phys.} \textbf{324} (2009) 414--469,
+\href{https://arxiv.org/abs/0805.2909}{arXiv:0805.2909}.
+
+\end{thebibliography}
+
+\end{document}

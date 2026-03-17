@@ -43,9 +43,8 @@ References:
     - Connes, van Suijlekom (2020), arXiv:2004.14115 [spectral truncations]
     - van Suijlekom (2011), arXiv:1104.5199 [YM spectral action renorm]
     - Perez-Sanchez (2020), arXiv:1912.13288 [Barrett-Glaser model]
-    - MR-5b (internal) — two-loop D=0 via CCC analysis
-    - CL (internal) — commutativity [lim, PV]
-    - GZ (internal) — entire part g_A = -13/60
+    - Alfyorov (2026), Zenodo 10.5281/zenodo.19039242 [form factors]
+    - Alfyorov (2026), Zenodo 10.5281/zenodo.19056204 [chirality theorem]
 
 Author: David Alfyorov
 """

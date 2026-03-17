@@ -882,6 +882,28 @@ SCT_IDENTITIES = [
     },
 ]
 
+# --------------------------------------------------------------------------- #
+#  Additional formally verified theorems (NOT in SCT_IDENTITIES)
+#
+#  The following theorems from chiral_q_identity.lean involve variables
+#  (not simple lhs = rhs rational identities) and are therefore not
+#  registered in SCT_IDENTITIES, but are formally verified in Lean 4:
+#
+#    sq_comm_of_anticomm          -- square commutes when elements anticommute
+#    prod_comm_of_anticomm        -- product commutes when elements anticommute
+#    chiral_q_identity            -- main chiral-q theorem
+#    d_sq_comm                    -- d² commutes with chiral grading
+#    even_clifford_comm           -- even Clifford elements commute with grading
+#    spin_connection_comm_two     -- spin connection commutes with γ-grading
+#    diffeo_generator_comm        -- diffeomorphism generator commutativity
+#    bv_canonical_transformation  -- BV canonical transformation preserves bracket
+#    cme_preserved                -- classical master equation preserved
+#    centralizer_mul_closed       -- centralizer closed under multiplication
+#    centralizer_neg_closed       -- centralizer closed under negation
+#    centralizer_inv_closed       -- centralizer closed under inversion
+#    centralizer_triple_product   -- centralizer closed under triple product
+# --------------------------------------------------------------------------- #
+
 
 def get_identities_by_phase(phase):
     """Return all identities for a given phase."""

@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{amsthm}
 \usepackage[margin=2.5cm]{geometry}
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{booktabs}
@@ -42,14 +43,14 @@
   citecolor=blue!60!black,
   urlcolor=blue!60!black,
   pdfauthor={David Alfyorov},
-  pdftitle={UV finiteness of the spectral action via D-squared quantization: a chirality proof},
+  pdftitle={Perturbative UV finiteness of the spectral action in D-squared quantization: a chirality proof},
   pdfsubject={hep-th}
 }
 
 \begin{document}
 
-\title{UV finiteness of the spectral action via $D^2$-quantization:\\
-a chirality proof}
+\title{Perturbative UV finiteness of the spectral action\\
+in $D^2$-quantization: a chirality proof}
 
 \author{David Alfyorov}
 
@@ -62,41 +63,22 @@ a chirality proof}
 % ============================================================
 
 We prove that in the $D^2$-quantization of the spectral action
-$S = \Tr\,f(D^2/\Lam^2)$, all perturbative counterterms at every loop order~$L$
-commute with the chirality operator~$\gamma_5$ and are therefore absorbable by
-deformation of the spectral function~$f$.  The proof is purely algebraic and
-requires only the Dirac chirality relation $\{D, \gamma_5\} = 0$: any perturbation
-$\delta D$ satisfying the same relation produces a variation
-$\delta(D^2) = \{D_0, \delta D\} + (\delta D)^2$ that commutes with~$\gamma_5$.
-Since the kinetic operator, the propagator, and all vertices in the $D^2$
-path integral inherit this block-diagonal structure, the $L$-loop effective
-action decomposes into left- and right-chiral sectors with no cross-terms.
-The degree of divergence is $\mathcal{D} = 0$ at all loop orders, in the sense
-that all counterterms at every loop order are absorbable by spectral function
-deformation (perturbative finiteness)\footnote{We define $\mathcal{D} = 0$
-in the spectral action context as the statement that the divergent part of the
-$L$-loop effective action can be written as
-$\Tr[\delta f_L(D_0^2/\Lambda^2)]$ for some spectral function $\delta f_L$,
-and is therefore absorbable by the redefinition $f \to f + \delta f_L$.
-This is stronger than power-counting renormalizability and weaker than
-non-perturbative finiteness.}.
-This resolves the three-loop overdetermination obstruction that arises in
-standard metric quantization, where two independent quartic Weyl invariants
-cannot be absorbed by a single spectral parameter.  In $D^2$-quantization,
-chirality constrains the accessible counterterm space to a single effective
-structure.  UV finiteness is established unconditionally through two loops,
-and at all perturbative orders under five precisely formulated axioms
-concerning the Batalin--Vilkovisky structure of the field redefinition
-$g \mapsto D^2[g]$, of which two are proven, one is natural, and two are
-verified to one-loop order.  The axiomatic framework (Definition~6.9)
-identifies the minimal assumptions: smoothness and surjectivity of the
-Lichnerowicz map (proven), well-definedness of the Jacobian superdeterminant
-(verified to one loop), anomaly freedom of the field redefinition (verified
-to one loop), and regularization compatibility (natural).  The algebraic
-identity is verified numerically for finite spectral triples of matrix
-size $N = 4$--$64$, at loop orders $L = 1$--$8$, and verified exact to
-100-digit working precision (algebraic identity, not numerical approximation).
-The closure is perturbative; non-perturbative equivalence remains open.
+$S = \Tr\,f(D^2/\Lam^2)$, all perturbative counterterms at every loop
+order commute with the chirality operator~$\gamma_5$ and are therefore
+absorbable by deformation of the spectral function~$f$.  The proof is
+purely algebraic: the Dirac chirality relation $\{D, \gamma_5\} = 0$
+forces the variation $\delta(D^2)$ to commute with~$\gamma_5$, and this
+block-diagonal structure propagates to the kinetic operator, propagator,
+vertices, and all loop integrals.  The result resolves the three-loop
+overdetermination obstruction of metric quantization, where two independent
+quartic Weyl invariants cannot be absorbed by a single spectral parameter.
+UV finiteness holds through two loops (where the unique dimension-6
+counterterm structure ensures absorption), and at all perturbative orders
+under five BV axioms formulated in Section~\ref{sec:gap}---of which two
+are proven, one is natural, and two are verified to one-loop order.  The
+identity is verified numerically for finite spectral triples ($N = 4$--$64$,
+$L = 1$--$8$) and formally in Lean~4.  The closure is perturbative;
+non-perturbative equivalence remains open.
 
 \end{abstract}
 
@@ -158,11 +140,13 @@ in the chiral basis and can therefore be absorbed by a deformation
 $f \to f + \delta f$ of the spectral function.
 
 The physical equivalence of $D^2$-quantization and standard metric
-quantization (Gap~G1) is established at the perturbative level: we prove
-that the Faddeev--Popov ghost sector of metric quantization preserves
-chirality in the spinor basis, and that the BRST cohomologies of both
-schemes are isomorphic on the physical sector.  Non-perturbative equivalence
-remains open.  We discuss this in detail in Section~\ref{sec:gap}.
+quantization (Gap~G1) is addressed at the perturbative level: we prove
+equivalence through one loop and formulate precise axioms for all-orders
+equivalence.  Specifically, we show that the Faddeev--Popov ghost sector
+of metric quantization preserves chirality in the spinor basis, and we
+argue that the BRST cohomologies of both schemes are isomorphic on the
+physical sector.  Non-perturbative equivalence remains open.  We discuss
+this in detail in Section~\ref{sec:gap}.
 
 \medskip
 \noindent\textbf{Outline.}
@@ -172,7 +156,7 @@ algebraic identity $[\delta(D^2), \gamma_5] = 0$.
 Section~\ref{sec:uv_finiteness} derives the all-orders finiteness theorem.
 Section~\ref{sec:three_loop} explains the resolution of the three-loop
 obstruction.  Section~\ref{sec:numerics} presents the numerical verification.
-Section~\ref{sec:gap} establishes the physical equivalence (closing Gap~G1).
+Section~\ref{sec:gap} addresses the physical equivalence (Gap~G1).
 Section~\ref{sec:related} places the result in the context of prior work.
 Section~\ref{sec:conclusions} concludes.
 
@@ -362,7 +346,8 @@ where
   S_2 &= \half\,\Tr\!\left[f''(D_0^2/\Lam^2)\,\bigl(\delta(D^2)/\Lam^2\bigr)^2
          + f'(D_0^2/\Lam^2)\,\delta^{(2)}(D^2)/\Lam^2\right]. \label{eq:S2}
 \end{align}
-Here $\delta^{(2)}(D^2)$ denotes the second-order variation.
+Here $\delta^{(2)}(D^2) \equiv (\delta D)^2$ denotes the second-order piece
+of the variation of $D^2$.
 
 The kinetic operator $K = \delta^2 S / \delta(\delta D)^2$ is built from
 $f'(D_0^2/\Lam^2)$, $f''(D_0^2/\Lam^2)$, and $D_0^2$ via divided
@@ -459,8 +444,7 @@ In the $D^2$-quantization of the spectral action~\eqref{eq:spectral_action}
 on a spectral triple $(\Alg, \Hilb, D)$ in even KO-dimension with chirality
 $\gamma_5$, all perturbative counterterms at every loop order $L \geq 1$
 commute with $\gamma_5$.  Consequently, all counterterms are absorbable by a
-deformation $f \to f + \delta f$ of the spectral function.  The degree of
-divergence is $\mathcal{D} = 0$ at all loop orders.
+deformation $f \to f + \delta f$ of the spectral function.
 \end{theorem}
 
 \begin{proof}
@@ -537,12 +521,12 @@ the de~Donder ghost operator (a vector Laplacian) appears to violate
 chirality in the tensor basis.  However, when expressed in the spinor basis,
 it preserves chirality: the spinorial Lie derivative of diffeomorphisms
 commutes with~$\gamma_5$ (see
-Theorem~\ref{thm:ghost_equivalence} in Section~\ref{sec:gap}).
+Proposition~\ref{thm:ghost_equivalence} in Section~\ref{sec:gap}).
 
 \medskip\noindent\textbf{Conclusion.}
 Subject to the above assumption on the ghost sector, the counterterm at every
 loop order can be absorbed into the spectral function, and the degree of
-divergence is $\mathcal{D} = 0$ at all $L$.
+counterterms are absorbable by spectral function deformation at all~$L$.
 \end{proof}
 
 \medskip
@@ -559,7 +543,7 @@ For concreteness, we exhibit the structure at the first three loop orders:
   \item \textbf{Two loops ($L = 2$).}
   $\Gamma_2 \sim \Tr(G\,V_3\,G\,V_3) + \Tr(G\,V_4)$.
   Both $G$ and $V_n$ commute with $\gamma_5$, so the two-loop counterterm is
-  block-diagonal.  This is consistent with the on-shell $\mathcal{D} = 0$
+  block-diagonal.  This is consistent with the on-shell absorbability
   result of~\cite{Alfyorov:2026ct}.
 
   \item \textbf{Three loops ($L = 3$).}
@@ -585,7 +569,7 @@ representation $(\mathbf{3},\mathbf{3})$, as computed
 in~\cite{Alfyorov:2026ct}, Appendix~B.)  The Cayley--Hamilton identity in $d = 4$
 reduces this to two independent structures~\cite{Alfyorov:2026ct}:
 \begin{equation}\label{eq:quartic_metric}
-  P(4) = 2: \qquad
+  P(4) = 3 \to 2: \qquad
   (\Weylsq)^2 \quad\text{and}\quad
   C_{\mu\nu}{}^{\alpha\beta}C_{\alpha\beta}{}^{\rho\sigma}
   C_{\rho\sigma}{}^{\gamma\delta}C_{\gamma\delta}{}^{\mu\nu}.
@@ -611,6 +595,10 @@ decomposition of the Weyl tensor:
   (\Weylsq)^2 = (p^2 + q^2) + 2pq, \qquad
   p = |C^+|^2, \quad q = |C^-|^2.
 \end{equation}
+The identification of chiral spinor blocks with self-dual/anti-self-dual
+Weyl sectors follows from the 't~Hooft symbol decomposition and the
+isomorphism $\mathrm{SU}(2)_L \times \mathrm{SU}(2)_R \cong
+\mathrm{Spin}(4)$ (see~\cite{Alfyorov:2026ct}, Proposition~3.1).
 The chirality constraint eliminates the $pq$ cross-terms, leaving only
 $p^2 + q^2$.  The second quartic invariant undergoes the same reduction:
 when restricted to the block-diagonal subalgebra, it also reduces to a
@@ -703,7 +691,7 @@ $\delta(D^2)$ (full)         & $< 10^{-90}$ \\
 
 \subsection{Formal verification in Lean~4}
 
-The algebraic identity of Theorem~\ref{thm:chirality_delta_D2} has been
+The algebraic identity of Theorem~\ref{thm:chirality_deltaD2} has been
 formally verified in the Lean~4 proof assistant using the Mathlib4 library.
 The proof file (\texttt{chiral\_q\_identity.lean}) contains four
 machine-checked theorems over an arbitrary \texttt{Ring R}:
@@ -735,7 +723,9 @@ not a numerical accident.
 random spectral triple with $N = 16$.  \textbf{Left:} Absolute values
 $|(\delta(D^2))_{ij}|$; the off-diagonal blocks (LR, RL) are zero.
 \textbf{Right:} Logarithmic scale, confirming that off-diagonal entries are at
-machine precision ($\sim 10^{-16}$).}\label{fig:block_structure}
+machine precision ($\sim 10^{-16}$).
+Generated by \texttt{chiral\_q\_figures.py} in the supplementary
+code.}\label{fig:block_structure}
 \end{figure}
 
 \begin{figure}[ht]
@@ -746,7 +736,9 @@ $\|\{D, \gamma_5\}\|/\|D\|$ and the commutator norm
 $\|[\delta(D^2), \gamma_5]\|/\|\delta(D^2)\|$ for 200 random spectral
 triples at $N = 16$.  Points satisfying $\{D, \gamma_5\} = 0$ (green stars)
 have \emph{exactly} zero violation, confirming the algebraic identity.
-Points with broken chirality show linear growth.}\label{fig:violation_correlation}
+Points with broken chirality show linear growth.
+Generated by \texttt{chiral\_q\_figures.py} in the supplementary
+code.}\label{fig:violation_correlation}
 \end{figure}
 
 \begin{figure}[ht]
@@ -755,7 +747,9 @@ Points with broken chirality show linear growth.}\label{fig:violation_correlatio
 \caption{Maximum $|pq|$ cross-term coefficient of the counterterm at loop order
 $L = 1, \ldots, 8$ for $N = 8$ with 50 trials per order.  All values lie below
 machine epsilon, confirming exact block-diagonality at all tested loop
-orders.}\label{fig:loop_independence}
+orders.
+Generated by \texttt{chiral\_q\_figures.py} in the supplementary
+code.}\label{fig:loop_independence}
 \end{figure}
 
 \begin{figure}[ht]
@@ -778,7 +772,7 @@ orders.}\label{fig:loop_independence}
 \node[boxgood] (A3) at (7.0, 2.2) {$K$ block-diag};
 \node[boxgood] (A4) at (10.5, 2.2) {$G$ block-diag};
 \node[boxgood] (A5) at (14.0, 2.2) {$\Sigma_L$ block-diag};
-\node[boxgood] (A6) at (14.0, 0.6) {$\mathcal{D} = 0$\\at all $L$};
+\node[boxgood] (A6) at (14.0, 0.6) {Absorbable\\at all $L$};
 
 \draw[arr] (A1) -- (A2) node[label] {Thm~\ref{thm:chirality_deltaD2}};
 \draw[arr] (A2) -- (A3) node[label] {$f(D_0^2)$};
@@ -791,7 +785,7 @@ orders.}\label{fig:loop_independence}
 \node[boxbad] (B2) at (3.5, -1.5) {$\delta(D^2) +$\\extra terms};
 \node[boxbad] (B3) at (7.0, -1.5) {$K$ NOT\\block-diag};
 \node[boxbad] (B4) at (10.5, -1.5) {$pq \neq 0$};
-\node[boxbad] (B5) at (14.0, -1.5) {$\mathcal{D} \neq 0$\\at $L \geq 3$};
+\node[boxbad] (B5) at (14.0, -1.5) {Not absorbable\\at $L \geq 3$};
 
 \draw[arr] (B1) -- (B2) node[labbelow] {$g \to D^2$};
 \draw[arr] (B2) -- (B3) node[labbelow] {mixed};
@@ -823,7 +817,9 @@ $N = 4, 8, 16, 32, 64$ with 50 trials each.  \textbf{Green (circles):}
 chiral $D$ satisfying $\{D, \gamma_5\} = 0$; violation is at machine precision
 for all~$N$.  \textbf{Red (squares):} non-chiral $D$; violation grows
 with~$N$.  The identity is exact and independent of the truncation
-level.}\label{fig:spectral_truncation}
+level.
+Generated by \texttt{chiral\_q\_figures.py} in the supplementary
+code.}\label{fig:spectral_truncation}
 \end{figure}
 
 % ============================================================
@@ -860,12 +856,14 @@ perturbations---is surjective, as we now show.
 
 \subsection{Lichnerowicz surjectivity}
 
-\begin{proposition}[Lichnerowicz surjectivity]
+\begin{proposition}[Lichnerowicz surjectivity (proof sketch)]
 \label{prop:lichnerowicz}
 On a smooth closed 4-dimensional Riemannian spin manifold $(M, g)$, the map
 $\delta g \mapsto \delta(D^2)$ is surjective.  That is, every perturbation of
 $D^2$ that preserves the spectral triple axioms arises from a metric
-perturbation.
+perturbation.  A complete proof requires elliptic regularity arguments beyond
+the scope of this paper; we verify the claim numerically for finite spectral
+triples of size $N = 4$--$64$.
 \end{proposition}
 
 \begin{proof}[Proof sketch]
@@ -897,9 +895,12 @@ Proposition~\ref{prop:gauge}).
 \begin{proposition}[Gauge nature of non-geometric modes]
 \label{prop:gauge}
 Perturbations $\delta D$ that do not correspond to any metric perturbation
-$\delta g$ are unitary conjugations $D \to U D U^*$ with
-$U \in \mathcal{U}(\Hilb)$, $U \neq 1$.  These leave the spectral action
-invariant:
+$\delta g$ include unitary conjugations $D \to U D U^*$ with
+$U \in \mathcal{U}(\Hilb)$, $U \neq 1$.  We prove that unitary conjugations
+are in the kernel of $\delta D \mapsto \delta g$; the exhaustion of the kernel
+by these transformations is verified numerically for finite spectral triples
+($N = 4$--$64$) but not proven analytically.  These transformations leave the
+spectral action invariant:
 \begin{equation}
   S[UDU^*] = \Tr\,f\bigl((UDU^*)^2/\Lam^2\bigr)
   = \Tr\,f\bigl(U D^2 U^*/\Lam^2\bigr)
@@ -1043,15 +1044,17 @@ $\gamma_5$ by the even-product lemma (Lemma~\ref{lem:spin_connection_chiral},
 same argument).  Their sum commutes with $\gamma_5$.
 \end{proof}
 
-\begin{theorem}[Ghost sector equivalence]
+\begin{proposition}[Ghost sector equivalence]
 \label{thm:ghost_equivalence}
 The Faddeev--Popov ghost sector of metric quantization, when expressed in
-the spinor representation, preserves chirality.  Consequently, the BRST
+the spinor representation, preserves chirality.  We argue that the BRST
 cohomologies of $D^2$-quantization and metric quantization are isomorphic
-on the physical (gauge-invariant) sector at all perturbative orders.
-\end{theorem}
+on the physical (gauge-invariant) sector at all perturbative orders, invoking
+the Fredenhagen--Rejzner BV framework for the higher-loop extension.  The
+logical dependencies are stated explicitly below.
+\end{proposition}
 
-\begin{proof}[Proof]
+\begin{proof}[Argument]
 We establish this in three steps.
 
 \smallskip\noindent\emph{Step 1: Ghost operator in the spinor basis.}
@@ -1134,7 +1137,7 @@ factorizes out of all S-matrix elements.
     instead uses the \emph{factorization} of the $D^2$ configuration
     space into a metric sector and a gauge orbit, together with the
     chirality of the diffeomorphism action, to establish equivalence.
-  \item Theorem~\ref{thm:ghost_equivalence} holds at the perturbative
+  \item Proposition~\ref{thm:ghost_equivalence} holds at the perturbative
     level (formal power series in the coupling).  Non-perturbative
     effects---such as gravitational instantons or topology
     changes---are outside the scope of this argument.
@@ -1254,7 +1257,8 @@ at all perturbative orders.  Combined with the chirality identity
 (Theorem~\ref{thm:chirality_deltaD2}) and the UV finiteness of
 $D^2$-quantization (Theorem~\ref{thm:finiteness}), this establishes
 perturbative UV finiteness of the spectral action in the metric
-formulation: $\mathcal{D} = 0$ at all loop orders~$L$.
+formulation: all counterterms are absorbable by spectral function
+deformation at every loop order~$L$.
 \end{theorem}
 
 \begin{proof}[Proof sketch]
@@ -1283,12 +1287,18 @@ the spectral action is UV-finite through two loops:
     agree.  One-loop finiteness in $D^2$-quantization was established
     by van~Nuland and van~Suijlekom~\cite{vanNuland:2021oneloop}.
   \item \textbf{Two loops.}  The on-shell two-loop equivalence follows
-    from the uniqueness of the dimension-$6$ counterterm structure:
-    in both formulations, the only available counterterm is the
-    Goroff--Sagnotti $C^3$ invariant~\cite{Goroff:1985th}, which is
-    absorbed by $\delta f_6$ in the spectral action.  Numerical
-    verification: two-loop effective action is block-diagonal in
-    $30/30$ trials at $N = 8$ and $N = 16$.
+    from the uniqueness of the dimension-$6$ counterterm structure.
+    Goroff and Sagnotti~\cite{Goroff:1985th} showed that the two-loop
+    divergence in pure gravity is proportional to the cubic Weyl invariant
+    $C_{\mu\nu}{}^{\rho\sigma}C_{\rho\sigma}{}^{\alpha\beta}
+    C_{\alpha\beta}{}^{\mu\nu}$, and van~de~Ven~\cite{vandeVen:1992gw}
+    independently confirmed this by explicit computation.  On a Ricci-flat
+    background, this is the \emph{unique} dimension-6 counterterm structure
+    (all other dimension-6 invariants either vanish on shell or are related
+    by the Gauss--Bonnet identity).  In the spectral action, $\delta f_6$
+    provides exactly one free parameter at mass dimension~6, which absorbs
+    this unique counterterm.  Numerical verification: two-loop effective
+    action is block-diagonal in $30/30$ trials at $N = 8$ and $N = 16$.
 \end{enumerate}
 \end{theorem}
 
@@ -1334,8 +1344,8 @@ BRST cohomology & Physical sector & Isomorphic
   (Thm.~\ref{thm:ghost_equivalence}) \\
 BV axioms & N/A (native variable)
           & BV-1,2 proven; BV-3,4,5 verified 1-loop \\
-UV behavior & $\mathcal{D} = 0$ at all $L$
-            & $\mathcal{D} = 0$ at $L \leq 2$ (unconditional);
+UV behavior & Absorbable at all $L$
+            & Absorbable at $L \leq 2$ (unconditional);
               all $L$ (conditional) \\
 \bottomrule
 \end{tabular}
@@ -1343,7 +1353,8 @@ UV behavior & $\mathcal{D} = 0$ at all $L$
 
 \medskip
 \noindent\textbf{Status of Gap G1.}
-\emph{UV finiteness is established unconditionally through two loops.
+\emph{UV finiteness holds through two loops (where the unique dimension-6
+counterterm structure ensures absorption).
 At all perturbative orders, it holds under Axioms BV-1 through BV-5
 (Definition~\ref{def:bv_axioms}), of which BV-1 and BV-2 are proven,
 BV-5 is natural (the cutoff is defined in terms of the quantization variable),
@@ -1351,7 +1362,7 @@ and BV-3 and BV-4 are verified to one-loop order and conjectured at all orders.
 The Lichnerowicz surjectivity (Proposition~\ref{prop:lichnerowicz}), the gauge
 nature of non-geometric modes (Proposition~\ref{prop:gauge}), the one-loop
 agreement (Proposition~\ref{prop:oneloop}), the ghost chirality theorem
-(Theorem~\ref{thm:ghost_equivalence}), and the BV axiomatic framework
+(Proposition~\ref{thm:ghost_equivalence}), and the BV axiomatic framework
 (Section~\ref{sec:bv_axiomatic}) together constitute a complete perturbative
 treatment of Gap~G1.}
 
@@ -1448,8 +1459,8 @@ open question.
 We have proved that in $D^2$-quantization of the spectral action, the Dirac
 chirality relation $\{D, \gamma_5\} = 0$ propagates to all loop orders:
 every counterterm commutes with $\gamma_5$ and is absorbable by a spectral
-function deformation.  The degree of divergence is $\mathcal{D} = 0$ at all
-loop orders $L$.
+function deformation.  All counterterms are absorbable by spectral function
+deformation at every loop order $L$.
 
 The proof is algebraic, relying on a single identity:
 $[\delta(D^2), \gamma_5] = 0$ whenever $\{D, \gamma_5\} = 0$ and
@@ -1506,13 +1517,14 @@ Two theorems establish the UV finiteness status of the spectral action:
 \medskip\noindent
 \textbf{Gap G1 closure.}
 Gap G1---the physical equivalence of $D^2$-quantization and metric
-quantization---has been closed at the perturbative level through a
-combination of five results:
+quantization---is addressed at the perturbative level through a
+combination of five results (proven through one loop, with precise
+axioms formulated for all-orders equivalence):
 (i)~the Lichnerowicz map $\delta g \to \delta(D^2)$ is surjective;
 (ii)~non-geometric Dirac perturbations are pure gauge;
 (iii)~the one-loop S-matrices agree;
 (iv)~the Faddeev--Popov ghost sector preserves chirality in the spinor
-basis (Theorem~\ref{thm:ghost_equivalence}); and
+basis (Proposition~\ref{thm:ghost_equivalence}); and
 (v)~the BV axiomatic framework (Section~\ref{sec:bv_axiomatic}) identifies
 and partially verifies the remaining assumptions.
 
