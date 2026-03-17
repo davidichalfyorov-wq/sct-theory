@@ -60,7 +60,7 @@ The Wald entropy for Schwarzschild black holes in SCT is computed with full Stan
 
 *S* = *A*/(4*G*) + 13/(120&pi;) + (37/24) ln(*A*/&ell;<sub>P</sub>&sup2;) + O(1)
 
-The logarithmic coefficient **c<sub>log</sub> = 37/24** is parameter-free and has opposite sign to the Loop Quantum Gravity prediction (c<sub>log</sub> = &minus;3/2), providing a potential observational discriminant.
+The logarithmic coefficient **c<sub>log</sub> = 37/24** is determined by the SM particle content via the Sen formula (2012) and has opposite sign to the Loop Quantum Gravity prediction (c<sub>log</sub> = &minus;3/2), providing a potential observational discriminant.
 
 ### Black hole singularity: groundwork
 
@@ -124,7 +124,7 @@ The plot uses `x = -k^2/\Lambda^2`, so the left branch corresponds to `x < 0` an
   <img src="docs/figures/sm_contributions.png" alt="SM sector contributions" width="680"/>
 </p>
 
-**Parameter-free predictions.** The combined Weyl-squared coefficient is &alpha;<sub>C</sub> = 13/120, entirely fixed by the Standard Model content. The ratio c<sub>1</sub>/c<sub>2</sub> = &minus;1/3 at conformal coupling is a testable, parameter-free prediction.
+**Standard Model coefficients.** The combined Weyl-squared coefficient &alpha;<sub>C</sub> = 13/120 and the ratio c<sub>1</sub>/c<sub>2</sub> = &minus;1/3 at conformal coupling follow from standard heat kernel theory (Gilkey 1975, Vassilevich 2003) applied to the SM particle content. They are not free parameters of the spectral action &mdash; they are fixed by the spectrum.
 
 ## Formal Verification (Lean 4)
 
