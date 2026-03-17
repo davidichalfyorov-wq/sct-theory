@@ -1,6 +1,7 @@
 # SCT Theory
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19056983.svg)](https://doi.org/10.5281/zenodo.19056983)
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
 ![Version](https://img.shields.io/badge/version-research--wip-orange)
 ![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)
 ![Formally Verified](https://img.shields.io/badge/formally_verified-partial-orange)
