@@ -13,7 +13,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-docs.md)
 
-**Spectral Causal Theory** is a research program that asks whether gravity, quantum corrections, and fundamental physics can be derived from the spectral data of the Dirac operator — in a mathematically controlled, computationally verified, and experimentally testable way.
+**Spectral Causal Theory** is a research program that asks whether gravity, quantum corrections, and fundamental physics can be derived from the spectral data of the Dirac operator, in a mathematically controlled, computationally verified, and experimentally testable way.
 
 > Work in progress: verified results and Lean 4 proofs already exist in the repository, but the broader derivation, formalization, and consistency-check program is still expanding.
 
@@ -32,7 +32,7 @@ Modern physics rests on two pillars:
 | **General Relativity** | Gravity, spacetime, black holes, cosmology | Large scales |
 | **Quantum Field Theory** | Particles, forces, the Standard Model | Small scales |
 
-Both work extraordinarily well in their domains. The open problem is what happens in regimes where both matter — the early universe, black hole interiors, and quantum corrections to gravity itself.
+Both work extraordinarily well in their domains. The open problem is what happens in regimes where both matter: the early universe, black hole interiors, and quantum corrections to gravity itself.
 
 ## The Idea
 
@@ -40,7 +40,7 @@ Instead of writing down an arbitrary higher-derivative gravitational action, SCT
 
 > **Geometry leaves a fingerprint in the spectrum of the Dirac operator. We read physics from that fingerprint.**
 
-Concretely, the **spectral action principle** uses the spectrum of a generalized Dirac operator to construct an action functional. Expanding it in curvature invariants recovers the Einstein-Hilbert action at low energy — but also produces specific, calculable quantum corrections governed by **nonlocal form factors**.
+Concretely, the **spectral action principle** uses the spectrum of a generalized Dirac operator to construct an action functional. Expanding it in curvature invariants recovers the Einstein-Hilbert action at low energy, but also produces specific, calculable quantum corrections governed by **nonlocal form factors**.
 
 These form factors are not free parameters. They are fixed by the spectrum and the particle content of the Standard Model.
 
@@ -98,7 +98,7 @@ docs/             Roadmap, overview, presentations
 
 ## Verification Philosophy
 
-Hard derivations fail for boring reasons — wrong signs, mismatched conventions, silent transcription errors. This project uses an **8-layer verification pipeline** instead of trusting any single calculation:
+Hard derivations fail for boring reasons: wrong signs, mismatched conventions, silent transcription errors. This project uses an **8-layer verification pipeline** instead of trusting any single calculation:
 
 | Layer | Method | Purpose |
 |-------|--------|---------|
