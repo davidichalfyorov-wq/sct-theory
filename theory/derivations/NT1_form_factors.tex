@@ -889,7 +889,11 @@ The master function can be expressed in closed form:
   \label{eq:phi-erfi}
 \end{equation}
 where $\operatorname{erfi}(x) = \frac{2}{\sqrt\pi}\int_0^x e^{t^2}\,\dd t$
-is the imaginary error function.
+is the imaginary error function.  Although \eqref{eq:phi-erfi} contains the
+explicit factor $e^{-z/4}$, the full function does \emph{not} decay
+exponentially on the positive real axis: the large-$z$ asymptotic
+$\operatorname{erfi}(\sqrt{z}/2) \sim 2e^{z/4}/\sqrt{\pi z}$ cancels that
+factor, leaving only the power-law behaviour $\varphi(z) \sim 2/z$.
 
 \paragraph{Asymptotic behaviour:}
 \begin{itemize}
