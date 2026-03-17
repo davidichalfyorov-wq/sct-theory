@@ -8,7 +8,7 @@ SCT Theory 8-layer protocol:
   Layer 1: Analytic (dimensions, limits, symmetries, sum rules)
   Layer 2: Numerical (mpmath >= 50-digit precision at multiple test points)
   Layer 3: Literature comparison (Stelle, Brans-Dicke, Will 2014)
-  Layer 4: Dual derivation (covered by Agent D-R report)
+  Layer 4: Dual derivation (independent re-derivation)
   Layer 4.5: Triple CAS (SymPy symbolic cross-check where feasible)
   Layers 5/6: Lean formal verification (skipped — no rational identities)
 

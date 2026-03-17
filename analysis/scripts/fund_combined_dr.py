@@ -2,8 +2,8 @@
 """
 FUND Combined DR (Devil's Re-derivation) for FUND-FK3, FUND-NCG, FUND-LAT.
 
-Independent re-derivation of all claimed numerical results by the D-agents.
-This script performs fresh computations without importing any D-agent code,
+Independent re-derivation of all claimed numerical results from the primary derivations.
+This script performs fresh computations without importing any primary derivation code,
 to ensure no circular verification.
 
 Task 1 (FK3): Molien series P(4) from SU(2)_L x SU(2)_R / Z_2
@@ -434,7 +434,7 @@ def run_task2():
     hp4_numerical = mp.diff(h, 0, 4)
     print(f"\n  h''''(0) numerical = {mp.nstr(hp4_numerical, 30)}")
 
-    # The D-agent claimed h''''(0) = 3/8.
+    # The primary derivation claimed h''''(0) = 3/8.
     # Let's verify: from the Taylor expansion,
     # h(x) = log(2) + 0*x + (-1/8)*x^2 + h3*x^3/6 + h4*x^4/24 + ...
     # h''''(0) = 24 * coefficient of x^4 in h(x).
@@ -452,7 +452,7 @@ def run_task2():
     print(f"  (x*f(x))''''(0) = 4*f'''(0) = {mp.nstr(xf_4th, 30)}")
     print(f"  h''''(0) = {mp.nstr(xf_4th + g4, 30)}")
 
-    # Now check the D-agent's claim: h''''(0) = 3/8
+    # Now check the primary claim: h''''(0) = 3/8
     # Actually, I should not assume 3/8 is correct. Let me compute independently.
     # g(x) = log(1+e^{-x}). g(0) = log(2).
     # g'(x) = -e^{-x}/(1+e^{-x}) = -1/(1+e^x)
@@ -783,22 +783,22 @@ def run_task4():
     # Verify specific values claimed by D-FK3
     # D-FK3 expected:
     # P(1)=0, P(2)=1, P(3)=1, P(4)=3, P(5)=2, P(6)=7, P(7)=5, P(8)=13, P(9)=12
-    d_agent_claims = {
+    primary_claims = {
         1: 0, 2: 1, 3: 1, 4: 3, 5: 2, 6: 7, 7: 5, 8: 13, 9: 12,
     }
 
-    print(f"\n  Verification against D-FK3 claims:")
-    for n, claimed in d_agent_claims.items():
+    print(f"\n  Verification against FK3 derivation claims:")
+    for n, claimed in primary_claims.items():
         actual = P[n]
         match = actual == claimed
-        check(f"P({n}) = {claimed} (D-FK3 claim)", match)
+        check(f"P({n}) = {claimed} (FK3 claim)", match)
         if not match:
             print(f"    DISCREPANCY: D-FK3 claims P({n})={claimed}, got {actual}")
 
-    # Check the D-FK3 claim about M(t) values
-    d_agent_m_claims = {2: 1, 3: 1, 4: 2, 5: 1, 6: 4, 7: 2, 8: 5}
+    # Check the FK3 claim about M(t) values
+    fk3_m_claims = {2: 1, 3: 1, 4: 2, 5: 1, 6: 4, 7: 2, 8: 5}
     print(f"\n  Verification of M(t) values:")
-    for n, claimed in d_agent_m_claims.items():
+    for n, claimed in fk3_m_claims.items():
         actual = M[n]
         check(f"M({n}) = {claimed}", actual == claimed)
 
@@ -817,13 +817,13 @@ def run_task4():
         if n < len(P):
             print(f"    P({n:2d}) = {P[n]:5d}")
 
-    # Also verify the CRITICAL discrepancy between D-NCG and D-FK3:
-    # D-NCG says "2 invariants" at L=3 (the old MR-5b count)
-    # D-FK3 says "3 invariants" at L=3 (the corrected count)
+    # Also verify the CRITICAL discrepancy between NCG and FK3 derivations:
+    # NCG derivation says "2 invariants" at L=3 (the old MR-5b count)
+    # FK3 derivation says "3 invariants" at L=3 (the corrected count)
     print("\n  CRITICAL DISCREPANCY RESOLUTION:")
     print(f"  P(4) = {P[4]} = number of parity-even quartic Weyl invariants")
     print(f"  M(4) = {M[4]} = number of self-dual quartic invariants (old count)")
-    print("  D-NCG used M(4)=2. D-FK3 corrected to P(4)=3.")
+    print("  The NCG derivation used M(4)=2. FK3 corrected to P(4)=3.")
     print("  The Molien formula P(t) = (M(t)^2 + M(t^2))/2 is verified algebraically.")
     print("  CONCLUSION: The correct count is 3. The NCG script's '2' is the")
     print("  old MR-5b value. The structural argument strengthens (3:1 not 2:1).")
@@ -875,7 +875,7 @@ def main():
     print("     Overdetermination at L=3 is 3:1 (worse than MR-5b's 2:1).")
     print("  2. [NCG] h(0)=log(2), h'(0)=0, h''(0)=-1/4, h''''(0)=3/8 CONFIRMED.")
     print("     Spectral moments f_4=(9/4)zeta(3), f_2=pi^2/6 CONFIRMED.")
-    print("     NOTE: D-NCG uses old count of 2 invariants; correct count is 3.")
+    print("     NOTE: NCG derivation uses old count of 2 invariants; correct count is 3.")
     print("  3. [LAT] Dirac spectrum d_n=(4/3)(n+1)(n+2)(n+3) CONFIRMED.")
     print("     d_0=8, d_1=32, d_2=80. Weyl law verified.")
     print("     S_exact(Lambda^2=1000) computed to 50+ digits.")
@@ -885,9 +885,9 @@ def main():
     print("     L=1,2 solvable. L>=3 ALL overdetermined. Growth monotonic.")
 
     print("\n  DISCREPANCY FOUND:")
-    print("  D-NCG counts 2 quartic Weyl invariants at L=3 (old MR-5b value).")
-    print("  D-FK3 counts 3 (corrected via full Molien series P(4)=3).")
-    print("  This is an internal inconsistency between the two D-agents.")
+    print("  The NCG derivation counts 2 quartic Weyl invariants at L=3 (old MR-5b value).")
+    print("  The FK3 derivation counts 3 (corrected via full Molien series P(4)=3).")
+    print("  This is an internal inconsistency between the two derivations.")
     print("  RESOLUTION: The correct count is 3. The NCG structural argument")
     print("  is STRENGTHENED (3:1 overdetermination, not 2:1).")
     print("  The physics conclusion is unchanged: NEGATIVE for all three tasks.")

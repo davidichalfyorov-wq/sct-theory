@@ -257,7 +257,7 @@ class TestTotalFormFactors:
         assert val_0 == pytest.approx(val_1, rel=1e-12)
 
     def test_F1_at_z1(self):
-        """F1(1) reference value from Phase 3 handoff."""
+        """F1(1) reference value from Phase 3 verification."""
         val = float(ef.F1_total_complex(1.0, dps=80).real)
         assert val == pytest.approx(-3.18296e-04, rel=1e-3)
 

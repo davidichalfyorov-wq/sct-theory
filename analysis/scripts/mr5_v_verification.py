@@ -1,9 +1,9 @@
 # ruff: noqa: E402, I001
 """
-MR-5 V-agent: Independent verification of perturbative finiteness results.
+MR-5 Verification: Independent verification of perturbative finiteness results.
 
 Verifies all key MR-5 quantities at 150-digit precision using methods
-independent of the D and DR agents:
+independent of the primary and cross-check derivations:
   (a) epsilon = kappa^2 * Lambda^2 / (16*pi^2) at Lambda = M_Pl
   (b) L_opt = floor(1/epsilon - 1) = 78 (or 77)
   (c) Optimal truncation error ~ L_opt! * epsilon^{L_opt}
@@ -187,11 +187,11 @@ def verify_gr_comparison():
     return result
 
 
-def verify_cross_checks_with_d_agent():
-    """Cross-check against D agent results JSON."""
+def verify_cross_checks_with_primary():
+    """Cross-check against primary derivation results JSON."""
     d_results_path = RESULTS_DIR / "mr5_finiteness_results.json"
     if not d_results_path.exists():
-        print("[V] D agent results not found, skipping cross-check")
+        print("[V] Primary derivation results not found, skipping cross-check")
         return {"skipped": True}
 
     with open(d_results_path) as f:
@@ -242,7 +242,7 @@ def verify_cross_checks_with_d_agent():
 def run_all():
     """Run all verification checks."""
     print("=" * 70)
-    print("MR-5 V-AGENT: INDEPENDENT VERIFICATION")
+    print("MR-5 VERIFICATION: INDEPENDENT CHECK")
     print(f"Precision: {DPS} digits")
     print("=" * 70)
 
@@ -292,8 +292,8 @@ def run_all():
     if r["improvement_ge_30"]:
         n_pass += 1
 
-    print("\n--- Cross-checks with D agent ---")
-    r = verify_cross_checks_with_d_agent()
+    print("\n--- Cross-checks with primary derivation ---")
+    r = verify_cross_checks_with_primary()
     results["cross_checks"] = r
     if not r.get("skipped"):
         n_total += 1
@@ -307,7 +307,7 @@ def run_all():
     print(f"\n[V] Results saved to {out_path}")
 
     print("\n" + "=" * 70)
-    print(f"MR-5 V-AGENT SUMMARY: {n_pass}/{n_total} checks PASS")
+    print(f"MR-5 VERIFICATION SUMMARY: {n_pass}/{n_total} checks PASS")
     print("Classification: CONFIRMED CONDITIONAL (Option C)")
     print(f"L_opt = {L_opt} at Planck scale (improvement: {L_opt // 2}x over GR)")
     print("=" * 70)

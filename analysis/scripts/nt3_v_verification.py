@@ -8,7 +8,7 @@ Layer 1 (Analytic): dimensions, limits, symmetries
 Layer 2 (Numerical): mpmath 100-digit checks at 7+ test points
 Layer 2.5 (Property fuzzing): hypothesis checks (not used — discrete result)
 Layer 3 (Literature): comparison with CDT, AS, HL, Stelle benchmarks
-Layer 4 (Dual derivation): DR agent's 5 independent methods confirmed
+Layer 4 (Dual derivation): 5 independent methods confirmed in cross-check
 Layer 4.5 (Triple CAS): mpmath vs numpy consistency
 Layer 5/6 (Lean): not applicable (numerical result, not algebraic identity)
 
@@ -365,7 +365,7 @@ def layer3_literature():
 # ===================================================================
 
 def layer4_dual():
-    """Layer 4: Cross-check with DR agent's independent results."""
+    """Layer 4: Cross-check with independent re-derivation results."""
     results = {"layer": 4, "name": "Dual Derivation (DR)", "checks": []}
 
     # Load DR results
@@ -420,8 +420,8 @@ def layer4_dual():
         "value": stelle_ok, "expected": True, "passed": stelle_ok,
     })
 
-    # Check 4.6: D-agent cross-check agreement
-    agree = dr.get("key_findings", {}).get("agreement_with_D_agent", False)
+    # Check 4.6: Primary derivation cross-check agreement
+    agree = dr.get("key_findings", {}).get("agreement_with_D_agent", dr.get("key_findings", {}).get("agreement_with_primary", False))
     results["checks"].append({
         "id": "L4.6", "name": "DR-D cross-check agreement",
         "value": agree, "expected": True, "passed": agree,

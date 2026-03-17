@@ -534,7 +534,7 @@ def check_bianchi_identity_linearized(n_momenta: int = 10, seed: int = 42,
 
     This is verified numerically for n_momenta random momentum vectors.
 
-    Reference: NT4a_handoff.md; NT4a_linearize.py check_off_shell_bianchi_identity.
+    Reference: NT4a_summary.md; NT4a_linearize.py check_off_shell_bianchi_identity.
     """
     from scripts.nt4a_linearize import (
         check_off_shell_bianchi_identity,

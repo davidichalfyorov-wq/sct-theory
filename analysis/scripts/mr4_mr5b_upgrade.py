@@ -396,7 +396,7 @@ def absorption_solvability(dps: int = DEFAULT_DPS) -> dict[str, Any]:
         c_6_sm = sm["total_coefficients"]["Riem^3 (CCC)"]
         mr5b_available = True
     except Exception:
-        # Fallback to known values from handoff
+        # Fallback to known values from verification summary
         c_6_scalar = mp.mpf(-16) / 3
         c_6_dirac = mp.mpf(-64) / 3 - 15  # = -109/3
         c_6_vector = mp.mpf(116) / 3 + 60  # corrected: 116/3 unconstrained + 60 Omega^3

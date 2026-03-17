@@ -828,7 +828,7 @@ def verdict_on_resolutions(dps: int = 50) -> dict[str, Any]:
             "reason": (
                 "The Donoghue-Menezes mechanism gives the ghost a positive "
                 "width Gamma/m = C_Gamma (Lambda/M_Pl)^2 with C_Gamma = 0.06554. "
-                "The GP sign chain (6 steps, 4 independent agents) confirms "
+                "The GP sign chain (6 steps, 4 independent checks) confirms "
                 "Im[k^2_pole] < 0 (decaying ghost). The ghost does not appear "
                 "in the asymptotic S-matrix spectrum."
             ),

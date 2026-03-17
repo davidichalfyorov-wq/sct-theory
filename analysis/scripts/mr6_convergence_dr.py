@@ -3,7 +3,7 @@ MR-6: Independent Verification of Curvature Expansion Convergence.
 
 Method B: Ratio test + Darboux theorem + Watson's lemma approach.
 
-This script provides a GENUINELY INDEPENDENT verification of Agent D's
+This script provides a GENUINELY INDEPENDENT verification of the primary derivation's
 results using different mathematical methods:
 
   (1) Ratio test on Seeley-DeWitt coefficients (analytic proof of
@@ -13,10 +13,10 @@ results using different mathematical methods:
   (3) Watson's lemma: the SD expansion is rigorously identified as the
       asymptotic expansion of a convergent Laplace integral.
   (4) Independent numerical computation: own implementation of S_exact
-      on S^4, compared with Agent D to 50+ digits.
+      on S^4, compared with the primary derivation to 50+ digits.
   (5) Cross-check with NT-2: phi(z) Taylor series converges (entire)
       while curvature expansion diverges -- distinct expansions.
-  (6) Code review checks on Agent D's script.
+  (6) Code review checks on the primary derivation's script.
 
 Physical set-up
 ================
@@ -390,7 +390,7 @@ def _compute_s_exact_independent(la2, a=1):
 def independent_numerical_check():
     """Compute S_exact at la2 = 10, 100, 1000 independently.
 
-    Compare with Agent D's values from the results JSON.
+    Compare with the primary derivation's values from the results JSON.
 
     Returns
     -------
@@ -569,11 +569,11 @@ def phi_convergence_crosscheck():
 
 
 # =========================================================================
-# PART 6: CODE REVIEW CHECKS ON AGENT D's SCRIPT
+# PART 6: CODE REVIEW CHECKS ON PRIMARY DERIVATION SCRIPT
 # =========================================================================
 
 def code_review_checks():
-    """Systematic checks on Agent D's mr6_convergence.py.
+    """Systematic checks on the primary derivation's mr6_convergence.py.
 
     Verifies:
     (a) Multiplicities d_k are correct
@@ -1047,7 +1047,7 @@ def main():
     print(f"  Expansions distinct: {pc['expansions_are_distinct']}")
 
     # --- Part 6: Code review ---
-    print("\n[6/6] Code review of Agent D's script...")
+    print("\n[6/6] Code review of the primary derivation's script...")
     cr = code_review_checks()
     results["code_review"] = {
         "findings": cr["findings"],
@@ -1074,7 +1074,7 @@ def main():
         "-- genuinely distinct"
     )
     print("  Code review: normalization issue found (MODERATE, non-blocking)")
-    print("\n  FINAL VERDICT: AGREE with Agent D's conclusion.")
+    print("\n  FINAL VERDICT: AGREE with the primary derivation's conclusion.")
     print("  The curvature expansion is ASYMPTOTIC (Gevrey-1, R=0).")
     print("  The SCT framework is unaffected (entire form factors).")
 

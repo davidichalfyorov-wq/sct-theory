@@ -36,7 +36,7 @@ References:
     - Koshelev, Melichev, Rachwal (2025), arXiv:2512.18006
     - Donoghue (1994), gr-qc/9405057 [GR as EFT]
     - Buccio, Donoghue, Percacci (2023), arXiv:2307.00055
-    - MR-4 handoff (internal), MR-6 handoff (internal), MR-7 handoff (internal)
+    - MR-4 summary (internal), MR-6 summary (internal), MR-7 summary (internal)
 
 Author: David Alfyorov
 """

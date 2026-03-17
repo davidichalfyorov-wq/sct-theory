@@ -1,13 +1,13 @@
 # ruff: noqa: E402, I001
 """
-DR-agent independent re-derivation: Chirality Theorem for tr(a_n) on Ricci-flat.
+Independent re-derivation: Chirality Theorem for tr(a_n) on Ricci-flat.
 
 Claim: On a Ricci-flat 4-manifold (E=0), the Seeley-DeWitt coefficients a_n
 of the spinor Laplacian D^2 = -nabla^2_spin have NO pq cross-terms in their
 traces, i.e. tr(a_n) = f_n(p) + f_n(q) where p = |W+|^2, q = |W-|^2.
 
 This script performs a FULLY INDEPENDENT verification using:
-  - Correct Euclidean chiral gamma matrices (fixing D-agent basis errors)
+  - Correct Euclidean chiral gamma matrices (fixing initial derivation basis errors)
   - Analytic proof of [sigma^rs, gamma_5] = 0
   - Numerical verification with random Weyl tensors
   - Correct crossed chirality assignment: spinor-L <-> tensor-ASD
@@ -206,7 +206,7 @@ def run():
     FAIL = 0
 
     print("=" * 72)
-    print("  DR-AGENT: CHIRALITY THEOREM INDEPENDENT VERIFICATION")
+    print("  CHIRALITY THEOREM: INDEPENDENT VERIFICATION")
     print("=" * 72)
 
     gam = build_gamma_chiral()
@@ -671,16 +671,16 @@ def run():
     print("  (3L) Three-loop counterterm        : CONDITIONAL")
     print("  ──────────────────────────────────────────────────")
     print()
-    print("  CROSSED CHIRALITY (discovered by DR-agent):")
+    print("  CROSSED CHIRALITY (discovered in cross-check):")
     print("    spinor-L <-> tensor-ASD (anti-self-dual)")
     print("    spinor-R <-> tensor-SD  (self-dual)")
     print("    eta^i . sigma in P_R;  eta_bar^i . sigma in P_L")
     print("    tr_L(Omega^2) = -(1/2)*q;  tr_R(Omega^2) = -(1/2)*p")
     print()
-    print("  D-AGENT BUG:")
+    print("  INITIAL DERIVATION BUG:")
     print("    Wrong gamma basis: g5 = -i*g0*g1*g2*g3 gives g5^2 = -Id.")
     print("    Corrected: g5 = g0*g1*g2*g3 in Euclidean chiral basis.")
-    print("    All 8 FAIL in D-agent script now 0 FAIL in DR script.")
+    print("    All 8 FAIL in initial derivation now 0 FAIL in corrected script.")
     print()
     print("  THREE-LOOP VERDICT:")
     print("    Heat kernel a_8: (C^2)^2 : (*CC)^2 = 1:1 (PROVEN)")

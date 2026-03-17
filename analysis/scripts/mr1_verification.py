@@ -129,7 +129,7 @@ def layer1_analytic():
     #       The Lorentzian propagator denominator is Pi_TT_lor(z_L).
     #       At the zero z_L, the residue is R_L = 1/(z_L * Pi_TT_lor'(z_L))
     #       where Pi_TT_lor'(z_L) < 0 (decreasing through zero), so R_L < 0.
-    #       The reference from Agent D: R_L = -0.5378 (negative = ghost).
+    #       Reference value: R_L = -0.5378 (negative = ghost).
     z_L = mp.mpf("1.2807022780634851")
     h = mp.mpf("1e-10")
     pi_plus = Pi_TT_lorentzian(z_L + h, dps=DPS)

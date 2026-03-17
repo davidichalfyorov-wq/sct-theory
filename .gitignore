@@ -70,6 +70,9 @@ analysis/scripts/_*
 feedback/
 docs/claude/
 
+# Internal handoff and working notes
+*_handoff.md
+
 # Local build and vendor outputs
 .tools/
 theory/lean/.lake/

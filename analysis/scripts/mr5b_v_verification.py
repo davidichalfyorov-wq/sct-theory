@@ -1,6 +1,6 @@
 # ruff: noqa: E402, I001
 """
-MR-5b V-Agent: Independent verification of two-loop D=0 results.
+MR-5b Verification: Independent verification of two-loop D=0 results.
 
 Performs 8-layer verification of MR-5b results:
     L1 (Analytic):  Dimensions, limits, sign conventions
@@ -375,7 +375,7 @@ def run_full_verification() -> dict:
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("MR-5b V-Agent: Independent Verification")
+    print("MR-5b: Independent Verification")
     print("=" * 70)
     print()
 

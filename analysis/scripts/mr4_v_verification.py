@@ -7,7 +7,7 @@ Runs all 8 verification layers applicable to MR-4:
     Layer 2 (Numerical):  120-digit mpmath at 7+ test points
     Layer 2.5 (Property): Hypothesis-based property checks
     Layer 3 (Literature): Cross-check against Goroff-Sagnotti, Stelle
-    Layer 4 (Dual):       DR agent re-derivation (5 methods)
+    Layer 4 (Dual):       Independent re-derivation (5 methods)
     Layer 4.5 (CAS):      SymPy x mpmath cross-check
     Layers 5-6:           Not applicable (no new Lean identities for MR-4)
 
@@ -41,7 +41,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 RESULTS_DIR = PROJECT_ROOT / "analysis" / "results" / "mr4"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Import D-agent functions for verification
+# Import primary derivation functions for verification
 from scripts.mr4_two_loop import (
     ALPHA_C,
     C_M,
@@ -260,11 +260,11 @@ def layer3_literature() -> dict[str, Any]:
 
 
 # ===================================================================
-# LAYER 4: Dual derivation (DR agent results)
+# LAYER 4: Dual derivation (independent re-derivation results)
 # ===================================================================
 
 def layer4_dual() -> dict[str, Any]:
-    """Layer 4: Check DR agent results file."""
+    """Layer 4: Check independent re-derivation results file."""
     dr_path = RESULTS_DIR / "mr4_dr_rederivation_results.json"
     if not dr_path.exists():
         return {"verdict": "SKIP (no DR results file)", "n_pass": 0, "n_total": 0}
@@ -297,8 +297,8 @@ def layer4_dual() -> dict[str, Any]:
     results["checks"].append({"name": "DR scaling 1/k^2", "pass": ok})
 
     # DR summary
-    ok = dr["dr_summary"]["agrees_with_D_agent"]
-    results["checks"].append({"name": "DR agrees with D", "pass": ok})
+    ok = dr["dr_summary"].get("agrees_with_D_agent", dr["dr_summary"].get("agrees_with_primary", False))
+    results["checks"].append({"name": "DR agrees with primary derivation", "pass": ok})
 
     n_pass = sum(1 for c in results["checks"] if c["pass"])
     results["n_pass"] = n_pass
@@ -375,7 +375,7 @@ def run_all_verification() -> dict[str, Any]:
     results["layer3"] = layer3_literature()
     print(f"  {results['layer3']['verdict']} ({results['layer3']['n_pass']}/{results['layer3']['n_total']})")
 
-    print("\nLayer 4: Dual derivation (DR agent)...")
+    print("\nLayer 4: Dual derivation (independent re-derivation)...")
     results["layer4"] = layer4_dual()
     print(f"  {results['layer4']['verdict']} ({results['layer4'].get('n_pass', 0)}/{results['layer4'].get('n_total', 0)})")
 

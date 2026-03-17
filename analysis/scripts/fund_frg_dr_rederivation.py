@@ -2,10 +2,10 @@
 FUND-FRG Derivation Review: Independent Re-derivation
 ======================================================
 
-DR-agent script. Re-derives all D-agent claims from scratch using
-only the codebase source formulas and known literature values.
+Independent re-derivation script. Re-derives all primary derivation claims from scratch
+using only the codebase source formulas and known literature values.
 
-Does NOT import or reference the D-agent's fund_frg_computation.py.
+Does NOT import or reference the primary derivation's fund_frg_computation.py.
 
 Claims to verify:
   1. alpha_C = 13/120 from SM counting
@@ -95,7 +95,7 @@ assert alpha_C_SM_constant == Fraction(13, 120)
 print(f"  Cross-check with alpha_C_SM(): {alpha_C_func:.10f} ✓")
 print(f"  Cross-check with Fraction constant: {alpha_C_SM_constant} ✓")
 
-# Now check the D-agent's specific intermediate claim.
+# Now check the primary derivation's specific intermediate claim.
 # The question mentions: (1/120)(N_s + 6N_D + 12N_v) with "4 + 135 + 144 = 283?"
 # Let's check if this is a valid rewriting:
 #   alpha_C = N_s/120 + N_D*(-1/20) + N_v*(1/10)
@@ -230,7 +230,7 @@ assert b_GS_total == b_GS_check
 assert b_GS_total == Fraction(125, 2), f"Expected 125/2, got {b_GS_total}"
 print(f"\n  b_GS = 125/2 = 62.5 (exact)")
 
-# The D-agent claims b_GS = -24.6. Let me check if there's a different
+# The primary derivation claims b_GS = -24.6. Let me check if there's a different
 # convention being used. There are several conventions in the literature:
 #
 # Convention A (Gorbar-Shapiro original):
@@ -261,7 +261,7 @@ print(f"\n  b_GS = 125/2 = 62.5 (exact)")
 b_alt_neg = -(Fraction(1,6)) * (N_s + 6*Fraction(N_f,2) + 12*N_v) - Fraction(46,3)
 print(f"\n  Alternative sign convention: -(1/6)(N_s+6N_D+12N_v) - 46/3 = {float(b_alt_neg):.1f}")
 
-# Checking D-agent value -24.6:
+# Checking primary derivation value -24.6:
 # If they used a different formula, perhaps from perturbative QG:
 #   Robinson-Wilczek type: b = -(N_s/12 + N_D/6 + N_v/3)
 #   = -(4/12 + 22.5/6 + 12/3) = -(1/3 + 15/4 + 4)
@@ -287,7 +287,7 @@ print(f"\n  Alternative with Fradkin-Tseytlin gravity: {float(b_FT):.4f}")
 # Not -24.6 either.
 
 # Let me try a completely different approach.
-# Perhaps the D-agent used the Shapiro (2008) formula for the cosmological
+# Perhaps the primary derivation used the Shapiro (2008) formula for the cosmological
 # constant running, not Newton's constant.
 # Or perhaps they used a dimension-6 operator running.
 
@@ -321,7 +321,7 @@ print(f"  = {b_GS_v2} = {float(b_GS_v2):.6f}")
 #   b_GS = +62.5 (in the convention beta_G = -(G^2/16pi^2) * b_GS)
 # This indeed makes G asymptotically free.
 
-# The D-agent's value of -24.6 is SUSPICIOUS. It may be:
+# The primary derivation's value of -24.6 is SUSPICIOUS. It may be:
 # (a) A different quantity (not b_GS for Newton)
 # (b) A different sign convention where AF corresponds to negative b
 # (c) An error
@@ -335,12 +335,12 @@ print(f"  = {b_GS_v2} = {float(b_GS_v2):.6f}")
 # At one loop (perturbative expansion of the FRG):
 #   eta_N ~ -b * G / (16*pi^2)
 
-# For the D-agent's b_GS = -24.6, let me see if it's:
+# For the primary derivation's b_GS = -24.6, let me see if it's:
 # b = -(N_s + 4*N_D - 2*N_v)/6 + some_gravity
 # = -(4 + 90 - 24)/6 + X = -70/6 + X = -11.67 + X
 # For X = -12.93 we'd get -24.6. That doesn't match any standard formula.
 
-# ANOTHER possibility: The D-agent may have confused two different formulas.
+# ANOTHER possibility: The primary derivation may have confused two different formulas.
 # Let me try a "type II cutoff" result from Dona, Eichhorn, Percacci (2014):
 # Table 1 of arXiv:1311.2898: In the Einstein-Hilbert truncation,
 # graviton threshold function gives approximately:
@@ -360,7 +360,7 @@ print(f"\n  If using N_f=45 instead of N_D=22.5: {float(b_GS_weyl):.4f}")
 # = 2/3 + 45 + 24 + 46/3 = 2/3 + 45 + 24 + 46/3 = 48/3 + 45 + 24 = 16 + 69 = 85
 # Nope.
 
-# Let me just try the D-agent's claimed formula literally:
+# Let me just try the primary derivation's claimed formula literally:
 # "b = -(1/16pi^2)(N_s/6 + N_D + 2*N_v + 46/3)"
 # Numerator: N_s/6 + N_D + 2*N_v + 46/3 = 2/3 + 22.5 + 24 + 46/3
 # = 2/3 + 22.5 + 24 + 15.333 = 62.5
@@ -381,13 +381,13 @@ print(f"\n  If using N_f=45 instead of N_D=22.5: {float(b_GS_weyl):.4f}")
 # Not -24.6.
 
 # At this point, let me compute the CORRECT Gorbar-Shapiro result and flag
-# any discrepancy with the D-agent.
+# any discrepancy with the primary derivation.
 
 print(f"\n  SUMMARY for Gorbar-Shapiro:")
 print(f"  Standard formula: b_GS = N_s/6 + N_D + 2*N_v + 46/3 = {float(b_GS_total):.1f}")
 print(f"  This means: beta_G = -(G^2/(16pi^2)) * 62.5 < 0")
 print(f"  => G DECREASES in UV => Newton's G is asymptotically free ✓")
-print(f"  D-agent claimed b_GS = -24.6: THIS VALUE NEEDS SCRUTINY")
+print(f"  primary derivation claimed b_GS = -24.6: THIS VALUE NEEDS SCRUTINY")
 
 # Physical conclusion: regardless of the sign convention, G is AF.
 # The PHYSICS is the same: Newton's constant decreases at high energies
@@ -397,7 +397,7 @@ print(f"  D-agent claimed b_GS = -24.6: THIS VALUE NEEDS SCRUTINY")
 print(f"\n  CLAIM 3 VERDICT: CONFIRMED (physics) / DISPUTED (numerical value).")
 print(f"    Newton G IS asymptotically free in one-loop R+R^2+C^2 gravity.")
 print(f"    The standard Gorbar-Shapiro coefficient is b_GS = 125/2 = 62.5,")
-print(f"    NOT -24.6. The D-agent value may reflect a non-standard convention")
+print(f"    NOT -24.6. The primary derivation value may reflect a non-standard convention")
 print(f"    or a different quantity. The asymptotic freedom CONCLUSION is correct.")
 
 
@@ -489,7 +489,7 @@ print("\n" + "=" * 72)
 print("CLAIM 5: SCT structural compatibility with AS")
 print("=" * 72)
 
-# D-agent listed 5 compatibility points and 4 tension points.
+# primary derivation listed 5 compatibility points and 4 tension points.
 # I will independently assess each from what I know of the theory.
 
 print(f"\n--- COMPATIBILITY POINTS ---")
@@ -558,7 +558,7 @@ print(f"      These are fundamentally different starting points.")
 print(f"      No known map psi <-> Gamma_k exists.")
 print(f"      CONFIRMED tension ✓")
 
-# D-agent may have a 5th compatibility or different 4th tension point.
+# primary derivation may have a 5th compatibility or different 4th tension point.
 # Let me add one more potential compatibility:
 print(f"\n  ADDITIONAL (C6): Form factor structure")
 print(f"      SCT: produces nonlocal form factors F_1(Box/Lambda^2), F_2(Box/Lambda^2)")
@@ -568,7 +568,7 @@ print(f"      Qualitative compatibility ✓")
 
 print(f"\n  CLAIM 5 VERDICT: CONFIRMED.")
 print(f"    5 compatibility points and 4 tension points are reasonable.")
-print(f"    The exact list may differ in detail from D-agent, but the")
+print(f"    The exact list may differ in detail from primary derivation, but the")
 print(f"    overall assessment of 'structurally compatible with tensions'")
 print(f"    is correct.")
 
@@ -671,7 +671,7 @@ print(f"    alpha_W(k) = {alpha_C_val:.6f} + ({delta:.6f}) = {alpha_W_at_k:.6f}"
 
 # Note: alpha_C = 13/120 is the FORM FACTOR value (signed).
 # C_m = 283/120 is the beta function coefficient (unsigned, from effective action).
-# These are DIFFERENT numbers. The D-agent should not confuse them.
+# These are DIFFERENT numbers. The primary derivation should not confuse them.
 
 print(f"\n  CRITICAL DISTINCTION:")
 print(f"    alpha_C = 13/120 (form factor, signed: fermions SUBTRACT)")
@@ -700,7 +700,7 @@ for claim, verdict in verdicts.items():
 
 print(f"\n  CORRECTIONS FOUND:")
 print(f"    1. b_GS = 125/2 = 62.5 in standard Gorbar-Shapiro convention,")
-print(f"       NOT -24.6. The D-agent value may use a non-standard convention")
+print(f"       NOT -24.6. The primary derivation value may use a non-standard convention")
 print(f"       or compute a different quantity. The AF conclusion is unaffected.")
 print(f"    2. The number 283 appears in C_m (beta function, OT), not alpha_C.")
 print(f"       alpha_C = 13/120 uses SIGNED h_C coefficients.")

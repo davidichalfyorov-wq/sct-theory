@@ -1,5 +1,5 @@
 """
-FUND-FRG Derivation Agent: Asymptotic Safety compatibility computations.
+FUND-FRG Derivation: Asymptotic Safety compatibility computations.
 
 Computes:
   1. Verification of alpha_C = 13/120 from SM counting
@@ -698,7 +698,7 @@ OVERALL VERDICT:
 # Key numerical results for downstream use
 # ============================================================================
 print("=" * 72)
-print("KEY NUMERICAL RESULTS (for V-agent)")
+print("KEY NUMERICAL RESULTS (for verification)")
 print("=" * 72)
 results = {
     "alpha_C": 13/120,

@@ -26,7 +26,7 @@ Pillar 3 (THIS WORK): Extension to gravity.
 
 We identify the PRECISE OBSTRUCTION and classify the result.
 
-Five obstructions identified by the literature agent:
+Five obstructions identified in the literature review:
     O1: Eigenvalues lambda_k(g) depend on the metric (dynamical spectrum)
     O2: Non-polynomial curvature dependence (Gevrey-1 factorial growth)
     O3: Non-compact diffeomorphism group (vs compact SU(N))
@@ -113,15 +113,15 @@ def section(title: str) -> None:
 
 
 # ===================================================================
-# PART 1: AUDIT OF L-AGENT FINDINGS
+# PART 1: AUDIT OF LITERATURE REVIEW FINDINGS
 # ===================================================================
 
-def audit_l_agent_findings() -> dict[str, Any]:
-    """Audit all five obstructions identified by the L-agent.
+def audit_literature_findings() -> dict[str, Any]:
+    """Audit all five obstructions identified in the literature review.
 
     Returns a dict with the audit verdict for each obstruction.
     """
-    section("PART 1: AUDIT OF L-AGENT FINDINGS")
+    section("PART 1: AUDIT OF LITERATURE REVIEW FINDINGS")
 
     results = {}
 
@@ -223,15 +223,15 @@ def audit_l_agent_findings() -> dict[str, Any]:
     }
     rec("O5 audit: dim-8 mismatch", True, "partially resolved by chirality theorem")
 
-    # Overall assessment of L-agent
-    print("\n  L-AGENT ASSESSMENT AUDIT:")
+    # Overall assessment from literature review
+    print("\n  LITERATURE REVIEW ASSESSMENT AUDIT:")
     print("    'One-loop provable, two-loop possible, three-loop+ probably fails'")
     print("    VERDICT ON THIS ASSESSMENT: MOSTLY CORRECT, with one refinement.")
-    print("    The chirality theorem was not included in the L-agent's analysis,")
+    print("    The chirality theorem was not included in the literature review analysis,")
     print("    and it changes the three-loop picture significantly.")
     print("    Corrected assessment: one-loop PROVEN, two-loop PROVEN (on-shell),")
     print("    three-loop OPEN (depends on spectral renormalizability conjecture).")
-    results["overall_assessment"] = "L-agent findings CONFIRMED with chirality refinement"
+    results["overall_assessment"] = "Literature review findings CONFIRMED with chirality refinement"
 
     return results
 
@@ -1256,7 +1256,7 @@ def main() -> None:
     print("=" * 72)
 
     # Part 1: Audit
-    audit = audit_l_agent_findings()
+    audit = audit_literature_findings()
 
     # Part 2: Chiral block decomposition
     chiral = verify_chiral_block_two_loops()

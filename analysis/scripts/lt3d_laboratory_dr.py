@@ -1,11 +1,11 @@
 # ruff: noqa: E402, I001
 """
-LT-3d Agent DR: Independent Re-derivation of Laboratory Bounds on Lambda.
+LT-3d: Independent Re-derivation of Laboratory Bounds on Lambda.
 
 METHOD B: Direct unit conversion from first principles + slope-based
 exclusion curve crossing + independent V(r) verification.
 
-This script is intentionally independent of Agent D's lt3d_laboratory.py.
+This script is intentionally independent of the primary derivation lt3d_laboratory.py.
 All constants are computed from CODATA primitives rather than imported.
 The bound extraction uses the *defining slope* of the exclusion curve
 rather than interpolation.
@@ -72,7 +72,7 @@ def check_unit_conversions() -> dict[str, Any]:
     rel_err = abs(hbar_c - known) / known
 
     # Lambda -> lambda_1 conversion at reference point
-    Lambda_ref = 2.565e-3  # eV (Agent D's claimed Lambda_min)
+    Lambda_ref = 2.565e-3  # eV (the primary derivation's claimed Lambda_min)
     lambda_1_m = hbar_c / (Lambda_ref * M2_OVER_LAMBDA)
     lambda_1_um = lambda_1_m * 1e6
 
@@ -164,7 +164,7 @@ def extract_bound_direct_interp() -> dict[str, Any]:
     """Independent extraction using a minimal 4-point interpolation.
 
     Uses only the 4 data points closest to the |alpha| = 4/3 crossing
-    from Lee 2020 Fig. 3. This is genuinely different from Agent D's
+    from Lee 2020 Fig. 3. This is genuinely different from the primary derivation's
     16-point interpolation.
     """
     # Minimal data: only the 4 points bracketing |alpha| ~ 1-2
@@ -338,9 +338,9 @@ def verify_V_properties() -> dict[str, Any]:
 
 
 # =====================================================================
-# STEP 5: Code review of Agent D's script
+# STEP 5: Code review of the primary derivation's script
 # =====================================================================
-def code_review_agent_d() -> dict[str, list[str]]:
+def code_review_primary() -> dict[str, list[str]]:
     """Systematic code review of lt3d_laboratory.py.
 
     Returns findings categorized by severity.
@@ -574,7 +574,7 @@ def plot_exclusion_dr(output_path: Path | None = None) -> Path:
     ax.set_ylim(1e-5, 1e16)
     ax.set_xlabel(r"Yukawa range $\lambda$ (m)")
     ax.set_ylabel(r"Yukawa coupling $|\alpha|$")
-    ax.set_title("SCT Laboratory Constraints (Agent DR Independent)")
+    ax.set_title("SCT Laboratory Constraints (the primary derivationR Independent)")
     ax.legend(loc="upper right", fontsize=7, ncol=1)
     ax.grid(True, which="major", alpha=0.2)
     ax.grid(True, which="minor", alpha=0.05)
@@ -586,11 +586,11 @@ def plot_exclusion_dr(output_path: Path | None = None) -> Path:
 
 
 # =====================================================================
-# STEP 7: Cross-check Agent D's specific numerical values
+# STEP 7: Cross-check the primary derivation's specific numerical values
 # =====================================================================
-def cross_check_agent_d_values() -> dict[str, Any]:
-    """Compare DR-computed values with Agent D's JSON results."""
-    # Agent D's reported values
+def cross_check_primary_values() -> dict[str, Any]:
+    """Compare DR-computed values with the primary derivation's JSON results."""
+    # the primary derivation's reported values
     d_Lambda_min = 0.0025644894409585423   # eV
     d_lambda1_um = 35.81637314411997       # um
     d_m2_over_Lambda = 2.1483446221182985
@@ -668,9 +668,9 @@ def cross_check_agent_d_values() -> dict[str, Any]:
 # Main: run all DR checks
 # =====================================================================
 def main() -> None:
-    """Run all Agent DR independent checks."""
+    """Run all the primary derivationR independent checks."""
     print("=" * 70)
-    print("LT-3d Agent DR: Independent Re-derivation and Verification")
+    print("LT-3d the primary derivationR: Independent Re-derivation and Verification")
     print("=" * 70)
 
     all_results: dict[str, Any] = {}
@@ -730,8 +730,8 @@ def main() -> None:
     all_results["V_properties"] = v_props
 
     # --- Step 5: Code review ---
-    print("\n--- STEP 5: Code review of Agent D ---")
-    review = code_review_agent_d()
+    print("\n--- STEP 5: Code review of the primary derivation ---")
+    review = code_review_primary()
     print(f"  OK:      {review['total_ok']}")
     print(f"  Warning: {review['total_warning']}")
     print(f"  Error:   {review['total_error']}")
@@ -747,8 +747,8 @@ def main() -> None:
     print(f"  Figure saved: {fig_path}")
 
     # --- Step 7: Cross-check D's values ---
-    print("\n--- STEP 7: Cross-check Agent D's numerical values ---")
-    xcheck = cross_check_agent_d_values()
+    print("\n--- STEP 7: Cross-check the primary derivation's numerical values ---")
+    xcheck = cross_check_primary_values()
     for name, ch in xcheck["checks"].items():
         match_flag = ch.get("match", ch.get("agree_within_2pct", "?"))
         print(f"  {name}: {'MATCH' if match_flag else 'DIFF'}")
@@ -822,7 +822,7 @@ def main() -> None:
 
     print("\n" + "=" * 70)
     verdict = "AGREE" if total_fail == 0 else "DISAGREE"
-    print(f"FINAL VERDICT: {verdict} with Agent D")
+    print(f"FINAL VERDICT: {verdict} with the primary derivation")
     print("=" * 70)
 
 

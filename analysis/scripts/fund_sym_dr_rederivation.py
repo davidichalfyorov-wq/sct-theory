@@ -1,8 +1,8 @@
 # ruff: noqa: E402, I001
 """
-FUND-SYM DR-Agent: Independent re-derivation of quartic Weyl structure.
+FUND-SYM: Independent re-derivation of quartic Weyl structure.
 
-Four independent methods, each differing from the D-agent approach:
+Four independent methods, each differing from the primary derivation approach:
 
 Method 1: Self-dual/anti-self-dual DIRECT tensor computation
            (construct C+, C- from 't Hooft symbols, compute p, q, then invariants)
@@ -15,7 +15,7 @@ Method 3: Specific geometry checks (Schwarzschild / Petrov type D and type N)
 
 Method 4: Full a_8 assessment -- (Tr Omega^2)^2 contribution and pq content
 
-CRITICAL TARGET: D-agent claims:
+CRITICAL TARGET: Primary derivation claims:
   (a) C4_chain = (1/8)[(C^2)^2 - (*CC)^2]  <-- Cayley-Hamilton
   (b) Tr(Omega^4_chain) ratio (C^2)^2:(*CC)^2 = 1:1  (pq coeff = 0)
   (c) Mechanism: chiral block-diagonal structure
@@ -254,7 +254,7 @@ def method_1_sd_asd_direct():
       C4_chain = (1/2)(p^2 + q^2)
       C4_chain = (1/4)[(C^2)^2 + (*CC)^2]
 
-    D-agent CLAIM (a): C4_chain = (1/8)[(C^2)^2 - (*CC)^2]
+    primary derivation CLAIM (a): C4_chain = (1/8)[(C^2)^2 - (*CC)^2]
     DR CHECK: (1/8)[(p+q)^2 - (p-q)^2] = (1/8)[4pq] = pq/2
     But C4_chain = (p^2+q^2)/2.  These are NOT the same.
     The correct identity: C4_chain = (1/4)[(C^2)^2 + (*CC)^2]
@@ -340,34 +340,34 @@ def method_1_sd_asd_direct():
         err_final = abs(C4_chain - expected_chain) / (abs(C4_chain) + 1e-30)
         record(f"C4_chain=(p^2+q^2)/2 trial {trial}", err_final < 1e-8)
 
-    # Check D-agent's stated identity
-    print("\n  CRITICAL: Checking D-agent claim (a)...")
+    # Check primary derivation's stated identity
+    print("\n  CRITICAL: Checking primary derivation claim (a)...")
     C_test, _, _ = generate_random_weyl(np.random.default_rng(999))
     C_plus_t, C_minus_t = compute_sd_decomp(C_test, eps)
     p_t, q_t = compute_p_q(C_plus_t, C_minus_t)
     C4_t = compute_chain_contraction(C_test)
 
-    dagent_claim = (1.0 / 8.0) * ((p_t + q_t) ** 2 - (p_t - q_t) ** 2)  # = pq/2
+    primary_claim = (1.0 / 8.0) * ((p_t + q_t) ** 2 - (p_t - q_t) ** 2)  # = pq/2
     correct_formula = (1.0 / 4.0) * ((p_t + q_t) ** 2 + (p_t - q_t) ** 2)  # = (p^2+q^2)/2
 
     print(f"    C4_chain = {C4_t:.6f}")
-    print(f"    D-agent (1/8)[(C^2)^2 - (*CC)^2] = pq/2 = {dagent_claim:.6f}")
+    print(f"    primary derivation (1/8)[(C^2)^2 - (*CC)^2] = pq/2 = {primary_claim:.6f}")
     print(f"    Correct (1/4)[(C^2)^2 + (*CC)^2] = (p^2+q^2)/2 = {correct_formula:.6f}")
 
-    record("D-agent formula (1/8)[...-...]",
-           abs(C4_t - dagent_claim) < 1e-8 * abs(C4_t),
-           f"diff={abs(C4_t-dagent_claim):.6f}")
+    record("primary derivation formula (1/8)[...-...]",
+           abs(C4_t - primary_claim) < 1e-8 * abs(C4_t),
+           f"diff={abs(C4_t-primary_claim):.6f}")
     record("Correct formula (1/4)[...+...]",
            abs(C4_t - correct_formula) < 1e-8 * abs(C4_t),
            f"diff={abs(C4_t-correct_formula):.2e}")
 
-    print(f"\n    RESULT: D-agent's (1/8)[(C^2)^2 - (*CC)^2] is WRONG (gives pq/2, not (p^2+q^2)/2)")
+    print(f"\n    RESULT: primary derivation's (1/8)[(C^2)^2 - (*CC)^2] is WRONG (gives pq/2, not (p^2+q^2)/2)")
     print(f"    Correct: C4_chain = (1/4)[(C^2)^2 + (*CC)^2] = (1/2)(p^2 + q^2)")
 
     return {
         "n_independent_invariants": 2,
         "correct_identity": "C4_chain = (1/4)[(C^2)^2 + (*CC)^2]",
-        "dagent_claim_a_wrong": True,
+        "primary_claim_a_wrong": True,
     }
 
 
@@ -724,13 +724,13 @@ def method_4_full_a8_assessment():
 
 
 # ======================================================================
-# D-AGENT CLAIM AUDIT
+# PRIMARY DERIVATION CLAIM AUDIT
 # ======================================================================
 
-def audit_dagent_claims(m1, m2, m3, m4):
+def audit_primary_claims(m1, m2, m3, m4):
     """Systematic audit."""
     print("\n" + "=" * 72)
-    print("D-AGENT CLAIM AUDIT")
+    print("PRIMARY DERIVATION CLAIM AUDIT")
     print("=" * 72)
 
     print(f"\n  CLAIM (a): C4_chain = (1/8)[(C^2)^2 - (*CC)^2]")
@@ -764,7 +764,7 @@ def audit_dagent_claims(m1, m2, m3, m4):
     print(f"      a_8 ~ c_chain * (p^2+q^2) + c_double * (p+q)^2")
     print(f"         = (c_chain + c_double) * (p^2+q^2) + 2*c_double * pq")
     print(f"    Unless c_double = 0 in the a_8 formula, the full ratio is NOT 1:1.")
-    print(f"    The D-agent's conclusion about '1:1 ratio' is only half the story.")
+    print(f"    The primary derivation's conclusion about '1:1 ratio' is only half the story.")
 
     return {
         "a": "INCORRECT (formula error)",
@@ -781,8 +781,8 @@ def audit_dagent_claims(m1, m2, m3, m4):
 
 def main():
     print("=" * 72)
-    print("FUND-SYM: DR-Agent Independent Re-derivation")
-    print("4 methods, fully independent of D-agent computation")
+    print("FUND-SYM: Independent Re-derivation")
+    print("4 methods, fully independent of primary derivation computation")
     print("=" * 72)
 
     m1 = method_1_sd_asd_direct()
@@ -790,7 +790,7 @@ def main():
     m3 = method_3_specific_geometries()
     m4 = method_4_full_a8_assessment()
 
-    audit = audit_dagent_claims(m1, m2, m3, m4)
+    audit = audit_primary_claims(m1, m2, m3, m4)
 
     print("\n" + "=" * 72)
     print("FINAL DR VERDICT")
@@ -798,7 +798,7 @@ def main():
 
     print(f"\n  Tests: {PASS_COUNT} PASS, {FAIL_COUNT} FAIL, {WARN_COUNT} WARN")
     print()
-    print("  D-AGENT CLAIMS:")
+    print("  PRIMARY DERIVATION CLAIMS:")
     print(f"    (a) CH identity for C4_chain:     INCORRECT (sign/coefficient error)")
     print(f"    (b) Tr(Omega^4_chain) 1:1 ratio:  CORRECT (for chain piece only)")
     print(f"    (c) Chiral mechanism:              CORRECT")
@@ -809,7 +809,7 @@ def main():
     print(f"    (b) Exact coefficient: Tr(Omega^4_chain) = (1/16)(p^2+q^2)")
     print()
     print("  CRITICAL NEW FINDING:")
-    print("    The D-agent analyzed Tr(Omega^4_chain) in isolation.")
+    print("    The primary derivation analyzed Tr(Omega^4_chain) in isolation.")
     print("    The full a_8 also has [Tr_spin(Omega^2)]^2 = (1/4)(p+q)^2")
     print("    which introduces a pq cross term with coefficient 1/2.")
     print("    The full a_8 ratio (C^2)^2:(*CC)^2 is NOT 1:1 unless")

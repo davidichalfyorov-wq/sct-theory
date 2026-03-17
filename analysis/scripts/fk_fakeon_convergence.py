@@ -1,6 +1,6 @@
 # ruff: noqa: E402, I001
 """
-FK-D: Fakeon Prescription Convergence Analysis for SCT Propagator.
+FK-D: Fakeon Prescription Convergence Analysis for SCT Propagator (derivation step).
 
 Mathematical analysis of whether the fakeon (average continuation / principal
 value) prescription extends from finite to infinite poles in the SCT
@@ -307,7 +307,7 @@ def asymptotic_residue_analysis(
     """
     Analyze the asymptotic behavior of residues |R_n| as a function of |z_n|.
 
-    From the MR-2 handoff: |R_n| ~ 0.29/|z_n| for Type C pairs.
+    From the MR-2 summary: |R_n| ~ 0.29/|z_n| for Type C pairs.
     We verify this by fitting a power law |R_n| = A / |z_n|^alpha.
 
     If alpha > 1: Sum |R_n| converges (since |z_n| ~ n for order-1 entire)

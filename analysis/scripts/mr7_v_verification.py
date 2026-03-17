@@ -1,9 +1,9 @@
 # ruff: noqa: E402, I001
 """
-MR-7 V-Agent: Independent Numerical Verification.
+MR-7 Verification: Independent Numerical Verification.
 
 Verifies all MR-7 key results using 120-digit mpmath precision,
-independent of the D and DR agents' code paths.
+independent of the primary and cross-check derivation code paths.
 
 Checks:
   (a) Barnes-Rivers P^(2) trace = 5, P^(0-s) trace = 1
@@ -44,7 +44,7 @@ DPS = 120
 mp.mp.dps = DPS
 
 results = {
-    "agent": "MR7-V",
+    "step": "MR7-V",
     "task": "Independent numerical verification",
     "precision_digits": DPS,
     "checks": {},
@@ -149,7 +149,7 @@ def check_pi_tt_at_z1():
     print("-" * 50)
 
     pi_tt_1 = Pi_TT_canonical(1, dps=DPS)
-    # From D agent results and propagator table
+    # From primary derivation results and propagator table
     expected = mp.mpf("0.8994734408562696")
     err = abs(float(pi_tt_1) - float(expected))
 
@@ -513,7 +513,7 @@ def check_alpha_c():
 
 def main():
     print("=" * 70)
-    print("MR-7 V-AGENT: INDEPENDENT NUMERICAL VERIFICATION (120-digit mpmath)")
+    print("MR-7 VERIFICATION: INDEPENDENT NUMERICAL CHECK (120-digit mpmath)")
     print("=" * 70)
 
     checks = [

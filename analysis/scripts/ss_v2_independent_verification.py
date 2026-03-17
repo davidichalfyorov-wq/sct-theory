@@ -689,7 +689,7 @@ def main():
 
     # Save results
     output = {
-        "agent": "SS-V2",
+        "step": "SS-V2",
         "total": N_PASS + N_FAIL,
         "pass": N_PASS,
         "fail": N_FAIL,
