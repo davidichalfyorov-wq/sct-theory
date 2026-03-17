@@ -1,10 +1,19 @@
 # SCT Theory
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19056983.svg)](https://doi.org/10.5281/zenodo.19056983)
+![Version](https://img.shields.io/badge/version-research--wip-orange)
+![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)
+![Formally Verified](https://img.shields.io/badge/formally_verified-partial-orange)
+![Lean 4](https://img.shields.io/badge/Lean-4-1f6feb)
+![Consistency](https://img.shields.io/badge/consistency_checked-ongoing-blueviolet)
+![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-docs.md)
 
 **Spectral Causal Theory** is a research program that asks whether gravity, quantum corrections, and fundamental physics can be derived from the spectral data of the Dirac operator — in a mathematically controlled, computationally verified, and experimentally testable way.
+
+> Work in progress: verified results and Lean 4 proofs already exist in the repository, but the broader derivation, formalization, and consistency-check program is still expanding.
 
 <p align="center">
   <img src="docs/figures/roadmap_progress.png" alt="Research roadmap progress" width="680"/>
