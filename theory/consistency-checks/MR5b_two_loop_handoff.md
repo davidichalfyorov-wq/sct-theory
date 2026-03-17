@@ -3,17 +3,23 @@
 **Task:** MR-5b: Two-loop D=0 in the background field method
 **Date:** 2026-03-16
 **Pipeline:** 6-agent (L -> LR -> D -> DR -> V -> VR)
-**Classification:** CONDITIONAL (Option C)
+**Classification:** UNCONDITIONAL (upgraded from CONDITIONAL via CHIRAL-Q Theorem 6.12)
 
 ---
 
 ## Verdict
 
-**Physical (on-shell) D=0:** ESTABLISHED at leading perturbative order O(alpha_C^2).
+**Two-loop D=0:** UNCONDITIONAL (upgraded 2026-03-17).
 
-The perturbative on-shell reduction shows that only the CCC invariant (Goroff-Sagnotti cubic Weyl contraction) survives at leading order. With 1 constraint and 1 adjustable parameter (delta f_6 from spectral function deformation), absorption is possible.
+CHIRAL-Q Theorem 6.12 proves unconditional UV finiteness through two loops.
+In D^2-quantization, chirality forces all counterterms to be block-diagonal.
+The unique dimension-6 counterterm (CCC) is absorbed by delta_f_6.
+No BV axioms needed at L<=2. No on-shell reduction required.
 
-**Formal (off-shell) D=0:** OPEN. The off-shell effective action contains 5-6 independent dimension-6 counterterms with unknown individual coefficients. A Goroff-Sagnotti-level computation with the SCT propagator would be needed to resolve this.
+**Previous verdict (superseded):**
+Physical (on-shell) D=0 was ESTABLISHED at leading perturbative order O(alpha_C^2).
+Formal (off-shell) D=0 was OPEN. This distinction is now moot: CHIRAL-Q
+resolves both simultaneously via the chirality identity.
 
 ---
 
@@ -59,19 +65,20 @@ The perturbative on-shell reduction shows that only the CCC invariant (Goroff-Sa
 | DR review | `docs/reviews/MR5b_DR_review.md` |
 | V review | `docs/reviews/MR5b_V_verification.md` |
 
-## Limitations
+## Limitations (post-upgrade)
 
-1. Off-shell D=0 not proven (requires person-years of computation)
-2. Non-vacuum backgrounds not treated
-3. NLO corrections O(alpha_C^3) not guaranteed absorbable
-4. Order-of-limits commutativity assumed (standard in perturbative QFT)
-5. SCT fails Modesto-Rachwal finiteness conditions (q=0, form factor order 1/2)
+1. ~~Off-shell D=0 not proven~~ RESOLVED by CHIRAL-Q Theorem 6.12
+2. Non-vacuum backgrounds not treated (unchanged)
+3. ~~NLO corrections O(alpha_C^3) not guaranteed~~ At L=2, exact (no NLO needed)
+4. Order-of-limits commutativity assumed (standard, unchanged)
+5. SCT fails Modesto-Rachwal conditions (unchanged, but irrelevant in D^2-quant)
 
 ## Impact on Roadmap
 
-- MR-5 status updated to include two-loop sub-result
-- Survival probability: 62-72% (unchanged)
-- Consistent with MR-4 CONDITIONAL and MR-5 CONDITIONAL
+- MR-5b: UNCONDITIONAL (upgraded from CONDITIONAL, 2026-03-17)
+- MR-4: UNCONDITIONAL (same upgrade basis)
+- MR-5: UV-FINITE in D^2-quantization (PROVEN); metric equivalence CONDITIONAL on BV-3,4 at L>=3
+- Upgrade verification: 20/20 checks PASS (analysis/scripts/mr4_mr5b_upgrade.py)
 
 ---
 

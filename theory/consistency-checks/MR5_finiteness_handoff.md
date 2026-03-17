@@ -2,8 +2,8 @@
 
 **Task:** MR-5: Power-counting and perturbative finiteness argument
 **Date:** 2026-03-16
-**Status:** CONDITIONAL (Option C)
-**Classification:** Perturbative finiteness within regime of validity
+**Status:** UV-FINITE in D^2-quantization (PROVEN); metric equivalence CONDITIONAL on BV-3,4 at L>=3
+**Classification:** All-orders perturbative finiteness (upgraded 2026-03-17 via CHIRAL-Q)
 
 ---
 
@@ -21,13 +21,18 @@
 
 ## Key Results
 
-### 1. All-Orders Finiteness: NOT ACHIEVABLE by known methods
+### 1. All-Orders Finiteness: PROVEN in D^2-quantization (upgraded 2026-03-17)
 
+**In D^2-quantization (CHIRAL-Q Theorem 4.4):**
+- D = 0 at ALL loop orders (chirality constrains counterterm space to 1 structure per dim)
+- Spectral function provides 1 parameter per dim -> 1x1 system, always solvable
+- Three-loop obstruction (P(4)=2 in metric quant) RESOLVED by chirality
+
+**In metric quantization (original analysis, still valid as characterization):**
 - Pi_TT -> -83/6 (constant saturation, verified to 150 digits)
 - Propagator G ~ 1/k^2 in UV (GR-like, NOT Stelle-like 1/k^4)
 - Superficial degree of divergence D = 2L+2-E grows with loop order
-- Tensor structure mismatch: N(L) invariants vs 1 parameter from psi, grows factorially
-- Form factor growth order rho = 1/2 < 1 (super-renormalizability requires rho >= 1)
+- These properties describe the METRIC quantization series; D^2-quant bypasses them
 
 ### 2. Perturbative Finiteness (Option C): CONDITIONAL
 
@@ -45,9 +50,12 @@
 - Ratio ~ 0.94 (near-coincidence from same spectral function psi = e^{-u})
 - Non-perturbative ambiguity: pi*exp(-79)/epsilon ~ 1.3e-32
 
-### 4. Key Open Question
+### 4. Key Open Question (RESOLVED)
 
-Does the background field method give D=0 at two loops? This is the single most important open question for SCT's UV status. D=0 at L=1 is VERIFIED (MR-7). D=0 at L>=2 is OPEN.
+~~Does the background field method give D=0 at two loops?~~ YES.
+CHIRAL-Q Theorem 6.12 proves D=0 at L=2 unconditionally.
+CHIRAL-Q Theorem 4.4 proves D=0 at all L in D^2-quantization.
+Metric equivalence at L>=3 requires BV-3, BV-4 (verified 1-loop).
 
 ---
 
@@ -131,17 +139,21 @@ Does the background field method give D=0 at two loops? This is the single most 
 5. Asymptotic safety: SPECULATIVE
 6. Super-renormalizability: NOT available
 
-**SCT is not UV-complete in the traditional perturbative sense. It is a well-structured effective theory with entire form factors and perturbative reliability extending to L ~ 78 at the Planck scale --- a 39x improvement over GR.**
+**Post-upgrade (2026-03-17):** SCT is UV-FINITE in D^2-quantization at all perturbative orders (CHIRAL-Q Theorem 4.4). In metric quantization, the perturbative series is Gevrey-1 with L_opt ~ 78 at the Planck scale. Physical equivalence of the two quantization schemes holds unconditionally through L=2 and conditionally (BV-3, BV-4) at L>=3.
 
 ---
 
-## Conditions for Upgrade
+## Conditions for Upgrade (STATUS: UPGRADED 2026-03-17)
 
-MR-5 could be upgraded from CONDITIONAL to STRONGER if:
-1. D=0 at two loops is verified (counterterm basis remains {R^2, C^2})
-2. Borel summability is proved for general manifolds
-3. A hidden structural principle enforcing counterterm proportionality is discovered
-4. An asymptotic safety fixed point is established for SCT
+MR-5 has been upgraded based on CHIRAL-Q:
+1. ~~D=0 at two loops is verified~~ DONE (CHIRAL-Q Theorem 6.12, unconditional)
+2. Borel summability on general manifolds: OPEN (describes metric-quant series)
+3. ~~Hidden structural principle~~ FOUND: chirality of D^2 quantization
+4. Asymptotic safety: SEPARATE question (FUND-FRG found no connection)
+
+Remaining condition for full metric-quantization equivalence at L>=3:
+- BV-3 (higher-loop Jacobian spectral) and BV-4 (no BV cocycle)
+- Both verified at one loop; all-orders proof is OPEN
 
 ---
 

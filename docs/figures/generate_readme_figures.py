@@ -188,19 +188,23 @@ tasks = [
     ('NT-4b: Nonlinear EOM', 1.0, 'complete'),
     ('NT-4c: FLRW cosmology', 1.0, 'complete'),
     ('PPN-1: Solar system tests', 1.0, 'complete'),
+    ('LT-3d: Laboratory tests', 1.0, 'complete'),
     ('MR-1: Lorentzian formulation', 1.0, 'complete'),
-    ('MR-2: Unitarity conditions', 0.85, 'conditional'),
+    ('MR-2: Unitarity (D\u00b2-quant)', 1.0, 'complete'),
     ('MR-3: Causality analysis', 0.85, 'conditional'),
-    ('MR-4: Two-loop structure', 0.85, 'conditional'),
-    ('MR-5: Finiteness (2-loop)', 0.85, 'conditional'),
+    ('MR-4: Two-loop structure', 1.0, 'complete'),
+    ('MR-5: Finiteness (all-orders)', 0.95, 'conditional'),
+    ('MR-5b: Two-loop D=0', 1.0, 'complete'),
+    ('MR-6: Convergence analysis', 1.0, 'complete'),
     ('MR-7: Graviton scattering', 1.0, 'complete'),
     ('NT-3: Spectral dimension', 0.85, 'conditional'),
-    ('INF-1: Spectral inflation', 0.5, 'conditional'),
+    ('INF-1: Spectral inflation', 0.50, 'conditional'),
+    ('MT-2: Modified cosmology', 1.0, 'complete'),
     ('MT-1: Black hole entropy', 0.0, 'pending'),
     ('LT-1: All-orders UV', 0.0, 'pending'),
 ]
 
-fig, ax = plt.subplots(figsize=(8.5, 6.5))
+fig, ax = plt.subplots(figsize=(8.5, 7.5))
 y_pos = np.arange(len(tasks))[::-1]
 
 colors = []

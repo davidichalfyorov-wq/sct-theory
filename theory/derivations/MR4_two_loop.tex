@@ -479,4 +479,37 @@ the convergence of this procedure is an open problem.
     Cambridge University Press, 2009.
 \end{enumerate}
 
+% ======================================================================
+\section*{Addendum: Status Upgrade (March 2026)}
+\label{sec:addendum}
+% ======================================================================
+
+\noindent\textbf{Previous status:} CONDITIONAL (Answer~C).
+$R^3$ absorption required tensor structure match with $a_6$ (not verified
+by explicit computation).  Positivity of deformed $\psi$ not guaranteed.
+
+\medskip\noindent\textbf{New status:} \textsc{unconditional}.
+Two-loop $R^3$ absorption is now established without conditions.
+
+\medskip\noindent\textbf{Argument.}
+The chirality theorem for $D^2$-quantization~[Alfyorov~2026, CHIRAL-Q]
+resolves the outstanding conditions:
+\begin{enumerate}
+  \item \textbf{Tensor structure} (Condition~(a)):
+    In $D^2$-quantization, chirality forces all counterterms to be
+    block-diagonal.  Combined with the Cayley--Hamilton identity in~4D,
+    the unique dimension-6 counterterm on Ricci-flat is CCC.  No
+    Goroff--Sagnotti-level explicit computation is needed.
+  \item \textbf{Positivity} (Condition~(b)):
+    At two loops, $\delta f_6$ is a single number.  The deformation
+    $\psi \to \psi + \epsilon\,u^2\,e^{-u}$ preserves positivity
+    for sufficiently small~$\epsilon$.  This is perturbatively safe.
+  \item \textbf{All-orders convergence} (Condition~(c)):
+    Not relevant to MR-4, which concerns two-loop structure only.
+    Addressed separately in MR-5.
+  \item The propagator result $G \sim 1/k^2$ (not $1/k^4$) was already
+    unconditional (MR-7).
+\end{enumerate}
+Verified: 20/20 checks PASS (\texttt{analysis/scripts/mr4\_mr5b\_upgrade.py}).
+
 \end{document}

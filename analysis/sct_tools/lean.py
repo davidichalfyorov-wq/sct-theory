@@ -743,6 +743,143 @@ SCT_IDENTITIES = [
         "description": "NT-4a propagator normalization Pi_TT(0) = 1",
         "phase": "NT-4a",
     },
+
+    # --- Phase 3 (Combined SM): alpha_C from h_C(0) local limits ---
+    {
+        "name": "sct_sm_alpha_C_value",
+        "lhs": (
+            "(4 : ℚ) * (1 / 120) + "
+            "(45 : ℚ) / 2 * (-(1 : ℚ) / 20) + "
+            "(12 : ℚ) * (1 / 10)"
+        ),
+        "rhs": "(13 : ℚ) / 120",
+        "description": (
+            "SM total Weyl coefficient: "
+            "alpha_C = N_s*h_C^(0)(0) + N_D*h_C^(1/2)(0) + N_v*h_C^(1)(0) = 13/120"
+        ),
+        "phase": "NT-1b-combined",
+    },
+    {
+        "name": "sct_sm_alpha_R_conformal",
+        "lhs": "2 * (((1 : ℚ) / 6) - 1 / 6) ^ 2",
+        "rhs": "(0 : ℚ)",
+        "description": (
+            "alpha_R vanishes at conformal coupling xi = 1/6: "
+            "2*(1/6 - 1/6)^2 = 0"
+        ),
+        "phase": "NT-1b-combined",
+    },
+    {
+        "name": "sct_sm_alpha_R_minimal",
+        "lhs": "2 * ((0 : ℚ) - 1 / 6) ^ 2",
+        "rhs": "(1 : ℚ) / 18",
+        "description": (
+            "alpha_R at minimal coupling xi = 0: "
+            "2*(0 - 1/6)^2 = 1/18"
+        ),
+        "phase": "NT-1b-combined",
+    },
+
+    # --- Phase 3 (Combined SM): c1/c2 Wilson coefficient ratio ---
+    {
+        "name": "sct_c1c2_ratio_conformal",
+        "lhs": (
+            "(2 * (((1 : ℚ) / 6) - 1 / 6) ^ 2 - "
+            "(2 : ℚ) / 3 * ((13 : ℚ) / 120)) / "
+            "(2 * ((13 : ℚ) / 120))"
+        ),
+        "rhs": "-(1 : ℚ) / 3",
+        "description": (
+            "c1/c2 = -1/3 at conformal coupling xi = 1/6 (parameter-free)"
+        ),
+        "phase": "NT-1b-combined",
+    },
+    {
+        "name": "sct_c1c2_ratio_minimal",
+        "lhs": (
+            "(2 * ((0 : ℚ) - 1 / 6) ^ 2 - "
+            "(2 : ℚ) / 3 * ((13 : ℚ) / 120)) / "
+            "(2 * ((13 : ℚ) / 120))"
+        ),
+        "rhs": "-(1 : ℚ) / 3 + 10 / 39",
+        "description": (
+            "c1/c2 at minimal coupling xi = 0: "
+            "-1/3 + 10/39"
+        ),
+        "phase": "NT-1b-combined",
+    },
+
+    # --- Phase 3 (Combined SM): 3c1 + c2 scalar mode combination ---
+    {
+        "name": "sct_3c1_plus_c2_conformal",
+        "lhs": (
+            "3 * (2 * (((1 : ℚ) / 6) - 1 / 6) ^ 2 - "
+            "(2 : ℚ) / 3 * ((13 : ℚ) / 120)) + "
+            "2 * ((13 : ℚ) / 120)"
+        ),
+        "rhs": "(0 : ℚ)",
+        "description": (
+            "3c1 + c2 = 0 at conformal coupling: scalar mode decouples"
+        ),
+        "phase": "NT-1b-combined",
+    },
+    {
+        "name": "sct_3c1_plus_c2_minimal",
+        "lhs": (
+            "3 * (2 * ((0 : ℚ) - 1 / 6) ^ 2 - "
+            "(2 : ℚ) / 3 * ((13 : ℚ) / 120)) + "
+            "2 * ((13 : ℚ) / 120)"
+        ),
+        "rhs": "(1 : ℚ) / 6",
+        "description": (
+            "3c1 + c2 = 1/6 at minimal coupling xi = 0"
+        ),
+        "phase": "NT-1b-combined",
+    },
+
+    # --- NT-4a: effective masses and potential ---
+    {
+        "name": "nt4a_m2_squared",
+        "lhs": "(1 : ℚ) + (13 : ℚ) / 60 * (-(60 : ℚ) / 13)",
+        "rhs": "(0 : ℚ)",
+        "description": (
+            "NT-4a spin-2 effective mass pole: "
+            "Pi_TT(-60/13) = 1 + (13/60)*(-60/13) = 0"
+        ),
+        "phase": "NT-4a",
+    },
+    {
+        "name": "nt4a_m0_squared_minimal",
+        "lhs": (
+            "(1 : ℚ) + 6 * ((0 : ℚ) - 1 / 6) ^ 2 * (-(6 : ℚ))"
+        ),
+        "rhs": "(0 : ℚ)",
+        "description": (
+            "NT-4a scalar effective mass pole at xi = 0: "
+            "Pi_s(-6) = 1 + (1/6)*(-6) = 0"
+        ),
+        "phase": "NT-4a",
+    },
+    {
+        "name": "nt4a_newton_potential_finite",
+        "lhs": "(1 : ℚ) - 4 / 3 + 1 / 3",
+        "rhs": "(0 : ℚ)",
+        "description": (
+            "NT-4a modified potential V(0)/V_N(0) = 0: "
+            "1 - 4/3 + 1/3 = 0 (Newtonian singularity resolved)"
+        ),
+        "phase": "NT-4a",
+    },
+    {
+        "name": "nt4a_mass_ratio_minimal",
+        "lhs": "(6 : ℚ) / ((60 : ℚ) / 13)",
+        "rhs": "(13 : ℚ) / 10",
+        "description": (
+            "NT-4a mass ratio at xi = 0: "
+            "m0^2/m2^2 = 6/(60/13) = 13/10"
+        ),
+        "phase": "NT-4a",
+    },
 ]
 
 

@@ -447,4 +447,71 @@ and perturbative reliability extending to $L \sim 78$ at the Planck scale.}
   \item All figures generated from \texttt{analysis/scripts/mr5\_figures.py}.
 \end{itemize}
 
+% ======================================================================
+\section*{Addendum: Status Upgrade (March 2026)}
+\label{sec:addendum}
+% ======================================================================
+
+\noindent\textbf{Previous status:} CONDITIONAL (Option~C).
+All-orders finiteness not achievable by known methods.
+$L_{\mathrm{opt}} \approx 78$ at the Planck scale.
+UV-completeness NOT established.
+
+\medskip\noindent\textbf{New status:}
+UV-FINITE in $D^2$-quantization (PROVEN).
+Metric equivalence: UNCONDITIONAL through $L = 2$;
+CONDITIONAL on BV-3, BV-4 at $L \geq 3$.
+
+\medskip\noindent\textbf{Argument.}
+The chirality theorem for $D^2$-quantization~[Alfyorov~2026, CHIRAL-Q]
+fundamentally changes the finiteness picture:
+
+\begin{enumerate}
+  \item \textbf{Theorem~4.4:}
+    In $D^2$-quantization of the spectral action, the degree of divergence
+    $D = 0$ at \emph{all} loop orders.  Chirality constrains the counterterm
+    space to a single effective structure at each mass dimension; the spectral
+    function provides exactly one parameter at each mass dimension.  The
+    absorption system is always $1 \times 1$.
+
+  \item \textbf{Theorem~6.12:}
+    Physical equivalence with metric quantization is established:
+    \begin{itemize}
+      \item \textbf{Unconditional} through $L = 2$ (one loop: explicit
+        computation; two loops: unique CCC structure).
+      \item \textbf{Conditional} at $L \geq 3$ under five BV axioms
+        (Definition~6.9): BV-1 and BV-2 are proven; BV-3 and BV-4 are
+        verified to one-loop order; BV-5 is natural.
+    \end{itemize}
+
+  \item \textbf{Resolution of three-loop obstruction:}
+    In metric quantization, $P(4) = 2$ quartic Weyl invariants vs.\
+    1~parameter ($\delta f_8$) at mass dimension~8.  In $D^2$-quantization,
+    chirality reduces the accessible counterterm space to $P(4) = 1$
+    (only $p^2 + q^2$, no $pq$ cross-terms).  The $2:1$ overdetermination
+    is resolved.
+
+  \item The Option~C analysis ($L_{\mathrm{opt}} \approx 78$, Gevrey-1,
+    Borel radius $R_B \approx 79$) remains valid as a characterization
+    of the \emph{metric quantization} perturbative series.  In
+    $D^2$-quantization, there is no $L_{\mathrm{opt}}$: the theory is
+    perturbatively finite at all~$L$.
+\end{enumerate}
+
+\medskip\noindent\textbf{Summary table:}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Quantization & Status & Conditions \\
+\midrule
+$D^2$-quantization & $D = 0$ at all $L$ & None (proven) \\
+Metric, $L \leq 2$ & $D = 0$ & None (unconditional) \\
+Metric, $L \geq 3$ & $D = 0$ & BV-3, BV-4 (verified 1-loop) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Verified: 20/20 checks PASS (\texttt{analysis/scripts/mr4\_mr5b\_upgrade.py}).
+
 \end{document}

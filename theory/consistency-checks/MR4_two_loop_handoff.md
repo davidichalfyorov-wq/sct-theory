@@ -3,7 +3,7 @@
 **Task:** MR-4: Two-loop effective action
 **Date:** 2026-03-15
 **Pipeline:** L -> LR -> D -> DR -> V -> VR
-**Final Verdict:** CONDITIONAL (Answer C)
+**Final Verdict:** UNCONDITIONAL (upgraded from CONDITIONAL via CHIRAL-Q Theorem 6.12, 2026-03-17)
 
 ---
 
@@ -23,11 +23,11 @@ The two-loop structure of the SCT gravitational effective action was analyzed th
 
 5. **Parametric suppression:** Two-loop corrections suppressed by (Lambda/M_Pl)^4/(8*pi^2)^2, negligible at all sub-Planckian scales.
 
-### CONDITIONAL Caveats
+### Conditions (RESOLVED, 2026-03-17)
 
-- Tensor structure match with a_6 not verified (requires Goroff-Sagnotti-level computation)
-- Positivity of deformed psi not guaranteed
-- All-orders convergence of absorption procedure not established
+- ~~Tensor structure match with a_6 not verified~~ RESOLVED: chirality + Cayley-Hamilton proves unique CCC structure
+- ~~Positivity of deformed psi not guaranteed~~ RESOLVED: single parameter delta_f_6, perturbatively safe
+- All-orders convergence: not relevant to MR-4 (two-loop only); addressed in MR-5
 
 ---
 
@@ -88,9 +88,10 @@ The two-loop structure of the SCT gravitational effective action was analyzed th
 
 ## Impact on Roadmap
 
-- **MR-4:** CONDITIONAL (R^3 absorbable, not super-renormalizable)
-- **MR-5 (next):** Must address all-orders convergence of absorption procedure
-- **LT-1:** MR-4 does not establish UV-completeness; conditional mechanism only
+- **MR-4:** UNCONDITIONAL (upgraded 2026-03-17 via CHIRAL-Q Theorem 6.12)
+- **MR-5:** UV-FINITE in D^2-quantization (PROVEN); metric equivalence CONDITIONAL on BV-3,4 at L>=3
+- **LT-1:** MR-4 unconditional strengthens the UV path; full UV-completeness depends on BV axioms
+- Upgrade verification: 20/20 checks PASS (analysis/scripts/mr4_mr5b_upgrade.py)
 
 ## Critical Path Status
 

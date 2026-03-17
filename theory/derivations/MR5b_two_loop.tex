@@ -572,4 +572,42 @@ Regression & 74 pytest tests (D), 49 self-tests (DR) & PASS \\
 
 \end{thebibliography}
 
+% =================================================================
+\section*{Addendum: Status Upgrade (March 2026)}
+\label{sec:addendum}
+% =================================================================
+
+\noindent\textbf{Previous status:} CONDITIONAL (Option~C).
+Physical (on-shell) $D=0$ established at leading order $\mathcal{O}(\alpha_C^2)$.
+Formal (off-shell) $D=0$ was open.
+
+\medskip\noindent\textbf{New status:} \textsc{unconditional}.
+Two-loop $D=0$ is now established without conditions, based on the
+chirality theorem for $D^2$-quantization~\cite{Alfyorov:2026cq}.
+
+\medskip\noindent\textbf{Argument.}
+\begin{enumerate}
+  \item \textbf{Theorem~4.4} of~\cite{Alfyorov:2026cq}:
+    In $D^2$-quantization of the spectral action, all counterterms at every
+    loop order commute with~$\gamma_5$.  Consequently, the degree of
+    divergence $D = 0$ at all loop orders.
+  \item \textbf{Theorem~6.12(ii)} of~\cite{Alfyorov:2026cq}:
+    At two loops, no additional axioms are required.  The unique
+    dimension-$6$ counterterm structure (CCC) appears in both
+    $D^2$-quantization and metric quantization, and is absorbed
+    by $\delta f_6$.
+  \item The odd Weyl degree (cubic) has no self-dual/anti-self-dual
+    cross-term ambiguity: $\mathrm{CCC} = \mathrm{tr}(W_+^3) + \mathrm{tr}(W_-^3)$.
+  \item Verified numerically: 20/20 checks PASS
+    (\texttt{analysis/scripts/mr4\_mr5b\_upgrade.py}).
+\end{enumerate}
+
+\begin{thebibliography}{1}
+\bibitem{Alfyorov:2026cq}
+  D.~Alfyorov,
+  ``UV finiteness of the spectral action via $D^2$-quantization:
+  a chirality proof,'' (2026).
+  \texttt{papers/drafts/sct\_chiral\_q.tex}.
+\end{thebibliography}
+
 \end{document}
