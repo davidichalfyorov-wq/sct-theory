@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19056983.svg)](https://doi.org/10.5281/zenodo.19056983)
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
-![Version](https://img.shields.io/badge/version-1.0.2-blue)
+![Version](https://img.shields.io/badge/version-1.0.4-blue)
 ![Tests](https://img.shields.io/badge/tests-4196%2B%20passed-brightgreen)
 ![PDFs](https://img.shields.io/badge/PDFs-73%2F73%20compiled-brightgreen)
 ![Formally Verified](https://img.shields.io/badge/Lean_4-13_theorems%2C_0_sorry-1f6feb)
@@ -62,9 +62,9 @@ The Wald entropy for Schwarzschild black holes in SCT is computed with full Stan
 
 The logarithmic coefficient **c<sub>log</sub> = 37/24** is determined by the SM particle content via the Sen formula (2012) and has opposite sign to the Loop Quantum Gravity prediction (c<sub>log</sub> = &minus;3/2), providing a potential observational discriminant.
 
-### Black hole singularity: groundwork
+### Black hole singularity: softened, not resolved
 
-The modified Newtonian potential from the spectral action's nonlocal form factors is finite at the origin: V(0) = 0. In the Yukawa approximation, the Kretschner scalar is softened from K ~ r<sup>&minus;6</sup> (Schwarzschild) to K ~ r<sup>&minus;4</sup>. Full singularity resolution (de Sitter core, K finite everywhere) requires solving the complete nonlinear field equations self-consistently on a spherically symmetric background &mdash; the linearized analysis, effective source formalism, and energy condition framework are in place.
+The modified Newtonian potential is finite at the origin: V(0) = 0. The Kretschner scalar is softened from K ~ r<sup>&minus;6</sup> (Schwarzschild) to K ~ r<sup>&minus;4</sup>. However, **singularity resolution requires exponential UV suppression** of the propagator (entire order &ge; 2, as in infinite derivative gravity). SCT&rsquo;s propagator denominator &Pi;<sub>TT</sub>(k&sup2;) approaches a finite constant at high momenta, giving the same 1/k&sup2; UV behavior as GR. This is a structural limitation: the master function &phi;(z) is entire of order 1, producing algebraic rather than exponential modification. The Giacchini&ndash;de Paula Netto threshold (2018) requires &ge; 6 derivatives for curvature regularity; SCT effectively has 4.
 
 ### Upgraded consistency results
 
@@ -73,7 +73,7 @@ Five previously open questions about the theory's internal consistency are now r
 - **Two-loop finiteness** is now unconditional (previously required a specific absorption scheme)
 - **Unitarity** in D&sup2;-quantization follows from the bounded propagator (no ghost poles)
 - **Optical theorem** follows from unitarity
-- **All-orders finiteness** is conditional on two BV axioms, both verified to one loop
+- **All-orders finiteness** is conjectured under two BV axioms (verified to one loop only; extending to all orders is an open problem)
 
 ### Literature cross-check
 
@@ -87,7 +87,7 @@ All results match to 15+ significant digits. Zero discrepancies found. One conve
 ### Honest limitations identified
 
 - **Inflation:** The minimal spectral action predicts a scalaron mass M = 15.4 M<sub>Pl</sub>, six orders of magnitude too heavy for Starobinsky inflation. Nonlocal form factor corrections do not rescue this (F&#770;<sub>2</sub> decreases at high momenta). SCT does not explain inflation without BSM extensions.
-- **Singularity resolution:** Softened (K: r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but not resolved in the linearized Yukawa approximation. The form factors are entire functions of order 1; full resolution requires order 2 (exponential UV suppression).
+- **Singularity resolution:** Softened (K: r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but **not resolved**. The propagator denominator &Pi;<sub>TT</sub> &rarr; const at UV, giving 1/k&sup2; behavior. The Giacchini&ndash;de Paula Netto threshold requires &ge; 6 derivatives for curvature regularity; the spectral action effectively has 4. See &ldquo;Known Problems&rdquo; below.
 - **D&sup2;-quantization vs metric quantization:** Physical equivalence established through one loop. All-orders equivalence conditional on two BV axioms (Jacobian well-definedness and anomaly freedom), verified to one loop.
 
 ## What This Repository Does
@@ -209,11 +209,11 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | Unitarity | Bounded propagator in D&sup2;-quantization, no ghost poles | Closed |
 | Causality | Signal speed = *c* (macroscopic); micro-violation at &ell; ~ 1/&Lambda; | Conditional |
 | Two-loop finiteness | Counterterm uniquely absorbed | **Unconditional** |
-| All-orders finiteness | Via chirality + BV axioms | Conditional |
+| All-orders finiteness | Conjectured via chirality + two unproven BV axioms | Open conjecture |
 | Graviton scattering | Tree-level SCT = GR; one-loop finite | Certified |
 | Solar system tests | Spectral scale &Lambda; > 2.565 meV from torsion-balance | Complete |
 | Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Certified |
-| Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; full resolution in progress | Conditional |
+| Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
 
@@ -225,6 +225,22 @@ python -m pytest analysis/ -x -q          # run tests (4196+ pass)
 python analysis/run_ci.py                 # full CI pipeline
 python papers/build.py                    # compile all LaTeX (73/73)
 ```
+
+## Known Problems and Open Questions
+
+The spectral action framework has well-known theoretical vulnerabilities. This project does not claim to have solved them.
+
+**The spin-2 ghost.** The Weyl-squared term in the spectral action produces a massive spin-2 mode with wrong-sign residue (Ostrogradsky ghost). This is not an artifact of our computation &mdash; it is inherent to all quadratic gravity theories (Stelle 1977). The nonlocal form factors prevent new ghost poles from appearing, but they do not eliminate the fundamental one. Our approach uses the fakeon prescription (Anselmi-Piva 2017), which projects the ghost out of the physical spectrum. This prescription is mathematically consistent but not universally accepted.
+
+**All-orders finiteness is a conjecture.** The chirality theorem proves that the counterterm space is one-dimensional at any loop order. Combined with two BV axioms (well-defined Jacobian and anomaly freedom), this implies all-orders finiteness. However, **these axioms are verified only through one loop**. Extending the proof to all orders is an open mathematical problem. The claim is a conjecture supported by one-loop evidence, not a theorem.
+
+**No singularity resolution.** The propagator denominator &Pi;<sub>TT</sub> approaches a finite constant at UV, giving 1/k&sup2; behavior &mdash; the same as GR. Singularity resolution requires exponential UV suppression (as in infinite derivative gravity), which the spectral action with Schwartz-class test function f does not produce. The Kretschner scalar is softened (r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but still diverges at r = 0.
+
+**No infrared predictions.** The spectral action is a UV modification of gravity. All corrections are exponentially suppressed at distances above 1/&Lambda; &asymp; 0.08 mm. The theory cannot address the Hubble tension, dark energy, or large-scale structure anomalies.
+
+**The spectral action is Euclidean.** The Chamseddine-Connes spectral action is defined on Riemannian manifolds. Its extension to Lorentzian signature relies on Wick rotation, which is well-defined perturbatively (van den Dungen-Paschke-Rennie 2012) but has no established non-perturbative Lorentzian formulation. The Dang-Wrochna program (2020-2024) is making progress on native Lorentzian spectral zeta functions, but only the leading term (scalar curvature) has been recovered so far.
+
+**Interpretation.** The spectral action can be viewed as a fundamental principle (the spectrum of the Dirac operator determines all of physics) or as an effective field theory (a convenient generating functional for higher-derivative corrections). This project adopts the former as a working hypothesis but does not claim it is the only valid interpretation.
 
 ## What This Project Is Not
 
