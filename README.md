@@ -3,17 +3,19 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19056983.svg)](https://doi.org/10.5281/zenodo.19056983)
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
-![Version](https://img.shields.io/badge/version-1.0.4-blue)
-![Tests](https://img.shields.io/badge/tests-4196%2B%20passed-brightgreen)
-![PDFs](https://img.shields.io/badge/PDFs-73%2F73%20compiled-brightgreen)
-![Formally Verified](https://img.shields.io/badge/Lean_4-13_theorems%2C_0_sorry-1f6feb)
-![Consistency](https://img.shields.io/badge/consistency_checked-30_phases-blueviolet)
+![Status](https://img.shields.io/badge/status-active_research_workspace-blue)
+![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--03--20)-brightgreen)
+![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_5_drafts-brightgreen)
+![Lean](https://img.shields.io/badge/Lean-active_legacy_%2B_FND1_stack-1f6feb)
+![Verification](https://img.shields.io/badge/verification-local_audit_2026--03--20-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-docs.md)
 
 **Spectral Causal Theory** is a research program investigating whether gravity and its quantum corrections can be derived from the spectral data of the Dirac operator.
+
+This repository is an active research workspace rather than a single frozen release snapshot. The badges above reflect a local repository audit on 2026-03-20 rather than a harmonized semantic version tag.
 
 <p align="center">
   <img src="docs/figures/roadmap_progress.png" alt="Research roadmap progress" width="680"/>
@@ -42,11 +44,18 @@ Concretely, the **spectral action principle** uses the spectrum of a generalized
 
 These form factors are not free parameters. They are fixed by the spectrum and the particle content of the Standard Model.
 
-## What's New in v1.0.2
+## Current Repository Focus
+
+The repository currently has two active layers:
+
+- the main spectral-action / form-factor / phenomenology program
+- an exploratory finite-nerve / FND-1 formalization under `theory/lean/SCTLean/FND1/`
+
+The section below summarizes the current audited state of the main spectral-action line, not a tagged release note.
 
 ### Chirality proof and perturbative UV finiteness
 
-The central result of this release: **a four-line algebraic proof that all perturbative counterterms in D&sup2;-quantization of the spectral action are block-diagonal in the chiral basis**, and therefore absorbable by spectral function deformation at every loop order.
+One central current result is **a four-line algebraic proof that all perturbative counterterms in D&sup2;-quantization of the spectral action are block-diagonal in the chiral basis**, and therefore absorbable by spectral function deformation at every loop order.
 
 The proof rests on the identity: since the Dirac operator *D* anticommutes with the chirality operator &gamma;<sub>5</sub>, the perturbation &delta;(*D*&sup2;) automatically *commutes* with &gamma;<sub>5</sub>. This forces the kinetic operator, propagator, vertices, and all multi-loop diagrams into the chirality-preserving subalgebra.
 
@@ -128,7 +137,12 @@ The plot uses `x = -k^2/\Lambda^2`, so the left branch corresponds to `x < 0` an
 
 ## Formal Verification (Lean 4)
 
-The core algebraic identities are machine-verified in Lean 4 with Mathlib:
+The repository currently contains two distinct Lean layers:
+
+- a legacy theorem layer in `theory/lean/proofs/` for spectral-action and form-factor identities
+- an active finite-nerve / FND-1 layer in `theory/lean/SCTLean/FND1/` for boundary, chain-complex, and `H1` constructions
+
+The legacy core algebraic identities remain machine-verified in Lean 4 with Mathlib:
 
 | Theorem | Statement | File |
 |---------|-----------|------|
@@ -137,7 +151,7 @@ The core algebraic identities are machine-verified in Lean 4 with Mathlib:
 | `centralizer_inv_closed` | If [K, &gamma;<sub>5</sub>] = 0 then [K<sup>&minus;1</sup>, &gamma;<sub>5</sub>] = 0 | same |
 | + 10 more | Even Clifford comm, spin connection, diffeo generator, CME, ... | same |
 
-**13 theorems. Zero sorry statements. All proofs complete.**
+These 13 legacy theorem files are still present, but they are no longer the whole formal picture. The active `SCTLean/FND1/` stack adds a much larger exploratory formalization layer, including finite-nerve support, boundary operators, `d1 ∘ d2 = 0`, and a first-homology interface.
 
 ## Literature Cross-Check
 
@@ -158,14 +172,15 @@ Full comparison: `theory/derivations/SCT_literature_comparison.tex`
 ```
 theory/           Formal theory content
   axioms/           Foundational postulates
-  derivations/      Step-by-step mathematical derivations (60+ documents)
+  derivations/      Step-by-step mathematical derivations
   predictions/      Testable predictions with observables and precision targets
-  consistency-checks/  Internal consistency proofs (15+ checks)
-  lean/proofs/      Lean 4 formal proofs (13 theorems, 0 sorry)
+  consistency-checks/  Internal consistency proofs and audit notes
+  lean/proofs/      Legacy Lean 4 theorem files for spectral-action identities
+  lean/SCTLean/FND1/  Active finite-nerve boundary/homology formalization
 
 analysis/         Computational backbone
-  sct_tools/        Python package (13 modules, 4196+ tests)
-  scripts/          Verification and computation scripts (30+ scripts)
+  sct_tools/        Python package (15 top-level modules)
+  scripts/          Verification and computation scripts
   figures/          Publication-quality figures
 
 papers/           Publication drafts and build tools
@@ -199,7 +214,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 
 ## Research Status
 
-30 research phases completed. Highlights:
+Selected research highlights:
 
 | Topic | Key result | Status |
 |-------|-----------|--------|
@@ -216,14 +231,18 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
+| FND-1 finite-nerve route | Auxiliary boundary/homology framework formalized; intrinsic coherence gap remains open | Conditional / negative |
 
 ## Quick Start
 
 ```bash
 python -m pip install -r requirements.txt
-python -m pytest analysis/ -x -q          # run tests (4196+ pass)
+python -m pytest analysis/ --collect-only -q  # inspect current analysis test surface (4445 collected on 2026-03-20)
+python -m pytest analysis/ -x -q              # run analysis tests
 python analysis/run_ci.py                 # full CI pipeline
-python papers/build.py                    # compile all LaTeX (73/73)
+python papers/build.py --check            # inspect current theory/docs/data TeX targets (71 on 2026-03-20)
+python papers/build.py                    # compile current theory/docs/data TeX targets
+python papers/build.py --drafts --check   # inspect current draft-paper targets (5 on 2026-03-20)
 ```
 
 ## Known Problems and Open Questions
