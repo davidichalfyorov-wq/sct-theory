@@ -37,6 +37,7 @@ desktop.ini
 # IDE
 .vscode/
 .idea/
+.worktrees/
 
 # Build artifacts
 *.aux
