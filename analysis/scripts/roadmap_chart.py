@@ -92,25 +92,26 @@ for g in GROUP_ORDER:
 
 # ── Layout constants ─────────────────────────────────────────
 ROW_H   = 0.55          # row height for tasks
-HDR_H   = 0.72          # row height for group headers
-PAD_BOT = 0.3           # padding below header text
+HDR_H   = 0.50          # header text area
+HDR_GAP = 0.45          # extra gap ABOVE each header (separates groups)
 BAR_W   = 0.60          # bar width (fraction of row)
 DOT_R   = 0.11          # status dot radius
 
 fig_w = 11
-total_h = sum(HDR_H if k == "header" else ROW_H for k, _ in rows) + 1.8
+total_h = sum((HDR_H + HDR_GAP) if k == "header" else ROW_H for k, _ in rows) + 1.8
 fig, ax = plt.subplots(figsize=(fig_w, total_h * 0.38 + 1.0))
 
 y = total_h  # start from top
 
 for kind, payload in rows:
     if kind == "header":
-        y -= HDR_H
-        # separator line
-        ax.plot([0, fig_w - 0.5], [y + 0.05, y + 0.05],
+        y -= HDR_GAP  # gap above header
+        # separator line at top of gap
+        ax.plot([0, fig_w - 0.5], [y + HDR_GAP * 0.5, y + HDR_GAP * 0.5],
                 color="#d0d0d0", linewidth=0.6, zorder=0)
-        # group title
-        ax.text(0.15, y + HDR_H * 0.35, GROUP_TITLE[payload],
+        y -= HDR_H    # header text area
+        # group title centered in its area
+        ax.text(0.15, y + HDR_H * 0.5, GROUP_TITLE[payload],
                 fontsize=7.5, fontweight="bold", color="#555555",
                 va="center", family="sans-serif")
     else:
