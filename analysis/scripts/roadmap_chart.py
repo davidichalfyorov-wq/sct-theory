@@ -3,166 +3,164 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from matplotlib.patches import FancyBboxPatch
 import numpy as np
 from pathlib import Path
 
-# Try SciencePlots for nicer defaults
-try:
-    plt.style.use(["science", "no-latex"])
-except Exception:
-    plt.rcParams.update({
-        "font.family": "sans-serif",
-        "font.size": 9,
-    })
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Segoe UI", "Helvetica", "Arial", "DejaVu Sans"],
+    "font.size": 9,
+    "axes.linewidth": 0,
+})
 
-# === Data: (label, status, group) ===
-# status: "complete", "closed", "conditional", "negative", "pending"
+# ── Task data ────────────────────────────────────────────────
+# (label, status, group)
 tasks = [
-    # --- Core Form Factors ---
-    ("NT-1: Dirac form factors",       "complete",    "Core"),
-    ("NT-1b: Scalar form factors",     "complete",    "Core"),
-    ("NT-1b: Vector form factors",     "complete",    "Core"),
-    ("NT-1b: Combined SM",             "complete",    "Core"),
-    ("NT-2: Entire-function proof",    "complete",    "Core"),
-    # --- Field Equations & Cosmology ---
-    ("NT-4a: Linearized field eqs",    "complete",    "Field Eqs"),
-    ("NT-4b: Nonlinear EOM",           "complete",    "Field Eqs"),
-    ("NT-4c: FLRW cosmology",          "complete",    "Field Eqs"),
-    ("INF-1: Spectral inflation",      "negative",    "Field Eqs"),
-    ("INF-2: Dilaton inflation",       "negative",    "Field Eqs"),
-    ("MT-2: Modified cosmology",       "negative",    "Field Eqs"),
-    # --- Solar System & Lab ---
-    ("PPN-1: Solar system tests",      "complete",    "Solar"),
-    ("LT-3d: Laboratory tests",        "complete",    "Solar"),
-    # --- UV Consistency ---
-    ("MR-1: Lorentzian formulation",   "complete",    "UV"),
-    ("MR-2: Unitarity (D\u00b2-quant)", "closed",    "UV"),
-    ("OT: Optical theorem",            "closed",      "UV"),
-    ("MR-3: Causality",                "conditional", "UV"),
-    ("MR-4: Two-loop structure",       "complete",    "UV"),
-    ("MR-5: Finiteness (all-orders)",  "conditional", "UV"),
-    ("MR-5b: Two-loop D=0",           "complete",    "UV"),
-    ("MR-7: Graviton scattering",      "complete",    "UV"),
-    ("LT-1: All-orders UV",            "pending",     "UV"),
-    # --- Auxiliary & Structural ---
-    ("CL: Commutativity",              "complete",    "Aux"),
-    ("GZ: Entire part",                "complete",    "Aux"),
-    ("SS: Scalar sector",              "complete",    "Aux"),
-    ("KK: Kubo\u2013Kugo resolution",  "complete",    "Aux"),
-    ("A3: Ghost width",                "complete",    "Aux"),
-    ("GP: Dressed propagator",         "complete",    "Aux"),
-    ("MR-6: Convergence analysis",     "complete",    "Aux"),
-    ("NT-3: Spectral dimension",       "conditional", "Aux"),
-    ("MT-1: Black hole entropy",       "conditional", "Aux"),
-    ("MR-9: Singularity",              "conditional", "Aux"),
-    # --- Foundation ---
-    ("FND-1: Finite-nerve route",      "negative",    "Foundation"),
+    ("NT-1  Dirac form factors",       "complete",    "Core"),
+    ("NT-1b  Scalar form factors",     "complete",    "Core"),
+    ("NT-1b  Vector form factors",     "complete",    "Core"),
+    ("NT-1b  Combined SM totals",      "complete",    "Core"),
+    ("NT-2  Entire-function proof",    "complete",    "Core"),
+
+    ("NT-4a  Linearized field eqs",    "complete",    "Eqs"),
+    ("NT-4b  Nonlinear EOM",           "complete",    "Eqs"),
+    ("NT-4c  FLRW cosmology",          "complete",    "Eqs"),
+    ("INF-1  Spectral inflation",      "negative",    "Eqs"),
+    ("INF-2  Dilaton inflation",       "negative",    "Eqs"),
+    ("MT-2  Late-time cosmology",      "negative",    "Eqs"),
+
+    ("PPN-1  Solar system tests",      "complete",    "Solar"),
+    ("LT-3d  Laboratory bounds",       "complete",    "Solar"),
+
+    ("MR-1  Lorentzian formulation",   "complete",    "UV"),
+    ("MR-2  Unitarity (D\u00b2-quant)","closed",      "UV"),
+    ("OT  Optical theorem",            "closed",      "UV"),
+    ("MR-3  Causality",                "conditional", "UV"),
+    ("MR-4  Two-loop structure",       "complete",    "UV"),
+    ("MR-5  All-orders finiteness",    "conditional", "UV"),
+    ("MR-5b  Two-loop D=0",           "complete",    "UV"),
+    ("MR-7  Graviton scattering",      "complete",    "UV"),
+    ("LT-1  All-orders UV proof",      "pending",     "UV"),
+
+    ("CL  Commutativity",              "complete",    "Aux"),
+    ("GZ  Entire part",                "complete",    "Aux"),
+    ("SS  Scalar sector",              "complete",    "Aux"),
+    ("KK  Kubo\u2013Kugo resolution",  "complete",    "Aux"),
+    ("A3  Ghost width",                "complete",    "Aux"),
+    ("GP  Dressed propagator",         "complete",    "Aux"),
+    ("MR-6  Convergence",              "complete",    "Aux"),
+    ("NT-3  Spectral dimension",       "conditional", "Aux"),
+    ("MT-1  Black hole entropy",       "conditional", "Aux"),
+    ("MR-9  Singularity",              "conditional", "Aux"),
+
+    ("FND-1  Finite-nerve coherence",  "negative",    "Fnd"),
 ]
 
-# Colors
-COLORS = {
-    "complete":    "#27ae60",
-    "closed":      "#2980b9",
-    "conditional": "#f39c12",
-    "negative":    "#c0392b",
-    "pending":     "#bdc3c7",
+# ── Palette & labels ─────────────────────────────────────────
+PAL = {
+    "complete":    "#1a9850",
+    "closed":      "#4575b4",
+    "conditional": "#e6a817",
+    "negative":    "#d73027",
+    "pending":     "#bababa",
 }
-LABELS = {
-    "complete":    "Complete / Certified",
-    "closed":      "Closed (verified)",
-    "conditional": "Conditional",
-    "negative":    "Negative result",
-    "pending":     "Pending",
+STATUS_TEXT = {
+    "complete":    "COMPLETE",
+    "closed":      "CLOSED",
+    "conditional": "CONDITIONAL",
+    "negative":    "NEGATIVE",
+    "pending":     "PENDING",
 }
-
-# Group separators
-GROUP_ORDER = ["Core", "Field Eqs", "Solar", "UV", "Aux", "Foundation"]
-GROUP_NAMES = {
-    "Core":       "Core Form Factors",
-    "Field Eqs":  "Field Equations & Cosmology",
-    "Solar":      "Solar System & Laboratory",
-    "UV":         "UV Consistency Path",
-    "Aux":        "Auxiliary & Structural",
-    "Foundation": "Foundational",
+GROUP_ORDER = ["Core", "Eqs", "Solar", "UV", "Aux", "Fnd"]
+GROUP_TITLE = {
+    "Core":  "CORE FORM FACTORS",
+    "Eqs":   "FIELD EQUATIONS & COSMOLOGY",
+    "Solar": "SOLAR SYSTEM & LABORATORY",
+    "UV":    "UV CONSISTENCY",
+    "Aux":   "AUXILIARY & STRUCTURAL",
+    "Fnd":   "FOUNDATIONAL",
 }
 
-# Build ordered list with group headers
-rows = []
+# ── Build row list (top to bottom) ───────────────────────────
+rows = []  # (kind, payload)   kind: "header" | "task"
 for g in GROUP_ORDER:
-    rows.append(("__GROUP__", g))
+    rows.append(("header", g))
     for label, status, group in tasks:
         if group == g:
-            rows.append((label, status))
+            rows.append(("task", (label, status)))
 
-# Reverse for bottom-to-top plotting
-rows = rows[::-1]
+# ── Layout constants ─────────────────────────────────────────
+ROW_H   = 0.55          # row height for tasks
+HDR_H   = 0.72          # row height for group headers
+PAD_BOT = 0.3           # padding below header text
+BAR_W   = 0.60          # bar width (fraction of row)
+DOT_R   = 0.11          # status dot radius
 
-fig, ax = plt.subplots(figsize=(10, 12.5))
+fig_w = 11
+total_h = sum(HDR_H if k == "header" else ROW_H for k, _ in rows) + 1.8
+fig, ax = plt.subplots(figsize=(fig_w, total_h * 0.38 + 1.0))
 
-y_pos = 0
-y_positions = []
-y_labels = []
-bar_colors = []
-group_label_positions = []
+y = total_h  # start from top
 
-for label, status in rows:
-    if label == "__GROUP__":
-        group_label_positions.append((y_pos + 0.3, GROUP_NAMES[status]))
-        y_pos += 0.9
-        continue
-    y_positions.append(y_pos)
-    y_labels.append(label)
-    bar_colors.append(COLORS[status])
-    y_pos += 1
+for kind, payload in rows:
+    if kind == "header":
+        y -= HDR_H
+        # separator line
+        ax.plot([0, fig_w - 0.5], [y + 0.05, y + 0.05],
+                color="#d0d0d0", linewidth=0.6, zorder=0)
+        # group title
+        ax.text(0.15, y + HDR_H * 0.35, GROUP_TITLE[payload],
+                fontsize=7.5, fontweight="bold", color="#555555",
+                va="center", family="sans-serif")
+    else:
+        y -= ROW_H
+        label, status = payload
+        col = PAL[status]
 
-# Draw bars
-bar_height = 0.7
-bars = ax.barh(y_positions, [1.0]*len(y_positions), height=bar_height,
-               color=bar_colors, edgecolor="white", linewidth=0.5)
+        # task name
+        ax.text(0.25, y + ROW_H / 2, label,
+                fontsize=8.2, va="center", color="#2c3e50")
 
-# Group header labels
-for yp, gname in group_label_positions:
-    ax.text(-0.02, yp, gname, transform=ax.get_yaxis_transform(),
-            fontsize=8.5, fontweight="bold", color="#2c3e50",
-            va="bottom", ha="right")
-    ax.axhline(y=yp - 0.3, color="#ecf0f1", linewidth=0.8, zorder=0)
+        # colored bar
+        bar_x = 5.8
+        bar_len = 3.6
+        bar = FancyBboxPatch(
+            (bar_x, y + ROW_H * 0.18), bar_len, ROW_H * 0.64,
+            boxstyle="round,pad=0.04", facecolor=col, edgecolor="none",
+            alpha=0.88, zorder=2)
+        ax.add_patch(bar)
 
-# Axes
-ax.set_yticks(y_positions)
-ax.set_yticklabels(y_labels, fontsize=8)
-ax.set_xlim(0, 1.08)
-ax.set_xticks([])
-ax.set_xlabel("")
-ax.spines["top"].set_visible(False)
-ax.spines["right"].set_visible(False)
-ax.spines["bottom"].set_visible(False)
-ax.tick_params(left=False)
+        # status text inside bar
+        ax.text(bar_x + bar_len / 2, y + ROW_H / 2,
+                STATUS_TEXT[status],
+                fontsize=6.8, fontweight="bold", color="white",
+                va="center", ha="center", zorder=3)
 
-# Title
-ax.set_title("SCT Theory \u2014 Research Roadmap",
-             fontsize=14, fontweight="bold", pad=15, color="#2c3e50")
+# ── Title ────────────────────────────────────────────────────
+ax.text(fig_w / 2, total_h + 0.6,
+        "SCT Theory \u2014 Research Roadmap",
+        fontsize=15, fontweight="bold", ha="center", color="#2c3e50")
 
-# Legend
-patches = [mpatches.Patch(color=COLORS[s], label=LABELS[s])
-           for s in ["complete", "closed", "conditional", "negative", "pending"]]
-ax.legend(handles=patches, loc="lower right", fontsize=7.5,
-          framealpha=0.9, edgecolor="#bdc3c7")
-
-# Status count annotation
-n_complete = sum(1 for _, s, _ in tasks if s in ("complete", "closed"))
+# ── Summary line ─────────────────────────────────────────────
+n_comp = sum(1 for _, s, _ in tasks if s in ("complete", "closed"))
 n_cond = sum(1 for _, s, _ in tasks if s == "conditional")
-n_neg = sum(1 for _, s, _ in tasks if s == "negative")
+n_neg  = sum(1 for _, s, _ in tasks if s == "negative")
 n_pend = sum(1 for _, s, _ in tasks if s == "pending")
-total = len(tasks)
-ax.text(0.98, 0.01,
-        f"{n_complete}/{total} complete  \u00b7  {n_cond} conditional  "
-        f"\u00b7  {n_neg} negative  \u00b7  {n_pend} pending",
-        transform=ax.transAxes, fontsize=7, color="#7f8c8d",
-        ha="right", va="bottom")
+tot    = len(tasks)
 
-plt.tight_layout()
+summary = (f"{n_comp}/{tot} complete  \u00b7  {n_cond} conditional  "
+           f"\u00b7  {n_neg} negative  \u00b7  {n_pend} pending")
+ax.text(fig_w / 2, -0.3, summary,
+        fontsize=7.5, ha="center", color="#888888")
+
+# ── Axes cleanup ─────────────────────────────────────────────
+ax.set_xlim(-0.2, fig_w + 0.3)
+ax.set_ylim(-0.7, total_h + 1.1)
+ax.set_aspect("equal")
+ax.axis("off")
 
 out = Path(__file__).resolve().parent.parent.parent / "docs" / "figures" / "roadmap_progress.png"
-fig.savefig(out, dpi=200, bbox_inches="tight", facecolor="white")
-print(f"Saved: {out}")
-print(f"Tasks: {total} ({n_complete} complete, {n_cond} conditional, {n_neg} negative, {n_pend} pending)")
+fig.savefig(out, dpi=200, bbox_inches="tight", facecolor="white", pad_inches=0.2)
+print(f"Saved: {out}  ({out.stat().st_size / 1024:.0f} KiB)")
+print(f"Tasks: {tot}  ({n_comp} complete, {n_cond} conditional, {n_neg} negative, {n_pend} pending)")
