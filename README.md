@@ -4,10 +4,10 @@
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
 ![Status](https://img.shields.io/badge/status-active_research_workspace-blue)
-![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--03--20)-brightgreen)
-![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_5_drafts-brightgreen)
-![Lean](https://img.shields.io/badge/Lean-active_legacy_%2B_FND1_stack-1f6feb)
-![Verification](https://img.shields.io/badge/verification-local_audit_2026--03--20-blueviolet)
+![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--03--31)-brightgreen)
+![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
+![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
+![Verification](https://img.shields.io/badge/verification-local_audit_2026--03--31-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
@@ -212,6 +212,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 4 | Nonlinear field equations and FLRW cosmology of the spectral action with Standard Model content | [10.5281/zenodo.19056349](https://doi.org/10.5281/zenodo.19056349) |
 | 5 | Perturbative UV finiteness of the spectral action in D&sup2;-quantization: a chirality proof | *preprint in repository* |
 | 6 | Auxiliary boundary data and the failure of intrinsic coherence in a finite-nerve route for spectral causal theory | *preprint in repository* |
+| 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | *preprint in repository* |
 
 ## Research Status
 
@@ -232,6 +233,7 @@ Selected research highlights:
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
+| CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
 | FND-1 finite-nerve route | Auxiliary chain complex + H&#8321; formalized (63 Lean modules); intrinsic coherence obstruction proved; [Paper 6](papers/drafts/sct_finite_nerve.pdf) | Negative (support-only) / Open (causal order) |
 
 ## Quick Start

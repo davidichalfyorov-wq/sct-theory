@@ -74,6 +74,25 @@ docs/claude/
 # Internal handoff and working notes
 *_handoff.md
 
+# AI session prompts, responses, brainstorm sessions
+docs/chatgpt_*
+docs/razumist_*
+docs/schimmelpfennig_response_*
+docs/review_prompt_*
+docs/bridge_investigation_results.md
+docs/bridge_final_verdict.md
+docs/razumist_session_prompt.md
+docs/razumist_synthesis_prompt.md
+aristotle/*_prompt.md
+aristotle/MASTER_PROMPT.md
+aristotle/FINAL_REPO_PROMPTS_*.md
+.codex/
+analysis/sct_tools/deepseek_review.py
+analysis/sct_tools/cross_model_review.py
+analysis/sct_tools/multi_model.py
+analysis/scripts/PROMPT_*.md
+nul
+
 # Local build and vendor outputs
 .tools/
 theory/lean/.lake/
