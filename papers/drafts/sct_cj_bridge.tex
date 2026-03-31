@@ -559,7 +559,11 @@ the ratio to the analytical prediction.  For $\varepsilon \geq 3$,
 the coefficient of variation of the normalised CJ across
 $\varepsilon$~values is~$1.4\%$.  The seed-to-seed coefficient
 of variation within each $\varepsilon$~point is $\sim 35\%$,
-giving a standard error on the mean of $\sim 8\%$ at $M = 20$.}
+giving a standard error on the mean of $\sim 8\%$ at $M = 20$.
+The $7\%$ discrepancy between Tables~\ref{tab:ratio}
+and~\ref{tab:epsilon} at the overlap point $(N = 2000,\,
+\varepsilon = 3)$ lies within $1\sigma$ of this uncertainty
+and is attributable to the use of different seed sets.}
 \label{tab:epsilon}
 \begin{tabular}{rcccc}
 \toprule
@@ -701,14 +705,14 @@ which maps $(\varepsilon/2)(x'^2 - y'^2)$ to $\varepsilon\, xy$.
 Applying the exact Synge world function to the rotated coordinates
 ensures identical predicate accuracy for both polarisations.
 
-The result at $N = 3000$, $\varepsilon = 5$, $M = 20$
-independent seeds is
+The result at $N = 3000$, $\varepsilon = 5$, $M = 50$
+independent paired seeds is
 \begin{equation}
   \frac{\CJ_{\mathrm{cross}}}{\CJ_{\mathrm{plus}}}
-  = 1.17 \pm 0.09
-  \qquad (t = 1.86,\; p = 0.08),
+  = 1.042 \pm 0.053
+  \qquad (t = 0.79,\; p = 0.43),
 \end{equation}
-consistent with unity at the $2\sigma$ level.  The two
+consistent with unity at the $1\sigma$ level.  The two
 polarisations give statistically equal CJ at the same~$\Esq$,
 confirming polarisation independence.  This is consistent with
 the isotropic angular average of
@@ -954,10 +958,14 @@ $C_0 = 4\, C_{\mathrm{an}}$.
 \begin{remark}
 The proof relies on two conditions: (i)~the bulk approximation
 $p^{\downarrow} p^{\uparrow} \gg 1$, which holds for $\gtrsim 70\%$
-of elements at $N \geq 500$; and (ii)~the diamond symmetry
+of elements at $N \geq 500$ (the remaining $\sim 30\%$ are
+predominantly boundary elements removed by the $\zeta = 0.15$ cut);
+and (ii)~the diamond symmetry
 $\langle a_- a_+ \rangle = \langle a_-^2 \rangle$, which follows
 from the $s \leftrightarrow 1-s$ invariance of a vacuum causal
-diamond centred at its midpoint.  The $(\ln 2)^2$ denominator
+diamond centred at its midpoint.  In non-vacuum spacetimes ($R \neq 0$),
+this symmetry is broken by the Ricci scalar, and the factor~$4$ may
+receive corrections of order $R T^2$.  The $(\ln 2)^2$ denominator
 cancels between numerator and denominator of the CJ covariance
 and does not affect the coefficient.
 \end{remark}
@@ -1010,8 +1018,8 @@ The bridge formula~\eqref{eq:bridge} depends only on the scalar
 $\Esq$, not on the tensor orientation of~$E_{ij}$.  The
 polarisation test (Section~\ref{sec:polarisation}) confirms this:
 with the exact causal predicate and coordinate rotation,
-$\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}} = 1.17 \pm 0.09$
-($p = 0.08$), consistent with unity.
+$\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}} = 1.042 \pm 0.053$
+($p = 0.43$, $M = 50$ paired seeds), consistent with unity.
 \end{remark}
 
 \begin{figure}[ht]
@@ -1023,7 +1031,7 @@ origin.}
 \label{fig:derivation}
 \end{figure}
 
-\begin{remark}[General-$d$ structure]
+\begin{remark}[$d$-parametrised template]
 \label{rem:general-d}
 The general-$d$ form of the coefficient is
 \begin{equation}\label{eq:general-d}
@@ -1533,6 +1541,68 @@ trends at our precision).  For comparison, the BD action
 convergence is $\order(N^{-2/d})$ with logarithmic
 corrections~\cite{Belenchia:2015}; in $d = 4$, this is
 $\order(N^{-1/2})$.
+
+\subsection{Combined error budget}
+\label{sec:errorbudget}
+
+Table~\ref{tab:errorbudget} summarises all identified sources of
+uncertainty in the ratio $R_N = \CJ_{\mathrm{meas}}/\CJ_{\mathrm{pred}}$.
+
+\begin{table}[ht]
+\centering
+\caption{Combined error budget for the bridge formula verification
+at $N = 2000$, $\varepsilon = 3$, $T = 1$.}
+\label{tab:errorbudget}
+\begin{tabular}{lcc}
+\toprule
+Source & Estimate & Type \\
+\midrule
+Statistical (seed-to-seed, $M = 20$) & $7.8\%$ & Random \\
+Boundary cut ($\zeta = 0.15$) & $< 7\%$ & Systematic \\
+Stratification ($K = 45$) & $< 0.5\%$ & Systematic \\
+Causal predicate (exact pp-wave) & $< 0.5\%$ & Systematic \\
+Polarisation coupling & $4.2\%$ & Random \\
+$N^{8/9}$ exponent uncertainty & $< 4\%$ & Model \\
+\midrule
+\textbf{Combined (quadrature)} & $\mathbf{\sim 11\%}$ & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The dominant contribution is the statistical seed-to-seed variance
+($\sim 35\%$ per seed, $\sim 8\%$ on the mean at $M = 20$).  The
+combined systematic uncertainty is below this level.  The observed
+residual scatter of~$4\%$ (RMS of the eight ratio values in
+Table~\ref{tab:ratio}) is consistent with the combined budget, as
+systematic effects partially cancel in the $N$-ratio test.
+
+\subsection{Logarithmic corrections to the $N$-scaling}
+\label{sec:logcorr}
+
+The measured exponent $\alpha = 0.955 \pm 0.027$ lies $2.4\sigma$
+above $8/9 = 0.889$.  Two alternative hypotheses deserve discussion:
+\begin{enumerate}[(i)]
+\item $\CJ \propto N / (\log N)^\gamma$ with $\gamma \approx 0.39$.
+  This model has the same number of parameters as the power law
+  ($A$ and~$\gamma$) and fits the data equally well.  At the
+  $N$-values accessible to simulation ($500$--$15{,}000$), the two
+  models are not distinguishable.  Discrimination would require
+  $N \gtrsim 10^5$, which is computationally feasible but would
+  need $M \geq 20$ seeds per point.
+\item Subleading corrections of the form
+  $\CJ = C_0 N^{8/9}(1 + a_1 N^{-1/9} + \ldots)$, where the
+  leading correction $a_1 N^{-1/9}$ shifts the effective exponent
+  upward at finite~$N$.  At $N = 2000$, $N^{-1/9} = 0.41$, so
+  even a modest $a_1 \sim 0.15$ would produce $\alpha_{\mathrm{eff}}
+  \approx 0.95$, consistent with the measurement.
+\end{enumerate}
+Neither hypothesis can be excluded with the current data.  We
+adopt $8/9$ on theoretical grounds (the nine-dimensional ordered
+configuration space and the codimension-$1$ boundary-layer
+counting argument of Section~\ref{sec:conditions}), noting that
+the formula's predictive accuracy ($R = 1.016 \pm 0.015$) is
+not sensitive to the choice of exponent within the range
+$\alpha \in [0.87, 1.00]$ at $N \leq 15{,}000$.
 
 % ============================================================
 \section{Discussion}
