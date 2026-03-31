@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check analysis/sct_tools/
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install core dependencies
+        run: |
+          pip install numpy scipy matplotlib sympy mpmath hypothesis \
+                     networkx pandas astropy uncertainties SciencePlots \
+                     pytest
+      - name: Verify package imports
+        run: |
+          cd analysis
+          python -c "
+          import sct_tools.constants as c
+          print(f'N_s={c.N_s}, N_f={c.N_f}, N_v={c.N_v}')
+          print('Import OK')
+          "

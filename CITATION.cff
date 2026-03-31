@@ -5,7 +5,43 @@ type: software
 authors:
   - family-names: "Alfyorov"
     given-names: "David"
-abstract: "Research repository for Spectral Causal Theory derivations, verification workflows, and analysis code."
-version: "0.1.0"
-date-released: "2026-03-13"
+    orcid: "https://orcid.org/0009-0003-6027-7837"
+abstract: "Research repository for Spectral Causal Theory (SCT): nonlocal one-loop form factors, modified field equations, solar system tests, and formal verification of a spectral approach to quantum gravity with Standard Model content."
+version: "3.1"
+date-released: "2026-03-20"
 license: "Apache-2.0"
+repository-code: "https://github.com/davidichalfyorov-wq/sct-theory"
+url: "https://github.com/davidichalfyorov-wq/sct-theory"
+doi: "10.5281/zenodo.19056983"
+keywords:
+  - quantum-gravity
+  - spectral-action
+  - nonlocal-form-factors
+  - heat-kernel
+  - causal-sets
+  - standard-model
+  - modified-gravity
+  - lean4
+  - formal-verification
+references:
+  - type: article
+    title: "Nonlocal one-loop form factors of the spectral action with Standard Model content"
+    authors:
+      - family-names: "Alfyorov"
+        given-names: "David"
+    doi: "10.5281/zenodo.19098042"
+    year: 2026
+  - type: article
+    title: "Solar system and laboratory tests of the spectral action scale"
+    authors:
+      - family-names: "Alfyorov"
+        given-names: "David"
+    doi: "10.5281/zenodo.19098100"
+    year: 2026
+  - type: article
+    title: "Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets"
+    authors:
+      - family-names: "Alfyorov"
+        given-names: "David"
+    doi: "10.5281/zenodo.19354508"
+    year: 2026

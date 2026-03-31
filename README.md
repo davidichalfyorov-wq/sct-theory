@@ -1,5 +1,6 @@
 # SCT Theory
 
+[![CI](https://github.com/davidichalfyorov-wq/sct-theory/actions/workflows/ci.yml/badge.svg)](https://github.com/davidichalfyorov-wq/sct-theory/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19056983.svg)](https://doi.org/10.5281/zenodo.19056983)
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
@@ -16,6 +17,18 @@
 **Spectral Causal Theory** is a research program investigating whether gravity and its quantum corrections can be derived from the spectral data of the Dirac operator.
 
 This repository is an active research workspace rather than a single frozen release snapshot. The badges above reflect a local repository audit on 2026-03-20 rather than a harmonized semantic version tag.
+
+## Quick Start
+
+```bash
+git clone https://github.com/davidichalfyorov-wq/sct-theory.git
+cd sct-theory
+python -m pip install -r requirements.txt
+
+python -m pytest analysis/ -x -q              # run 4445+ verification tests
+python analysis/run_ci.py                     # full CI pipeline
+python papers/build.py                        # compile all TeX targets
+```
 
 <p align="center">
   <img src="docs/figures/roadmap_progress.png" alt="Research roadmap progress" width="680"/>
@@ -235,18 +248,6 @@ Selected research highlights:
 | Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
 | CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
 | FND-1 finite-nerve route | Auxiliary chain complex + H&#8321; formalized (63 Lean modules); intrinsic coherence obstruction proved; [Paper 6](papers/drafts/sct_finite_nerve.pdf) | Negative (support-only) / Open (causal order) |
-
-## Quick Start
-
-```bash
-python -m pip install -r requirements.txt
-python -m pytest analysis/ --collect-only -q  # inspect current analysis test surface (4445 collected on 2026-03-20)
-python -m pytest analysis/ -x -q              # run analysis tests
-python analysis/run_ci.py                 # full CI pipeline
-python papers/build.py --check            # inspect current theory/docs/data TeX targets (71 on 2026-03-20)
-python papers/build.py                    # compile current theory/docs/data TeX targets
-python papers/build.py --drafts --check   # inspect current draft-paper targets (5 on 2026-03-20)
-```
 
 ## Known Problems and Open Questions
 
