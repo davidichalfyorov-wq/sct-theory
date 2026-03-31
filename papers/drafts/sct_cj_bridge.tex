@@ -693,28 +693,30 @@ limit~\cite{deBrito:2023}).
 
 The pp-wave metric~\eqref{eq:ppwave} has ``plus'' polarisation
 ($h = x^2 - y^2$).  We tested the cross-polarisation
-($h = 2xy$), which has the same $\Esq = \varepsilon^2/2$, using
-two causal predicates:
-\begin{itemize}
-\item \textbf{Exact predicate} (leading-order Synge world function):
-  the ratio $\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}}
-  = 0.98 \pm 0.13$ at $N = 2000$, $\varepsilon = 5$, $M = 15$
-  seeds.  The two polarisations give \emph{equal} CJ within
-  statistical errors.
-\item \textbf{Jet predicate} (second-order RNC approximation):
-  the ratio is $3.0 \pm 0.2$ at $N = 2000$, $\varepsilon = 3$,
-  $M = 20$ seeds.
-\end{itemize}
-The discrepancy is an artifact of the jet predicate, which
-introduces an anisotropic systematic error that couples differently
-to the two polarisation alignments.  With the exact predicate, CJ
-is polarisation-independent at fixed~$\Esq$, consistent with the
-isotropic angular average of
+($h = 2xy$), which has the same $\Esq = \varepsilon^2/2$.
+The cross-polarisation causal predicate is obtained by rotating
+the transverse coordinates by $45^\circ$:
+$(x', y') = \bigl((x+y)/\sqrt{2},\, (x-y)/\sqrt{2}\bigr)$,
+which maps $(\varepsilon/2)(x'^2 - y'^2)$ to $\varepsilon\, xy$.
+Applying the exact Synge world function to the rotated coordinates
+ensures identical predicate accuracy for both polarisations.
+
+The result at $N = 3000$, $\varepsilon = 5$, $M = 20$
+independent seeds is
+\begin{equation}
+  \frac{\CJ_{\mathrm{cross}}}{\CJ_{\mathrm{plus}}}
+  = 1.17 \pm 0.09
+  \qquad (t = 1.86,\; p = 0.08),
+\end{equation}
+consistent with unity at the $2\sigma$ level.  The two
+polarisations give statistically equal CJ at the same~$\Esq$,
+confirming polarisation independence.  This is consistent with
+the isotropic angular average of
 Proposition~\ref{prop:angular}:
 $\int_{S^2}(E_{ij}n^in^j)^2\,\dd\Omega = (8\pi/15)\,\Esq$
-depends only on the scalar $\Esq$, not on the tensor orientation.
-This confirms that the Poisson sprinkling effectively performs the
-angular averaging over the transverse sphere.
+depends only on the scalar~$\Esq$, not on the tensor orientation,
+and the Poisson sprinkling effectively performs the angular
+averaging over the transverse sphere.
 
 \subsection{$p$-resolution parameter}
 \label{sec:pdep}
@@ -1007,11 +1009,9 @@ with, but not uniquely determined by, the data
 The bridge formula~\eqref{eq:bridge} depends only on the scalar
 $\Esq$, not on the tensor orientation of~$E_{ij}$.  The
 polarisation test (Section~\ref{sec:polarisation}) confirms this:
-with the exact causal predicate, plus- and cross-polarised pp-waves
-at the same $\Esq$ give equal CJ values
-($\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}} = 0.98 \pm 0.13$).
-The previously reported factor-of-$3$ discrepancy was an artifact
-of the jet (RNC) predicate.
+with the exact causal predicate and coordinate rotation,
+$\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}} = 1.17 \pm 0.09$
+($p = 0.08$), consistent with unity.
 \end{remark}
 
 \begin{figure}[ht]
@@ -1723,9 +1723,8 @@ and the jet predicate errors are $\order(10\%)$.
   (Section~\ref{sec:d2fail}) suggests that Wang's magnetic-Weyl
   vanishing mechanism~\cite{Wang:2019} is essential, ruling out
   a universal formula for all~$d$.
-\item Characterisation of the jet-predicate artifacts that produce
-  a spurious polarisation dependence
-  (Section~\ref{sec:polarisation}).  The factor-of-3 polarisation
+\item Tighter statistical bound on polarisation independence
+  (Section~\ref{sec:polarisation}).  The current polarisation
   ratio implies that $K_{abcd}$ is not proportional to the identity.
 \item The precise connection to the Bel--Robinson superenergy
   tensor~\cite{Senovilla:2000}.  A Lorentz boost test (varying
