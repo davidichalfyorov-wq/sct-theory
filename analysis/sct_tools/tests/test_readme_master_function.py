@@ -5,7 +5,6 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-
 ROOT = Path(__file__).resolve().parents[3]
 FIGURE_SCRIPT = ROOT / "docs" / "figures" / "generate_readme_figures.py"
 README = ROOT / "README.md"

@@ -28,12 +28,16 @@ jobs:
         run: |
           pip install numpy scipy matplotlib sympy mpmath hypothesis \
                      networkx pandas astropy uncertainties SciencePlots \
-                     pytest
-      - name: Verify package imports
+                     pytest joblib tqdm
+      - name: Verify core modules
+        working-directory: analysis
         run: |
-          cd analysis
           python -c "
-          import sct_tools.constants as c
-          print(f'N_s={c.N_s}, N_f={c.N_f}, N_v={c.N_v}')
-          print('Import OK')
+          import importlib.util, sys
+          for name in ['constants', 'form_factors', 'verification']:
+              spec = importlib.util.spec_from_file_location(name, f'sct_tools/{name}.py')
+              mod = importlib.util.module_from_spec(spec)
+              spec.loader.exec_module(mod)
+              print(f'{name}: OK')
+          print(f'N_s={mod.N_s if hasattr(mod, \"N_s\") else \"n/a\"}')
           "

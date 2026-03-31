@@ -44,7 +44,6 @@ from scripts.ppn1_parameters import (
     _find_tt_zero,
     _scalar_mode_coefficient,
     effective_masses,
-    gamma_exact,
     gamma_local,
     level_comparison,
     lower_bound_Lambda,
