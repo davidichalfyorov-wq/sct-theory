@@ -204,7 +204,7 @@ The derivation is conditional.  Two explicit conditions are
 required to close the continuum-limit argument
 (Section~\ref{sec:conditions}).  The $N$-scaling exponent
 $8/9 = 2d/(2d+1)$ in $d = 4$ is empirically established
-($\alpha = 0.955 \pm 0.027$, consistent with $8/9$ at the
+($\alpha = 0.915 \pm 0.023$, consistent with $8/9$ at the
 residual level) but not derived from first principles.  We
 consider it equally important to document what did not work:
 five specific failed approaches and over thirty closed routes
@@ -517,17 +517,23 @@ $N$ is visible, supporting the $N^{8/9}$ scaling.}
 A power-law fit $\CJ \propto N^{\alpha}$ over the eight data points
 yields
 \begin{equation}\label{eq:alpha-fit}
-  \alpha = 0.955 \pm 0.027\,,
+  \alpha = 0.915 \pm 0.023\,,
 \end{equation}
-which lies $2.4\sigma$ above $8/9 = 0.889$ but is also consistent
-with $\alpha = 1$ at the $1.7\sigma$ level.  The Bayesian information criterion (BIC) favours the $8/9$
-model over the free-exponent fit despite the slightly lower
-residual RMS of the latter ($3.6\%$ vs $3.8\%$), because the
-penalty for the additional parameter outweighs the marginal
-improvement in fit quality.  The exponent depends on the fitting range:
-$\alpha = 0.87$ for $N \in [500, 3000]$, $0.96$ for $[500, 10000]$,
-and $1.00$ for $[5000, 10000]$.  An alternative model
-$\CJ \propto N/(\log N)^{0.39}$ is equally consistent with the data.
+which lies $1.1\sigma$ above $8/9 = 0.889$ and is also consistent
+with $\alpha = 1$ at the $3.7\sigma$ level.  The Bayesian information criterion (BIC) favours the $8/9$
+model over the free-exponent fit, because the marginal
+improvement in residual RMS ($3.6\%$ vs $3.8\%$) does not justify
+the additional parameter.  The exponent depends on the fitting
+method: unweighted log-log OLS gives
+$\alpha = 0.897 \pm 0.014$ ($0.5\sigma$ from $8/9$), nonlinear
+least squares gives $0.915 \pm 0.023$ ($1.1\sigma$), and
+weighted log-log gives $0.885 \pm 0.018$ ($0.2\sigma$ below $8/9$).
+The exponent also depends on the fitting range:
+$\alpha = 0.84$ for $N \in [500, 3000]$, $0.89$ for $[500, 10000]$,
+and $0.98$ for $[5000, 10000]$.  An alternative model
+$\CJ \propto N/(\log N)^{0.39}$ is also consistent with the data,
+though the standard power-law fit already agrees with $8/9$ within
+$1\sigma$.
 The current data do not permit a definitive discrimination between
 $N^{8/9}$ and nearby power laws.
 
@@ -536,7 +542,7 @@ $N^{8/9}$ and nearby power laws.
 \includegraphics[width=0.78\textwidth]{fig_cj_nscaling.pdf}
 \caption{$N$-scaling of CJ on log-log axes.  The solid line is the
 $N^{8/9}$ model; the dashed line is the free-exponent fit
-($\alpha = 0.955$).  Both are consistent with data.}
+($\alpha = 0.915$).  Both are consistent with data.}
 \label{fig:nscaling}
 \end{figure}
 
@@ -1579,8 +1585,11 @@ systematic effects partially cancel in the $N$-ratio test.
 \subsection{Logarithmic corrections to the $N$-scaling}
 \label{sec:logcorr}
 
-The measured exponent $\alpha = 0.955 \pm 0.027$ lies $2.4\sigma$
-above $8/9 = 0.889$.  Two alternative hypotheses deserve discussion:
+The measured exponent $\alpha = 0.915 \pm 0.023$ (nonlinear fit)
+lies $1.1\sigma$ above $8/9 = 0.889$; the unweighted log-log OLS
+gives $\alpha = 0.897 \pm 0.014$, only $0.5\sigma$ above.  While
+the agreement with~$8/9$ is good, two alternative hypotheses
+deserve discussion for completeness:
 \begin{enumerate}[(i)]
 \item $\CJ \propto N / (\log N)^\gamma$ with $\gamma \approx 0.39$.
   This model has the same number of parameters as the power law
@@ -1884,7 +1893,8 @@ geometric volumes to Hasse-diagram path statistics.
 
 The full source code for the numerical experiments, the Lean~4
 proof files, and the Monte Carlo data are available in the
-accompanying repository~\cite{Alfyorov:2026repo}.
+accompanying repository~\cite{Alfyorov:2026repo}
+(\url{https://github.com/davidichalfyorov-wq/sct-theory}).
 
 % ============================================================
 \section*{Acknowledgements}
