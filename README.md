@@ -212,7 +212,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 4 | Nonlinear field equations and FLRW cosmology of the spectral action with Standard Model content | [10.5281/zenodo.19056349](https://doi.org/10.5281/zenodo.19056349) |
 | 5 | Perturbative UV finiteness of the spectral action in D&sup2;-quantization: a chirality proof | *preprint in repository* |
 | 6 | Auxiliary boundary data and the failure of intrinsic coherence in a finite-nerve route for spectral causal theory | *preprint in repository* |
-| 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | *preprint in repository* |
+| 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | [10.5281/zenodo.19354508](https://doi.org/10.5281/zenodo.19354508) |
 
 ## Research Status
 
