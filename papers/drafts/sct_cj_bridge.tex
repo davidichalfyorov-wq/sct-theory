@@ -549,6 +549,31 @@ $N^{8/9}$ model; the dashed line is the free-exponent fit
 \label{fig:nscaling}
 \end{figure}
 
+\subsection{$T^4$ scaling}
+\label{sec:tscaling}
+
+The bridge formula predicts $\CJ \propto T^4$.  We verify this at
+$N = 3000$, $\varepsilon = 5$, $M = 15$ seeds over four values
+of~$T$:
+
+\begin{center}
+\begin{tabular}{rcccc}
+\toprule
+$T$ & $\CJ_{\mathrm{meas}}$ & $\CJ_{\mathrm{pred}}$
+    & $R$ & $\CJ/T^4$ \\
+\midrule
+0.5 & $6.50 \times 10^{-3}$ & $6.21 \times 10^{-3}$ & 1.05 & $1.04 \times 10^{-1}$ \\
+0.7 & $2.55 \times 10^{-2}$ & $2.38 \times 10^{-2}$ & 1.07 & $1.06 \times 10^{-1}$ \\
+1.0 & $9.74 \times 10^{-2}$ & $9.93 \times 10^{-2}$ & 0.98 & $9.74 \times 10^{-2}$ \\
+1.5 & $4.60 \times 10^{-1}$ & $5.03 \times 10^{-1}$ & 0.92 & $9.09 \times 10^{-2}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A power-law fit $\CJ \propto T^{\alpha_T}$ yields
+$\alpha_T = 3.86$, consistent with the predicted~$4.0$ within the
+statistical uncertainty of the measurement.
+
 \subsection{Curvature-strength independence}
 \label{sec:epsilon}
 
@@ -979,59 +1004,42 @@ in Section~\ref{sec:diamond}.
 \subsection{The two-leg factor}
 \label{sec:factor4}
 
-\begin{proposition}[Two-leg factor $4 = 2^2$]
-\label{prop:factor4}
-In the bulk regime $p^{\downarrow} p^{\uparrow} \gg 1$, the
-squared curvature response of the link score
-$Y = \log_2(p^{\downarrow} p^{\uparrow} + 1)$ is four times that
-of a single-leg observable.
-\end{proposition}
+\begin{remark}[Two-leg factor $4 = 2^2$]
+\label{rem:factor4}
+The CJ observable involves the squared response of the link score
+$Y = \log_2(p^{\downarrow} p^{\uparrow} + 1)$.  In the bulk
+regime ($p^{\downarrow} p^{\uparrow} \gg 1$), $Y$ decomposes as
+$Y \approx \log_2 p^{\downarrow} + \log_2 p^{\uparrow}$, and
+the variation is $\delta Y \approx (a_- + a_+)/\ln 2$, where
+$a_- = \delta p^{\downarrow}/p^{\downarrow}$ and
+$a_+ = \delta p^{\uparrow}/p^{\uparrow}$.  If the past and
+future responses were perfectly correlated
+($\langle a_- a_+ \rangle = \langle a_-^2 \rangle$), the
+two-leg structure would yield
+$\langle (a_- + a_+)^2 \rangle = 4 \langle a^2 \rangle$ and
+hence $C_0 = 4\, C_{\mathrm{an}}$.
 
-\begin{proof}
-In the bulk, where $p^{\downarrow} p^{\uparrow} \gg 1$, the link
-score decomposes as
-$Y \approx \log_2 p^{\downarrow} + \log_2 p^{\uparrow}$.
-Denote the fractional curvature response of each leg by
-\begin{equation}
-  a_- = \frac{\delta p^{\downarrow}}{p^{\downarrow}},
-  \qquad
-  a_+ = \frac{\delta p^{\uparrow}}{p^{\uparrow}}.
-\end{equation}
-The variation of the link score is
-$\delta Y \approx (a_- + a_+)/\ln 2$ at leading order.  The
-squared response entering the CJ estimator is
-\begin{equation}\label{eq:dY2-twoleg}
-  \delta Y^2 \approx \frac{(a_- + a_+)^2}{(\ln 2)^2}\,.
-\end{equation}
-The one-leg analytical coefficient $C_{\mathrm{an}} = 8\pi^2/
-(3 \cdot 9! \cdot 45)$ is derived by substituting the single-leg
-tidal variance $a^2 \to (8\pi/15)\, E^2$ (the angular average of
-the squared tidal deformation) into the beta-overlap integral.  By
-the $s \leftrightarrow 1-s$ symmetry of the causal diamond,
-the past and future responses are statistically equivalent:
-$\langle a_-^2 \rangle = \langle a_+^2 \rangle = \langle a_- a_+ \rangle$.  Therefore
-\begin{equation}
-  \langle (a_- + a_+)^2 \rangle
-  = \langle a_-^2 \rangle + 2\langle a_- a_+ \rangle + \langle a_+^2 \rangle
-  = 4\, \langle a^2 \rangle\,,
-\end{equation}
-yielding $\delta Y^2 = 4\, a^2/(\ln 2)^2$ and hence
-$C_0 = 4\, C_{\mathrm{an}}$.
-\end{proof}
+Direct measurement shows, however, that the past--future
+correlation is partial:
+$\langle a_- a_+ \rangle / \langle a_-^2 \rangle
+= 0.512 \pm 0.016$ ($N = 3000$, $\varepsilon = 5$, $M = 20$),
+while the symmetry
+$\langle a_+^2 \rangle / \langle a_-^2 \rangle = 0.949$ is
+approximately satisfied.  At this correlation level, the naive
+prediction would be
+$\langle (a_- + a_+)^2 \rangle \approx 3.0 \langle a^2 \rangle$
+rather than~$4$.  Nevertheless, the full formula with factor~$4$
+matches the Monte Carlo data ($R = 1.016 \pm 0.015$), while a
+factor of~$3$ would give $R \approx 1.35$.
 
-\begin{remark}
-The proof relies on two conditions: (i)~the bulk approximation
-$p^{\downarrow} p^{\uparrow} \gg 1$, which holds for $\gtrsim 70\%$
-of elements at $N \geq 500$ (the remaining $\sim 30\%$ are
-predominantly boundary elements removed by the $\zeta = 0.15$ cut);
-and (ii)~the diamond symmetry
-$\langle a_- a_+ \rangle = \langle a_-^2 \rangle$, which follows
-from the $s \leftrightarrow 1-s$ invariance of a vacuum causal
-diamond centred at its midpoint.  In non-vacuum spacetimes ($R \neq 0$),
-this symmetry is broken by the Ricci scalar, and the factor~$4$ may
-receive corrections of order $R T^2$.  The $(\ln 2)^2$ denominator
-cancels between numerator and denominator of the CJ covariance
-and does not affect the coefficient.
+The resolution is that the CJ estimator operates in logarithmic
+space ($Y = \log_2$), where the relationship between the
+fractional path-count response~$a_\pm$ and the effective
+covariance kernel is nonlinear.  The factor~$4$ is confirmed
+empirically but its derivation from the properties of the Hasse
+diagram remains an open problem.  In non-vacuum spacetimes
+($R \neq 0$), the $s \leftrightarrow 1-s$ symmetry is broken,
+and the factor may receive corrections of order $R T^2$.
 \end{remark}
 
 \subsection{Assembly of the bridge formula}
