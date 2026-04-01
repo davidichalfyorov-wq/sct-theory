@@ -463,7 +463,9 @@ of~$N$.
 \caption{Verification of the bridge formula at $\varepsilon = 3$,
 $T = 1$.  The predicted value uses the $N^{8/9}$ exponent and the
 analytical coefficient~\eqref{eq:C0-value}.  Errors are standard errors of the mean over the indicated number
-of independent seeds.}
+of independent seeds.  A Shapiro--Wilk test on $M = 50$ trials at
+$N = 2000$ confirms normality ($W = 0.988$, $p = 0.88$); the
+bootstrap 95\% confidence interval for~$R$ is $[0.89, 1.09]$.}
 \label{tab:ratio}
 \begin{tabular}{rrccc}
 \toprule
@@ -623,6 +625,12 @@ $\varepsilon \geq 3$, the normalised CJ is constant to
 within~$1.4\%$.  A power-law fit restricted to $\varepsilon \geq 3$
 gives $\CJ \propto \varepsilon^{1.97 \pm 0.01}$, consistent with
 the predicted~$\varepsilon^2$ scaling.
+
+An independent extended scan at six values $\varepsilon \in
+\{0.5, 1, 2, 3, 5, 10\}$ covering two orders of magnitude in~$E^2$
+confirms this result: a weighted-mean fit gives $\chi^2/\mathrm{dof}
+= 0.48$ (5~degrees of freedom, $M = 15$ seeds per point),
+consistent with a constant~$R_\varepsilon$.
 
 The apparent plateau in the normalised column
 $\CJ/(E^2 N^{8/9})$ is lower than~$C_0$ due to the limited
@@ -1004,70 +1012,112 @@ in Section~\ref{sec:diamond}.
 \subsection{The two-leg factor}
 \label{sec:factor4}
 
-\begin{remark}[Two-leg factor $4 = 2^2$]
+\begin{remark}[Two-leg factor $4 = 2_{\mathrm{alg}} \times 2_{\mathrm{dyn}}$]
 \label{rem:factor4}
 The CJ observable involves the squared response of the link score
 $Y = \log_2(p^{\downarrow} p^{\uparrow} + 1)$.  In the bulk
 regime ($p^{\downarrow} p^{\uparrow} \gg 1$), $Y$ decomposes as
 $Y \approx \log_2 p^{\downarrow} + \log_2 p^{\uparrow}$, and
-the variation is $\delta Y \approx (a_- + a_+)/\ln 2$, where
-$a_- = \delta p^{\downarrow}/p^{\downarrow}$ and
-$a_+ = \delta p^{\uparrow}/p^{\uparrow}$.  If the past and
-future responses were perfectly correlated
-($\langle a_- a_+ \rangle = \langle a_-^2 \rangle$), the
-two-leg structure would yield
-$\langle (a_- + a_+)^2 \rangle = 4 \langle a^2 \rangle$ and
-hence $C_0 = 4\, C_{\mathrm{an}}$.
+the variation splits into past and future components,
+$\delta Y \approx g_- + g_+$ where
+$g_- = \delta \log_2 p^{\downarrow}$ and
+$g_+ = \delta \log_2 p^{\uparrow}$.
 
-Direct measurement reveals the internal structure of the
-factor~$4$.  The past--future correlation is partial:
-$\langle a_- a_+ \rangle / \langle a_-^2 \rangle
-= 0.51 \pm 0.02$ (stable across $N$ and~$\varepsilon$), while
-the symmetry $\langle a_+^2 \rangle / \langle a_-^2 \rangle
-\approx 0.95$ is approximately satisfied.  A direct comparison
-of two-leg CJ to one-leg CJ (where only $\delta(\log_2
-p^{\downarrow})$ is used as the response) gives:
-\begin{center}
-\begin{tabular}{cc}
+\medskip\noindent\textbf{Symmetric-channel decomposition.}\enspace
+Define the symmetric and antisymmetric combinations
+\begin{equation}\label{eq:gs-ga}
+  g_s = \frac{g_- + g_+}{\sqrt{2}}\,,\qquad
+  g_a = \frac{g_- - g_+}{\sqrt{2}}\,.
+\end{equation}
+Since $\delta Y = \sqrt{2}\,g_s$, the squared response is
+$\delta Y^2 = 2\,g_s^2$.  Thus CJ depends \emph{only} on the
+symmetric channel~$g_s$ and is completely blind to the
+antisymmetric channel~$g_a$.
+
+Denote the stratified covariances
+$M_{--} = Q_N(g_-^2)$,\, $M_{++} = Q_N(g_+^2)$,\,
+$M_{-+} = Q_N(g_- g_+)$,\, where
+$Q_N[F] = \sum_B w_B \Cov_B(|X|, F)$.  Then
+\begin{equation}\label{eq:Mss-def}
+  M_{ss} = \tfrac{1}{2}(M_{--} + 2M_{-+} + M_{++})\,,\quad
+  M_{aa} = \tfrac{1}{2}(M_{--} - 2M_{-+} + M_{++})\,,
+\end{equation}
+and $\CJ = 2\,M_{ss}$.  The factor~$4$ in $C_0 = 4\,C_{\mathrm{an}}$
+therefore decomposes as
+\begin{equation}\label{eq:factor4-decomp}
+  4 = \underbrace{2}_{\text{algebraic}} \times
+      \underbrace{\frac{M_{ss}}{C_{\mathrm{an}} \cdot N^{8/9} E^2 T^4}}_{\to\, 2\text{ (dynamical)}}\,.
+\end{equation}
+The first factor is a trivial algebraic identity from $\delta Y^2 = 2\,g_s^2$.
+The second factor, $M_{ss} / C_{\mathrm{an}}\text{-norm} \to 2$, is a
+dynamical statement about Hasse-path statistics that we verify numerically
+but do not derive analytically.
+
+\medskip\noindent\textbf{Numerical verification.}\enspace
+Table~\ref{tab:symmetric} presents the symmetric-channel decomposition
+at six values of~$N$ ($M = 30$ CRN trials each, $\varepsilon = 3$).
+\begin{table}[ht]
+\centering
+\caption{Symmetric-channel decomposition of CJ, normalised by
+$C_{\mathrm{an}} \cdot N^{8/9} E^2 T^4$.}
+\label{tab:symmetric}
+\begin{tabular}{rccccc}
 \toprule
-Component & Value \\
+$N$ & $M_{ss}$ & $M_{aa}$ & $M_{sa}$ & $R_{\mathrm{full}}$ & $M_{--} \approx M_{++}$? \\
 \midrule
-$\CJ_{\mathrm{2\text{-}leg}} / \CJ_{\mathrm{1\text{-}leg}}$ & $2.8$--$3.1$ (stable across $K$, $N$, $\varepsilon$) \\
-$\CJ_{\mathrm{1\text{-}leg}} / C_{\mathrm{an}}\text{-prediction}$ & $1.1$--$1.5$ (varies with $N$) \\
-Product & $\approx 4 \pm 10\%$ \\
+1\,000  & 2.008 & 0.898 & 0.100  & 1.00 & $1.55,\; 1.35$ \\
+3\,000  & 1.974 & 0.592 & 0.162  & 0.99 & $1.44,\; 1.12$ \\
+5\,000  & 2.011 & 0.565 & 0.067  & 1.01 & $1.35,\; 1.22$ \\
+8\,000  & 2.018 & 0.539 & 0.056  & 1.01 & $1.33,\; 1.22$ \\
+10\,000 & 2.059 & 0.522 & $-0.013$ & 1.03 & $1.28,\; 1.30$ \\
 \bottomrule
 \end{tabular}
-\end{center}
-The two-leg enhancement is $\approx 3$ (not~$4$), reflecting the
-partial correlation $\rho \approx 0.5$.  The one-leg CJ exceeds
-the analytical prediction $C_{\mathrm{an}} = 8\pi^2/(3 \cdot 9!
-\cdot 45)$ by $\approx 30\%$, due to the nonlinear relationship
-between the logarithmic weight~$|X|$ and the theoretical
-kernel~$k_4(s)\,k_4(1{-}s)$.  The product of these two effects
-gives $3.07 \times 1.29 \approx 3.97 \approx 4$.
+\end{table}
 
-Crucially, a ``pure one-leg'' CJ (using one-leg weight
+Three features are apparent:
+\begin{enumerate}[label=(\roman*)]
+\item $M_{ss} \to 2$ as $N \to \infty$ (the ``dynamical~$2$''),
+  confirming the factor~$4$.
+\item $M_{sa} \to 0$: the past--future symmetry is restored, so
+  $M_{--} \to M_{++}$ in the continuum limit.
+\item $M_{aa} \to 0.52 \neq 0$: the antisymmetric channel carries
+  a persistent nonzero signal, but CJ is blind to it.
+\end{enumerate}
+The ``equalisation'' hypothesis $M_{--} = M_{-+} = M_{++}$
+(which would require $M_{aa} = 0$) is definitively excluded.
+
+\medskip\noindent\textbf{One-leg CJ is negative.}\enspace
+A ``pure one-leg'' CJ using one-leg weight
 $|X_{\mathrm{down}}| = |\log_2 p^{\downarrow}
 - \overline{\log_2 p^{\downarrow}}|$ and one-leg response
-$\delta Y_{\mathrm{down}}^2$) is \emph{negative}
-($-4.4 \times 10^{-3}$ at $N = 3000$).  The product structure
+$g_-^2$ is \emph{negative} at all tested~$N$
+($\CJ_{\text{1-leg}} \approx -3.4 \times 10^{-3}$ at
+$N = 3000$, $M = 25$).  The product structure
 $p^{\downarrow} p^{\uparrow}$ in the link score is therefore
 not merely an enhancement --- it is constitutive of the
 observable's ability to detect curvature.  Without the two-leg
-product, the covariance with $\delta Y^2$ changes sign and the
-bridge formula fails.
+product, the covariance changes sign and the bridge formula
+fails entirely.
 
+\medskip\noindent\textbf{Score dependence.}\enspace
+The coefficient~$C_0$ is specific to the logarithmic link score.
+Replacing $Y = \log_2(p^{\downarrow} p^{\uparrow} + 1)$ with
+$(p^{\downarrow} p^{\uparrow})^{1/4}$ changes the effective
+coefficient by a factor of~${\sim}\,7$ at $N = 3000$, confirming
+that $C_0$ is a property of the observable, not a universal
+geometric invariant.
+
+\medskip\noindent\textbf{Indivisibility.}\enspace
 The coefficient $C_0 = 32\pi^2/(3 \cdot 9! \cdot 45)$ should
-therefore be regarded as an \emph{indivisible} property of the
-two-leg stratified covariance, not as a product of a ``two-leg
-factor'' and a ``one-leg coefficient.''  The arithmetic
-decomposition $32 = 4 \times 8$ is trivially true, but does
-not correspond to a physical factorisation into single-leg
-components.
-
-In non-vacuum spacetimes ($R \neq 0$), the
-$s \leftrightarrow 1-s$ symmetry is broken, and the factor may
-receive corrections of order~$RT^2$.
+be regarded as an \emph{indivisible} property of the
+two-leg stratified covariance.  The arithmetic factorisation
+$4 = 2_{\mathrm{alg}} \times 2_{\mathrm{dyn}}$ identifies the
+origin of the factor but does not reduce it to independently
+derived components: the dynamical~$2$ (i.e.\ $M_{ss} \to
+2\,C_{\mathrm{an}}$) is an empirical fact about Hasse-path
+statistics on Poisson causal sets that requires a theory of
+stratified covariance on random DAGs for its derivation
+(Section~\ref{sec:open}).
 \end{remark}
 
 \subsection{Assembly of the bridge formula}
@@ -1105,8 +1155,8 @@ coefficient $C_0$ contains no continuous free parameters; the
 estimator definition involves discrete design choices (boundary-cut
 threshold $\zeta = 0.15$, number of strata $K = 45$, binning
 scheme) that are fixed once and used across all tests.  The
-factor $4 = 2^2$ is derived analytically
-(Proposition~\ref{prop:factor4}).  The $N^{8/9}$ exponent is
+factor $4 = 2_{\mathrm{alg}} \times 2_{\mathrm{dyn}}$ is
+characterised in Remark~\ref{rem:factor4}.  The $N^{8/9}$ exponent is
 adopted from the theoretical value $2d/(2d+1)$ and is consistent
 with, but not uniquely determined by, the data
 (Section~\ref{sec:nscaling}).
@@ -1907,10 +1957,11 @@ and the jet predicate errors are $\order(10\%)$.
   recovery of the full invariant $C^2 = 8(E^2 - B^2)$ requires
   an observable built from the full causal order rather than the
   covering relation alone.
-\item Extension of the factor-$4$ derivation
-  (Proposition~\ref{prop:factor4}) beyond the bulk regime
-  $p^{\downarrow} p^{\uparrow} \gg 1$ to include boundary
-  elements.
+\item Analytical derivation of the dynamical factor~$2$
+  in~\eqref{eq:factor4-decomp}: prove that $M_{ss} \to
+  2\,C_{\mathrm{an}}$ as $N \to \infty$.  This requires a
+  theory of stratified covariance on Poisson DAGs
+  (Remark~\ref{rem:factor4}).
 \end{enumerate}
 
 \begin{figure}[ht]
