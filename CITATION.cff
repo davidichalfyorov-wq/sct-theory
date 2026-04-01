@@ -7,8 +7,8 @@ authors:
     given-names: "David"
     orcid: "https://orcid.org/0009-0003-6027-7837"
 abstract: "Research repository for Spectral Causal Theory (SCT): nonlocal one-loop form factors, modified field equations, solar system tests, and formal verification of a spectral approach to quantum gravity with Standard Model content."
-version: "3.1"
-date-released: "2026-03-20"
+version: "3.3"
+date-released: "2026-04-01"
 license: "Apache-2.0"
 repository-code: "https://github.com/davidichalfyorov-wq/sct-theory"
 url: "https://github.com/davidichalfyorov-wq/sct-theory"
@@ -43,5 +43,5 @@ references:
     authors:
       - family-names: "Alfyorov"
         given-names: "David"
-    doi: "10.5281/zenodo.19354508"
+    doi: "10.5281/zenodo.19364212"
     year: 2026

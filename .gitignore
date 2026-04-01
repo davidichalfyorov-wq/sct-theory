@@ -74,6 +74,9 @@ docs/claude/
 # Internal handoff and working notes
 *_handoff.md
 
+# Internal prompts and workflow documents (contain tool references)
+open-problems/deep-research-prompts/
+
 # Internal working notes and session logs
 docs/chatgpt_*
 docs/razumist_*

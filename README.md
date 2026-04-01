@@ -5,10 +5,12 @@
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
 ![Status](https://img.shields.io/badge/status-active_research_workspace-blue)
-![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--03--31)-brightgreen)
+![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--04--01)-brightgreen)
 ![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
 ![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
-![Verification](https://img.shields.io/badge/verification-local_audit_2026--03--31-blueviolet)
+![Open Problems](https://img.shields.io/badge/open_problems-50_(2_resolved)-orange)
+![Verified Results](https://img.shields.io/badge/verified_results-146-brightgreen)
+![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--01-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
@@ -108,7 +110,7 @@ All results match to 15+ significant digits. Zero discrepancies found. One conve
 
 ### Honest limitations identified
 
-- **Inflation:** The minimal spectral action predicts a scalaron mass M = 15.4 M<sub>Pl</sub>, six orders of magnitude too heavy for Starobinsky inflation. Nonlocal form factor corrections do not rescue this (F&#770;<sub>2</sub> decreases at high momenta). SCT does not explain inflation without BSM extensions.
+- **Inflation:** The standard spectral action predicts conformal coupling &xi; = 1/6, at which the R&sup2; sector and the associated scalaron are entirely absent. Even at minimal coupling (&xi; = 0), the scalaron mass is M = 15.4 M<sub>Pl</sub> &mdash; six orders of magnitude too heavy for Starobinsky inflation. SCT does not explain inflation without BSM extensions to the spectral triple.
 - **Singularity resolution:** Softened (K: r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but **not resolved**. The propagator denominator &Pi;<sub>TT</sub> &rarr; const at UV, giving 1/k&sup2; behavior. The Giacchini&ndash;de Paula Netto threshold requires &ge; 6 derivatives for curvature regularity; the spectral action effectively has 4. See &ldquo;Known Problems&rdquo; below.
 - **D&sup2;-quantization vs metric quantization:** Physical equivalence established through one loop. All-orders equivalence conditional on two BV axioms (Jacobian well-definedness and anomaly freedom), verified to one loop.
 
@@ -245,9 +247,37 @@ Selected research highlights:
 | Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Certified |
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
-| Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
+| Inflation | Scalaron mass too heavy; requires BSM extension. At NCG-predicted &xi; = 1/6 no scalaron exists. | Negative |
+| De Sitter conjecture | Refined Swampland dS conjecture violated; &eta;<sub>min</sub> = &minus;1/3 | Resolved |
+| Non-minimal coupling | &xi; = 1/6 is a structural prediction of the spectral action, not a free parameter | Resolved |
 | CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; factor 4 = 2<sub>alg</sub> &times; 2<sub>dyn</sub> (M<sub>ss</sub> &rarr; 2 verified N=1k&ndash;10k); 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
 | FND-1 finite-nerve route | Auxiliary chain complex + H&#8321; formalized (63 Lean modules); intrinsic coherence obstruction proved; [Paper 6](papers/drafts/sct_finite_nerve.pdf) | Negative (support-only) / Open (causal order) |
+
+## Open Problems Collection
+
+The repository includes a structured collection of **50 open research problems** in `open-problems/`, organized by domain and ranked by impact. Each problem file is self-contained with statement, known results, failed approaches, success criteria, and references.
+
+| Domain | Count | Status |
+|--------|-------|--------|
+| Foundations | 6 | all open |
+| Unitarity | 6 | all open |
+| UV finiteness | 4 | all open |
+| Cosmology | 4 | 1 resolved (OP-20), 3 open |
+| Black holes | 3 | all open |
+| Spectral dimension | 2 | all open |
+| Predictions | 8 | 1 partial (OP-33), 7 open |
+| Causal sets | 10 | all open |
+| Scalar sector | 1 | **resolved** (OP-44) |
+| Numerical | 5 | all open |
+| Formal verification | 1 | open |
+
+**Resolved problems:**
+
+- **OP-20** (de Sitter conjecture): The refined Swampland dS conjecture (Ooguri-Vafa 2018) is **violated** by the SCT scalaron potential for c&#8321;, c&#8322; ~ O(1). The minimum value of the normalized Hessian is &eta;<sub>min</sub> = &minus;1/3, imposing a hard ceiling on c&#8322;. The gradient condition fails above &phi; &asymp; 1.19 M<sub>Pl</sub>. Both ratios |V&prime;|/V and V&Prime;/V are independent of the scalaron mass M&#8320;.
+
+- **OP-44** (critical coupling &xi;): The Higgs non-minimal coupling is **not a free parameter** within the standard Chamseddine-Connes spectral action. The a&#8324; Seeley-DeWitt coefficient structure forces &xi; = 1/6 (conformal coupling) after canonical Higgs normalization. This is confirmed by five independent groups (2006-2015) and is an exact one-loop RG fixed point (&beta;<sub>&xi;</sub> vanishes identically at &xi; = 1/6). At conformal coupling the scalar graviton mode decouples entirely, and the Starobinsky scalaron is absent.
+
+Details, methodology, and full problem files: [`open-problems/README.md`](open-problems/README.md)
 
 ## Known Problems and Open Questions
 
