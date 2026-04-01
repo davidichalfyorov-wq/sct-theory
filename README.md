@@ -8,8 +8,8 @@
 ![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--04--01)-brightgreen)
 ![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
 ![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
-![Open Problems](https://img.shields.io/badge/open_problems-50_(6_resolved)-orange)
-![Verified Results](https://img.shields.io/badge/verified_results-164-brightgreen)
+![Open Problems](https://img.shields.io/badge/open_problems-50_(7_resolved)-orange)
+![Verified Results](https://img.shields.io/badge/verified_results-170-brightgreen)
 ![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--01-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
@@ -265,7 +265,7 @@ The repository includes a structured collection of **50 open research problems**
 | Cosmology | 4 | 2 resolved (OP-17, OP-20), 2 open |
 | Black holes | 3 | all open |
 | Spectral dimension | 2 | all open |
-| Predictions | 8 | 2 resolved (OP-30, OP-33), 6 open |
+| Predictions | 8 | 3 resolved (OP-30, OP-31, OP-33), 5 open |
 | Causal sets | 10 | all open |
 | Scalar sector | 1 | **resolved** (OP-44) |
 | Numerical | 5 | all open |

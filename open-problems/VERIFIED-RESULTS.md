@@ -403,11 +403,24 @@ verification method, and confidence level.
 
 ---
 
+## OP-31: Form Factor Comparison SCT vs AS (2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-165 | CZ basis $f_C(x) = \frac{1}{2}f_{\rm Ric}(x)$ is IDENTICAL to SCT $h_C^{(0)}(x)$ for scalar Weyl form factor | `literature` (CZ 1203.2034 eq.(5.2),(5.11)) | established | OP-31 |
+| VR-166 | SCT and AS matter one-loop nonlocal form factors coincide (same CZ master function) | `literature`, `dual-derivation` | established | OP-31 |
+| VR-167 | Graviton loop contribution: $\alpha_C^{\rm grav} = 7/20$, $\alpha_R^{\rm grav} = 1/4$ (absent in SCT) | `literature` (SCM 1006.3808 eq.(28)) | established | OP-31 |
+| VR-168 | Full AS one-loop $\alpha_C = 11/24 \approx 0.458$ vs SCT $13/120 \approx 0.108$ (factor 4.23) | `mpmath-100` | verified | OP-31 |
+| VR-169 | SCT and AS belong to different UV universality classes: entire-function vs power-law | `literature` (KRS 2111.12365 eqs.(6)-(9)) | established | OP-31 |
+| VR-170 | Form factor shape divergence: $z_{10\%} \approx 0.20$, $z_{\mathcal{O}(1)} \approx 1.8$ after IR matching | `literature` (BKS 1904.04845 eq.(12)) | established | OP-31 |
+
+---
+
 ## Summary Statistics
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 164 |
+| Total verified results | 170 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

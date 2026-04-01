@@ -3,14 +3,16 @@ id: OP-31
 title: "Form factor comparison with asymptotic safety and FRG flows"
 domain: [predictions, theory]
 difficulty: medium
-status: open
+status: resolved
 deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [COMP-1]
-papers: ["0805.2909", "2012.15393", "2302.14808"]
+papers: ["0805.2909", "1203.2034", "1006.3808", "1904.04845", "2111.13232", "2111.12365", "2002.10839", "1401.4452"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+date-resolved: 2026-04-01
+resolved-by: literature-analysis + independent-numerical-verification
 ---
 
 # OP-31: Form factor comparison with asymptotic safety and FRG flows
@@ -65,13 +67,98 @@ one-loop regime).
   metric-affine gravity, with distinct predictions for torsion
   contributions absent in SCT.
 
+## 3b. Resolution (2026-04-01)
+
+**VERDICT: RESOLVED. SCT and AS share identical matter one-loop form factors (CZ basis). First divergence: graviton loops (absent in SCT). Different UV universality classes.**
+
+### Agreement: matter one-loop (CZ basis identity)
+
+Codello-Zanusso (1203.2034) define the nonlocal heat-kernel basis in eq.(5.1)-(5.3):
+- Master function f(x) = integral_0^1 exp(-x xi(1-xi)) dxi = phi(x)
+- Basis functions: f_Ric, f_R, f_RU, f_U, f_Omega in eq.(5.2)
+- Weyl form factor: f_C = (1/2) f_Ric = 1/(12x) + (f-1)/(2x^2) in eq.(5.11)
+
+This is IDENTICAL to our h_C^(0)(x) = 1/(12x) + (phi-1)/(2x^2) (VR-010).
+
+Ohta-Rachwal (2002.10839) confirm in eq.(4.19)-(4.20) that FRG flow
+integrated to k=0 yields universal nonlocal coefficients matching the
+standard heat-kernel result. The universal nondiscal part is scheme-
+independent; only local finite contacts depend on renormalization conditions.
+
+### First divergence: graviton/ghost loops
+
+Satz-Codello-Mazzitelli (1006.3808) compute the purely gravitational
+one-loop contribution to the R^2 sector in eq.(27)-(28):
+
+  (1/32pi^2) integral sqrt(g) [(1/60) R log(-Box/k0^2) R
+    + (7/10) R_munu log(-Box/k0^2) R^munu]
+
+Converting to {C^2, R^2} basis:
+  alpha_C^grav = 7/20 = 0.35
+  alpha_R^grav = 1/60 + 7/30 = 1/4 = 0.25
+
+These contributions are ABSENT in SCT (which includes only matter loops).
+Full one-loop AS Weyl coefficient:
+  alpha_C^{AS,1-loop} = 13/120 + 7/20 = 11/24 ~ 0.458
+  = 4.23 x alpha_C^{SCT}
+
+### UV universality class: entire vs power-law
+
+SCT: form factors are entire functions (no poles, no branch cuts).
+Graviton propagator Pi_TT(z) saturates at a finite constant in the UV.
+Amplitude ~ const at trans-Planckian energies.
+
+AS: power-law running. At the fixed point, G(k) -> g*/k^2 (anomalous
+dimension eta_N = -2). Amplitude -> const but via power-law, not entire
+function. Knorr-Ripken-Saueressig (2111.12365) make this distinction
+explicit in eqs.(6)-(9): AS toy model gives A ~ const (scale-free),
+while nonlocal entire-function model gives A ~ exp(-s) -> 0.
+
+This is a FUNDAMENTAL qualitative distinction, not just a numerical
+difference.
+
+### Momentum-dependent graviton dressing: z_cross
+
+Bosma-Knorr-Saueressig (1904.04845) compute the momentum-dependent
+form factor W_k(q^2) in eqs.(4)-(6), with UV asymptotic eq.(11) and
+fit eq.(12):
+  w_*(q^2) ~ rho/(rho/kappa + q^2) + w_inf
+  rho ~ 0.0149, kappa ~ 0.00817
+
+Comparing Pi_TT^{SCT}(z) vs Pi_TT^{AS}(z) = 1 + 2z w_AS(z) after
+IR matching:
+  z_{10%} ~ rho/(9 kappa) ~ 0.20  (10% shape deformation)
+  z_{O(1)} ~ rho/kappa ~ 1.8  (order-unity divergence)
+  Bosma states crossover at q^2 ~ 1 (consistent).
+
+### Comparison table (12 properties)
+
+| Property | SCT | AS/FRG | Status |
+|----------|-----|--------|--------|
+| CZ basis | phi(x) master function | Same f(x), eqs.(5.1)-(5.3) | Agree |
+| Scalar Weyl f.f. | h_C^(0) = f_C(x) | Identical by CZ | Agree |
+| Matter 1-loop nonlocal | F_hat_1, h_C, h_R | Universal coefficients | Agree |
+| Graviton loops | Absent | alpha_C^grav = 7/20 | Disagree |
+| Weyl log coefficient | 13/120 | 11/24 (with graviton) | Disagree |
+| R^2 log coefficient | 0 (at xi=1/6) | 1/4 (graviton) | Disagree |
+| UV analytic class | Entire, order 1 | Power-law (scale-free) | Disagree |
+| Pole/cut structure | Discrete poles, no cuts | Massless pole + timelike cut | Disagree |
+| z_cross (shape) | — | ~0.2 (10%), ~1.8 (O(1)) | Disagree |
+| Newton potential | Yukawa: 1-(4/3)e^{-m2r}+(1/3)e^{-m0r} | 1/r^2 correction | Disagree |
+| c_T | = c (exact on FLRW) | No established c_T != c | No divergence |
+| Spectral function | Discrete delta-sum | Massless peak + continuum | Disagree |
+
+### Bibliographic corrections
+
+Our prompt contained 3 incorrect arXiv IDs:
+- "Knorr-Saueressig graviton spectral function" is arXiv:2111.13232
+  (Fehre-Litim-Pawlowski-Reichert), NOT 2012.15393
+- "Bosma-Knorr-Saueressig W_k paper" is arXiv:1904.04845, NOT 2302.14808
+- arXiv:1301.4191 is not Falls-Litim-Schroeder
+
 ## 4. Failed Approaches
 
-No comparison has been attempted. The main difficulty is that the
-FRG form factors depend on the choice of regulator, gauge fixing,
-and truncation order. A meaningful comparison requires identifying
-regulator-independent (universal) features of the FRG result and
-comparing those with the corresponding SCT quantities.
+No comparison had been attempted prior to this resolution.
 
 ## 5. Success Criteria
 
