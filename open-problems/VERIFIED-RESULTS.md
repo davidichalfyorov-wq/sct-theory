@@ -416,6 +416,17 @@ verification method, and confidence level.
 
 ---
 
+## OP-11: IVP Well-Posedness (Partial, 2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-182 | CMN diffusion-localization requires polynomial $H(\Box)$; fails for entire (§2.6 of 1803.00561) | `literature` | established | OP-11 |
+| VR-183 | Even ghost-free IDG: solution fails to exist in $\mathcal{S}'$ for generic sources (Heredia 2112.05397 cond.(87)) | `literature` | established | OP-11 |
+| VR-184 | Anselmi-Calcagni classicization (2510.05276): finite kernel $\Rightarrow$ 2 initial conditions; infinite kernel = open | `literature` | established | OP-11 |
+| VR-185 | Malgrange-Ehrenpreis theorem: polynomial $P(D)$ only, does not apply to entire operators | `literature` | established | OP-11 |
+
+---
+
 ## OP-07: Fakeon Infinite Poles (Partial, 2026-04-01)
 
 | ID | Statement | Method | Confidence | Source |
@@ -445,7 +456,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 181 |
+| Total verified results | 185 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

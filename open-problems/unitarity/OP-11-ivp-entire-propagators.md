@@ -3,14 +3,15 @@ id: OP-11
 title: "IVP well-posedness for entire-function propagators"
 domain: [unitarity, causality]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [MR-3]
-papers: ["2501.04097", "1811.10619"]
+papers: ["2510.05276", "1802.00399", "0709.3968", "1803.00561", "1208.6314", "2112.05397", "hep-th/9702146"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+progress: "GAP IDENTIFIED. Proof roadmap: classicization + weighted semigroup + bounded perturbation. Even ghost-free IDG lacks full Hadamard IVP."
 ---
 
 # OP-11: IVP well-posedness for entire-function propagators
@@ -81,6 +82,87 @@ open condition.
   oscillators. The CL result (Weierstrass bound 5.002e-4) shows the
   coupling to higher modes converges, but this is an L^1 bound on
   the coupling coefficients, not an energy estimate for the PDE system.
+
+## 3b. Partial Resolution (2026-04-01)
+
+**VERDICT: GAP IDENTIFIED. No proof of Hadamard well-posedness exists for SCT. Proof roadmap via classicization + semigroup identified. Even ghost-free IDG lacks full Hadamard IVP.**
+
+### Why existing approaches fail for SCT
+
+**Barnaby-Kamran (0709.3968):** Mode-counting with Laplace transform on
+half-line. Works for exponentially bounded analytic data, sees only finitely
+many zeros inside contour window. Not Hadamard: no energy estimates, no
+Sobolev spaces, no continuous dependence. Their central theorem stated
+without proof (eq.(2.14) region).
+
+**Calcagni-Modesto-Nardelli (1803.00561):** Diffusion-localization method
+gives finite initial data count (4 for gravity, eq.(4.21)-(4.22)). BUT
+Section 2.6 explicitly says: localized system is local ONLY IF H(Box) is
+polynomial. For entire H(Box) "the localized system would be non-local."
+This EXCLUDES SCT where Pi_TT is entire.
+
+**Heredia et al. (2112.05397):** Ghost-free IDG in distributional S'
+formulation. Even WITHOUT extra poles, condition (87): e^{l^2 omega^2}
+omega^2 T_munu in S' fails for generic physical sources — solution DOES
+NOT EXIST in S'. This is a strong negative signal: IVP problems exist
+even in the simplest nonlocal case.
+
+**Anselmi-Calcagni (2510.05276):** Classicization for fakeon equations
+gives 2 initial conditions (Section 4.2, eqs.(4.20)-(4.24)). Works
+because parent higher-derivative system has FINITE-dimensional kernel.
+For SCT with infinitely many zeros, kernel is infinite-dimensional.
+Template, not proof.
+
+**Buoninfante (1802.00399):** Static weak-field properties only. No IVP.
+
+**Tomboulis (hep-th/9702146):** Model-building for entire form factors.
+No IVP theorem.
+
+### New useful reference: Gorka-Prado-Reyes (1208.6314)
+
+Rigorous ODE theory for infinite-derivative equations on half-line.
+- Corollary 2.3: if r/f has infinitely many isolated poles, solution
+  series sum_i P_i(t) exp(omega_i t) may NOT be differentiable.
+- Theorem 3.1: for finitely many poles left of Re s = omega_f, K
+  classical initial conditions generically determine unique C^K solution.
+
+Shows: infinite poles → qualitatively harder. Finite-pole subproblem
+is solvable but full infinite case has regularity issues.
+
+### Proof roadmap (most promising path)
+
+Classicization + semigroup theory on weighted Hilbert space:
+
+1. CLASSICIZE infinite-pole system into first-order form on
+   X_s = l^2_w(N; H^{s+1} + H^s) with weight sequence {w_n}.
+
+2. PROVE A_diag generates C_0-semigroup with uniform-in-n bound.
+   Requires SCT pole/residue asymptotics + chosen weights.
+
+3. UPGRADE CL Weierstrass bound (sum M_n = 5.002e-4) to OPERATOR
+   ESTIMATE ||A_off||_{X->X} < infinity via weighted Schur test:
+   sup_n sum_m |K_nm| w_m/w_n < infinity (and transpose).
+   Bounded perturbation theorem then gives well-posedness.
+
+4. EMBED fakeon prescription as resolvent limit (following
+   Anselmi-Calcagni hint that fakeon = limit of generic prescription).
+
+### Why NOT Ehrenpreis/Hormander
+
+Malgrange-Ehrenpreis theorem: for POLYNOMIAL P(D) only. Does not
+apply to entire-function operators. Even if fundamental solution were
+constructed, it gives solvability/regularity, not Hadamard well-posedness
+(existence + uniqueness + continuous dependence of Cauchy evolution).
+
+Infinite-order PDO calculus (Prangoski, Asensio): works in ultra-
+distribution spaces, not standard Sobolev. Natural setting but different
+from our physical Cauchy problem.
+
+### Bibliographic corrections
+
+- 1811.10619 is neutrino phenomenology, NOT Buoninfante. Correct: 1802.00399
+- 2501.04097 is Buoninfante "Ghost resonances". Correct Anselmi-Calcagni
+  classicization paper: 2510.05276
 
 ## 4. Failed Approaches
 

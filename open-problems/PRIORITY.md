@@ -38,6 +38,7 @@ Problems ranked by **impact x closeness x unblocking power**.
 | ID | Title | Progress | Remaining |
 |----|-------|----------|-----------|
 | **OP-07** | Fakeon infinite poles | GAP at 1801.00915 eq.(2.25). 1-loop likely extendable via CL. | All-orders proof: needs uniform convergence theorem |
+| **OP-11** | IVP well-posedness | GAP. Even IDG lacks Hadamard in S'. CMN §2.6 excludes entire H(□). | Classicization + semigroup proof program |
 | **OP-15** | a₆ tensor structure | Literature complete. DF coefficients available. | CCC triplet normalization needs TFORM verification |
 
 ## Best suited for literature-based investigation (Tier A, remaining open)
