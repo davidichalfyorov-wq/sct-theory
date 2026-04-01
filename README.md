@@ -225,7 +225,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 4 | Nonlinear field equations and FLRW cosmology of the spectral action with Standard Model content | [10.5281/zenodo.19056349](https://doi.org/10.5281/zenodo.19056349) |
 | 5 | Perturbative UV finiteness of the spectral action in D&sup2;-quantization: a chirality proof | *preprint in repository* |
 | 6 | Auxiliary boundary data and the failure of intrinsic coherence in a finite-nerve route for spectral causal theory | *preprint in repository* |
-| 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | [10.5281/zenodo.19354508](https://doi.org/10.5281/zenodo.19354508) |
+| 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | [10.5281/zenodo.19364212](https://doi.org/10.5281/zenodo.19364212) |
 
 ## Research Status
 
@@ -246,7 +246,7 @@ Selected research highlights:
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension | Negative |
-| CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
+| CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; factor 4 = 2<sub>alg</sub> &times; 2<sub>dyn</sub> (M<sub>ss</sub> &rarr; 2 verified N=1k&ndash;10k); 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
 | FND-1 finite-nerve route | Auxiliary chain complex + H&#8321; formalized (63 Lean modules); intrinsic coherence obstruction proved; [Paper 6](papers/drafts/sct_finite_nerve.pdf) | Negative (support-only) / Open (causal order) |
 
 ## Known Problems and Open Questions

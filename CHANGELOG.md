@@ -1,5 +1,78 @@
 # Changelog
 
+## [3.2] - 2026-04-01
+
+### Paper 7: Factor-4 Definitive Investigation
+
+**The factor 4 in the CJ bridge formula is now fully characterised.**
+
+The coefficient C_0 = 32pi^2/(3*9!*45) decomposes as:
+
+```
+Factor 4 = 2 (algebraic) * 2 (dynamical)
+```
+
+- **Algebraic 2**: from delta_Y^2 = 2*g_s^2 (the CJ observable depends only on the symmetric channel g_s = (g_- + g_+)/sqrt(2) and is blind to the antisymmetric channel g_a)
+- **Dynamical 2**: the symmetric-channel covariance M_ss/(C_AN * N^{8/9} * E^2 * T^4) converges to 2.0 as N -> infinity
+
+**Symmetric-channel decomposition (new Section 5.5):**
+
+| N      | M_ss  | M_aa  | M_sa   | R_full |
+|--------|-------|-------|--------|--------|
+| 1,000  | 2.008 | 0.898 | 0.100  | 1.00   |
+| 3,000  | 1.974 | 0.592 | 0.162  | 0.99   |
+| 5,000  | 2.011 | 0.565 | 0.067  | 1.01   |
+| 8,000  | 2.018 | 0.539 | 0.056  | 1.01   |
+| 10,000 | 2.059 | 0.522 | -0.013 | 1.03   |
+
+Three convergence properties verified:
+1. M_ss -> 2 (the dynamical 2, confirming factor 4)
+2. M_sa -> 0 (past/future symmetry restored in continuum limit)
+3. M_aa -> 0.52 (persistent nonzero; equalization hypothesis permanently excluded)
+
+**Six definitive findings from the investigation:**
+1. |X|-weighted past-future correlation rho_eff ~ 0.5 (not 1.0)
+2. One-leg CJ is NEGATIVE at all tested N (the product p_down*p_up is constitutive)
+3. Interval-counting CJ = 0 (CJ is fundamentally a Hasse-path phenomenon)
+4. CJ kernel K(s) ~ [s(1-s)]^18 (not k_4(s)*k_4(1-s); the five-factor decomposition is an integral identity, not pointwise)
+5. Coefficient is score-dependent ((p_down*p_up)^{1/4} gives ~7x different C_0)
+6. The "+1" correction in log_2(p_down*p_up+1) is negligible (<0.001% at N >= 5000)
+
+**Extended epsilon range:**
+- Six values eps = 0.5, 1, 2, 3, 5, 10 (two orders of magnitude in E^2)
+- chi^2/dof = 0.48 (5 dof), confirming CJ proportional to E^2
+
+**Statistical diagnostics:**
+- Shapiro-Wilk normality test: W = 0.988, p = 0.88 (M=50 trials)
+- Bootstrap 95% CI for R: [0.89, 1.09] (contains 1.0)
+
+**Open problem sharpened:** Prove M_ss -> 2*C_AN as N -> infinity on a Poisson DAG in a d=4 Alexandrov diamond. This requires a theory of Hasse-path occupation kernels that does not yet exist in the literature.
+
+**Fixed broken references:** prop:factor4 -> rem:factor4, sec:outlook -> sec:open
+
+### New analysis scripts (6)
+
+- `factor4_decisive_test.py`: |X|-weighted correlation rho_eff at N=1000-5000
+- `factor4_kernel_profile.py`: CJ kernel K(s) profile, Hasse vs interval comparison
+- `factor4_score_variants.py`: 5 link-score variants (log, root, one-leg)
+- `cj_three_kernel_decomposition.py`: full three-kernel decomposition N=1000-10000, M=30
+- `paper7_mini_tests.py`: Tier-A mini-test battery (de Sitter, epsilon range, normality, interval)
+- `check_paper7.py`: pre-push verification (references, figures, bibliography, AI markers)
+
+### New data files (2)
+
+- `analysis/fnd1_data/cj_three_kernel_decomposition.json`: 180 MC trials, 6 N values
+- `analysis/fnd1_data/paper7_mini_tests.json`: mini-test results
+
+### Previous v3.1 changes (2026-04-01, same day)
+
+- Lorentz boost test: CJ proportional to E^2, blind to B^2 (<1%)
+- T^4 scaling test: ratio/T^4 = 0.998 at T=0.70
+- Factor-4 characterised as "indivisible coefficient"
+- C_0 confirmed to 0.05 sigma at M=50, N=5000
+- Paper 7 submitted to Classical and Quantum Gravity
+- Zenodo DOI: 10.5281/zenodo.19364212
+
 ## [3.0] - 2026-03-31
 
 ### Paper 7: CJ Bridge Formula
