@@ -30,6 +30,7 @@ Problems ranked by **impact x closeness x unblocking power**.
 | **OP-44** | Critical coupling ξ | **RESOLVED: ξ=1/6 is PREDICTION** of standard spectral action. | NCG literature analysis + numerical verification |
 | **OP-04** | Parameter counting | **RESOLVED: robust core = a₄ only.** f not uniquely fixed; e^{-u} not unique. | Literature analysis + numerical verification |
 | **OP-17** | Scalaron mass | **RESOLVED: NEGATIVE.** No mechanism in standard NCG. At ξ=1/6 scalaron absent. BSM scalars all conformal. | Literature analysis + numerical verification |
+| **OP-30** | Running constants | **RESOLVED.** c₁/c₂ = -1/3 exactly preserved. SCT ≈ perturbative AF (2.3%), far from Reuter NGFP. | Literature analysis + numerical verification |
 
 ## Partially resolved (2026-03-31)
 

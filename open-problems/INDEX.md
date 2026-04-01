@@ -37,7 +37,7 @@ Total: 50 problems
 | OP-27 | Gravitational wave propagation and frequency-depen | predictions | medium | open | C | [] | predictions/OP-27-gw-propagation-dispersion.md |
 | OP-28 | Cosmological w(z) and large-scale structure format | predictions | medium | open | C | [] | predictions/OP-28-cosmological-wz-structure.md |
 | OP-29 | Modified TOV equations and neutron star mass limit | predictions | hard | open | C | [] | predictions/OP-29-tov-neutron-star-limits.md |
-| OP-30 | Running coupling constants c_1(mu) and c_2(mu) | predictions | medium | open | B | [] | predictions/OP-30-running-constants.md |
+| OP-30 | Running c_1, c_2: ratio -1/3 exactly preserved. SCT ~ perturbative AF (2.3%). RESOLVED. | predictions | medium | **resolved** | B | [] | predictions/OP-30-running-constants.md |
 | OP-31 | Form factor comparison with asymptotic safety and  | predictions | medium | open | B | [] | predictions/OP-31-form-factor-comparison-as.md |
 | OP-32 | Spectral dimension comparison with CDT lattice sim | predictions | medium | open | B | [] | predictions/OP-32-spectral-dimension-cdt.md |
 | OP-33 | Cross-program comparison: 54/54 cells, 3 discriminating axes, RESOLVED | predictions | medium | **resolved** | A | [] | predictions/OP-33-cross-program-comparison.md |

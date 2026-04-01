@@ -390,11 +390,24 @@ verification method, and confidence level.
 
 ---
 
+## OP-30: Running Constants Resolution (2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-159 | $\beta_{c_2}^{\rm SM} = 283/[60(4\pi)^2] \approx 0.02987$ (universal matter one-loop) | `literature` (CPR 0805.2909) | established | OP-30 |
+| VR-160 | $\beta_{c_1}^{\rm SM} = -283/[180(4\pi)^2] \approx -0.00996$ at $\xi = 1/6$ | `literature`, `mpmath-100` | established | OP-30 |
+| VR-161 | $c_1/c_2 = -1/3$ exactly preserved along matter-only one-loop trajectory at $\xi = 1/6$ | `dual-derivation`, `mpmath-100` | verified | OP-30 |
+| VR-162 | Perturbative AF ratio $(c_1/c_2)_{\rm AF} \approx -0.3257$, 2.3\% from SCT | `literature` (Shapiro hep-th/0412249 Table 2) | established | OP-30 |
+| VR-163 | BMS NGFP ratio $(c_1/c_2)_{\rm NGFP} \approx -1.087$, 226\% from SCT | `literature` (BMS 0901.2984 eq.(12)) | established | OP-30 |
+| VR-164 | $c_2$ zero crossing at $\mu/\Lambda \approx 7.07 \times 10^{-4}$ (matter-only) | `mpmath-100` | verified | OP-30 |
+
+---
+
 ## Summary Statistics
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 158 |
+| Total verified results | 164 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
