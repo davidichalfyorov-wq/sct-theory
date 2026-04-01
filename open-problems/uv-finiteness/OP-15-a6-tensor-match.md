@@ -3,14 +3,15 @@ id: OP-15
 title: "Explicit a_6 tensor structure match"
 domain: [uv-finiteness]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [MR-4]
-papers: ["hep-th/9209108", "0906.1572"]
+papers: ["hep-th/9209108", "0906.1572", "hep-th/0306138", "0706.0691", "2001.05975"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+progress: "Literature complete. DF coefficients available. CCC triplet normalization needs TFORM verification."
 ---
 
 # OP-15: Explicit a_6 tensor structure match
@@ -91,6 +92,86 @@ would close the gap definitively.
   integral u^{k-1} P(u) e^{-u} du. For the quadratic P = c_2(2-4u+u^2),
   we get delta f_2 = 0, delta f_4 = 0, delta f_6 = 4 c_2. The cubic
   extension P = -8 + 22u - 10u^2 + u^3 also preserves f_8.
+
+## 3b. Partial Resolution (2026-04-01)
+
+**STATUS: PARTIAL. Full literature base collected. Explicit 4D coefficients
+available from Decanini-Folacci. CCC triplet normalization discrepancy
+needs TFORM verification.**
+
+### Structural correction: 10 invariants, not 8
+
+Standard 4D integral basis after IBP has 10 independent dimension-6
+invariants, not 8 as stated in our problem formulation. The full list
+from Decanini-Folacci (0706.0691):
+
+  R Box R, R_munu Box R^munu, R^3, R R_munu^2,
+  R_mu^nu R_nu^rho R_rho^mu, R_munu R_rhosigma C^murhomusigma,
+  R R_munurhosigma^2, R_munu R^mu_rhosigmatau R^nurhosigmatau,
+  C^3 (type 1), C^3 (type 2)
+
+In d=4, the two CCC types are related by identity (Mistry 2001.05975,
+eq.(3.5)): C_abcd C^ab_ef C^cdef = 2 C_abcd C^ac_ef C^bedf.
+So effectively 9 independent invariants, reducing to 1 on Ricci-flat shell.
+
+### Universal a_6 formula: confirmed
+
+Vassilevich (hep-th/0306138) eq.(4.29): full formula for a_6 of
+Laplace-type operator D = -(g^munu nabla_mu nabla_nu + E). Also
+Gilkey, Theorem 4.8.16.
+
+### Explicit 4D coefficients per spin (Decanini-Folacci)
+
+All 10 coefficients in the normalization W = (1/(192 pi^2 m^2)) int sqrt(g) [...]:
+
+- **Scalar (xi=0):** eq.(3.13) — complete
+- **Dirac:** eq.(5.21) — complete
+- **Vector (Proca):** eq.(5.24) — complete
+
+On-shell (Ricci-flat) CCC coefficients (I1 convention):
+- Scalar: 1/2520
+- Dirac: -1/1260
+- Vector: 1/840
+- Ratios: scalar/Dirac = -1/2, vector/Dirac = -3/2
+
+### Goroff-Sagnotti 209/2880: confirmed
+
+- GS eq.(1.2): Gamma^(2) = -(209/2880)(1/(4pi)^4 epsilon) int sqrt(g) C^3
+- van de Ven (hep-th/9209108) eq.(6.30): same result independently
+
+### CCC triplet normalization issue (OPEN)
+
+Our MR-4 CCC coefficients (-16/3, -109/3, 148/3) are internally
+consistent: 4*(-16/3) + 22.5*(-109/3) + 12*(148/3) = -1481/6.
+
+However, the RATIOS do not match Decanini-Folacci on-shell ratios:
+- Our: scalar/Dirac = 16/109 ~ 0.147
+- DF: scalar/Dirac = -1/2
+
+This indicates a normalization mismatch between our MR-4 convention
+and the standard heat-kernel convention. The numbers may include
+different FP ghost treatment, different spectral-action moment factors,
+or combinatorial prefactors. This requires clarification through
+explicit TFORM computation.
+
+### Quartic Weyl invariants: 2 in d=4
+
+Moura eqs.(3.5)-(3.6): two independent parity-even quartic Weyl
+contractions in d=4 (W+^2 W-^2 and W+^4 + W-^4). Confirms OP-13
+overdetermination: 2 quartic Weyl vs 1 spectral parameter delta f_8.
+
+### Spectral action six-derivative sector
+
+Mistry (2001.05975) eq.(3.7): entire 6-derivative gravitational sector
+of the spectral action sits under ONE coefficient mu_3, confirming the
+structural basis for absorption by spectral function deformation.
+
+### Remaining task
+
+TFORM computation needed to:
+1. Verify our CCC triplet (-16/3, -109/3, 148/3) in explicit normalization
+2. Map between our convention and DF convention
+3. Confirm tensor-level (not just coefficient-counting) absorption
 
 ## 4. Failed Approaches
 

@@ -33,11 +33,11 @@ Problems ranked by **impact x closeness x unblocking power**.
 | **OP-30** | Running constants | **RESOLVED.** c₁/c₂ = -1/3 exactly preserved. SCT ≈ perturbative AF (2.3%), far from Reuter NGFP. | Literature analysis + numerical verification |
 | **OP-31** | Form factors SCT vs AS | **RESOLVED.** Matter 1-loop identical (CZ basis). Diverge at graviton loops. Different UV classes. | Literature analysis + numerical verification |
 
-## Partially resolved (2026-03-31)
+## Partially resolved
 
 | ID | Title | Progress | Remaining |
 |----|-------|----------|-----------|
-| **OP-33** | Cross-program comparison | 28/54 cells, 3 discriminating axes | LQG/CDT/Strings need more cells |
+| **OP-15** | a₆ tensor structure | Literature complete. DF coefficients available. | CCC triplet normalization needs TFORM verification |
 
 ## Best suited for literature-based investigation (Tier A, remaining open)
 

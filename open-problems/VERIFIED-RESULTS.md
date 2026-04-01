@@ -416,11 +416,25 @@ verification method, and confidence level.
 
 ---
 
+## OP-15: a₆ Tensor Structure (Partial, 2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-171 | Full universal $a_6$ for Laplace-type operator: Vassilevich eq.(4.29), Gilkey Thm 4.8.16 | `literature` | established | OP-15 |
+| VR-172 | Standard 4D integral basis has 10 (not 8) independent dimension-6 invariants after IBP | `literature` (DF 0706.0691) | established | OP-15 |
+| VR-173 | Goroff-Sagnotti $209/2880$ confirmed: GS eq.(1.2) and van de Ven eq.(6.30) | `literature` | established | OP-15 |
+| VR-174 | On-shell 4D reduction to single parity-even $C^3$: GS eqs.(3.12)-(3.14) | `literature` | established | OP-15 |
+| VR-175 | Two independent quartic Weyl invariants in $d=4$: Moura eqs.(3.5)-(3.6) | `literature` | established | OP-15 |
+| VR-176 | Spectral action 6-derivative sector under one coefficient $\mu_3$: Mistry eq.(3.7) | `literature` | established | OP-15 |
+| VR-177 | DF on-shell CCC ratios: scalar/Dirac=$-1/2$, vector/Dirac=$-3/2$ (in standard heat-kernel normalization) | `literature`, `mpmath-100` | verified | OP-15 |
+
+---
+
 ## Summary Statistics
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 170 |
+| Total verified results | 177 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
