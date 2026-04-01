@@ -3,14 +3,15 @@ id: OP-07
 title: "Fakeon prescription for infinite-pole propagators"
 domain: [unitarity]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: A
 blocks: [OP-22]
 blocked-by: []
 roadmap-tasks: [MR-2]
-papers: ["1704.07728", "2308.09006", "1801.00915"]
+papers: ["1704.07728", "2308.09006", "1801.00915", "1703.04584", "1802.00399", "2501.04097", "hep-th/9702146"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+progress: "GAP IDENTIFIED at 1801.00915 eq.(2.25) + Sec.7.3. One-loop likely extendable. All-orders open."
 ---
 
 # OP-07: Fakeon prescription for infinite-pole propagators
@@ -66,6 +67,87 @@ the prescription and preserve unitarity.
   modified cutting equations and the largest-time equation in
   Minkowski space). The key property used: finitely many poles allow
   explicit contour deformation and principal-value evaluation.
+
+## 3b. Partial Resolution (2026-04-01)
+
+**VERDICT: GAP IDENTIFIED. No obstruction found. One-loop likely extendable. All-orders open.**
+
+### Precise gap location in Anselmi's proof
+
+The finiteness assumption enters at three specific points:
+
+**1801.00915 (Anselmi, "Fakeons and Lee-Wick models"):**
+- After eq.(2.25): explicitly states "The number of thresholds (2.25)
+  and regions A_tilde_i of each loop integral is **finite**." This is
+  the core assumption. Verified via ar5iv.
+- Section 7.3: The procedure "Applying this procedure to each LW
+  threshold at a time, we reach every U_R cap A_i" is organized as
+  iteration over a finite set of thresholds.
+- Section 4: Multiple thresholds handled via eq.(4.8) under assumption
+  that their positions are distinct. For "definiteness" takes unique
+  LW threshold P, constructs J+ and J-, averages to (J+ + J-)/2.
+
+**1703.04584 (Anselmi-Piva, "A new formulation of Lee-Wick QFT"):**
+- Eq.(3.11): J_{LW}^{>} defined as half-sum of J_{LW}^{0+} and
+  J_{LW}^{0-} — average continuation over ONE threshold.
+- Section 6: Number of disjoint regions grows with loop order, but
+  is finite for each diagram (finite internal lines and vertices).
+
+**1704.07728 (Anselmi, "On the QFT of gravitational interactions"):**
+- No single all-orders theorem. Finite spectrum built into examples:
+  eqs.(5.2)-(5.3) (scalar with one fake DOF), eq.(5.6) (higher-
+  derivative scalar), eqs.(6.2)-(6.3) (gravity propagators).
+
+### Gap classification
+
+(a) **Finite contour/domain deformations — MAIN GAP.** The algorithm
+    iterates threshold-by-threshold. For infinite poles, this becomes
+    an infinite iteration requiring uniform convergence control.
+
+(b) **Modified cutting equations.** Formula (7.10) itself works for
+    any fixed graph, but its transfer to other regions and the
+    epsilon -> 0 limit depend on finite-threshold geometry.
+
+(c) **ACE/LTE combinatorics.** Not the issue — finite per graph
+    regardless of pole count.
+
+(d) **Hidden assumptions:** distinctness and local finiteness of
+    thresholds, plus uniform vanishing of C_N(p,epsilon) corrections.
+
+### Compatibility with CL bound
+
+Our certified CL result (VR-081, VR-082: Weierstrass M-test with
+sum M_n = 5.002e-4) addresses gap (a) at one-loop level: it controls
+the sum over fakeonized poles and shows the prescription commutes
+with N -> infinity for the one-loop amplitude.
+
+For all-orders extension, additionally needed:
+- Control over cut INTEGRANDS (not just total amplitude)
+- Local finiteness of multi-threshold set at higher loops
+- Uniform convergence of C_N(p,epsilon) over compact kinematic sets
+
+### IDG parallel: why their theorems don't transfer
+
+IDG unitarity proofs (Tomboulis 1997, Briscese-Modesto 2019) work
+because the entire form factor has NO extra zeros/poles. Their key
+step "only normal thresholds contribute" fails for SCT where Pi_TT
+zeros create a countable fake-threshold tower. Transferable: Euclidean-
+first methodology, contour techniques, Ward/BRST cancellations.
+
+### Counterexample search: negative
+
+No published counterexample found for fakeonized infinite-pole tower.
+Kubo-Kugo (2308.09006) show unitarity violation for complex ghosts
+in Lee-Wick theories, but this is for the Lee-Wick prescription, NOT
+the fakeon prescription — important distinction.
+
+### Bibliographic corrections
+
+- 2308.09006 is Kubo-Kugo "Unitarity Violation in Field Theories of
+  Lee-Wick's Complex Ghost", not "Unitarity and higher-order scattering"
+- 2501.04097 is Buoninfante "Remarks on ghost resonances", not
+  Anselmi-Calcagni on classicization
+- Buoninfante "Classical properties" is 1802.00399, not 1811.10619
 
 ## 4. Failed Approaches
 

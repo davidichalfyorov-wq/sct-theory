@@ -416,6 +416,17 @@ verification method, and confidence level.
 
 ---
 
+## OP-07: Fakeon Infinite Poles (Partial, 2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-178 | Anselmi's proof explicitly assumes finite number of thresholds: 1801.00915 after eq.(2.25) | `literature` | established | OP-07 |
+| VR-179 | Main gap = type (a): finite iteration over thresholds. CL bound addresses this at 1-loop. | `literature`, `dual-derivation` | established | OP-07 |
+| VR-180 | IDG unitarity theorems do NOT transfer to SCT: require no extra poles (SCT has infinitely many) | `literature` | established | OP-07 |
+| VR-181 | Kubo-Kugo (2308.09006): unitarity violated for Lee-Wick complex ghosts, but NOT for fakeons | `literature` | established | OP-07 |
+
+---
+
 ## OP-15: a₆ Tensor Structure (Partial, 2026-04-01)
 
 | ID | Statement | Method | Confidence | Source |
@@ -434,7 +445,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 177 |
+| Total verified results | 181 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

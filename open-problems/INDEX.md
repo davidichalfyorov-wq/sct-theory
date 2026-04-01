@@ -44,7 +44,7 @@ Total: 50 problems
 | OP-44 | Critical coupling: xi=1/6 is PREDICTION of spectral action (not free) | scalar-sector | medium | **resolved** | A | [] | scalar-sector/OP-44-critical-coupling-physical-xi.md |
 | OP-24 | Spectral dimension definition dependence: which de | spectral-dimension | hard | open | A | [] | spectral-dimension/OP-24-definition-dependence-resolution.md |
 | OP-25 | Two-loop corrections and scalar sector spectral di | spectral-dimension | medium | open | B | [] | spectral-dimension/OP-25-two-loop-and-scalar-sector.md |
-| OP-07 | Fakeon prescription for infinite-pole propagators | unitarity | hard | open | A | [OP-22] | unitarity/OP-07-fakeon-infinite-poles.md |
+| OP-07 | Fakeon infinite poles: GAP at 1801.00915 eq.(2.25). 1-loop likely OK. All-orders open. | unitarity | hard | **partial** | A | [OP-22] | unitarity/OP-07-fakeon-infinite-poles.md |
 | OP-08 | All-orders Kubo-Kugo ghost decoupling proof | unitarity | hard | open | A | [] | unitarity/OP-08-kubo-kugo-all-orders.md |
 | OP-09 | BV axioms 3 and 4 beyond one loop | unitarity | very-hard | open | B | [OP-06] | unitarity/OP-09-bv-axioms-beyond-one-loop.md |
 | OP-10 | D^2-quantization versus metric quantization equiva | unitarity | very-hard | open | D | [OP-06] | unitarity/OP-10-d2-metric-equivalence.md |
