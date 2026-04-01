@@ -8,7 +8,7 @@ deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [NT-3, MR-4]
-papers: ["1304.7247", "2012.11829"]
+papers: ["1304.7247", "1809.02944"]
 date-opened: 2026-03-31
 date-updated: 2026-03-31
 ---
@@ -148,8 +148,8 @@ further destabilize the expansion.
 1. Modesto, L. and Rachwal, L. (2013). "Super-renormalizable and
    finite gravitational theories." Nucl. Phys. B 889, 228.
    arXiv:1304.7247.
-2. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2020).
-   "Entropy and the spectral action." arXiv:2012.11829.
+2. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2018).
+   "Entropy and the spectral action." arXiv:1809.02944.
 3. Boito, D. et al. (2019). "Strong coupling from hadronic tau
    decays: a critical appraisal." Phys. Rev. D 100, 074009.
    arXiv:1907.03720. [Borel summation methodology]

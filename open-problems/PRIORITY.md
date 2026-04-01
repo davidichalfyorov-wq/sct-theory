@@ -28,6 +28,8 @@ Problems ranked by **impact x closeness x unblocking power**.
 |----|-------|---------|--------|
 | **OP-20** | de Sitter conjecture | **RESOLVED: VIOLATED** for c₁~1, c₂~1. η_min=-1/3 hard ceiling. | Literature analysis + numerical verification |
 | **OP-44** | Critical coupling ξ | **RESOLVED: ξ=1/6 is PREDICTION** of standard spectral action. | NCG literature analysis + numerical verification |
+| **OP-04** | Parameter counting | **RESOLVED: robust core = a₄ only.** f not uniquely fixed; e^{-u} not unique. | Literature analysis + numerical verification |
+| **OP-17** | Scalaron mass | **RESOLVED: NEGATIVE.** No mechanism in standard NCG. At ξ=1/6 scalaron absent. BSM scalars all conformal. | Literature analysis + numerical verification |
 
 ## Partially resolved (2026-03-31)
 
@@ -40,9 +42,9 @@ Problems ranked by **impact x closeness x unblocking power**.
 | ID | Title | Why suitable |
 |----|-------|-------------|
 | OP-07 | Fakeon infinite poles | Rich literature, clear question |
+| OP-08 | Kubo-Kugo all-orders | Operator formalism literature |
 | OP-13 | Three-loop | Algebraic structure search |
 | OP-14 | Hidden structural principle | Needs creative mathematical insight |
-| OP-17 | Scalaron mass | Well-studied problem, known resolutions |
 | OP-24 | Spectral dimension | Compare with all other QG approaches |
 | OP-34 | N^{8/9} scaling | Mathematical literature on scaling |
 | OP-37 | Polarization anisotropy | Angular integration, causal set geometry |

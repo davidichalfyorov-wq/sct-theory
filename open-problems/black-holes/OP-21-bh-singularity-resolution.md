@@ -8,7 +8,7 @@ deep-research-tier: D
 blocks: []
 blocked-by: [OP-01]
 roadmap-tasks: [MR-9]
-papers: ["1508.00869", "2012.11829"]
+papers: ["1508.00869", "1809.02944"]
 date-opened: 2026-03-31
 date-updated: 2026-03-31
 ---
@@ -134,8 +134,8 @@ strong-field region r ~ M where singularity resolution is relevant.
    holes." Phys. Rev. D 94, 104056. arXiv:1508.00869.
 4. Alfyorov, D. (2026). "Nonlinear field equations and FLRW cosmology
    from the spectral action." DOI:10.5281/zenodo.19098027.
-5. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2020).
-   "Entropy and the spectral action." arXiv:2012.11829.
+5. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2018).
+   "Entropy and the spectral action." arXiv:1809.02944.
 
 ## 8. Connections
 

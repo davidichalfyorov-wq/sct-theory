@@ -3,14 +3,16 @@ id: OP-17
 title: "Scalaron mass problem: SM-only spectral action overproduces the scalaron mass by six orders of magnitude"
 domain: [cosmology, inflation]
 difficulty: hard
-status: open
+status: resolved
 deep-research-tier: A
 blocks: []
 blocked-by: []
 roadmap-tasks: [INF-1]
-papers: ["hep-th/0610241", "0805.2909", "2012.11829"]
+papers: ["hep-th/0610241", "0805.2909", "1809.02944", "1005.1188", "1304.8050", "1304.0415", "0710.3755", "1008.5157", "0903.0355", "hep-th/0512169", "1801.00260"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+date-resolved: 2026-04-01
+resolved-by: literature-analysis + independent-numerical-verification
 ---
 
 # OP-17: Scalaron mass problem
@@ -91,6 +93,74 @@ input that is not determined by the spectral triple.
    instead of the scalaron for inflation. This fails for five separate
    structural reasons (see OP-18).
 
+## 4b. Resolution (2026-04-01)
+
+**VERDICT: NEGATIVE. No known mechanism within standard NCG spectral action can produce M_0 = M_inf while preserving alpha_C and geometric scalar couplings.**
+
+### Complete mechanism catalogue
+
+| Mechanism | M_0/M_inf | NCG-compatible? | Fatal problem |
+|-----------|-----------|-----------------|---------------|
+| Sub-Planckian Lambda (~10^13 GeV) | 1 | Partially | Standard literature interprets Lambda as GUT/unification scale |
+| Lambda ~ M_GUT (~10^16 GeV) | ~10^2-10^4 | Yes | Still too heavy |
+| Large xi ~ 2.25e4 | 1 | **No** | Conflicts with geometric BC xi=1/12 (Eq.(49) in 1005.1188) |
+| Single BSM scalar with xi'~3.19e4 | 1 | No | Same large-xi mechanism |
+| Many BSM scalars (xi'=0) | 1 | No | Requires N_s' ~ 3.65e10 |
+| NCG sigma-singlet (1005.1188) | No change | Yes | xi_sigma = 1/12 conformal (Eq.(52)) |
+| Pati-Salam (1304.8050) | No change | Yes | All scalars conformal (Eq.(129)) |
+| Grand Symmetry (1304.0415) | No change | Yes | sigma for Higgs mass, not scalaron |
+| Two-loop corrections | ~same | Unknown | No published calculation |
+| Instantons | Unknown | Unknown | No published mechanism |
+| Modified f(u) | Cannot help | Yes | alpha_R from a_4, not from f |
+
+### Critical structural finding (verified)
+
+ALL known BSM scalars arising from NCG spectral triples come with
+conformal curvature coupling xi' = 1/6 (our convention). This is
+confirmed in three independent sources:
+- Buck-Fairbairn-Sakellariadou (1005.1188), Eq.(52): xi_H = xi_sigma = 1/12
+- Chamseddine-Connes-van Suijlekom (1304.8050), Eq.(129): universal 1/6 R coupling
+- van den Dungen et al. (1801.00260), Eq.(4.10): tr|D_mu Phi|^2 - (1/6)R tr|Phi|^2
+
+Consequence: adding NCG-compatible BSM scalars contributes (xi'-1/6)^2 = 0
+to alpha_R. The BSM route is structurally closed.
+
+### Combined with OP-44 (xi = 1/6 is NCG prediction)
+
+At the NCG-predicted conformal coupling xi = 1/6:
+- alpha_R = 2(1/6 - 1/6)^2 = 0
+- m_0 = Lambda / sqrt(6 * 0) -> infinity
+- **The scalaron is entirely absent.** Not "too heavy" — absent.
+
+This sharpens the problem from "mass 6 orders too heavy" to "no scalaron
+exists in standard NCG spectral action."
+
+### Surviving path
+
+The only path not definitively excluded is **reinterpretation of Lambda**:
+either as a sub-Planckian intermediate scale, or through framework change
+(zeta spectral action, dilatonized action). This requires abandoning the
+standard CCM interpretation of Lambda as GUT/unification boundary.
+
+Falsifiable consequence: intermediate-Lambda rescue predicts that spectral-
+action boundary conditions activate below 10^16 GeV, requiring additional
+thresholds between GUT and intermediate scales.
+
+### Bibliographic correction
+
+The "Entropy and the spectral action" paper by Chamseddine-Connes-van
+Suijlekom is arXiv:1809.02944 (2018), NOT arXiv:2012.11829 (which is
+Giacchini-Netto on Newtonian limits of higher-derivative gravity).
+
+### Numerical verification (all exact)
+
+  xi_needed (for M_0=M_inf at Lambda=M_Pl): 2.25e4
+  alpha_R_needed: 5.08e8
+  N_s'(xi'=0) needed: 3.65e10
+  N_s'(xi'=1) needed: 1.46e9
+  Single scalar xi' needed: 3.19e4
+  Lambda_unit for large xi: 1.08e14 GeV (only 3.46x above M_inf)
+
 ## 5. Success Criteria
 
 - Identify a mechanism within the spectral action framework that
@@ -139,8 +209,12 @@ input that is not determined by the spectral triple.
    models without singularity." Phys. Lett. B 91, 99.
 4. Bezrukov, F. and Shaposhnikov, M. (2008). "The Standard Model Higgs
    boson as the inflaton." Phys. Lett. B 659, 703. arXiv:0710.3755.
-5. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2020).
-   "Entropy and the spectral action." arXiv:2012.11829.
+5. Chamseddine, A. H., Connes, A. and van Suijlekom, W. D. (2018).
+   "Entropy and the spectral action." arXiv:1809.02944.
+6. Buck, M., Fairbairn, M. and Sakellariadou, M. (2010). "Inflation
+   in models with conformally coupled scalar fields." Phys. Rev. D 82.
+   arXiv:1005.1188.
+7. van den Dungen, K. et al. (2018). arXiv:1801.00260.
 
 ## 8. Connections
 

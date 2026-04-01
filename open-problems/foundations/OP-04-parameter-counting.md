@@ -3,14 +3,16 @@ id: OP-04
 title: "Parameter counting and cutoff function analysis"
 domain: [theory]
 difficulty: medium
-status: open
+status: resolved
 deep-research-tier: A
 blocks: []
 blocked-by: []
 roadmap-tasks: [META-1]
-papers: ["hep-th/9606001", "0805.2909"]
+papers: ["hep-th/9606001", "0805.2909", "1108.3749", "0706.3688", "1809.02944"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-01
+date-resolved: 2026-04-01
+resolved-by: literature-analysis + independent-numerical-verification
 ---
 
 # OP-04: Parameter counting and cutoff function analysis
@@ -85,6 +87,74 @@ and different predictions for the modified Newtonian potential.
   - Unitarity (MR-2) requires that the dressed propagator has no
     tachyonic ghost poles. This constrains the zeros of 1 + alpha z F(z),
     which depends on f.
+
+## 3b. Resolution (2026-04-01)
+
+**VERDICT: Classification complete. Robust core is NARROW (a_4-level only). All finite-momentum predictions are f-dependent.**
+
+### Classification Table
+
+| Prediction | Depends on | Robust? |
+|-----------|-----------|---------|
+| Gauge group, reps, Higgs mechanism | Spectral triple only | Yes |
+| Gauge coupling unification g_3^2=g_2^2=(5/3)g_1^2 | f(0) cancels in ratio | Yes |
+| alpha_C = 13/120 | a_4 coefficient only | Yes |
+| alpha_R(xi) = 2(xi-1/6)^2 (local) | a_4 coefficient only | Yes |
+| c_1/c_2 = -1/3 + 120(xi-1/6)^2/13 | Ratio of a_4 coefficients | Yes |
+| PPN gamma = beta = 1 (leading) | Low-momentum a_2+a_4 truncation | Yes (leading only) |
+| c_T = c on FLRW | C = 0 on conformally flat | Yes (on FLRW) |
+| h_C(x), h_R(x) form factors | Full w_f(x) kernel | **No** |
+| UV asymptotic x*alpha_C(x->inf) = -89/12 | c_f from eq.(26) of ILV | **No** |
+| m_2, m_0 effective masses | Zeros of dressed propagator | **No** |
+| V(r) modified potential | Fourier of full propagator | **No** |
+| d_S spectral dimension | Return probability from full kernel | **No** |
+| c_log BH entropy correction | Full fluctuation determinant | **No** (not established) |
+| n_s, r inflation | Scalar potential / exact action | **Partially** (a_4 more robust; exact fragile) |
+| QNM frequencies | Full linear operator spectrum | **No** |
+
+### Key mathematical results
+
+**Entireness requires integer alpha.** For f(u) = e^{-u^alpha}:
+- phi_alpha(x) = int_0^1 exp(-(t(1-t)x)^alpha) dt
+- f_{2n}(alpha) = (1/alpha) Gamma(n/alpha)
+- Entire if and only if alpha is a POSITIVE INTEGER (1, 2, 3, ...)
+- Rapidly decreasing is necessary but NOT sufficient (counterexample: e^{-u^{3/2}})
+
+**Cutoff function family scan (verified):**
+
+| f(u) | f_2 | phi'(0) | Entire? | m_2/Lambda (est.) | m_0/Lambda (est.) |
+|------|-----|---------|---------|-------------------|-------------------|
+| e^{-u} | 1.000 | -1/6 | Yes | 2.148 | 2.449 |
+| e^{-u^{3/2}} | 0.903 | 0 | No | 2.041 | 2.327 |
+| e^{-u^2} | 0.886 | 0 | Yes | 2.022 | 2.305 |
+| e^{-u^3} | 0.893 | 0 | Yes | 2.030 | 2.314 |
+| (1+u)^{-3} | 0.500 | -1/2 | No (branch at x=-4) | 1.519 | 1.732 |
+| (1+u)^{-5} | 0.250 | -5/6 | No (branch at x=-4) | 1.074 | 1.225 |
+| (1+u)^{-10} | 0.111 | -5/3 | No (branch at x=-4) | 0.716 | 0.816 |
+
+**Power-law cutoffs:** phi_N(x) = 2F1(N,1;3/2;-x/4) with branch cut at x = -4 (from singularity of (1+t(1-t)x)^{-N} at t=1/2). Higher moments f_{2m} diverge for m >= N. Excluded by entireness requirement.
+
+### Constraints on f from physics
+
+- **Entireness** excludes: power-law, rational, non-integer exponential cutoffs. Leaves infinite family: e^{-u^n} for n=1,2,3,..., and positive combinations.
+- **Unitarity** constrains pole catalogue of dressed propagator, but does not reduce to finite-parameter family.
+- **Causality** acausal length scale l_a = O(1/Lambda) but coefficient depends on f.
+- **Combined constraints** {entireness + unitarity + causality + UV softness}: restrict f strongly but do NOT uniquely determine it. e^{-u} is NOT the unique admissible cutoff.
+
+### Literature on fixing f
+
+Three approaches found:
+1. **Zeta spectral action** (Kurkov-Lizzi-Vassilevich): eliminate f entirely by replacing cutoff action with zeta-function action.
+2. **Entropy-derived function** (Chamseddine-Connes-van Suijlekom, arXiv:1809.02944, Theorem 3.4): universal function h from fermionic second-quantized entropy. Not the same as e^{-u}.
+3. **Dilatonized action** (Chamseddine-Connes, hep-th/0512169): make Lambda dynamical via dilaton.
+
+None of these uniquely selects f = e^{-u} within the standard cutoff framework.
+
+### Implications for SCT
+
+The robust core of SCT (alpha_C, c_1/c_2, PPN, c_T) is narrow but contains ALL experimentally accessible predictions. The f-dependent predictions (m_2, V(r), d_S, QNMs) are experimentally inaccessible at current precision, so the practical predictive power of the theory is not diminished.
+
+The UV asymptotic -89/12 is specific to f = e^{-u} and should not be quoted as a universal SCT prediction.
 
 ## 4. Failed Approaches
 

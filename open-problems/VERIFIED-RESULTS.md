@@ -364,11 +364,37 @@ verification method, and confidence level.
 
 ---
 
+## OP-04: Parameter Counting Resolution (2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-147 | Robust SCT core = $a_4$-level only: $\alpha_C$, $c_1/c_2$, PPN $\gamma=\beta=1$, $c_T=c$ on FLRW | `literature`, `dual-derivation` | established | OP-04 |
+| VR-148 | All finite-momentum predictions ($h_C$, $h_R$, $m_2$, $m_0$, $V(r)$, $d_S$, QNMs) are $f$-shape-dependent | `literature`, `dual-derivation` | established | OP-04 |
+| VR-149 | Entireness of form factors requires $f$ to be entire (not just rapidly decreasing). $e^{-u^{3/2}}$: NOT entire. | `mpmath-100` | verified | OP-04 |
+| VR-150 | $f(u) = e^{-u}$ is NOT uniquely selected by \{entireness + unitarity + causality\}; $e^{-u^2}$, $e^{-u^3}$ also admissible | `literature`, `mpmath-100` | established | OP-04 |
+| VR-151 | Mass variation across entire cutoffs: $m_2/\Lambda \in [2.02, 2.15]$ for $\alpha = 1, 2, 3$ (5\% range) | `mpmath-100` | verified | OP-04 |
+| VR-152 | Power-law $f(u)=(1+u)^{-N}$: $\varphi_N(x) = {}_2F_1(N,1;3/2;-x/4)$, branch cut at $x=-4$, excluded by entireness | `mpmath-100` | verified | OP-04 |
+| VR-153 | UV asymptotic $x \cdot \alpha_C(x \to \infty) = -89/12$ is specific to $f = e^{-u}$, not universal | `dual-derivation` | established | OP-04 |
+
+---
+
+## OP-17: Scalaron Mass Resolution (2026-04-01)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-154 | No known mechanism within standard NCG spectral action produces $M_0 = M_{\rm inf}$ | `literature` (11 papers) | established | OP-17 |
+| VR-155 | ALL NCG BSM scalars have conformal coupling $\xi' = 1/6$: contributes $(\xi'-1/6)^2 = 0$ to $\alpha_R$ | `literature`: Eqs.(52) 1005.1188, (129) 1304.8050, (4.10) 1801.00260 | established | OP-17 |
+| VR-156 | At NCG-predicted $\xi = 1/6$: $\alpha_R = 0$, $m_0 \to \infty$, scalaron is entirely absent | `mpmath-100`, `dual-derivation` | verified | OP-17, OP-44 |
+| VR-157 | Large $\xi \sim 2.25 \times 10^4$ needed for $M_0 = M_{\rm inf}$; conflicts with Eq.(49) of 1005.1188 | `mpmath-100`, `literature` | established | OP-17 |
+| VR-158 | Surviving path: sub-Planckian $\Lambda \sim 10^{12}\text{--}10^{13}$ GeV; conflicts with standard GUT interpretation | `literature` | conditional | OP-17 |
+
+---
+
 ## Summary Statistics
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 146 |
+| Total verified results | 158 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

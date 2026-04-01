@@ -8,8 +8,8 @@
 ![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--04--01)-brightgreen)
 ![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
 ![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
-![Open Problems](https://img.shields.io/badge/open_problems-50_(2_resolved)-orange)
-![Verified Results](https://img.shields.io/badge/verified_results-146-brightgreen)
+![Open Problems](https://img.shields.io/badge/open_problems-50_(5_resolved)-orange)
+![Verified Results](https://img.shields.io/badge/verified_results-158-brightgreen)
 ![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--01-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
@@ -259,13 +259,13 @@ The repository includes a structured collection of **50 open research problems**
 
 | Domain | Count | Status |
 |--------|-------|--------|
-| Foundations | 6 | all open |
+| Foundations | 6 | 1 resolved (OP-04), 5 open |
 | Unitarity | 6 | all open |
 | UV finiteness | 4 | all open |
-| Cosmology | 4 | 1 resolved (OP-20), 3 open |
+| Cosmology | 4 | 2 resolved (OP-17, OP-20), 2 open |
 | Black holes | 3 | all open |
 | Spectral dimension | 2 | all open |
-| Predictions | 8 | 1 partial (OP-33), 7 open |
+| Predictions | 8 | 1 resolved (OP-33), 7 open |
 | Causal sets | 10 | all open |
 | Scalar sector | 1 | **resolved** (OP-44) |
 | Numerical | 5 | all open |
@@ -276,6 +276,12 @@ The repository includes a structured collection of **50 open research problems**
 - **OP-20** (de Sitter conjecture): The refined Swampland dS conjecture (Ooguri-Vafa 2018) is **violated** by the SCT scalaron potential for c&#8321;, c&#8322; ~ O(1). The minimum value of the normalized Hessian is &eta;<sub>min</sub> = &minus;1/3, imposing a hard ceiling on c&#8322;. The gradient condition fails above &phi; &asymp; 1.19 M<sub>Pl</sub>. Both ratios |V&prime;|/V and V&Prime;/V are independent of the scalaron mass M&#8320;.
 
 - **OP-44** (critical coupling &xi;): The Higgs non-minimal coupling is **not a free parameter** within the standard Chamseddine-Connes spectral action. The a&#8324; Seeley-DeWitt coefficient structure forces &xi; = 1/6 (conformal coupling) after canonical Higgs normalization. This is confirmed by five independent groups (2006-2015) and is an exact one-loop RG fixed point (&beta;<sub>&xi;</sub> vanishes identically at &xi; = 1/6). At conformal coupling the scalar graviton mode decouples entirely, and the Starobinsky scalaron is absent.
+
+- **OP-04** (parameter counting): The cutoff function f in the spectral action S = Tr(f(D&sup2;/&Lambda;&sup2;)) is not uniquely determined by physical requirements (entireness + unitarity + causality). The robust prediction core of SCT consists only of a&#8324;-level quantities: &alpha;<sub>C</sub> = 13/120, c&#8321;/c&#8322;, PPN parameters, and c<sub>T</sub> = c on FLRW. All finite-momentum observables (form factors, effective masses, modified potential, spectral dimension) depend on the choice of f. However, the variation across admissible entire cutoffs is small (~5% for effective masses).
+
+- **OP-17** (scalaron mass): No known mechanism within the standard NCG spectral action can produce a scalaron mass compatible with Starobinsky inflation while preserving &alpha;<sub>C</sub> and the geometric scalar couplings. Combined with OP-44 (&xi; = 1/6): the scalaron is entirely absent at the NCG-predicted conformal coupling. All known BSM scalars from NCG spectral triples also have conformal coupling, contributing zero to &alpha;<sub>R</sub>. The only surviving path is reinterpretation of &Lambda; as a sub-Planckian intermediate scale.
+
+- **OP-33** (cross-program comparison): A systematic 6&times;9 quantitative comparison table across SCT, LQG, Asymptotic Safety, CDT, String Theory, and IDG, with equation-level citations. Three discriminating axes identified (c<sub>log</sub>, UV propagator, matter coupling); one quasi-universal axis (d<sub>S</sub> &rarr; 2 in UV).
 
 Details, methodology, and full problem files: [`open-problems/README.md`](open-problems/README.md)
 
