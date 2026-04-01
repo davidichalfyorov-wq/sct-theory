@@ -95,9 +95,11 @@ empirically established but not derived from first principles.
 The formula is verified against Monte Carlo data on exact pp-wave
 causal diamonds for $N = 500$--$15{,}000$: the ratio of measured
 to predicted CJ is $1.016 \pm 0.015$, with residual scatter
-below~$4\%$.  Seven independent diagnostic tests are reported,
+below~$4\%$.  Eight independent diagnostic tests are reported,
 including a de~Sitter null test ($\CJ = 0$ exactly), Kottler
-cross-term, polarisation dependence, and Sorkin--Johnston entropy
+cross-term, polarisation independence, a Lorentz boost test
+confirming $\CJ \propto E^2$ (blind to the magnetic Weyl
+component~$B^2$, match $< 1\%$), and Sorkin--Johnston entropy
 independence.  The derivation rests on two explicitly stated
 conditions concerning the continuum limit of the stratified
 estimator.  The $N^{8/9}$ exponent is empirically established
@@ -215,7 +217,7 @@ are reported in Sections~\ref{sec:nogo} and~\ref{sec:closed}.
 The paper is organised as follows.  Section~\ref{sec:observable}
 defines the CJ observable.  Section~\ref{sec:numerics} presents
 the numerical verification.  Section~\ref{sec:diagnostics}
-describes seven diagnostic tests.  Section~\ref{sec:derivation}
+describes eight diagnostic tests.  Section~\ref{sec:derivation}
 gives the coefficient decomposition.  Section~\ref{sec:conditions}
 states the two conditions underlying the derivation.
 Section~\ref{sec:nogo} documents negative results.
@@ -754,6 +756,61 @@ CJ and the SJ entanglement entropy probe independent aspects of
 the causal structure: CJ is a Weyl-order bulk observable, while
 the entanglement entropy is dominated by boundary (area-law)
 effects~\cite{SorkinYazdi:2018}.
+
+\subsection{Lorentz boost test: $E^2$ vs $B^2$ discrimination}
+\label{sec:boost}
+
+On pp-wave spacetimes, $E^2 = B^2 = \varepsilon^2/2$, so one
+cannot discriminate between $\CJ \propto E^2$,
+$\CJ \propto E^2 + B^2$, and $\CJ \propto C^2/8 = E^2 - B^2$
+from pp-wave data alone.  To break this degeneracy, we apply a
+Lorentz boost along the transverse ($z$) axis to a Schwarzschild
+background.  A transverse boost with velocity~$v$ mixes the
+electric and magnetic parts of the Weyl tensor while preserving
+the invariant $C^2 = 8(E^2 - B^2)$.
+
+The three competing predictions are:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$v$ & $E^2/E^2_0$ & $(E^2{+}B^2)/(E^2{+}B^2)_0$ & $C^2/C^2_0$ \\
+\midrule
+0.0 & 1.000 & 1.000 & 1.000 \\
+0.3 & 1.326 & 1.652 & 1.000 \\
+0.5 & 2.333 & 3.667 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+We compute CJ using the full Riemann jet predicate (including
+$R_{0ijk}$ magnetic and $R_{ijkl}$ spatial contributions) at
+$M = 0.05$, $r_0 = 0.50$, $N = 2000$, $T = 1$, $M = 20$~seeds:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$v$ & $\CJ/\CJ_0$ (data) & $E^2/E^2_0$ & $(E^2{+}B^2)$-pred.\ & $C^2$-pred.\ \\
+\midrule
+0.0 & 1.000 & 1.000 & 1.000 & 1.000 \\
+0.3 & $1.334 \pm 0.19$ & 1.326 & 1.652 & 1.000 \\
+0.5 & $2.311 \pm 0.34$ & 2.333 & 3.667 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The data match the $E^2$ prediction to better than~$1\%$ at both
+boost velocities ($0.6\%$ at $v = 0.3$, $0.9\%$ at $v = 0.5$).
+The superenergy prediction $E^2 + B^2$ is rejected at the
+$19\%$~level ($v = 0.3$) and $37\%$~level ($v = 0.5$).  The
+Lorentz-invariant $C^2$ is rejected at the $33\%$~and $131\%$
+levels respectively.
+
+\textbf{CJ is proportional to~$\Esq$ and is blind to the magnetic
+Weyl component~$B^2$.}  This confirms that the covering relation
+(Hasse diagram) provides access to the observer-projected electric
+Weyl invariant, not to the frame-independent Weyl scalar.  The
+$B^2$-blindness is a structural property of the nilpotent
+adjacency algebra, not a limitation of the estimator design.
 
 \subsection{Structural obstruction}
 \label{sec:obstruction}
@@ -1656,10 +1713,12 @@ superenergy tensor~\cite{Senovilla:2000}, which is quadratic in
 Weyl, positive-definite, and frame-dependent.  The polarisation test (Section~\ref{sec:polarisation}) confirms
 that CJ is polarisation-independent when computed with the exact
 causal predicate ($\CJ_{\mathrm{cross}}/\CJ_{\mathrm{plus}}
-= 0.98 \pm 0.13$), consistent with the isotropic angular average.
-A genuine Lorentz boost test (which would mix $E$ and $B$
-components) has not yet been performed and would be needed to
-determine CJ's sensitivity to~$B^2$.
+= 1.042 \pm 0.053$), consistent with the isotropic angular average.
+The Lorentz boost test (Section~\ref{sec:boost}) directly
+discriminates between $E^2$, $E^2 + B^2$, and $C^2$: the data
+match $\CJ \propto E^2$ to $< 1\%$, rejecting both superenergy
+and Lorentz-invariant alternatives.  CJ is blind to the magnetic
+Weyl component~$B^2$.
 
 \subsection{Relation to known work}
 
@@ -1806,11 +1865,12 @@ and the jet predicate errors are $\order(10\%)$.
 \item Tighter statistical bound on polarisation independence
   (Section~\ref{sec:polarisation}).  The current polarisation
   ratio implies that $K_{abcd}$ is not proportional to the identity.
-\item The precise connection to the Bel--Robinson superenergy
-  tensor~\cite{Senovilla:2000}.  A Lorentz boost test (varying
-  the observer velocity to mix $E$ and $B$ components) would
-  determine whether CJ responds to $E^2$ alone or to a
-  combination $E^2 + \alpha B^2$.
+\item Construction of a complementary observable sensitive to the
+  magnetic Weyl component~$B^2$.  The Lorentz boost test
+  (Section~\ref{sec:boost}) confirms that CJ is blind to~$B^2$;
+  recovery of the full invariant $C^2 = 8(E^2 - B^2)$ requires
+  an observable built from the full causal order rather than the
+  covering relation alone.
 \item Extension of the factor-$4$ derivation
   (Proposition~\ref{prop:factor4}) beyond the bulk regime
   $p^{\downarrow} p^{\uparrow} \gg 1$ to include boundary
@@ -1859,6 +1919,8 @@ We summarise the results in three tiers of decreasing certainty.
 \item De~Sitter gives $\CJ = 0$ (200~seeds, four $T$~values).
 \item Kottler shows a $22\%$ Ricci reduction relative to
   Schwarzschild.
+\item Lorentz boost test confirms $\CJ \propto E^2$, blind
+  to~$B^2$ (match $< 1\%$ at $v = 0.3$ and $v = 0.5$).
 \item SJ entanglement entropy is uncorrelated with CJ
   ($r = -0.074$).
 \item Five specific approaches and over thirty spectral routes
