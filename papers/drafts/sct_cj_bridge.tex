@@ -1019,27 +1019,55 @@ two-leg structure would yield
 $\langle (a_- + a_+)^2 \rangle = 4 \langle a^2 \rangle$ and
 hence $C_0 = 4\, C_{\mathrm{an}}$.
 
-Direct measurement shows, however, that the past--future
-correlation is partial:
+Direct measurement reveals the internal structure of the
+factor~$4$.  The past--future correlation is partial:
 $\langle a_- a_+ \rangle / \langle a_-^2 \rangle
-= 0.512 \pm 0.016$ ($N = 3000$, $\varepsilon = 5$, $M = 20$),
-while the symmetry
-$\langle a_+^2 \rangle / \langle a_-^2 \rangle = 0.949$ is
-approximately satisfied.  At this correlation level, the naive
-prediction would be
-$\langle (a_- + a_+)^2 \rangle \approx 3.0 \langle a^2 \rangle$
-rather than~$4$.  Nevertheless, the full formula with factor~$4$
-matches the Monte Carlo data ($R = 1.016 \pm 0.015$), while a
-factor of~$3$ would give $R \approx 1.35$.
+= 0.51 \pm 0.02$ (stable across $N$ and~$\varepsilon$), while
+the symmetry $\langle a_+^2 \rangle / \langle a_-^2 \rangle
+\approx 0.95$ is approximately satisfied.  A direct comparison
+of two-leg CJ to one-leg CJ (where only $\delta(\log_2
+p^{\downarrow})$ is used as the response) gives:
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+Component & Value \\
+\midrule
+$\CJ_{\mathrm{2\text{-}leg}} / \CJ_{\mathrm{1\text{-}leg}}$ & $3.07 \pm 0.09$ \\
+$\CJ_{\mathrm{1\text{-}leg}} / C_{\mathrm{an}}\text{-prediction}$ & $1.29 \pm 0.15$ \\
+Product & $3.97 \pm 0.40$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The two-leg enhancement is $\approx 3$ (not~$4$), reflecting the
+partial correlation $\rho \approx 0.5$.  The one-leg CJ exceeds
+the analytical prediction $C_{\mathrm{an}} = 8\pi^2/(3 \cdot 9!
+\cdot 45)$ by $\approx 30\%$, due to the nonlinear relationship
+between the logarithmic weight~$|X|$ and the theoretical
+kernel~$k_4(s)\,k_4(1{-}s)$.  The product of these two effects
+gives $3.07 \times 1.29 \approx 3.97 \approx 4$.
 
-The resolution is that the CJ estimator operates in logarithmic
-space ($Y = \log_2$), where the relationship between the
-fractional path-count response~$a_\pm$ and the effective
-covariance kernel is nonlinear.  The factor~$4$ is confirmed
-empirically but its derivation from the properties of the Hasse
-diagram remains an open problem.  In non-vacuum spacetimes
-($R \neq 0$), the $s \leftrightarrow 1-s$ symmetry is broken,
-and the factor may receive corrections of order $R T^2$.
+Crucially, a ``pure one-leg'' CJ (using one-leg weight
+$|X_{\mathrm{down}}| = |\log_2 p^{\downarrow}
+- \overline{\log_2 p^{\downarrow}}|$ and one-leg response
+$\delta Y_{\mathrm{down}}^2$) is \emph{negative}
+($-4.4 \times 10^{-3}$ at $N = 3000$).  The product structure
+$p^{\downarrow} p^{\uparrow}$ in the link score is therefore
+not merely an enhancement --- it is constitutive of the
+observable's ability to detect curvature.  Without the two-leg
+product, the covariance with $\delta Y^2$ changes sign and the
+bridge formula fails.
+
+The coefficient $C_0 = 32\pi^2/(3 \cdot 9! \cdot 45)$ should
+therefore be regarded as an \emph{indivisible} property of the
+two-leg stratified covariance, not as a product of a ``two-leg
+factor'' and a ``one-leg coefficient.''  The arithmetic
+decomposition $32 = 4 \times 8$ is trivially true, but does
+not correspond to a physical factorisation into single-leg
+components.
+
+In non-vacuum spacetimes ($R \neq 0$), the
+$s \leftrightarrow 1-s$ symmetry is broken, and the factor may
+receive corrections of order~$RT^2$.
 \end{remark}
 
 \subsection{Assembly of the bridge formula}
