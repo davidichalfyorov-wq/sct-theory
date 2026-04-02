@@ -80,9 +80,9 @@ blocked-by: [OP-ZZ, ...]
 
 | Status | Count |
 |--------|-------|
-| Open | 39 |
+| Open | 38 |
 | Partial | 3 (OP-07, OP-11, OP-15) |
-| **Resolved** | **8 (OP-04, OP-17, OP-20, OP-24, OP-30, OP-31, OP-33, OP-44)** |
+| **Resolved** | **9 (OP-04, OP-12, OP-17, OP-20, OP-24, OP-30, OP-31, OP-33, OP-44)** |
 
 ## Where to start
 

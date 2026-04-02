@@ -31,6 +31,7 @@ Problems ranked by **impact x closeness x unblocking power**.
 | **OP-04** | Parameter counting | **RESOLVED: robust core = a₄ only.** f not uniquely fixed; e^{-u} not unique. | Literature analysis + numerical verification |
 | **OP-17** | Scalaron mass | **RESOLVED: NEGATIVE.** No mechanism in standard NCG. At ξ=1/6 scalaron absent. BSM scalars all conformal. | Literature analysis + numerical verification |
 | **OP-24** | Spectral dimension | **RESOLVED.** d_S is probe-dependent. Physical fakeon-projected sector = 4D. "d_S→2" applies only to auxiliary unprojected probes. | Literature analysis |
+| **OP-12** | Kramers-Kronig | **RESOLVED.** Standard KK fails (analyticity → average continuation). Projected piecewise-dispersive structure survives. All mixed cuts removed. | Literature analysis |
 | **OP-30** | Running constants | **RESOLVED.** c₁/c₂ = -1/3 exactly preserved. SCT ≈ perturbative AF (2.3%), far from Reuter NGFP. | Literature analysis + numerical verification |
 | **OP-31** | Form factors SCT vs AS | **RESOLVED.** Matter 1-loop identical (CZ basis). Diverge at graviton loops. Different UV classes. | Literature analysis + numerical verification |
 

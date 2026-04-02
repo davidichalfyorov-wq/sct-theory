@@ -3,14 +3,16 @@ id: OP-12
 title: "Loop-level Kramers-Kronig dispersion relation verification"
 domain: [unitarity, causality]
 difficulty: hard
-status: open
+status: resolved
 deep-research-tier: B
 blocks: []
-blocked-by: [MR-4]
+blocked-by: []
 roadmap-tasks: [MR-3]
-papers: ["1809.02555"]
+papers: ["1801.00915", "2109.06889", "1806.03605", "2209.05547", "2503.01841", "1703.05563", "1809.05037"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-02
+date-resolved: 2026-04-02
+resolved-by: literature-analysis
 ---
 
 # OP-12: Loop-level Kramers-Kronig dispersion relation verification
@@ -83,6 +85,79 @@ modification.
   that the retarded propagator vanishes outside the forward light cone
   (up to exponential tails). This is a necessary condition for KK to
   hold (in modified form).
+
+## 3b. Resolution (2026-04-02)
+
+**VERDICT: RESOLVED. Standard KK does NOT survive at 2+ loops. Fakeon prescription replaces analyticity with average continuation. What survives: projected piecewise-dispersive structure.**
+
+### Core result: ALL contaminated thresholds removed
+
+Anselmi "Diagrammar of physical and fake particles" (2109.06889),
+subsection 2.5, step 5: "eliminating all the thresholds that involve
+fakeon frequencies." This means:
+- Pure ghost cut: removed
+- Mixed ghost+matter cut: ALSO removed
+- Physical-only cut: survives
+
+Algebraically: eq.(2.16) with tau=0 if any leg is fakeon; eq.(2.18)
+gives G' = G - Delta_f G. For triangle with fakeon in leg 1:
+Delta_12, Delta_21, Delta_13, Delta_31 all suppressed; only Delta_23,
+Delta_32 survive (eqs.(4.9)-(4.10)). Same pattern for box-with-
+diagonal: eqs.(7.8)-(7.13).
+
+For sunset: connected cut must pass through ALL 3 internal lines →
+if even ONE is fakeon, entire cut is contaminated → removed.
+
+### Why standard KK fails
+
+Fakeon prescription replaces global analyticity with average continuation:
+  f_AV(z) = (1/2)(f+(z) + f-(z))    eq.(4.1) of 1801.00915
+  f_d(z) = (1/2)(f+(z) - f-(z))     eq.(4.2)
+  f_AV(z) = Re f(z) on real axis    eq.(4.3)
+
+Upper branch does NOT continue analytically through fake-threshold →
+Hilbert transform cannot reconstruct Re[Sigma] from Im[Sigma] alone.
+
+Confirmed by 2503.01841 Table 1: AP prescription preserves Lorentz
+invariance and optical theorem but sacrifices analyticity.
+
+### What replaces KK
+
+Spectral optical theorem (2109.06889, eq.(2.10)):
+  G_s + G_bar_s + sum_c G_s^c = 0
+
+With fakeon projection: cut propagators vanish for fakeon legs
+(eq.(2.13)), link-fakeon = principal value (eq.(2.14)).
+
+Physical absorptive part:
+  2 Im Sigma_SCT(s) = sum_{c in C_phys} Cut_c Sigma(s)
+  C_phys = {c : c contains no fakeon frequency}
+
+This is NOT standard Kallen-Lehmann for the full dressed propagator;
+it is a projected spectral theorem on the self-energy level.
+
+### Mixed threshold E_mixed ~ m_ghost + m_phys
+
+As contribution to Im[Sigma]: DEAD (removed by fakeon projection).
+As boundary of regionwise analyticity: may survive in Re[Sigma] but
+not through dispersion integral. This is why global KK fails: fake-
+threshold leaves nonanalytic real structure not coded by Im[Sigma].
+
+### Connection to OP-07
+
+If OP-07 proves all-order unitarity → projected spectral relations
+follow. But even with OP-07, STANDARD KK does not follow (analyticity
+is sacrificed). Independent OP-12 proof possible through direct
+average continuation analysis, but uses same fakeon projection.
+
+### Bibliographic corrections
+
+- "Fakeons, Microcausality And Classical Limit" is arXiv:1809.05037,
+  NOT 1809.02555
+- Key paper NOT in our prompt: 2109.06889 ("Diagrammar") — contains
+  all needed two-loop formulas
+- Additional: 2209.05547 ("One-Loop Integrals for Purely Virtual
+  Particles") — algebraic fakeon subtraction formulas
 
 ## 4. Failed Approaches
 

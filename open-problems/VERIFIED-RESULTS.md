@@ -416,6 +416,18 @@ verification method, and confidence level.
 
 ---
 
+## OP-12: Kramers-Kronig Dispersion Relations (2026-04-02)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-191 | Standard KK does NOT survive at 2+ loops in SCT; analyticity replaced by average continuation | `literature` (2109.06889, 1801.00915, 2503.01841) | established | OP-12 |
+| VR-192 | ALL thresholds containing at least one fakeon frequency are removed from $\mathrm{Im}[\Sigma]$ | `literature` (2109.06889 §2.5 step 5, eqs.(2.16),(2.18)) | established | OP-12 |
+| VR-193 | Mixed ghost+matter threshold $E \sim m_{\rm ghost}+m_{\rm phys}$: dead as absorptive cut; may survive as regionwise analyticity boundary | `literature` (2109.06889 eqs.(4.9)-(4.10),(7.8)-(7.13)) | established | OP-12 |
+| VR-194 | Spectral optical theorem eq.(2.10) survives with fakeon projection: cut propagators vanish eq.(2.13), PV eq.(2.14) | `literature` (2109.06889) | established | OP-12 |
+| VR-195 | For sunset: if even one of three internal lines is fakeon, entire connected cut is contaminated and removed | `dual-derivation` from graph structure + eq.(2.16) | established | OP-12 |
+
+---
+
 ## OP-24: Spectral Dimension Definition Dependence (2026-04-02)
 
 | ID | Statement | Method | Confidence | Source |
@@ -468,7 +480,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 190 |
+| Total verified results | 195 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
