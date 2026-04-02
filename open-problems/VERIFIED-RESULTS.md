@@ -416,6 +416,17 @@ verification method, and confidence level.
 
 ---
 
+## OP-16: Gevrey Loop Expansion (Partial, 2026-04-02)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-196 | Standard Gevrey-1 means $\Gamma(L+b)$ ($L!$-type), NOT $(2L)!$. Growth $(2L)!$ is Gevrey-2. | `literature` (Le Guillou-Zinn-Justin 1990) | established | OP-16 |
+| VR-197 | Lipatov saddle-point gives $\Gamma(L+b)$ for any action with standard $e^{-S/g}$ exponential; entire form factors change $A$ not Gevrey index | `literature` (Lipatov 1977 eqs.(75)-(76)) | established | OP-16 |
+| VR-198 | Non-standard SCT UV ($\Pi_{TT} \to$ const) removes renormalon mechanism but doesn't create new factorial source | `literature` (Beneke 1999) | established | OP-16 |
+| VR-199 | No explicit Gevrey-class proof exists even for Stelle gravity | `literature` (surveyed 10+ papers) | established | OP-16 |
+
+---
+
 ## OP-12: Kramers-Kronig Dispersion Relations (2026-04-02)
 
 | ID | Statement | Method | Confidence | Source |
@@ -480,7 +491,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 195 |
+| Total verified results | 199 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

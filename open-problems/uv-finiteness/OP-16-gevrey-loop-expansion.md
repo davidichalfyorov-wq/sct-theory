@@ -3,14 +3,15 @@ id: OP-16
 title: "Gevrey-1 property of the loop expansion"
 domain: [uv-finiteness]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [MR-5, MR-6]
-papers: ["hep-th/0306138"]
+papers: ["hep-th/0306138", "Lipatov1977", "LeGuillou-ZinnJustin1990", "Beneke1999", "0812.3363", "1407.8036"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-02
+progress: "LIKELY Gevrey-1. Convention corrected: (2L)! = Gevrey-2, not 1. Lipatov analysis: entire structure doesn't change index. No proof."
 ---
 
 # OP-16: Gevrey-1 property of the loop expansion
@@ -90,6 +91,72 @@ of the other.
   (6/10). The V3 noted that SCT has non-standard UV behavior
   (entire form factors, no running coupling in the usual sense), and
   the standard renormalon argument for Gevrey-1 may not apply.
+
+## 3b. Partial Resolution (2026-04-02)
+
+**STATUS: LIKELY Gevrey-1. Convention corrected. No proof exists.**
+
+### Convention correction (IMPORTANT)
+
+The problem statement incorrectly defined "Gevrey-1 as (2L)! growth."
+In standard Gevrey theory:
+- **Gevrey-1:** |Gamma^(L)| ~ C^L Gamma(L+b) = C^L L! type
+- **Gevrey-s:** |Gamma^(L)| ~ C^L (L!)^s
+- **(2L)! ~ (L!)^2 growth is Gevrey-2, not Gevrey-1.**
+
+Our MR-5 estimates (L_opt ~ 720, delta_NP ~ e^{-720}) are consistent
+with STANDARD Gevrey-1 (L! growth with A ~ 1/2). If actually Gevrey-2
+((2L)!), the estimates would be drastically different:
+  L_opt ~ 13.5,  delta_NP ~ 10^{-12}  (much worse)
+
+### Why Gevrey-1 is most likely
+
+**1. Lipatov saddle-point argument.** The formal loop-counting parameter g
+enters as e^{-S_spec/g} in the gauge-fixed path integral. Saddle-point
+gives large-order coefficients ~ A^{-L} Gamma(L+b), which is standard
+Gevrey-1. The Gevrey index changes to s > 1 only if the exponential has
+non-standard g-dependence (e.g., e^{-A/g^rho} with rho > 1). The spectral
+action Tr f(D^2/Lambda^2) has standard exponential structure.
+(Lipatov 1977 eqs.(75)-(76); Le Guillou-Zinn-Justin eqs.(1.41)-(1.49).)
+
+**2. Renormalon argument fails but benignly.** Standard renormalon
+(Beneke eqs.(2.26)-(2.27)) requires log running. SCT Pi_TT → const
+(no log running) → standard UV-renormalon mechanism absent. But this
+REMOVES one factorial source, doesn't CREATE a new one. Net effect:
+neutral for Gevrey index.
+
+**3. Entire-function structure doesn't change Gevrey index.** The
+entire form factors change the saddle action A and fluctuation
+determinant, not the functional form Gamma(L+b). Modesto-Rachwal
+(1407.8036) show that entire form factors can change UV class
+(super-renormalizability), but only when inverse propagator grows
+faster in UV. SCT's G ~ 1/k^2 doesn't qualify.
+
+**4. Cross-pole terms controlled by CL bound.** If sum |R_n| < infinity
+(our CL result), then for diagram with I internal lines:
+  sum_{n_1,...,n_I} |prod R_{n_a}| = (sum |R_n|)^I = finite^I
+This preserves L! growth (changes C, not Gevrey index).
+
+### What's missing for a proof
+
+- Explicit complex saddle of gauge-fixed spectral action on O(4) ansatz
+- Fluctuation determinant at saddle → value of A
+- No Gevrey-class proof exists even for Stelle gravity (!)
+
+### Borel plane
+
+Position of nearest singularity unknown. Most likely saddle/instanton-
+type (at t = A), not renormalon-type. Ghost poles in momentum space
+do NOT automatically become Borel singularities in loop-counting
+parameter.
+
+### Impact on MR-5
+
+MR-5 estimates remain valid under standard Gevrey-1 assumption:
+  L_opt ~ A/epsilon ~ 720 (for A ~ 1/2)
+  delta_NP ~ e^{-A/epsilon} ~ e^{-720}
+If Gevrey-2: L_opt ~ 13, delta_NP ~ 10^{-12} — radically different.
+Convention distinction is critical.
 
 ## 4. Failed Approaches
 

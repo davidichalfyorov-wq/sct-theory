@@ -53,4 +53,4 @@ Total: 50 problems
 | OP-13 | Three-loop 3:1 quartic Weyl overdetermination | uv-finiteness | very-hard | open | A | [OP-06] | uv-finiteness/OP-13-three-loop-overdetermination.md |
 | OP-14 | Hidden structural principle for quartic Weyl invar | uv-finiteness | very-hard | open | A | [OP-06] | uv-finiteness/OP-14-hidden-structural-principle.md |
 | OP-15 | a_6 tensor match: literature complete, DF coefficients, CCC normalization open | uv-finiteness | hard | **partial** | B | [] | uv-finiteness/OP-15-a6-tensor-match.md |
-| OP-16 | Gevrey-1 property of the loop expansion | uv-finiteness | hard | open | B | [] | uv-finiteness/OP-16-gevrey-loop-expansion.md |
+| OP-16 | Gevrey: LIKELY Gevrey-1 (L!). Convention corrected: (2L)! = Gevrey-2. No proof. | uv-finiteness | hard | **partial** | B | [] | uv-finiteness/OP-16-gevrey-loop-expansion.md |
