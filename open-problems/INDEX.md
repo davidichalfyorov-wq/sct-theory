@@ -34,7 +34,7 @@ Total: 50 problems
 | OP-48 | Large-N CJ data (N >= 20000) for scaling exponent  | numerical | medium | open | C | [] | numerical/OP-48-large-n-cj-data.md |
 | OP-49 | Seven blocked FND-1 experimental tests | numerical | easy-to-medium | open | C | [] | numerical/OP-49-blocked-fnd1-tests.md |
 | OP-26 | Quasinormal mode frequency shifts from the nonloca | predictions | hard | open | C | [] | predictions/OP-26-qnm-frequency-shifts.md |
-| OP-27 | Gravitational wave propagation and frequency-depen | predictions | medium | open | C | [] | predictions/OP-27-gw-propagation-dispersion.md |
+| OP-27 | GW dispersion: RESOLVED. v_g=1+(13/40)(k/Λ)². α_MYW=4. UNDETECTABLE at UV. Λ>8.5meV. | predictions | medium | **resolved** | C | [] | predictions/OP-27-gw-propagation-dispersion.md |
 | OP-28 | Cosmological w(z) and large-scale structure format | predictions | medium | open | C | [] | predictions/OP-28-cosmological-wz-structure.md |
 | OP-29 | Modified TOV equations and neutron star mass limit | predictions | hard | open | C | [] | predictions/OP-29-tov-neutron-star-limits.md |
 | OP-30 | Running c_1, c_2: ratio -1/3 exactly preserved. SCT ~ perturbative AF (2.3%). RESOLVED. | predictions | medium | **resolved** | B | [] | predictions/OP-30-running-constants.md |

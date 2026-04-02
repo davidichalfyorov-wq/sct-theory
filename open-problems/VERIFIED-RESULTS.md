@@ -416,6 +416,18 @@ verification method, and confidence level.
 
 ---
 
+## OP-27: GW Propagation and Dispersion (2026-04-02)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-200 | $v_g = 1 + \frac{13}{40}(k/\Lambda)^2 + O(k^4/\Lambda^4)$ (leading group velocity correction) | `mpmath-100`, `dual-derivation` | verified | OP-27 |
+| VR-201 | MYW parametrization: $\alpha_{\rm MYW} = 4$, $A_4^{\rm SCT} = 13/(60\Lambda^2) = 1/m_2^2$ | `dual-derivation` | verified | OP-27 |
+| VR-202 | GWTC-3 (O3) bound at $\alpha=4$: $\Lambda > 8.50\,\mathrm{meV}$ — stronger than torsion-balance 2.565 meV | `literature` (GWTC-3 Table VII), `mpmath-100` | established | OP-27 |
+| VR-203 | At $\Lambda = 10^{15}\text{--}10^{19}\,\mathrm{GeV}$: $|\delta\Phi| \sim 10^{-48}\text{--}10^{-74}\,\mathrm{rad}$ — UNDETECTABLE | `mpmath-100` | verified | OP-27 |
+| VR-204 | Detector ranking for SCT dispersion: ET/CE $>$ LVK $\gg$ LISA $\gg$ PTA (because $\delta\Phi \propto f^3 D$) | `dual-derivation` | established | OP-27 |
+
+---
+
 ## OP-16: Gevrey Loop Expansion (Partial, 2026-04-02)
 
 | ID | Statement | Method | Confidence | Source |
@@ -491,7 +503,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 199 |
+| Total verified results | 204 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

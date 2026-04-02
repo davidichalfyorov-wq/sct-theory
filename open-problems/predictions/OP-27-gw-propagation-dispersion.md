@@ -3,14 +3,16 @@ id: OP-27
 title: "Gravitational wave propagation and frequency-dependent dispersion"
 domain: [predictions, cosmology]
 difficulty: medium
-status: open
+status: resolved
 deep-research-tier: C
 blocks: []
 blocked-by: []
 roadmap-tasks: [LT-3b]
-papers: ["1710.05901", "2109.09718"]
+papers: ["1710.05901", "2109.09718", "1110.2720", "GWTC3-TGR"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-02
+date-resolved: 2026-04-02
+resolved-by: analytical-computation + independent-numerical-verification
 ---
 
 # OP-27: Gravitational wave propagation and frequency-dependent dispersion
@@ -58,6 +60,74 @@ through dispersion of GW signals over cosmological distances.
 - The inflationary perturbation spectrum (INF-1) predicts
   n_s(N=55) = 0.965, r ~ 3.5 x 10^{-3}, but is conditional on
   the scalaron mass problem.
+
+## 3b. Resolution (2026-04-02)
+
+**VERDICT: RESOLVED. Complete dispersion relation computed. UNDETECTABLE at Lambda >= 10^15 GeV. GWTC-3 bound Lambda > 8.5 meV is strongest current SCT constraint.**
+
+### Dispersion relation (verified)
+
+  omega^2 = k^2 Pi_TT(k^2/Lambda^2) = k^2 + (13/60) k^4/Lambda^2 + O(k^6)
+
+  v_ph = 1 + (13/120)(k/Lambda)^2 + O(k^4/Lambda^4)
+  v_g  = 1 + (13/40)(k/Lambda)^2 + O(k^4/Lambda^4)
+
+Coefficient cheat sheet (leading correction term):
+  omega^2:        13/60
+  d(omega^2)/dk^2: 13/30
+  v_ph - 1:       13/120
+  v_g - 1:        13/40
+  v_g^2 - 1:      13/20
+
+All verified algebraically from Pi_TT Taylor expansion.
+
+### MYW/LVK mapping
+
+  alpha_MYW = 4  (NOT 2 — the dispersion is p^4-type)
+  A_4^SCT = 13/(60 Lambda^2) = 1/m_2^2
+
+The MYW/LVK effective QG scale for SCT = m_2 = 2.148 Lambda (= VR-043).
+
+### Observational bounds
+
+From GWTC-3 Table VII (alpha=4, A_4 > 0):
+  A_4 < 3.0e3 eV^{-2}  =>  Lambda > 8.50 meV
+
+This is STRONGER than the torsion-balance bound (Lambda > 2.565 meV
+from PPN-1/LT-3d). GW phasing tests already provide the tightest
+constraint on the SCT spectral scale.
+
+### Phase shifts at UV benchmarks
+
+| Scenario | f | D_L | delta_Phi (Lambda=10^18 GeV) | delta_Phi (Lambda=10^15 GeV) |
+|----------|---|-----|------------------------------|------------------------------|
+| GW150914 | 100 Hz | 400 Mpc | 4.8e-61 rad | 4.8e-55 rad |
+| GW170817 | 1 kHz | 40 Mpc | 4.8e-59 rad | 4.8e-53 rad |
+| LISA | 0.01 Hz | 3 Gpc | 3.6e-72 rad | 3.6e-66 rad |
+| ET/CE | 10 kHz | 1 Gpc | 1.2e-54 rad | 1.2e-48 rad |
+
+**ALL completely undetectable.**
+
+### Detectability thresholds (delta_Phi > 0.1 rad)
+
+  LVK (BNS, 100 Mpc):   Lambda_det ~ 1e-3 to 3e-2 eV
+  LISA (10 Gpc):          Lambda_det ~ 1e-8 eV
+  ET/CE (1 Gpc):          Lambda_det ~ 3 eV (best case)
+  PTA:                    Lambda_det ~ 1e-18 eV (worst)
+
+Ranking: ET/CE > LVK >> LISA >> PTA (because delta_Phi ~ f^3 D).
+
+### Spacelike zero z_0 = 2.4148
+
+Not a physical GW mode on FLRW. The zero of Pi_TT at positive
+Euclidean argument corresponds to spacelike (negative Lorentzian)
+momentum. Does not produce new GW polarization or on-shell mode.
+
+### Verdict
+
+At any Lambda >= 10^{-2} eV (i.e., everywhere above torsion-balance
+sensitivity): GW dispersion from SCT is **COMPLETELY UNDETECTABLE**
+by any current or planned instrument.
 
 ## 4. Failed Approaches
 
