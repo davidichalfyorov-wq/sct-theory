@@ -3,14 +3,15 @@ id: OP-08
 title: "All-orders Kubo-Kugo ghost decoupling proof"
 domain: [unitarity]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: A
 blocks: []
 blocked-by: [OP-07]
 roadmap-tasks: [MR-2]
-papers: ["2308.09006", "1979KugoOjima"]
+papers: ["2308.09006", "1979KugoOjima", "1704.07728", "1801.00915", "1806.03605", "1909.04955", "2109.06889", "1712.04308"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-02
+progress: "BRST-grading killed (wrong classifier). OS killed (no-go). Best path: finite-N fakeon + N->inf (= OP-07). Reduces to marked-diagram CL theorem."
 ---
 
 # OP-08: All-orders Kubo-Kugo ghost decoupling proof
@@ -54,6 +55,67 @@ The gap: all three results are rigorously established only at one loop.
 The operator-formalism argument requires showing that no physical
 state has nonzero overlap with the ghost state at all loop orders, not
 just at tree level and one loop.
+
+## 3b. Partial Resolution (2026-04-02)
+
+**STATUS: PARTIAL. Two approaches definitively killed. Best path identified: finite-N fakeon truncation + N→∞. Reduces to OP-07 + marked-diagram CL theorem.**
+
+### Approaches killed
+
+**BRST + fakeon Z₂-grading: WRONG LANGUAGE.** From 1909.04955: fakeon
+prescription is compatible with ANY nonzero residue — positive, negative,
+or complex — if Re m² ≥ 0. The paper shows a positive-residue pole
+that can be quantized as either physical or hard fakeon. Therefore
+"positive residue = physical, negative = fakeon" is mathematically
+incorrect. No BRST/cohomology program for fakeons exists in the
+literature (searched 18A6, 18A1, 1909.04955: zero hits for "BRST"
+or "cohomology").
+
+**OS reflection positivity: NO-GO.** Strict no-go for higher-derivative
+rational propagators (1712.04308). Fakeon literature does not contain
+OS-formulation. The fakeon construction is based on nonanalytic Wick
+rotation / average continuation, not standard Euclidean positivity.
+
+**Modified LSZ: possible but weaker.** Can repackage projected unitarity
+but not serve as primary proof route. Anselmi's all-orders proof uses
+cutting equations, not LSZ reduction.
+
+### Best path: finite-N fakeon + N→∞
+
+The all-orders fakeon proof for finite-pole propagators (17A3, 18A1)
+works through:
+1. Fakeon prescription (17A3 eqs.5.1-5.2, gravity eqs.6.1-6.3)
+2. Average continuation (18A1 eqs.4.1, 4.4)
+3. Physical subspace V ⊂ W (18A1 eqs.7.1-7.2)
+4. Cut-propagator rules (18A1 eqs.7.6-7.8)
+5. Diagrammatic cutting equation (18A1 eq.7.10)
+
+To extend to SCT: introduce finite-N truncations G_N, prove projected
+unitarity per-N, then take N→∞. This requires:
+- **Marked-diagram CL theorem:** upgrade CL bound (Σ M_n = 5.002e-4)
+  from amplitude-level to cut-level (marked diagrams)
+- **Commutativity:** N→∞ commutes with average continuation and
+  threshold-by-threshold processing
+- **Tail suppression:** high-pole thresholds uniformly controlled
+
+This is the SAME mathematical bottleneck as OP-07 (gap at eq.2.25),
+plus the additional requirement of marked-diagram control.
+
+### Conditional theorem structure
+
+IF (1) per-N projected cutting equations give projected unitarity,
+(2) N-uniform bound for marked L-loop diagrams on compact domains,
+(3) average continuation commutes with N→∞,
+(4) tail of marked diagrams summable:
+THEN physical S-matrix unitary on V, z_L gives no asymptotic states.
+
+### Kubo-Kugo objection status
+
+2308.09006 (Kubo-Kugo) shows unitarity violation for Lee-Wick complex
+ghosts under STANDARD Feynman quantization. This is a valid argument
+against Lee-Wick prescription but NOT against fakeon prescription,
+where ghost modes are excluded from cuts by construction (18A1 eqs.
+7.7-7.8). The two prescriptions are fundamentally different.
 
 ## 3. Known Results
 

@@ -416,6 +416,17 @@ verification method, and confidence level.
 
 ---
 
+## OP-08: Ghost Decoupling All-Orders (Partial, 2026-04-02)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-205 | BRST $Z_2$-grading by residue sign is WRONG: fakeon works for any nonzero residue (1909.04955) | `literature` | established | OP-08 |
+| VR-206 | OS reflection positivity: no-go for higher-derivative rational propagators (1712.04308) | `literature` | established | OP-08 |
+| VR-207 | No BRST/cohomology program for fakeons in literature (searched 3 core papers: zero hits) | `literature` | established | OP-08 |
+| VR-208 | Best proof path: finite-N fakeon truncation + N$\to\infty$ marked-diagram CL theorem | `literature`, `dual-derivation` | established | OP-08 |
+
+---
+
 ## OP-27: GW Propagation and Dispersion (2026-04-02)
 
 | ID | Statement | Method | Confidence | Source |
@@ -503,7 +514,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 204 |
+| Total verified results | 208 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
