@@ -416,6 +416,18 @@ verification method, and confidence level.
 
 ---
 
+## OP-24: Spectral Dimension Definition Dependence (2026-04-02)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-186 | $d_S$ is probe-dependent: 6 QG programs use 6 structurally different definitions | `literature` (6 programs, 10+ papers) | established | OP-24 |
+| VR-187 | Physical fakeon-projected SCT spectral dimension $d_S^{\rm phys} = 4$ at all scales | `dual-derivation`, `literature` | established | OP-24 |
+| VR-188 | "All QG predict $d_S \to 2$" is weak: many Euclidean probes give 2, but they measure different quantities | `literature` (Carlip 1705.05417) | established | OP-24 |
+| VR-189 | $P(\sigma) < 0$ below $\sigma^*$ is not unique to SCT; Calcagni et al. (1304.7247) show many QG kernels are non-positive | `literature` | established | OP-24 |
+| VR-190 | Causal set BBL $d_S$ (1507.00330) uses scalar operator, not tensor $\Pi_{TT}$; not directly transferable to SCT | `literature` | established | OP-24 |
+
+---
+
 ## OP-11: IVP Well-Posedness (Partial, 2026-04-01)
 
 | ID | Statement | Method | Confidence | Source |
@@ -456,7 +468,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 185 |
+| Total verified results | 190 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

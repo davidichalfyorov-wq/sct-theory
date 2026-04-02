@@ -42,7 +42,7 @@ Total: 50 problems
 | OP-32 | Spectral dimension comparison with CDT lattice sim | predictions | medium | open | B | [] | predictions/OP-32-spectral-dimension-cdt.md |
 | OP-33 | Cross-program comparison: 54/54 cells, 3 discriminating axes, RESOLVED | predictions | medium | **resolved** | A | [] | predictions/OP-33-cross-program-comparison.md |
 | OP-44 | Critical coupling: xi=1/6 is PREDICTION of spectral action (not free) | scalar-sector | medium | **resolved** | A | [] | scalar-sector/OP-44-critical-coupling-physical-xi.md |
-| OP-24 | Spectral dimension definition dependence: which de | spectral-dimension | hard | open | A | [] | spectral-dimension/OP-24-definition-dependence-resolution.md |
+| OP-24 | Spectral dimension: RESOLVED. d_S is probe-dependent. Physical fakeon sector = 4D. | spectral-dimension | hard | **resolved** | A | [] | spectral-dimension/OP-24-definition-dependence-resolution.md |
 | OP-25 | Two-loop corrections and scalar sector spectral di | spectral-dimension | medium | open | B | [] | spectral-dimension/OP-25-two-loop-and-scalar-sector.md |
 | OP-07 | Fakeon infinite poles: GAP at 1801.00915 eq.(2.25). 1-loop likely OK. All-orders open. | unitarity | hard | **partial** | A | [OP-22] | unitarity/OP-07-fakeon-infinite-poles.md |
 | OP-08 | All-orders Kubo-Kugo ghost decoupling proof | unitarity | hard | open | A | [] | unitarity/OP-08-kubo-kugo-all-orders.md |

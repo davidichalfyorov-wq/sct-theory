@@ -3,14 +3,16 @@ id: OP-24
 title: "Spectral dimension definition dependence: which definition is physically correct?"
 domain: [spectral-dimension, formal-theory]
 difficulty: hard
-status: open
+status: resolved
 deep-research-tier: A
 blocks: []
-blocked-by: [OP-07]
+blocked-by: []
 roadmap-tasks: [NT-3]
-papers: ["1203.4515", "1304.7247", "1507.00330"]
+papers: ["1705.05417", "1507.00330", "hep-th/0505113", "hep-th/0508202", "0812.2214", "0902.3657", "1408.0199", "1204.2550", "1304.2709", "1806.03605"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-02
+date-resolved: 2026-04-02
+resolved-by: literature-analysis + independent-verification
 ---
 
 # OP-24: Spectral dimension definition dependence resolution
@@ -92,6 +94,79 @@ of sigma* and the overall strength of the ghost-induced P < 0.
   d'Alembertian gives d_S -> 2 in the UV universally in all dimensions.
   This is a different computation (discrete rather than continuum)
   and uses a specific nonlocal operator.
+
+## 3b. Resolution (2026-04-02)
+
+**VERDICT: RESOLVED. d_S is not a universal observable — it is a probe-dependent dimensional estimator. In the physical fakeon-projected sector, SCT stays effectively 4D.**
+
+### Core finding: different QG programs use different definitions
+
+Six QG programs use six DIFFERENT constructions under the same symbol d_S:
+
+| Program | Definition | UV d_S | What is probed |
+|---------|-----------|--------|----------------|
+| CDT | Ensemble random walk on triangulations, eqs.(3),(6),(8) of hep-th/0505113 | 1.80±0.25 | Genuinely probabilistic lattice walk |
+| AS/QEG | RG-improved fictitious diffusion, eqs.(3.5),(3.12) of hep-th/0508202 | 2 | Euclidean diffusion for effective Laplacian |
+| Horava-Lifshitz | Anisotropic diffusion from UV dispersion, eqs.(2.1),(4.2)-(4.5) of 0902.3657 | 2 | Modified-diffusion, not propagator scaling |
+| LQG/Modesto | AS-like heat kernel on effective geometry, eqs.(11)-(14) of 0812.2214 | 2 | Effective metric, not spin-foam random walk |
+| CMN/Stelle QFT | Schwinger kernel from inverse propagator, eqs.(2)-(7) of 1408.0199 | 2 | Full inverse propagator (off-shell content) |
+| Causal sets (BBL) | Spectral dim. of nonlocal scalar d'Alembertian, eqs.(5)-(12) of 1507.00330 | 2 | Specific scalar operator, not tensor |
+
+The statement "all QG approaches predict d_S→2" is correct only in a weak
+sense: many different Euclidean/diffusion probes give 2, but they measure
+different physical quantities. Carlip (1705.05417) explicitly warns that
+different dimension definitions need not coincide.
+
+### Three-level classification for SCT
+
+| Level | Definition | Value | Physical status |
+|-------|-----------|-------|-----------------|
+| d_S^{kin} | Kinematic dimension of background operator | 4 | Trivial (standard 2nd-order D^2) |
+| d_S^{full} | Full unprojected ML kernel (all 8+ poles) | ~2 near sigma* | Diagnostic (includes ghost/fakeon modes) |
+| d_S^{phys} | Fakeon-projected physical sector | 4 | Observable (only physical spectrum) |
+
+Rationale for d_S^{phys} = 4: Fakeons by definition do not belong to
+the physical spectrum and cannot be external observable states (Anselmi-
+Piva 1806.03605). Including them in d_S is including non-physical degrees
+of freedom in a putatively physical observable. The ASZ/fakeon definition
+projects them out, leaving d_S = 4.
+
+### Implication: "SCT predicts d_S→2" is incorrect
+
+The correct statement: "The unprojected auxiliary spectral probe shows
+dimensional reduction in a transient regime near sigma*, but the physical
+fakeon-projected sector remains effectively four-dimensional."
+
+The ML d_S ~ 2 near sigma* is useful as a diagnostic of ghost/pole
+structure, not as a physical prediction.
+
+### P<0 problem in context
+
+The sign change of P(sigma) below sigma* is not unique to SCT (Calcagni,
+Eichhorn, Saueressig 1304.7247 showed many QG-improved kernels are not
+positive semidefinite). But SCT's version is more severe (traced return
+probability itself changes sign, not just density). Interpretation: the
+probe enters the fakeon sector, which has no probabilistic meaning.
+
+CDT by contrast has P > 0 by construction (genuine random walk); its
+short-scale issues are lattice artifacts, not negative probability.
+
+### Causal set d_S and SCT
+
+BBL (1507.00330) compute d_S for a SCALAR causal-set-inspired nonlocal
+d'Alembertian. This is NOT the same as the SCT tensor propagator Pi_TT.
+Transfer to SCT requires matching the continuum symbol of the discrete
+operator to the SCT kinetic operator — which has not been done.
+
+### Key literature not in original problem file
+
+- Calcagni "Quantum spectral dimension in QFT" (1408.0199): QFT/Schwinger
+  interpretation, eqs.(2)-(7)
+- Reuter-Saueressig review: eqs.(34),(35),(49)-(52) give full AS definition
+- Horava "Spectral dimension of the universe in QG at a Lifshitz point"
+  (0902.3657): anisotropic diffusion
+- Amelino-Camelia, Arzano, Magueijo: criticize d_S as not fully physical
+  (sensitive to off-shell sectors and Euclideanisation)
 
 ## 4. Failed Approaches
 
