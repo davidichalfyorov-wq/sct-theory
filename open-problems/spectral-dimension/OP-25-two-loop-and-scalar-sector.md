@@ -3,14 +3,15 @@ id: OP-25
 title: "Two-loop corrections and scalar sector spectral dimension"
 domain: [spectral-dimension, perturbative]
 difficulty: medium
-status: open
+status: partial
 deep-research-tier: B
 blocks: []
 blocked-by: []
 roadmap-tasks: [NT-3, MR-4]
-papers: ["1304.7247", "1809.02944"]
+papers: ["1304.7247", "1809.02944", "1107.2403"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-03
+progress: "Two-loop pole shifts quantified (~0.6%). sigma* NOT stabilized. P<0 NOT cured. Im(delta z_L) open. Scalar at xi=1/6 absent. At xi!=1/6 needs explicit F_hat_2."
 ---
 
 # OP-25: Two-loop corrections and scalar sector

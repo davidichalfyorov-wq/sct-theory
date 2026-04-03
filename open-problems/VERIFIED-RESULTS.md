@@ -416,6 +416,18 @@ verification method, and confidence level.
 
 ---
 
+## OP-25: Two-Loop Spectral Dimension (Partial, 2026-04-03)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-214 | Two-loop pole shift: $|\delta z_L/z_L| \sim 0.63\%$, $|\delta z_0/z_0| \sim 0.58\%$ (ghost pole numerically stable) | `mpmath-100`, `literature` | verified | OP-25 |
+| VR-215 | $\sigma^*$ NOT stabilized by two-loop: 67\% truncation variation $\gg$ 1\% two-loop shift | `dual-derivation` | established | OP-25 |
+| VR-216 | $P(\sigma) < 0$ NOT cured by two-loop corrections or scalar sector | `dual-derivation` | established | OP-25 |
+| VR-217 | Two-ghost threshold $4m_g^2 \approx 5.12\Lambda^2 > m_g^2$: ghost$\to$ghost+ghost kinematically closed | `mpmath-100` | verified | OP-25 |
+| VR-218 | At $\xi=0$: scalar prefactor $(1/6)/(13/60) = 10/13 \approx 0.77$ of tensor — not negligibly small | `mpmath-100` | verified | OP-25 |
+
+---
+
 ## OP-22: BH Second Law (Partial, 2026-04-03)
 
 | ID | Statement | Method | Confidence | Source |
@@ -526,7 +538,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 213 |
+| Total verified results | 218 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
