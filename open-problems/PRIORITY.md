@@ -42,6 +42,7 @@ Problems ranked by **impact x closeness x unblocking power**.
 |----|-------|----------|-----------|
 | **OP-07** | Fakeon infinite poles | GAP at 1801.00915 eq.(2.25). 1-loop likely extendable via CL. | All-orders proof: needs uniform convergence theorem |
 | **OP-08** | Ghost decoupling | BRST-grading killed. OS killed. Best path = OP-07 + marked-diagram CL. | Reduces to OP-07 bottleneck |
+| **OP-22** | BH second law | INDETERMINATE. Wall needs local action. Linearized matter-driven plausible. | Dong-Wall localization + OP-07 + Gap G1 |
 | **OP-11** | IVP well-posedness | GAP. Even IDG lacks Hadamard in S'. CMN §2.6 excludes entire H(□). | Classicization + semigroup proof program |
 | **OP-16** | Gevrey loop expansion | LIKELY Gevrey-1 (L!). Convention corrected. Lipatov: entire ≠ new index. | Need explicit complex saddle for proof |
 | **OP-15** | a₆ tensor structure | Literature complete. DF coefficients available. | CCC triplet normalization needs TFORM verification |

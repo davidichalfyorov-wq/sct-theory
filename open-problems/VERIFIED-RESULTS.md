@@ -416,6 +416,18 @@ verification method, and confidence level.
 
 ---
 
+## OP-22: BH Second Law (Partial, 2026-04-03)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-209 | Wall 2015 linearized second law requires LOCAL diffeo-covariant action; exact SCT does not qualify | `literature` (Wall 1504.08040 eq.(1)) | established | OP-22 |
+| VR-210 | Fakeon perturbative unitarity does NOT automatically imply wall-type horizon NEC/ANEC positivity | `literature`, `dual-derivation` | established | OP-22 |
+| VR-211 | Hollands-Wald-Zhang 2024: vacuum second law needs "modified canonical energy flux" positivity (open for SCT) | `literature` (2402.00818) | established | OP-22 |
+| VR-212 | Ghost-free entire theories (Conroy et al. 1503.05568): $S_{BH}$ = area law. SCT harder due to $\Pi_{TT}$ zeros. | `literature` | established | OP-22 |
+| VR-213 | Naive Wald entropy CAN violate second law in quadratic gravity; must use Dong-Wall functional (1504.04706) | `literature` | established | OP-22 |
+
+---
+
 ## OP-08: Ghost Decoupling All-Orders (Partial, 2026-04-02)
 
 | ID | Statement | Method | Confidence | Source |
@@ -514,7 +526,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 208 |
+| Total verified results | 213 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

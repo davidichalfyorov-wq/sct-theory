@@ -5,7 +5,7 @@ Total: 50 problems
 | ID | Title | Domain | Difficulty | Status | Tier | Blocks | File |
 |----|-------|--------|------------|--------|------|--------|------|
 | OP-21 | Black hole singularity resolution via nonlocal fie | black-holes | very-hard | open | D | [] | black-holes/OP-21-bh-singularity-resolution.md |
-| OP-22 | Second law of black hole thermodynamics: condition | black-holes | hard | open | B | [] | black-holes/OP-22-second-law-conditional.md |
+| OP-22 | BH second law: INDETERMINATE. Wall needs local action. Linearized matter-driven plausible. | black-holes | hard | **partial** | B | [] | black-holes/OP-22-second-law-conditional.md |
 | OP-23 | Information paradox: island formula and Page curve | black-holes | very-hard | open | D | [] | black-holes/OP-23-information-paradox.md |
 | OP-34 | N-scaling exponent of the CJ observable | causal-sets | hard | open | A | [OP-36, OP-42] | causal-sets/OP-34-n-scaling-exponent.md |
 | OP-35 | Stratification measure closure | causal-sets | hard | open | B | [OP-36] | causal-sets/OP-35-stratification-measure.md |

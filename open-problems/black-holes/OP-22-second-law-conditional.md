@@ -3,14 +3,15 @@ id: OP-22
 title: "Second law of black hole thermodynamics: conditional on ghost resolution"
 domain: [black-holes, unitarity]
 difficulty: hard
-status: open
+status: partial
 deep-research-tier: B
 blocks: []
-blocked-by: [OP-07]
+blocked-by: [OP-07, OP-01]
 roadmap-tasks: [MT-1]
-papers: ["1204.3672", "1512.06800"]
+papers: ["1105.3445", "1310.5713", "1504.08040", "1306.1623", "1504.04706", "1503.05568", "1705.11164", "2402.00818"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-03
+progress: "GSL INDETERMINATE. Three blockers: (1) Wall 2015 needs local action, (2) fakeon unitarity != horizon NEC, (3) vacuum canonical energy unknown + Gap G1. Linearized matter-driven plausible after localization."
 ---
 
 # OP-22: Second law conditional on ghost resolution
@@ -81,6 +82,65 @@ depends on how the ghost is treated:
   the retarded propagator on the horizon. This is equivalent to the
   spectral function rho(mu^2) being non-negative, which fails for the
   ghost pole.
+
+## 3b. Partial Resolution (2026-04-03)
+
+**STATUS: PARTIAL. GSL INDETERMINATE — not proven, not disproven.**
+
+### Three blockers identified
+
+1. **Wall's theorems require local action.** Wall 1105.3445 (GR + semiclassical),
+   Sarkar-Wall 1306.1623, Wall 1504.08040: all assume local diffeo-covariant
+   Lagrangian (Wall 2015 eq.(1)). Exact SCT with F₁(□) does NOT satisfy this.
+   After localization/truncation: applicable, but truncation error uncontrolled.
+
+2. **Fakeon unitarity ≠ horizon NEC.** Perturbative S-matrix unitarity does
+   not automatically imply wall-type horizon positivity ⟨T_kk⟩ ≥ 0 or ANEC.
+   The two are related but not identical requirements.
+
+3. **Vacuum canonical energy positivity unknown.** Hollands-Wald-Zhang 2024
+   (2402.00818): matter-driven linearized second law OK; vacuum second law
+   requires "modified canonical energy flux" positivity, which "presumably
+   would not hold in general theories."
+
+### What DOES work
+
+- **Stationary entropy formula S_BH:** structurally compatible with
+  Iyer-Wald/Dong after localization. Dong 1310.5713 eqs.(3.29)-(3.30)
+  apply to local higher-curvature; on Killing horizon extrinsic terms
+  vanish (Camps). SCT's entire analyticity avoids inverse-□ problems.
+
+- **Linearized matter-driven second law:** plausible after localization
+  + Sarkar-Wall eq.(21) + Wall 2015 eq.(25). Strategy:
+  (1) Fix stationary Killing horizon background
+  (2) Replace exact SCT with local truncation
+  (3) Apply Dong-Wall entropy functional
+  (4) Control truncation error via CL/Weierstrass tail bound
+
+- **Ghost-free comparison:** Conroy-Mazumdar-Teimouri (1503.05568):
+  ghost-free entire → S_BH = area law. SCT better than Stelle but
+  harder than ghost-free because of Pi_TT zeros requiring fakeon.
+
+### Important lesson: Dong-Wall, not naive Wald
+
+Bhattacharjee-Sarkar-Wall (1504.04706): in quadratic gravity, naive
+Wald entropy CAN violate second law while proper Dong-Wall entropy
+satisfies it. For SCT: must use Dong-Wall functional, not stationary
+Wald term alone.
+
+### Two-pole truncation strategy
+
+Two-pole dominance (99.68%, VR-083) gives excellent numerical
+approximation. But for GSL proof need:
+  |Ṡ_gen^full - Ṡ_gen^(N)| ≤ C_hor × ε_N
+This operator-norm continuity estimate does not exist yet.
+
+### Bibliographic corrections to original problem file
+
+- Wall "Proof of GSL" is arXiv:1105.3445, not 1204.3672
+- 1503.07146 is neutrino paper, not Barvinsky nonlocal entropy
+- Holdom-Ren 1512.05305 is "QCD analogy for QG", not GSL/Stelle
+- Frolov-Zelnikov 1509.03336 is ultrarelativistic collisions
 
 ## 4. Failed Approaches
 
