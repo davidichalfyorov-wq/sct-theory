@@ -3,14 +3,16 @@ id: OP-28
 title: "Cosmological w(z) and large-scale structure formation"
 domain: [predictions, cosmology]
 difficulty: medium
-status: open
+status: resolved
 deep-research-tier: C
 blocks: []
 blocked-by: []
 roadmap-tasks: [LT-3c]
-papers: ["1807.06209", "2404.03002"]
+papers: ["1807.06209", "2404.03002", "1404.3713", "0705.1158"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-03
+date-resolved: 2026-04-03
+resolved-by: analytical-computation + independent-verification
 ---
 
 # OP-28: Cosmological w(z) and large-scale structure formation

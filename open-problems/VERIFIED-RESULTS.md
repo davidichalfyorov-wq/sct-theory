@@ -416,6 +416,20 @@ verification method, and confidence level.
 
 ---
 
+## OP-28: Cosmological w(z) and Structure Formation (2026-04-03)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-225 | At $\xi=1/6$: $w_{\rm DE}(z) = -1$ exactly on FLRW (all spectral corrections vanish) | `dual-derivation` | verified | OP-28, VR-059 |
+| VR-226 | At $\xi \neq 1/6$: $w_0 = -1 + O(10^{-64})$, $w_a = O(10^{-63})$ at $\Lambda = 2.565\,\mathrm{meV}$ | `mpmath-100` | verified | OP-28 |
+| VR-227 | SCT stiff component gives $w_a > 0$; DESI prefers $w_a < 0$: wrong sign, qualitatively incompatible | `dual-derivation`, `literature` (DESI eq.(5.6)) | established | OP-28 |
+| VR-228 | $|\mu - 1| \lesssim 10^{-56}$ on linear LSS scales at $\Lambda = 2.565\,\mathrm{meV}$ | `dual-derivation` | established | OP-28 |
+| VR-229 | $\delta\sigma_8/\sigma_8,\;\delta S_8/S_8 \lesssim 10^{-56}$: $S_8$ tension NOT resolved by SCT | `dual-derivation` | established | OP-28 |
+| VR-230 | Fisher forecast: $\sigma(\ln\Lambda) \sim 10^{61}$ — late-time data carry zero information on $\Lambda_{\rm SCT}$ | `dual-derivation` | established | OP-28 |
+| VR-231 | SCT is UV-type ($F(\Box/\Lambda^2)$): IR corrections are positive powers of small numbers, unlike $\Box^{-1}$ nonlocal gravity | `literature` | established | OP-28 |
+
+---
+
 ## OP-29: Modified TOV / Neutron Stars (2026-04-03)
 
 | ID | Statement | Method | Confidence | Source |
@@ -551,7 +565,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 224 |
+| Total verified results | 231 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |
