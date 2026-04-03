@@ -416,6 +416,19 @@ verification method, and confidence level.
 
 ---
 
+## OP-13: Three-Loop Quartic Weyl Overdetermination (Partial, 2026-04-03)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-232 | Quartic parity-even Weyl sector in $d=4$ is genuinely 2-dimensional: Cayley-Hamilton on traceless $3\times3$ $W_\pm$ gives $\mathrm{tr}(A^4)=\frac{1}{2}(\mathrm{tr}A^2)^2$, one relation only | `literature` (Fulling eqs.3.5-3.6), `dual-derivation` | established | OP-13 |
+| VR-233 | No second algebraic identity between quartic Weyl invariants in $d=4$ beyond the standard DDI (Edgar: "no new identities from DDI traces") | `literature` (Edgar gr-qc/0407002) | established | OP-13 |
+| VR-234 | Topological routes (8D Euler, $p_2$) give 8-forms vanishing on 4-manifolds, NOT pointwise scalar identities | `literature` | established | OP-13 |
+| VR-235 | NCG finite geometry trace changes overall multiplier of $a_8$, cannot project $\{K_1,K_3\}$ basis to one direction | `literature` (van Suijlekom works on flat $M$ only) | established | OP-13 |
+| VR-236 | CCS entropy (1809.02944) constrains spectral-function moments $\delta f_8$, not local $a_8$ decomposition | `literature` | established | OP-13 |
+| VR-237 | $c_1/c_3$ ratio for spin-Dirac $a_8$ on general 4-manifold: NOT FOUND in literature (sole remaining route) | `literature` (surveyed 8+ sources) | established | OP-13 |
+
+---
+
 ## OP-28: Cosmological w(z) and Structure Formation (2026-04-03)
 
 | ID | Statement | Method | Confidence | Source |
@@ -565,7 +578,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 231 |
+| Total verified results | 237 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

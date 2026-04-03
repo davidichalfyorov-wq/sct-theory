@@ -50,7 +50,7 @@ Total: 50 problems
 | OP-10 | D^2-quantization versus metric quantization equiva | unitarity | very-hard | open | D | [OP-06] | unitarity/OP-10-d2-metric-equivalence.md |
 | OP-11 | IVP: GAP. Even IDG lacks Hadamard. Roadmap: classicization + semigroup. | unitarity | hard | **partial** | B | [] | unitarity/OP-11-ivp-entire-propagators.md |
 | OP-12 | KK: RESOLVED. Standard KK fails; projected fakeon-dispersion survives. ALL mixed cuts removed. | unitarity | hard | **resolved** | B | [] | unitarity/OP-12-loop-kramers-kronig.md |
-| OP-13 | Three-loop 3:1 quartic Weyl overdetermination | uv-finiteness | very-hard | open | A | [OP-06] | uv-finiteness/OP-13-three-loop-overdetermination.md |
+| OP-13 | Three-loop: structural 2→1 EXCLUDED (Cayley-Hamilton). Sole hope: c1/c3 Dirac miracle. | uv-finiteness | very-hard | **partial** | A | [OP-06] | uv-finiteness/OP-13-three-loop-overdetermination.md |
 | OP-14 | Hidden structural principle for quartic Weyl invar | uv-finiteness | very-hard | open | A | [OP-06] | uv-finiteness/OP-14-hidden-structural-principle.md |
 | OP-15 | a_6 tensor match: literature complete, DF coefficients, CCC normalization open | uv-finiteness | hard | **partial** | B | [] | uv-finiteness/OP-15-a6-tensor-match.md |
 | OP-16 | Gevrey: LIKELY Gevrey-1 (L!). Convention corrected: (2L)! = Gevrey-2. No proof. | uv-finiteness | hard | **partial** | B | [] | uv-finiteness/OP-16-gevrey-loop-expansion.md |

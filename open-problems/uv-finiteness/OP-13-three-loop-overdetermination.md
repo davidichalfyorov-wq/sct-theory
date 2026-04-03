@@ -3,14 +3,15 @@ id: OP-13
 title: "Three-loop 3:1 quartic Weyl overdetermination"
 domain: [uv-finiteness]
 difficulty: very-hard
-status: open
+status: partial
 deep-research-tier: A
 blocks: [OP-06]
 blocked-by: []
 roadmap-tasks: [MR-5]
-papers: ["1607.08767", "1011.3474"]
+papers: ["1607.08767", "1011.3474", "gr-qc/0407002", "hep-th/0405228", "hep-th/9708152", "1809.02944"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-03
+progress: "STRUCTURAL RESOLUTION EXCLUDED. Quartic Weyl genuinely 2D in d=4 (Cayley-Hamilton proof). Sole remaining route: numerical coincidence c1/c3 for Dirac a_8 (uncomputed)."
 ---
 
 # OP-13: Three-loop 3:1 quartic Weyl overdetermination
