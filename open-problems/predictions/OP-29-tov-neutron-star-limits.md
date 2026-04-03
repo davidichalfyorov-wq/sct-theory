@@ -3,14 +3,16 @@ id: OP-29
 title: "Modified TOV equations and neutron star mass limits"
 domain: [predictions, stellar-structure]
 difficulty: hard
-status: open
+status: resolved
 deep-research-tier: C
 blocks: []
-blocked-by: [OP-01]
+blocked-by: []
 roadmap-tasks: [LT-3e]
-papers: ["1614.01346", "2105.06980"]
+papers: ["2106.00558", "1912.05202", "1805.11581", "2104.00880"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-03
+date-resolved: 2026-04-03
+resolved-by: analytical-computation + independent-numerical-verification
 ---
 
 # OP-29: Modified TOV equations and neutron star mass limits

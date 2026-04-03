@@ -416,6 +416,19 @@ verification method, and confidence level.
 
 ---
 
+## OP-29: Modified TOV / Neutron Stars (2026-04-03)
+
+| ID | Statement | Method | Confidence | Source |
+|----|-----------|--------|------------|--------|
+| VR-219 | SCT correction to NS: $\delta M_{\max}/M \lesssim 10^{-17}$ at $\Lambda = 2.565\,\mathrm{meV}$ | `mpmath-100` | verified | OP-29 |
+| VR-220 | $z_* = (\hbar c/\Lambda R_*)^2 \approx 4.1 \times 10^{-17}$ for $R_* = 12\,\mathrm{km}$ | `mpmath-100` | verified | OP-29 |
+| VR-221 | $m_2 R_* \approx 3.35 \times 10^8$ (Yukawa exponentially suppressed) | `mpmath-100` | verified | OP-29 |
+| VR-222 | $\Lambda_{\rm SCT}^{(1\%)} \sim 7.7 \times 10^{-11}\,\mathrm{eV}$ (8 orders below meV bound) | `mpmath-100` | verified | OP-29 |
+| VR-223 | $\delta\Lambda_{\rm tidal}/\Lambda_{\rm tidal} \lesssim 10^{-17}$ | `dual-derivation` | verified | OP-29 |
+| VR-224 | No spontaneous scalarization in SCT: $m_0^2 > 0$ (unlike DEF $\beta_0 < -4$) | `literature`, `dual-derivation` | established | OP-29 |
+
+---
+
 ## OP-25: Two-Loop Spectral Dimension (Partial, 2026-04-03)
 
 | ID | Statement | Method | Confidence | Source |
@@ -538,7 +551,7 @@ verification method, and confidence level.
 
 | Category | Count |
 |----------|-------|
-| Total verified results | 218 |
+| Total verified results | 224 |
 | Formally proven (Lean 4) | 30+ |
 | Numerically verified (100-digit) | 90+ |
 | Dual-derivation confirmed | 40+ |

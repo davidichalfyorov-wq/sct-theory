@@ -36,7 +36,7 @@ Total: 50 problems
 | OP-26 | Quasinormal mode frequency shifts from the nonloca | predictions | hard | open | C | [] | predictions/OP-26-qnm-frequency-shifts.md |
 | OP-27 | GW dispersion: RESOLVED. v_g=1+(13/40)(k/Λ)². α_MYW=4. UNDETECTABLE at UV. Λ>8.5meV. | predictions | medium | **resolved** | C | [] | predictions/OP-27-gw-propagation-dispersion.md |
 | OP-28 | Cosmological w(z) and large-scale structure format | predictions | medium | open | C | [] | predictions/OP-28-cosmological-wz-structure.md |
-| OP-29 | Modified TOV equations and neutron star mass limit | predictions | hard | open | C | [] | predictions/OP-29-tov-neutron-star-limits.md |
+| OP-29 | TOV: RESOLVED. delta_M/M ~ 10^{-17}. NS don't improve SCT bounds. No scalarization. | predictions | hard | **resolved** | C | [] | predictions/OP-29-tov-neutron-star-limits.md |
 | OP-30 | Running c_1, c_2: ratio -1/3 exactly preserved. SCT ~ perturbative AF (2.3%). RESOLVED. | predictions | medium | **resolved** | B | [] | predictions/OP-30-running-constants.md |
 | OP-31 | Form factors: SCT=AS at matter 1-loop; diverge at graviton loops. RESOLVED. | predictions | medium | **resolved** | B | [] | predictions/OP-31-form-factor-comparison-as.md |
 | OP-32 | Spectral dimension comparison with CDT lattice sim | predictions | medium | open | B | [] | predictions/OP-32-spectral-dimension-cdt.md |
