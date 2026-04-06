@@ -217,6 +217,8 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 5 | Lean 4 formal proofs | Machine-verified rational identities |
 | 6 | Multi-backend | Multiple Lean backends must independently pass |
 
+Some pipeline stages use automated and AI-assisted tooling.
+
 ## Published Work
 
 | # | Paper | DOI |
@@ -315,7 +317,7 @@ Formal theory documents and papers are authored by **David Alfyorov** ([ORCID](h
 
 ## Credits
 
-Research-assistance and workflow support: **Aliaksandr Samatyia**.
+Research-assistance and workflow support: **Igor Shnyukov**.
 
 ## Licensing
 

@@ -84,19 +84,19 @@ print(f"\n=== DOCUMENT STATS ===")
 print(f"  Lines: {n_lines}, Equations: {n_eq}, Tables: {n_tab}, Figures: {n_fig}")
 print(f"  Approx pages: {n_lines // 55}")
 
-# 7. Check no AI markers
-ai_markers = ["Claude", "GPT", "LLM", "AI-generated", "automated", "Codex", "Anthropic",
-               "language model", "artificial intelligence"]
+# 7. Check for internal notes and draft artefacts
+draft_markers = ["TODO", "FIXME", "XXX", "HACK", "DRAFT", "PLACEHOLDER",
+                  "INTERNAL", "DELETE ME", "TBD"]
 issues = []
-for marker in ai_markers:
+for marker in draft_markers:
     for i, line in enumerate(tex.split("\n")):
         if marker.lower() in line.lower() and not line.strip().startswith("%"):
             issues.append((i+1, marker, line.strip()[:80]))
-print(f"\n=== AI MARKER CHECK ===")
+print(f"\n=== SUBMISSION HYGIENE CHECK ===")
 if issues:
     for ln, m, txt in issues:
         print(f"  WARNING line {ln}: '{m}' in: {txt}")
 else:
-    print("  No AI markers found. OK")
+    print("  Clean for submission. OK")
 
 print("\n=== ALL CHECKS COMPLETE ===")
