@@ -219,7 +219,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 
 Some pipeline stages use automated and AI-assisted tooling.
 
-## Published Work
+## Papers
 
 | # | Paper | DOI |
 |---|-------|-----|
@@ -239,14 +239,14 @@ Selected research highlights:
 |-------|-----------|--------|
 | One-loop form factors | All SM sectors computed, master function entire | Complete |
 | Nonlinear field equations | Full variational equations + FLRW reduction | Complete |
-| Lorentzian formulation | Wick rotation of the spectral action | Complete |
-| Unitarity | Bounded propagator in D&sup2;-quantization, no ghost poles | Closed |
+| Lorentzian formulation | Wick rotation of the spectral action | Complete (perturbative) |
+| Unitarity | Bounded propagator in D&sup2;-quantization, no ghost poles | Closed (fakeon prescription) |
 | Causality | Signal speed = *c* (macroscopic); micro-violation at &ell; ~ 1/&Lambda; | Conditional |
 | Two-loop finiteness | Counterterm uniquely absorbed | **Unconditional** |
 | All-orders finiteness | Conjectured via chirality + two unproven BV axioms | Open conjecture |
-| Graviton scattering | Tree-level SCT = GR; one-loop finite | Certified |
+| Graviton scattering | Tree-level SCT = GR; one-loop finite | Verified (internal) |
 | Solar system tests | Spectral scale &Lambda; > 2.565 meV from torsion-balance | Complete |
-| Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Certified |
+| Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Verified (internal) |
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension. At NCG-predicted &xi; = 1/6 no scalaron exists. | Negative |

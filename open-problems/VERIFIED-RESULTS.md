@@ -106,7 +106,7 @@ verification method, and confidence level.
 | VR-043 | $m_2 = \Lambda\sqrt{60/13} \approx 2.148\,\Lambda$ (spin-2 Yukawa) | `mpmath-100` | verified | NT-4a |
 | VR-044 | $m_0(\xi = 0) = \Lambda\sqrt{6} \approx 2.449\,\Lambda$ (scalar Yukawa) | `mpmath-100` | verified | NT-4a |
 | VR-045 | $V(r)/V_N(r) = 1 - \tfrac{4}{3}e^{-m_2 r} + \tfrac{1}{3}e^{-m_0 r}$ | `mpmath-100`, `literature` | verified | NT-4a |
-| VR-046 | $V(r = 0)$ is finite (singularity resolution) | `mpmath-100` | verified | NT-4a |
+| VR-046 | $V(r = 0)$ is finite (singularity softening, not resolution) | `mpmath-100` | verified | NT-4a |
 | VR-047 | $V(r \to \infty)/V_N(r) \to 1$ (Newtonian recovery) | `mpmath-100` | verified | NT-4a |
 | VR-048 | $V(0)/V_N(0) = 0$ (from $1 - 4/3 + 1/3 = 0$) | `Lean4` | proven | NT-4a |
 | VR-049 | $c_T = c$ (GW speed equals light speed, exact on FLRW) | `dual-derivation`, `mpmath-100` | verified | NT-4c |
