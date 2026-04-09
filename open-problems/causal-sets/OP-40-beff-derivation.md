@@ -3,14 +3,15 @@ id: OP-40
 title: "Derivation of b_eff = 5"
 domain: [theory, mathematics]
 difficulty: hard
-status: open
+status: resolved
 deep-research-tier: A
 blocks: []
 blocked-by: []
 roadmap-tasks: []
 papers: []
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-07
+progress: "ESSENTIALLY RESOLVED. b_eff = dim(S^2_0(R^3)) = dim(l=2 irrep SO(3)) = 5. SO(3) lemma kills l=0, l=2 response, dim=2l+1=5. CJ B^2-blind -> one quintuplet. Prediction: E^2+B^2-sensitive -> b_eff~10."
 ---
 
 # OP-40: Derivation of b_eff = 5
@@ -70,6 +71,44 @@ the exponent, not the prefactor 0.299.
 - **Four vacuum families:** Flat (CJ = 0), pp-wave (CJ proportional to
   E^2), Schwarzschild (CJ proportional to E^2), dS (CJ = 0). All four
   families give the same sigma_0 / N^{1/4} within 2%.
+
+## 3b. SO(3) Derivation (2026-04-07)
+
+**VERDICT: ESSENTIALLY RESOLVED. b_eff = dim(l = 2 irrep of SO(3)) = 5.**
+
+### Mechanism
+
+1. The SO(3) selection rule (Lemma 5.1 from the universal observable
+   session) kills the l = 0 (monopole) contribution to the CJ response
+   in local isotropic vacuum diamonds: E[D₁] = 0.
+2. The surviving response is in the l = 2 (quadrupole) channel.
+3. The dimension of the l = 2 irreducible representation of SO(3) is
+   dim(l = 2) = 2l + 1 = 5.
+4. CJ is B²-blind (measures only E², not E² + B²), so only ONE
+   quintuplet contributes, not two.
+
+### Wick normalization verification
+
+The variance of the CJ observable on flat space is:
+  Var(q_x) = P_{ij,kl} P_{ij,kl} = rank(P) = 5
+where P is the transverse-traceless projector onto the symmetric
+traceless 2-tensor space S²₀(R³). The rank of this projector is
+exactly 5, matching dim(l = 2).
+
+### Testable prediction
+
+An observable sensitive to BOTH E² and B² (not just E²) would have:
+  b_eff ≈ 10 = 2 × 5
+because both the electric and magnetic quintuplets would contribute.
+This prediction distinguishes the SO(3) mechanism from alternatives
+(e.g., d + 1 = 5 would give b_eff = 5 in all cases).
+
+### Rejected alternatives
+
+- Catalan numbers: wrong scaling with d
+- Random matrix theory: wrong distribution (BD ≠ GOE)
+- Chain counting (Stirling): gives σ ∝ N^{1/3}, not N^{1/4}
+- d + 1 = 5 hypothesis: would not predict b_eff = 10 for E² + B²
 
 ## 4. Failed Approaches
 

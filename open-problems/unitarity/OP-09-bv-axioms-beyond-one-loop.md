@@ -10,7 +10,8 @@ blocked-by: []
 roadmap-tasks: [MR-2, MR-5]
 papers: ["1704.07728"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-07
+progress: "Axiom 3 YES at two loops (condition: 0 not in Spec(Pi+dPi)). Axiom 4 CONDITIONAL (two-loop QME plausible, infinite-pole Delta convergence NOT proven). Main obstruction: ANALYTIC (Delta in infinite-pole limit)."
 ---
 
 # OP-09: BV axioms 3 and 4 beyond one loop
@@ -81,6 +82,52 @@ status:
 
 - **Survival probability: 82-90%** (CHIRAL-Q assessment, covering
   both BV-3 and BV-4).
+
+## 3b. Two-Loop Assessment (2026-04-07)
+
+**VERDICT: BV-3 YES at two loops. BV-4 CONDITIONAL.**
+
+### BV-3 (Axiom 3) at two loops
+
+BV-3 holds at two loops under the condition:
+  0 ∉ Spec(Π_TT + δΠ_TT)
+i.e., the one-loop corrected propagator has no new zero modes. This is
+satisfied for SCT because Π_TT(z) = 1 + (13/60)z·F̂₁(z) has well-
+separated zeros (minimum spacing Δz > 2 from the CL analysis), and
+the two-loop correction δΠ is of order α²_C ≈ 10⁻⁴, which cannot
+create new zeros in the gaps.
+
+### BV-4 (Axiom 4) at two loops
+
+The two-loop quantum master equation (QME) (S + ℏΓ₁, S + ℏΓ₁) = 0
+is plausible but the infinite-pole BV antibracket operator Δ requires
+convergence control. The issue is ANALYTIC, not structural:
+- The antibracket Δ = ∂²/(∂Φ ∂Φ*) acts on functionals of the full
+  infinite-pole propagator
+- Convergence of Δ in the infinite-pole limit is NOT proven
+- For finite poles (Anselmi's case), Δ is well-defined by construction
+
+### Main obstruction classification
+
+The obstruction to all-orders BV axioms is:
+1. **Primary: ANALYTIC** — convergence of Δ in infinite-pole limit
+2. **Secondary: STRUCTURAL** — D² embedding ≠ BV diffeomorphism
+   (the map g → D² is not a field-space diffeomorphism in the BV sense)
+
+### ABJ anomaly risk: LOW
+
+No pure gravitational anomalies exist in d = 4 (all gravitational
+anomalies require chiral matter in even d ≥ 6). The ABJ-type anomaly
+from the standard model matter is already accounted for in the SM
+spectral triple.
+
+### Literature corrections
+
+- The QME formula in the original prompt was corrected
+- Reference 2006.06037 is an ML paper, not a fakeon paper
+- Correct Anselmi references: 1801.00915, 1806.03605, 2201.00832
+- BBH = Barnich-Brandt-Henneaux (hep-th/0002245) for local cohomology
+- GPS = Gomis-Paris-Samuel for BV in higher-derivative gravity
 
 ## 4. Failed Approaches
 

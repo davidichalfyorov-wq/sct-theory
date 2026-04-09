@@ -3,14 +3,15 @@ id: OP-41
 title: "SCT spectral bridge"
 domain: [theory, mathematics]
 difficulty: very-hard
-status: open
+status: closed
 deep-research-tier: D
 blocks: []
 blocked-by: []
 roadmap-tasks: []
 papers: [hep-th/9606001, 0805.2909]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-07
+progress: "DEFINITIVELY CLOSED (negative). Three kill-shots: (A) nilpotent-triangular collapse (Hasse A^N=0), (B) tensor-type mismatch (CJ->E^2 != C^2), (C) nonlinear paired-response. BD hierarchy: BD->R, BD^2->R^2-2boxR, CJ->E^2, ???->C^2 (open, needs CJ_B)."
 ---
 
 # OP-41: SCT spectral bridge
@@ -104,6 +105,48 @@ The difference E^2 + B^2 vs E^2 - B^2 is frame-dependent vs
 frame-independent: the Bel-Robinson tensor is the unique symmetric
 traceless conserved tensor quadratic in Weyl, while C^2 is the unique
 Lorentz scalar quadratic in Weyl.
+
+## 3b. Definitive Closure (2026-04-07)
+
+**VERDICT: DEFINITIVELY CLOSED (NEGATIVE). Bridge does NOT exist.**
+
+### Three structural obstructions
+
+**(A) Nilpotent-triangular collapse.** The Hasse diagram adjacency
+matrix A is strictly upper-triangular on any DAG, hence A^N = 0. All
+spectral invariants built from det(I − pA), Tr(A^k), or characteristic
+polynomials are trivially zero or constant. This kills routes 1-3
+from Section 3.
+
+**(B) Tensor-type mismatch.** CJ measures the Bel-Robinson combination
+E² (electric part of Weyl), while the spectral action gives C² = E² − B²
+(Gauss-Bonnet sign). These are fundamentally different tensor
+contractions: Bel-Robinson is symmetric traceless conserved; C² is a
+Lorentz scalar. No linear combination recovers one from the other
+without independent access to B².
+
+**(C) Nonlinear paired-response.** CJ depends on the paired structure
+of the causal diamond (flat reference + curved target). The spectral
+action is defined on a single manifold. The subtraction scheme
+inherent in CJ (comparing sprinklings on flat vs curved) has no
+analogue in the spectral action framework.
+
+### BD hierarchy (corrected)
+
+The Benincasa-Dowker hierarchy relates causal set observables to
+continuum curvature invariants:
+- BD → R (scalar curvature, Benincasa-Dowker 2010)
+- BD² → R² − 2□R (de Brito-Eichhorn-Pfeiffer 2301.13525)
+- CJ → E² (this work)
+- ??? → C² (open, would require a CJ_B observable sensitive to B²)
+
+### Key correction
+
+The problem is NOT "causal order too poor to encode geometry" (causal
+order is rich — it encodes the conformal class). The problem is
+"spectral compression kills observer-projected Hasse-path content":
+the spectral invariants of the Hasse diagram are algebraically too
+simple (nilpotent A) to capture the statistical content of CJ.
 
 ## 4. Failed Approaches
 

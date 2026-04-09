@@ -3,14 +3,22 @@ id: OP-26
 title: "Quasinormal mode frequency shifts from the nonlocal SCT action"
 domain: [predictions, black-holes]
 difficulty: hard
-status: open
+status: resolved (Level 2)
 deep-research-tier: C
 blocks: []
 blocked-by: [OP-01]
 roadmap-tasks: [LT-3a]
-papers: ["0905.2975", "1602.07309", "0710.5167"]
+papers: ["0905.2975", "1602.07309", "0710.5167", "2210.14506", "2412.15037"]
 date-opened: 2026-03-31
-date-updated: 2026-03-31
+date-updated: 2026-04-04
+resolution: |
+  LT-3a COMPLETE at Level 2 (Yukawa approximation). 7 scripts, 94 tests, 17 figures.
+  TWO contributions to QNM shifts: (1) metric modification ~ exp(-m2*r_peak) [computed],
+  (2) perturbation-equation correction ~ c2*(omega/Lambda)^2 ~ 10^{-20} [estimated, OP-01].
+  Both unmeasurable: SCT indistinguishable from GR for QNMs of all astrophysical BHs.
+  Key results: stability proven (V>=0), Love numbers k2 != 0 (qualitative GR difference),
+  quantum corrections (10^{-78}) dominate classical SCT corrections (exp(-10^9)).
+  Full OP-01 resolution needed for exact perturbation-equation computation.
 ---
 
 # OP-26: Quasinormal mode frequency shifts from the nonlocal SCT action

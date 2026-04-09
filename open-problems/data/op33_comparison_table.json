@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "date": "2026-04-01",
+    "programs": ["SCT", "LQG", "AS", "CDT", "String", "IDG"],
+    "axes": ["d_S_UV", "c_log", "singularity", "inflation", "dispersion", "PPN", "UV_propagator", "Lambda_cc", "matter_coupling"],
+    "total_cells": 54,
+    "filled_cells": 54,
+    "discriminating_axes": ["c_log", "UV_propagator", "matter_coupling"],
+    "universal_axes": ["d_S_UV"]
+  },
+  "cells": [
+    {"program": "SCT", "axis": "d_S_UV", "value": "~2 (ML def); 4 (HK, ASZ)", "arxiv_id": "NT-3", "equation": "Sec.4", "year": 2026, "status": "established", "notes": "Definition-dependent: ML gives ~2, heat kernel and ASZ give 4"},
+    {"program": "LQG", "axis": "d_S_UV", "value": "~2", "arxiv_id": "0812.2602", "equation": "Eq.(6)", "year": 2009, "status": "established", "notes": "Modesto (2009), polymer quantization"},
+    {"program": "AS", "axis": "d_S_UV", "value": "2 exactly", "arxiv_id": "hep-th/0508202", "equation": "Eq.(23)", "year": 2005, "status": "established", "notes": "Lauscher-Reuter, fixed-point scaling"},
+    {"program": "CDT", "axis": "d_S_UV", "value": "1.80 +/- 0.25", "arxiv_id": "hep-th/0505113", "equation": "Fig.1", "year": 2005, "status": "numerical", "notes": "Ambjorn-Jurkiewicz-Loll, lattice measurement"},
+    {"program": "String", "axis": "d_S_UV", "value": "model-dependent", "arxiv_id": "1705.05417", "equation": "Sec.3.5", "year": 2017, "status": "review", "notes": "Carlip review; depends on compactification"},
+    {"program": "IDG", "axis": "d_S_UV", "value": "2", "arxiv_id": "1805.03559", "equation": "Sec.4", "year": 2018, "status": "established", "notes": "Buoninfante et al."},
+
+    {"program": "SCT", "axis": "c_log", "value": "37/24", "arxiv_id": "MT-1", "equation": "Thm.3.1", "year": 2026, "status": "conditional", "notes": "Approximately 1.54; conditional on BH entropy derivation"},
+    {"program": "LQG", "axis": "c_log", "value": "-1/2", "arxiv_id": "gr-qc/0407052", "equation": "Eq.(22)", "year": 2004, "status": "established", "notes": "Meissner (2004); opposite sign to SCT"},
+    {"program": "AS", "axis": "c_log", "value": "0 (thermo) or pi/g* (Clausius)", "arxiv_id": "1212.1821", "equation": "Eq.(36),(39)", "year": 2012, "status": "definition-dependent", "notes": "Falls-Litim; depends on thermodynamic vs Clausius definition"},
+    {"program": "CDT", "axis": "c_log", "value": "not computed", "arxiv_id": "1203.3591", "equation": null, "year": 2012, "status": "not computed", "notes": "BH thermodynamics not accessible in CDT lattice"},
+    {"program": "String", "axis": "c_log", "value": "charge-dependent (exact for extremal BPS)", "arxiv_id": "1205.0971", "equation": "Eq.(1.1)", "year": 2012, "status": "model-dependent", "notes": "Sen (2012); exact for BPS, depends on charges"},
+    {"program": "IDG", "axis": "c_log", "value": "no log; power-law ~(l_NL/r_H)^{2n}", "arxiv_id": "1702.00915", "equation": "Eq.(19)", "year": 2017, "status": "established", "notes": "Conroy-Edholm-Mazumdar; no logarithmic correction, only power-law"},
+
+    {"program": "SCT", "axis": "singularity", "value": "V(0) finite (linearized); G1 blocks full", "arxiv_id": "NT-4a", "equation": "Eq.(4.8)", "year": 2026, "status": "partial", "notes": "Linearized potential finite at r=0; nonlinear case blocked by Gap G1"},
+    {"program": "LQG", "axis": "singularity", "value": "resolved (quantum bounce)", "arxiv_id": "gr-qc/0602086", "equation": "Sec.3", "year": 2006, "status": "established", "notes": "Ashtekar-Bojowald; singularity replaced by bounce"},
+    {"program": "AS", "axis": "singularity", "value": "resolved (G->0 at r=0, dS core)", "arxiv_id": "hep-th/0002196", "equation": "Sec.IV", "year": 2000, "status": "established", "notes": "Bonanno-Reuter; running G vanishes at origin, de Sitter core"},
+    {"program": "CDT", "axis": "singularity", "value": "not computed for BH", "arxiv_id": "1905.08669", "equation": null, "year": 2019, "status": "not computed", "notes": "CDT addresses cosmological singularity but not BH interior"},
+    {"program": "String", "axis": "singularity", "value": "fuzzball: horizonless geometry", "arxiv_id": "hep-th/0502050", "equation": "Sec.2", "year": 2005, "status": "model-dependent", "notes": "Mathur; microstate geometries replace classical BH"},
+    {"program": "IDG", "axis": "singularity", "value": "resolved (erf potential, V finite)", "arxiv_id": "1604.01989", "equation": "Eq.(11)", "year": 2016, "status": "established", "notes": "Edholm-Koshelev-Mazumdar; nonlocal smearing gives finite V(0)"},
+
+    {"program": "SCT", "axis": "inflation", "value": "n_s=0.965, r=3.5e-3 (conditional on scalaron)", "arxiv_id": "INF-1", "equation": "Sec.5", "year": 2026, "status": "conditional", "notes": "Requires scalaron mass ~10^13 GeV; SM-only insufficient (INF-1)"},
+    {"program": "LQG", "axis": "inflation", "value": "n_s~0.964; r=0.07-0.17 (phi_B-dep)", "arxiv_id": "1509.05693", "equation": "Table 1", "year": 2015, "status": "parameter-dependent", "notes": "Ashtekar-Sloan; depends on bounce density phi_B"},
+    {"program": "AS", "axis": "inflation", "value": "n_s=0.966, r=0.003-0.008 (Starobinsky-like)", "arxiv_id": "1803.02355", "equation": "Sec.4", "year": 2018, "status": "established", "notes": "Bonanno-Platania; Starobinsky-like from running couplings"},
+    {"program": "CDT", "axis": "inflation", "value": "not computed", "arxiv_id": "1905.08669", "equation": null, "year": 2019, "status": "not computed", "notes": "CDT phase diagram studied but inflation not extracted"},
+    {"program": "String", "axis": "inflation", "value": "landscape-dependent, no unique prediction", "arxiv_id": "1404.2601", "equation": "Sec.1", "year": 2014, "status": "not predictive", "notes": "Baumann-McAllister; vast landscape, no single prediction"},
+    {"program": "IDG", "axis": "inflation", "value": "n_s=1-2/N (same as R^2); r form-factor dep, 1e-7 to 0.07", "arxiv_id": "1604.03127", "equation": "Eq.(62),(65)", "year": 2016, "status": "model-dependent", "notes": "Koshelev et al.; reduces to Starobinsky; r depends on form factor"},
+
+    {"program": "SCT", "axis": "dispersion", "value": "not computed", "arxiv_id": "OP-27", "equation": null, "year": null, "status": "gap", "notes": "Open problem OP-27; requires GW propagation analysis"},
+    {"program": "LQG", "axis": "dispersion", "value": "omega~|k|(1+/-2*chi*l_P*|k|) birefringent", "arxiv_id": "gr-qc/9809038", "equation": "Eq.(11)", "year": 1999, "status": "established", "notes": "Gambini-Pullin; linear dispersion with birefringence"},
+    {"program": "AS", "axis": "dispersion", "value": "not explicitly computed", "arxiv_id": null, "equation": null, "year": null, "status": "not computed", "notes": "Running couplings modify propagation but explicit dispersion not derived"},
+    {"program": "CDT", "axis": "dispersion", "value": "not computed", "arxiv_id": "1905.08669", "equation": null, "year": null, "status": "not computed", "notes": "Lattice approach; continuum dispersion not extracted"},
+    {"program": "String", "axis": "dispersion", "value": "unmodified for E<<M_s; Regge at E~M_s", "arxiv_id": null, "equation": null, "year": null, "status": "approximate", "notes": "GR dispersion below string scale; Regge behavior at string scale"},
+    {"program": "IDG", "axis": "dispersion", "value": "unmodified on-shell; exp(-k^2/M^2) off-shell", "arxiv_id": "1604.01989", "equation": "Eq.(6)", "year": 2016, "status": "established", "notes": "Edholm-Koshelev-Mazumdar; on-shell same as GR"},
+
+    {"program": "SCT", "axis": "PPN", "value": "gamma=beta=1+exp(-10^14)", "arxiv_id": "PPN-1", "equation": "Eq.(3.2)", "year": 2026, "status": "verified", "notes": "Exponentially small correction; indistinguishable from GR"},
+    {"program": "LQG", "axis": "PPN", "value": "gamma=1 (standard GR limit)", "arxiv_id": "0805.2927", "equation": null, "year": 2008, "status": "established", "notes": "Reduces to GR in classical limit"},
+    {"program": "AS", "axis": "PPN", "value": "gamma=1 (running negligible at r_solar)", "arxiv_id": "hep-th/0410117", "equation": "Sec.4", "year": 2004, "status": "established", "notes": "Reuter-Tuiran; G running negligible at solar system scales"},
+    {"program": "CDT", "axis": "PPN", "value": "not computed", "arxiv_id": "1905.08669", "equation": null, "year": null, "status": "not computed", "notes": "Lattice approach; PPN extraction not performed"},
+    {"program": "String", "axis": "PPN", "value": "gamma=1 (reduces to GR at low E)", "arxiv_id": null, "equation": null, "year": null, "status": "established", "notes": "Low-energy effective action reproduces GR"},
+    {"program": "IDG", "axis": "PPN", "value": "gamma=1 for r>>1/M", "arxiv_id": "1604.01989", "equation": "Sec.III", "year": 2016, "status": "established", "notes": "Edholm-Koshelev-Mazumdar; GR recovered at long distances"},
+
+    {"program": "SCT", "axis": "UV_propagator", "value": "1/(k^2 Pi_TT), Pi_TT entire, order 1", "arxiv_id": "NT-4a", "equation": "Eq.(3.1)", "year": 2026, "status": "verified", "notes": "Entire-function dressing; not polynomial, not Gaussian"},
+    {"program": "LQG", "axis": "UV_propagator", "value": "spinfoam: (gamma*j_0)^3 matching 1/|x-y|^2 at large r", "arxiv_id": "0905.4082", "equation": "Sec.7", "year": 2009, "status": "numerical", "notes": "Bianchi-Magliaro-Perini; discrete spectrum, numerical"},
+    {"program": "AS", "axis": "UV_propagator", "value": "power-law running: G(k)->g*/k^2", "arxiv_id": "hep-th/0508202", "equation": "Eq.(4)", "year": 2005, "status": "established", "notes": "Lauscher-Reuter; fixed-point scaling of Newton constant"},
+    {"program": "CDT", "axis": "UV_propagator", "value": "lattice measurement only, no closed form", "arxiv_id": "1905.08669", "equation": "Sec.7", "year": 2019, "status": "numerical", "notes": "Measured on lattice; no analytic form available"},
+    {"program": "String", "axis": "UV_propagator", "value": "softened by string length; 1/k^2 for k<<M_s", "arxiv_id": null, "equation": null, "year": null, "status": "approximate", "notes": "String excitations soften UV; low-energy limit is GR propagator"},
+    {"program": "IDG", "axis": "UV_propagator", "value": "exp(-k^2/M^2)/k^2 (Gaussian, ghost-free)", "arxiv_id": "1604.01989", "equation": "Eq.(8)", "year": 2016, "status": "established", "notes": "Edholm-Koshelev-Mazumdar; Gaussian entire function, ghost-free by construction"},
+
+    {"program": "SCT", "axis": "Lambda_cc", "value": "no prediction", "arxiv_id": null, "equation": null, "year": null, "status": "N/A", "notes": "SCT does not address the cosmological constant problem"},
+    {"program": "LQG", "axis": "Lambda_cc", "value": "not predicted (free parameter)", "arxiv_id": "1002.3966", "equation": "Sec.1", "year": 2010, "status": "not predicted", "notes": "Rovelli; Lambda is a free parameter in LQG"},
+    {"program": "AS", "axis": "Lambda_cc", "value": "free parameter (trajectory-dependent)", "arxiv_id": "hep-th/0410119", "equation": "Sec.3", "year": 2004, "status": "not predicted", "notes": "Reuter-Saueressig; Lambda runs but value not predicted"},
+    {"program": "CDT", "axis": "Lambda_cc", "value": "Lambda>0 required; value not determined", "arxiv_id": "1905.08669", "equation": "Sec.8", "year": 2019, "status": "partial", "notes": "Positive Lambda needed for de Sitter phase; numerical value not fixed"},
+    {"program": "String", "axis": "Lambda_cc", "value": "~10^500 vacua, not predicted", "arxiv_id": "hep-th/0004134", "equation": "Sec.4", "year": 2000, "status": "not predicted", "notes": "Bousso-Polchinski; landscape too vast for unique prediction"},
+    {"program": "IDG", "axis": "Lambda_cc", "value": "not predicted (free parameter)", "arxiv_id": null, "equation": null, "year": null, "status": "not predicted", "notes": "IDG does not address the cosmological constant value"},
+
+    {"program": "SCT", "axis": "matter_coupling", "value": "alpha_C=13/120, fixed by SM (parameter-free)", "arxiv_id": "VR-020", "equation": "Lean 4", "year": 2026, "status": "proven", "notes": "SM content uniquely determines coupling; formally verified in Lean 4"},
+    {"program": "LQG", "axis": "matter_coupling", "value": "minimal coupling; content not predicted", "arxiv_id": "gr-qc/9705019", "equation": "Eq.(2.2)", "year": 1998, "status": "established", "notes": "Thiemann; matter added by minimal coupling, content not constrained"},
+    {"program": "AS", "axis": "matter_coupling", "value": "FP constrains N_matter; content not unique", "arxiv_id": "1401.4793", "equation": "Sec.III", "year": 2014, "status": "established", "notes": "Dona-Eichhorn-Percacci; fixed point constrains number but not identity of fields"},
+    {"program": "CDT", "axis": "matter_coupling", "value": "not computed", "arxiv_id": "1905.08669", "equation": null, "year": null, "status": "not computed", "notes": "Pure gravity simulations; matter coupling not studied systematically"},
+    {"program": "String", "axis": "matter_coupling", "value": "compactification-dependent, not unique", "arxiv_id": "1903.06239", "equation": "Sec.2", "year": 2019, "status": "not predicted", "notes": "Taylor-Vafa; matter content depends on compactification geometry"},
+    {"program": "IDG", "axis": "matter_coupling", "value": "minimal, same as GR", "arxiv_id": "1604.01989", "equation": null, "year": 2016, "status": "established", "notes": "IDG modifies graviton propagator only; matter coupling is standard"}
+  ]
+}

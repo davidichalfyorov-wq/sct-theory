@@ -10,8 +10,8 @@ blocked-by: []
 roadmap-tasks: [MR-2]
 papers: ["1704.07728", "2308.09006", "1801.00915", "1703.04584", "1802.00399", "2501.04097", "hep-th/9702146"]
 date-opened: 2026-03-31
-date-updated: 2026-04-01
-progress: "GAP IDENTIFIED at 1801.00915 eq.(2.25) + Sec.7.3. One-loop likely extendable. All-orders open."
+date-updated: 2026-04-07
+progress: "PATH CLEAR. Hadamard/product fakeon CONVERGES (rho<1). Pole-by-pole DOES NOT converge (sin(sqrt(z))/sqrt(z) counterexample). Correct definition: Euclidean-first. Three lemmas remain open."
 ---
 
 # OP-07: Fakeon prescription for infinite-pole propagators
@@ -148,6 +148,71 @@ the fakeon prescription — important distinction.
 - 2501.04097 is Buoninfante "Remarks on ghost resonances", not
   Anselmi-Calcagni on classicization
 - Buoninfante "Classical properties" is 1802.00399, not 1811.10619
+
+## 3c. Fakeon Convergence Analysis (2026-04-07)
+
+**VERDICT: PATH CLEAR. Hadamard route works. Pole-by-pole doesn't.**
+
+### Hadamard/product fakeon: CONVERGES
+
+When the entire function Π_TT(z) has order ρ < 1 (genus 0 or 1 in
+the Hadamard factorization), the product fakeon prescription converges.
+The Weierstrass product representation with convergence exponents
+determined by the order of growth gives a well-defined principal-value
+limit.
+
+### Pole-by-pole fakeon: DOES NOT CONVERGE
+
+Explicit counterexample: sin(√z)/√z (a standard entire function of
+order ρ = 1/2). The Mittag-Leffler partial fraction expansion of
+1/[z · sin(√z)/√z] has residues A_n = (-1)^n/(n²π²), and the series
+Σ A_n/(s - z_n) converges absolutely. But the pole-by-pole fakeon
+(applying PV to each pole independently) gives different results
+depending on the order of summation. The prescription is NOT
+well-defined without a specific summation order.
+
+### Correct definition
+
+The fakeon for infinite-pole propagators must be defined as:
+  R_Fk = AV_T(s-lim R_{E,N})
+where AV_T is the threshold average (Anselmi's prescription applied
+to each threshold), s-lim is the strong limit as N → ∞ poles are
+included, and R_{E,N} is the Euclidean propagator truncated to N poles.
+
+This is the **Euclidean-first** definition: regulate in Euclidean
+space, then analytically continue.
+
+### CL connection
+
+The CL commutativity result g_A = −13/60 = −Π'(0) = Σ 1/z_n is the
+first Newton sum. It controls Σ A_n/z_n, which is CLOSER to the
+needed condition Σ|A_n|/|z_n| < ∞ than previously recognized.
+However, CL controls conditional convergence; absolute convergence
+requires separate bounds on |Π'(z_n)|.
+
+### Three open lemmas
+
+1. **Lemma (i):** Lower bounds on |Π'(z_n)| for the SCT-specific Π_TT
+   (zero separation from Hadamard factorization)
+2. **Lemma (ii):** Local finiteness of fakeon thresholds at higher loops
+   (from z_n growth rate)
+3. **Lemma (iii):** Uniform Euclidean majorants for truncated loop
+   diagrams (Weierstrass M-test generalization)
+
+### RESOLVED: ρ(Π_TT) = 1, genus = 1 (2026-04-07)
+
+**Computation resolves the discrepancy.** The Taylor coefficients
+a_n = (-1)^n n!/(2n+1)! give:
+  -ln|a_n| ~ n(ln n + 2 ln 2 - 1)
+  ρ = lim n ln(n)/[-ln|a_n|] = lim ln(n)/(ln(n) + 2 ln 2 - 1) = 1
+
+Numerical verification: |φ(-R)| ~ exp(R/4) (type σ = 1/4, confirmed
+to σ = 0.2496 at R = 10000). Since zeros z_n ~ c·n grow linearly,
+Σ 1/|z_n| diverges → genus p = 1 (Hadamard factorization requires
+convergence-producing factors exp(z/z_n)).
+
+**analytical ρ = 1/2 in OP-07: INCORRECT.** analytical ρ = 1 in OP-06/09: CORRECT.
+**Fakeon convergence still holds** because the Hadamard product converges for ρ ≤ 1.
 
 ## 4. Failed Approaches
 

@@ -75,36 +75,40 @@ incompatible predictions.
 
 From CPR (0805.2909) eqs. (19)-(23) plus (A8),(A10),(A19):
 
-  beta_{alpha_C} = (1/(4pi)^2)(N_s/120 + N_D/20 + N_v/10)
-                 = 283/(120(4pi)^2) ~ 0.01493
+  alpha_C = N_s/120 - (N_f/2)/20 + N_v/10
+          = 4/120 - 45/40 + 12/10 = 13/120
+
+  beta_{alpha_C} = alpha_C / (4pi)^2 = 13/(120(4pi)^2) ~ 6.860e-4
 
   beta_{alpha_R} = (N_s/2)(xi - 1/6)^2/(4pi)^2 = 0  (at xi = 1/6)
 
+**SIGN CONVENTION:** Fermion loops contribute with NEGATIVE sign
+to alpha_C (spin-statistics). The original analytical analysis used
++N_D/20 (giving 283/120); the correct sign is -N_D/20 (giving
+13/120), matching VR-020 (354 checks, Lean 4 verified).
+
 In the {c_1, c_2} = {alpha_R - 2/3 alpha_C, 2 alpha_C} basis:
 
-  beta_{c_2} = 283/(60(4pi)^2) ~ 0.02987
-  beta_{c_1} = -283/(180(4pi)^2) ~ -0.00996
-  beta_{c_1}/beta_{c_2} = -1/3  (EXACT)
-
-Note: the beta coefficient 283/120 for SM corrects a previously
-circulated estimate of 13/12. The correct computation:
-4/120 + 22.5/20 + 12/10 = 1/30 + 9/8 + 6/5 = 283/120.
+  beta_{c_2} = 2 * alpha_C / (4pi)^2 = 13/(60(4pi)^2) ~ 1.372e-3
+  beta_{c_1} = -2 * alpha_C / (3(4pi)^2) = -13/(180(4pi)^2) ~ -4.574e-4
+  beta_{c_1}/beta_{c_2} = -1/3  (EXACT, algebraic identity)
 
 ### Trajectory (matter-only, universal)
 
-  c_2(t) = 13/60 + (283/(60(4pi)^2)) t
-  c_1(t) = -13/180 - (283/(180(4pi)^2)) t
+  c_2(t) = 13/60 + 13/(60(4pi)^2) * t
+  c_1(t) = -13/180 - 13/(180(4pi)^2) * t
   c_1(t)/c_2(t) = -1/3  for all t
 
 | mu/Lambda | t | c_1 | c_2 | c_1/c_2 |
 |-----------|---|-----|-----|---------|
 | 1 | 0 | -0.07222 | 0.21667 | -1/3 |
-| 10^{-1} | -2.303 | -0.04930 | 0.14789 | -1/3 |
-| 10^{-5} | -11.513 | 0.04240 | -0.12721 | -1/3 |
-| 10^{-10} | -23.026 | 0.15703 | -0.47108 | -1/3 |
-| 10^{-20} | -46.052 | 0.38628 | -1.15884 | -1/3 |
+| 10^{-1} | -2.303 | -0.07117 | 0.21351 | -1/3 |
+| 10^{-5} | -11.513 | -0.06696 | 0.20087 | -1/3 |
+| 10^{-10} | -23.026 | -0.06169 | 0.18507 | -1/3 |
+| 10^{-20} | -46.052 | -0.05116 | 0.15348 | -1/3 |
 
-Zero crossing of c_2 at mu/Lambda ~ 7.07 x 10^{-4}.
+Zero crossing of c_2 at mu/Lambda ~ 2.6 x 10^{-69} (negligible:
+running is extremely slow, ~22x slower than the original estimate).
 
 ### Comparison with asymptotic safety
 

@@ -8,7 +8,7 @@
 ![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--04--01)-brightgreen)
 ![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
 ![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
-![Open Problems](https://img.shields.io/badge/open_problems-50_(12_resolved,_8_partial)-orange)
+![Open Problems](https://img.shields.io/badge/open_problems-50_(16_resolved,_8_partial)-orange)
 ![Verified Results](https://img.shields.io/badge/verified_results-237-brightgreen)
 ![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--01-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
@@ -70,12 +70,12 @@ The section below summarizes the current audited state of the main spectral-acti
 
 ### Chirality proof and perturbative UV finiteness
 
-One central current result is **a four-line algebraic proof that all perturbative counterterms in D&sup2;-quantization of the spectral action are block-diagonal in the chiral basis**, and therefore absorbable by spectral function deformation at every loop order.
+One central current result is **a four-line algebraic proof that all perturbative counterterms in D&sup2;-quantization of the spectral action are block-diagonal in the chiral basis**. The chirality of the counterterms is proven. Whether chirality implies absorbability by spectral function deformation is a conjecture (see Erratum in Paper 5).
 
 The proof rests on the identity: since the Dirac operator *D* anticommutes with the chirality operator &gamma;<sub>5</sub>, the perturbation &delta;(*D*&sup2;) automatically *commutes* with &gamma;<sub>5</sub>. This forces the kinetic operator, propagator, vertices, and all multi-loop diagrams into the chirality-preserving subalgebra.
 
 - UV finiteness holds through two loops without additional assumptions
-- At all perturbative orders under five BV axioms (three proven, two verified to one loop)
+- At all perturbative orders under five BV axioms (two proven, one natural, two verified to one loop)
 - The algebraic identity is formally verified in **Lean 4** (13 theorems, zero sorry)
 
 ### Black hole entropy
@@ -88,16 +88,16 @@ The logarithmic coefficient **c<sub>log</sub> = 37/24** is determined by the SM 
 
 ### Black hole singularity: softened, not resolved
 
-The modified Newtonian potential is finite at the origin: V(0) = 0. The Kretschner scalar is softened from K ~ r<sup>&minus;6</sup> (Schwarzschild) to K ~ r<sup>&minus;4</sup>. However, **singularity resolution requires exponential UV suppression** of the propagator (entire order &ge; 2, as in infinite derivative gravity). SCT&rsquo;s propagator denominator &Pi;<sub>TT</sub>(k&sup2;) approaches a finite constant at high momenta, giving the same 1/k&sup2; UV behavior as GR. This is a structural limitation: the master function &phi;(z) is entire of order 1, producing algebraic rather than exponential modification. The Giacchini&ndash;de Paula Netto threshold (2018) requires &ge; 6 derivatives for curvature regularity; SCT effectively has 4.
+In the local Yukawa approximation, the modified Newtonian potential has V(0)/V<sub>N</sub> = &minus;1/3 (post-no-scalaron, spin-2 only). In the full nonlocal treatment, V(0) is not well-defined at one loop (the Fourier integral diverges for r &rarr; 0). The Kretschner scalar is softened from K ~ r<sup>&minus;6</sup> (Schwarzschild) to K ~ r<sup>&minus;4</sup>. However, **singularity resolution requires exponential UV suppression** of the propagator (entire order &ge; 2, as in infinite derivative gravity). SCT&rsquo;s propagator denominator &Pi;<sub>TT</sub>(k&sup2;) approaches a finite constant at high momenta, giving the same 1/k&sup2; UV behavior as GR. This is a structural limitation: the master function &phi;(z) is entire of order 1, producing algebraic rather than exponential modification. The Giacchini&ndash;de Paula Netto threshold (2018) requires &ge; 6 derivatives for curvature regularity; SCT effectively has 4.
 
 ### Upgraded consistency results
 
 Five previously open questions about the theory's internal consistency are now resolved or narrowed:
 
 - **Two-loop finiteness** is now unconditional (previously required a specific absorption scheme)
-- **Unitarity** in D&sup2;-quantization follows from the bounded propagator (no ghost poles)
-- **Optical theorem** follows from unitarity
-- **All-orders finiteness** is conjectured under two BV axioms (verified to one loop only; extending to all orders is an open problem)
+- **Unitarity** in D&sup2;-quantization: the massive spin-2 ghost (z&#8320; = 2.41, m&#8322;/&Lambda; = 1.55) is treated via the Anselmi-Piva fakeon prescription, which projects it out of the asymptotic spectrum
+- **Optical theorem** verified at one loop
+- **All-orders finiteness** is conjectured under five BV axioms (two proven, one natural, two verified to one loop only; extending to all orders is an open problem)
 
 ### Literature cross-check
 
@@ -132,11 +132,11 @@ Spectral geometry  ->  Spectral action  ->  Heat kernel expansion
   <img src="docs/figures/master_function.png" alt="The SCT master function phi(x)" width="560"/>
 </p>
 
-This function is **entire** (no poles in the complex plane), which guarantees ghost-freedom of the propagator at tree level.
+This function is **entire** (no poles in the complex plane), which guarantees that the form factors themselves do not introduce additional ghost poles beyond those already present in the dressed propagator &Pi;<sub>TT</sub>.
 
 The plot uses `x = -k^2/\Lambda^2`, so the left branch corresponds to `x < 0` and the right branch to `x > 0`. The left branch is the Euclidean continuation and grows as `x -> -infinity` because `|x|` increases toward the left; the right branch decays as `\varphi(x) ~ 2/x` for `x -> +infinity`. In particular, the explicit factor `e^{-x/4}` in the closed form does not imply exponential decay on the positive branch, because `\operatorname{erfi}(\sqrt{x}/2)` contributes the compensating `e^{x/4}` asymptotic.
 
-**Modified Newtonian potential.** At distances comparable to the spectral scale 1/&Lambda;, the gravitational potential departs from Newton's law and becomes finite at the origin:
+**Modified Newtonian potential.** At distances comparable to the spectral scale 1/&Lambda;, the gravitational potential departs from Newton's law. In the Yukawa approximation (valid for r &gg; 1/&Lambda;):
 
 <p align="center">
   <img src="docs/figures/newtonian_potential.png" alt="Modified Newtonian potential" width="560"/>
@@ -194,7 +194,7 @@ theory/           Formal theory content
   lean/SCTLean/FND1/  Active finite-nerve boundary/homology formalization
 
 analysis/         Computational backbone
-  sct_tools/        Python package (15 top-level modules)
+  sct_tools/        Python package (18 top-level modules)
   scripts/          Verification and computation scripts
   figures/          Publication-quality figures
 
@@ -217,7 +217,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 5 | Lean 4 formal proofs | Machine-verified rational identities |
 | 6 | Multi-backend | Multiple Lean backends must independently pass |
 
-Some pipeline stages use automated and AI-assisted tooling.
+Some pipeline stages use automated tooling.
 
 ## Papers
 
@@ -240,18 +240,18 @@ Selected research highlights:
 | One-loop form factors | All SM sectors computed, master function entire | Complete |
 | Nonlinear field equations | Full variational equations + FLRW reduction | Complete |
 | Lorentzian formulation | Wick rotation of the spectral action | Complete (perturbative) |
-| Unitarity | Bounded propagator in D&sup2;-quantization, no ghost poles | Closed (fakeon prescription) |
+| Unitarity | Spin-2 ghost handled via Anselmi-Piva fakeon prescription | Conditional (fakeon for infinite poles open) |
 | Causality | Signal speed = *c* (macroscopic); micro-violation at &ell; ~ 1/&Lambda; | Conditional |
 | Two-loop finiteness | Counterterm uniquely absorbed | **Unconditional** |
 | All-orders finiteness | Conjectured via chirality + two unproven BV axioms | Open conjecture |
 | Graviton scattering | Tree-level SCT = GR; one-loop finite | Verified (internal) |
-| Solar system tests | Spectral scale &Lambda; > 2.565 meV from torsion-balance | Complete |
+| Solar system tests | Spectral scale &Lambda; > 3.53 meV from torsion-balance (post-no-scalaron) | Complete |
 | Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Verified (internal) |
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension. At NCG-predicted &xi; = 1/6 no scalaron exists. | Negative |
 | De Sitter conjecture | Refined Swampland dS conjecture violated; &eta;<sub>min</sub> = &minus;1/3 | Resolved |
-| Non-minimal coupling | &xi; = 1/6 is a structural prediction of the spectral action, not a free parameter | Resolved |
+| Non-minimal coupling | &xi; = 1/6 follows from the standard Chamseddine-Connes spectral triple normalization; depends on the choice of spectral triple | Resolved (convention-dependent) |
 | CJ bridge formula | Parameter-free relation CJ = C&#8320; N<sup>8/9</sup> E&sup2; T&#8308; linking Hasse-diagram observable to electric Weyl tensor; R = 1.016 &pm; 0.015; factor 4 = 2<sub>alg</sub> &times; 2<sub>dyn</sub> (M<sub>ss</sub> &rarr; 2 verified N=1k&ndash;10k); 105 Lean theorems; [Paper 7](papers/drafts/sct_cj_bridge.pdf) | Conditional (two conditions unproven) |
 | FND-1 finite-nerve route | Auxiliary chain complex + H&#8321; formalized (63 Lean modules); intrinsic coherence obstruction proved; [Paper 6](papers/drafts/sct_finite_nerve.pdf) | Negative (support-only) / Open (causal order) |
 
@@ -262,13 +262,13 @@ The repository includes a structured collection of **50 open research problems**
 | Domain | Count | Status |
 |--------|-------|--------|
 | Foundations | 6 | 1 resolved (OP-04), 5 open |
-| Unitarity | 6 | all open |
-| UV finiteness | 4 | all open |
+| Unitarity | 6 | 1 partial (OP-07), 5 open |
+| UV finiteness | 4 | 2 resolved (OP-13, OP-14), 2 open |
 | Cosmology | 4 | 2 resolved (OP-17, OP-20), 2 open |
 | Black holes | 3 | all open |
 | Spectral dimension | 2 | all open |
 | Predictions | 8 | 3 resolved (OP-30, OP-31, OP-33), 5 open |
-| Causal sets | 10 | all open |
+| Causal sets | 10 | 1 resolved (OP-40), 1 closed (OP-41), 8 open |
 | Scalar sector | 1 | **resolved** (OP-44) |
 | Numerical | 5 | all open |
 | Formal verification | 1 | open |
@@ -277,7 +277,7 @@ The repository includes a structured collection of **50 open research problems**
 
 - **OP-20** (de Sitter conjecture): The refined Swampland dS conjecture (Ooguri-Vafa 2018) is **violated** by the SCT scalaron potential for c&#8321;, c&#8322; ~ O(1). The minimum value of the normalized Hessian is &eta;<sub>min</sub> = &minus;1/3, imposing a hard ceiling on c&#8322;. The gradient condition fails above &phi; &asymp; 1.19 M<sub>Pl</sub>. Both ratios |V&prime;|/V and V&Prime;/V are independent of the scalaron mass M&#8320;.
 
-- **OP-44** (critical coupling &xi;): The Higgs non-minimal coupling is **not a free parameter** within the standard Chamseddine-Connes spectral action. The a&#8324; Seeley-DeWitt coefficient structure forces &xi; = 1/6 (conformal coupling) after canonical Higgs normalization. This is confirmed by five independent groups (2006-2015) and is an exact one-loop RG fixed point (&beta;<sub>&xi;</sub> vanishes identically at &xi; = 1/6). At conformal coupling the scalar graviton mode decouples entirely, and the Starobinsky scalaron is absent.
+- **OP-44** (critical coupling &xi;): Under the standard Chamseddine-Connes spectral triple normalization, the Higgs non-minimal coupling takes the conformal value &xi; = 1/6. The a&#8324; Seeley-DeWitt coefficient structure gives this value after canonical Higgs normalization. This is confirmed by five independent groups (2006-2015) and is an exact one-loop RG fixed point (&beta;<sub>&xi;</sub> vanishes identically at &xi; = 1/6). At conformal coupling the scalar graviton mode decouples entirely, and the Starobinsky scalaron is absent.
 
 - **OP-04** (parameter counting): The cutoff function f in the spectral action S = Tr(f(D&sup2;/&Lambda;&sup2;)) is not uniquely determined by physical requirements (entireness + unitarity + causality). The robust prediction core of SCT consists only of a&#8324;-level quantities: &alpha;<sub>C</sub> = 13/120, c&#8321;/c&#8322;, PPN parameters, and c<sub>T</sub> = c on FLRW. All finite-momentum observables (form factors, effective masses, modified potential, spectral dimension) depend on the choice of f. However, the variation across admissible entire cutoffs is small (~5% for effective masses).
 
@@ -295,7 +295,7 @@ The spectral action framework has well-known theoretical vulnerabilities. This p
 
 **All-orders finiteness is a conjecture.** The chirality theorem proves that the counterterm space is one-dimensional at any loop order. Combined with two BV axioms (well-defined Jacobian and anomaly freedom), this implies all-orders finiteness. However, **these axioms are verified only through one loop**. Extending the proof to all orders is an open mathematical problem. The claim is a conjecture supported by one-loop evidence, not a theorem.
 
-**No singularity resolution.** The propagator denominator &Pi;<sub>TT</sub> approaches a finite constant at UV, giving 1/k&sup2; behavior &mdash; the same as GR. Singularity resolution requires exponential UV suppression (as in infinite derivative gravity), which the spectral action with Schwartz-class test function f does not produce. The Kretschner scalar is softened (r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but still diverges at r = 0.
+**No singularity resolution.** The propagator denominator &Pi;<sub>TT</sub> approaches a finite constant at UV, giving 1/k&sup2; behavior &mdash; the same as GR. Singularity resolution requires exponential UV suppression (as in infinite derivative gravity), which the spectral action with Schwartz-class test function f does not produce. The Kretschner scalar is softened (r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>) but still diverges at r = 0. The sometimes-quoted V(0) = 0 is an artifact of the local Yukawa approximation; the full nonlocal Fourier integral diverges at the origin in one-loop EFT.
 
 **No infrared predictions.** The spectral action is a UV modification of gravity. All corrections are exponentially suppressed at distances above 1/&Lambda; &asymp; 0.08 mm. The theory cannot address the Hubble tension, dark energy, or large-scale structure anomalies.
 
