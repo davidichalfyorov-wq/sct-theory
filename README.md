@@ -217,7 +217,7 @@ Hard derivations fail for boring reasons: wrong signs, mismatched conventions, s
 | 5 | Lean 4 formal proofs | Machine-verified rational identities |
 | 6 | Multi-backend | Multiple Lean backends must independently pass |
 
-Some pipeline stages use automated and AI-assisted tooling.
+Some pipeline stages use automated and AI-assisted tooling. All mathematical content, physical interpretation, and claims are verified and approved by the human author.
 
 ## Papers
 
