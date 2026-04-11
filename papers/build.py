@@ -31,7 +31,6 @@ _WINDOWS_FONTCONFIG_CANDIDATES = (
     Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "GIMP 2" / "etc" / "fonts" / "fonts.conf",
     Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "GIMP 2" / "32" / "etc" / "fonts" / "fonts.conf",
 )
-PDF_CREDITS = "Aliaksandr Samatyia contributed research-assistance and workflow support."
 PDF_METADATA_EXCLUDE_PREFIXES = (
     ("papers", "latex-sources"),
     ("papers", "references"),

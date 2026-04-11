@@ -376,7 +376,8 @@ def find_complex_zeros_Pis(
     """
     Find all zeros of Pi_scalar(z, xi) in the complex plane within |z| < R_max.
 
-    At xi = 1/6, Pi_s = 1 (no zeros). For general xi, proceeds as for Pi_TT.
+    At xi = 1/6, Pi_s > 1 on positive real axis (no real zeros).
+    Complex zeros may exist. Proceeds as for Pi_TT.
 
     Parameters
     ----------
@@ -392,9 +393,9 @@ def find_complex_zeros_Pis(
     mp.mp.dps = dps
     xi_mp = mp.mpf(xi)
 
-    # Check if scalar mode decouples
-    if abs(xi_mp - mp.mpf(1) / 6) < mp.mpf("1e-12"):
-        return []  # No zeros at conformal coupling
+    # NOTE (2026-04-07): removed early return at xi=1/6.
+    # Pi_s > 1 on positive real axis at conformal coupling,
+    # but complex zeros may exist and should be searched.
 
     def f(z):
         return Pi_scalar_complex(z, xi=xi, dps=dps)

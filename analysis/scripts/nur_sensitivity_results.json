@@ -1,0 +1,148 @@
+{
+  "critical_BSM": {
+    "N_D_critical": "74/3",
+    "N_D_critical_float": 24.666666666666668,
+    "N_D_SM": 22.5,
+    "N_D_SM_nuR": 24.0,
+    "margin_from_SM_nuR": 0.6666666666666666,
+    "margin_in_extra_Dirac": 0.6666666666666666,
+    "physical_meaning": "At N_D = 74/3 \u2248 24.67, alpha_C = 0 and the spin-2 ghost disappears entirely"
+  },
+  "SM (no nuR)": {
+    "local_coefficients": {
+      "alpha_C": 0.10833333333333339,
+      "alpha_C_exact": "13/120",
+      "alpha_C_numerator": 13,
+      "alpha_C_denominator": 120,
+      "N_D": 22.5,
+      "beta_W_decomposition": {
+        "scalar_contribution": 0.03333333333333333,
+        "dirac_contribution": -1.125,
+        "vector_contribution": 1.2
+      },
+      "alpha_R": {
+        "0": 0.05555555555555555,
+        "1/12": 0.013888888888888888,
+        "1/6": 0.0,
+        "1/4": 0.013888888888888892,
+        "1/3": 0.05555555555555555
+      },
+      "c1_c2_ratio": {
+        "0": -0.07692307692307704,
+        "1/12": -0.2692307692307693,
+        "1/6": -0.3333333333333333,
+        "1/4": -0.2692307692307692,
+        "1/3": -0.07692307692307704
+      }
+    },
+    "propagator": {
+      "alpha_C": 0.10833333333333339,
+      "z0_euclidean": 2.414838889865369,
+      "m2_over_Lambda": 1.5539751895913168,
+      "residue_euclidean": -0.49309950210599085,
+      "z_L_lorentzian_note": "Lorentzian pole requires analytic continuation (Phase B Step 15). SM canonical: z_L = -1.2807, m_ghost/Lambda = 1.132."
+    },
+    "observables": {
+      "yukawa_amplitude_spin2": -1.3333333333333333,
+      "c_T_deviation_coefficient": 0.054166666666666696,
+      "alpha_R_unchanged": true,
+      "delta_H2_H2_unchanged": true
+    },
+    "black_hole_entropy": {
+      "c_log_exact": "37/24",
+      "c_log_float": 1.5416666666666667,
+      "c_log_positive": true,
+      "discriminator_with_LQG": "positive"
+    },
+    "uv_asymptotic": {
+      "x=1e2": -7.391646934355105,
+      "x=1e3": -7.416882135311208,
+      "x=1e4": -7.416713835150956,
+      "x=1e5": -7.416671638365153,
+      "x=1e6": -7.416667166383665,
+      "expected_SM": -7.416666666666667
+    }
+  },
+  "SM + 3 nuR": {
+    "local_coefficients": {
+      "alpha_C": 0.033333333333333215,
+      "alpha_C_exact": "1/30",
+      "alpha_C_numerator": 1,
+      "alpha_C_denominator": 30,
+      "N_D": 24.0,
+      "beta_W_decomposition": {
+        "scalar_contribution": 0.03333333333333333,
+        "dirac_contribution": -1.2,
+        "vector_contribution": 1.2
+      },
+      "alpha_R": {
+        "0": 0.05555555555555555,
+        "1/12": 0.013888888888888888,
+        "1/6": 0.0,
+        "1/4": 0.013888888888888892,
+        "1/3": 0.05555555555555555
+      },
+      "c1_c2_ratio": {
+        "0": 0.5000000000000029,
+        "1/12": -0.12499999999999925,
+        "1/6": -0.3333333333333333,
+        "1/4": -0.1249999999999992,
+        "1/3": 0.5000000000000029
+      }
+    },
+    "propagator": {
+      "alpha_C": 0.033333333333333215,
+      "z0_euclidean": 2.106189193453833,
+      "m2_over_Lambda": 1.451271578118249,
+      "residue_euclidean": -0.5539790186313331,
+      "z_L_lorentzian_note": "Lorentzian pole requires analytic continuation (Phase B Step 15). SM canonical: z_L = -1.2807, m_ghost/Lambda = 1.132."
+    },
+    "observables": {
+      "yukawa_amplitude_spin2": -1.3333333333333333,
+      "c_T_deviation_coefficient": 0.016666666666666607,
+      "alpha_R_unchanged": true,
+      "delta_H2_H2_unchanged": true
+    },
+    "black_hole_entropy": {
+      "c_log_exact": "8/5",
+      "c_log_float": 1.6,
+      "c_log_positive": true,
+      "discriminator_with_LQG": "positive"
+    },
+    "uv_asymptotic": {
+      "x=1e2": -7.655714018744917,
+      "x=1e3": -7.668373105055911,
+      "x=1e4": -7.666863745120931,
+      "x=1e5": -7.666686637465123,
+      "x=1e6": -7.666668666374665,
+      "expected_SM": -7.416666666666667
+    }
+  },
+  "comparison": {
+    "alpha_C_change_percent": -69.23076923076937,
+    "c_log_change": 0.058333333333333334,
+    "alpha_R_changed": false,
+    "c1_c2_at_conformal_changed": false
+  },
+  "literature_crosscheck": {
+    "CZ_2012": {
+      "formula": "4/120 + (45/2)*(-1/20) + 12*(1/10)",
+      "value": "13/120",
+      "matches_SCT": true
+    },
+    "Avramidi_2000": {
+      "a4_Dirac_C2_coefficient": "-7/180",
+      "with_fermion_sign": "7/180",
+      "SCT_hC_dirac_local": "-1/20",
+      "ratio_SCT_to_Avramidi": "-9/7",
+      "note": "Factor -9/7 = (-1/20)/(7/180); convention difference in normalization of F_1 vs beta-function"
+    },
+    "CPR_0805_2909": {
+      "N_s": 4,
+      "N_D": 22.5,
+      "N_v": 12,
+      "matches_SCT": true,
+      "note": "CPR use same SM counting as SCT"
+    }
+  }
+}

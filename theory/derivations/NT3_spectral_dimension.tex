@@ -55,7 +55,6 @@
 \maketitle
 
 \begin{center}
-\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance
 and workflow support.}
 \end{center}
 
@@ -67,28 +66,36 @@ propagator is characterized by the dressing function
 $\PiTT(z) = 1 + \tfrac{13}{60}\,z\,\Fhat_1(z)$, which saturates at
 $\PiTT \to -83/6$ in the UV, implying $1/k^2$ scaling of the propagator.
 
-We evaluate $\ds(\sigma)$ under four definitions: the propagator-weighted
-integral (CMN), the standard heat kernel, the fakeon-regulated modified
-heat kernel (ASZ), and the Mittag--Leffler pole decomposition (ML).
-Under the ML decomposition, the return probability
-$P_{\mathrm{ML}}(\sigma) \propto W(\sigma)/\sigma^2$ becomes negative
-for $\sigma < \sigma_* \approx 0.010\,\Lambda^{-2}$ because the sum of
-ghost residues satisfies $1 + \sum_n R_n = -0.034 < 0$. This ghost-dominance
-region renders the deep UV spectral dimension physically ill-defined under
-the ML prescription.
+We evaluate $\ds(\sigma)$ under four definitions: the
+propagator-weighted integral (CMN), the standard heat kernel, the
+fakeon-regulated modified heat kernel (ASZ), and the Mittag--Leffler
+pole decomposition (ML). Under the ML decomposition, the return
+probability
+$P_{\mathrm{ML}} \propto W(\sigma)/\sigma^2$ becomes negative for
+$\sigma < \sigma_* \approx 0.010\,\Lambda^{-2}$
+because $1 + \sum_n R_n = -0.034 < 0$.
+This ghost-dominance region renders the deep UV spectral
+dimension physically ill-defined under the ML prescription.
 
-In the physical region ($\sigma > \sigma_*$), $\ds$ flows from
-$\ds \approx 2$ near the ghost scale ($\sigma \sim 0.05$--$0.1\,\Lambda^{-2}$)
-to $\ds = 4$ in the IR ($\sigma \gg 1/\Lambda^2$). This transient
-$\ds \approx 2$ value echoes the universal dimensional reduction observed in
-CDT, Asymptotic Safety, Horava--Lifshitz gravity, and Stelle gravity,
-though the SCT mechanism is distinct: it arises from ghost pole interference
-rather than modified UV scaling.
+In the physical region ($\sigma > \sigma_*$), $\ds$ flows from the
+ghost-dominated boundary to $\ds = 4$ in the IR
+($\sigma \gg 1/\Lambda^2$). Along this flow, $\ds$ passes through
+$\ds \approx 2$ near $\sigma \sim 0.05$--$0.1\,\Lambda^{-2}$, but this
+is a \emph{non-monotonic transient}---not a UV plateau. Unlike the
+monotonic $4 \to 2$ flow seen in CDT, Asymptotic Safety, and
+Horava--Lifshitz gravity, the SCT flow oscillates due to ghost pole
+interference (e.g., $\ds \approx 0.62$ at $\sigma = 0.02$,
+$\ds \approx 2.47$ at $\sigma = 0.05$, $\ds \approx 2.06$ at
+$\sigma = 0.1$). The quantitative values in this region are sensitive
+to the truncation of the Hadamard product (8 catalogued poles out of
+infinitely many); the qualitative existence of a $\ds \approx 2$
+crossing is robust.
 
 The spectral dimension depends on the definition used:
 $\ds = 2$ (propagator, CMN), $\ds = 0$ (ASZ/fakeon), or
-$\ds \approx 2 \to 4$ (ML, physical region). We report all values
-with explicit caveats.
+a non-monotonic flow through $\ds \approx 2$ (ML, physical region).
+SCT does not predict a clean, definition-independent UV spectral
+dimension. We report all values with explicit caveats.
 
 \noindent\textit{Verification: 32/32 checks across 5 verification steps (analytic,
 100-digit numerical, literature, dual derivation, independent CAS cross-check).
@@ -294,6 +301,35 @@ and the physical region ($P > 0$).}
 \end{figure}
 
 
+\subsection{Truncation Sensitivity}
+\label{sec:truncation}
+
+The ML decomposition uses a finite number of poles from the Hadamard
+factorization of $\PiTT(z)$. In the MR-2 analysis, eight poles (two real,
+three complex conjugate pairs) were catalogued in $|z| \leq 100$.
+The convergence of the Hadamard product is logarithmic ($\order(1/N)$,
+expected for an order-1 entire function), and the two-pole approximation
+shows 60--2400\% errors relative to the exact $\PiTT$ at representative
+points (OP-07 analysis).
+
+For the spectral dimension, the key sensitivity is in $W(0) = 1 + \sum_n R_n$:
+\begin{itemize}[nosep]
+  \item 2 poles: $\sum R_n \approx -1.03$, $\sigma_* \approx 0.006$.
+  \item 8 poles: $\sum R_n = -1.034$, $\sigma_* \approx 0.010$ (67\% shift).
+  \item Estimated full tail: $\sum R_n \approx -1.10$,
+    $\sigma_* \approx 0.015$ (estimated).
+\end{itemize}
+The qualitative structure---$W(0) < 0$, a zero crossing at some $\sigma_*$,
+and $W \to 1$ in the IR---is robust under all truncations. But the quantitative
+values of $\ds$ for $\sigma < 0.5\,\Lambda^{-2}$ depend on the number of
+included poles. All numerical results in the ghost-scale region should be
+understood as approximate.
+
+The IR limit $\ds = 4$ (for $\sigma \gg 1/\Lambda^2$) is robust because
+all ghost contributions are exponentially suppressed regardless of
+truncation.
+
+
 %% =====================================================================
 \section{SCT Spectral Dimension: UV and IR Limits}
 \label{sec:results}
@@ -306,8 +342,8 @@ Under the ML method: for $\sigma \gg 1/\Lambda^2$, ghost poles are
 exponentially suppressed ($e^{-m_n^2\sigma} \to 0$), so $W \to 1$
 and $P_{\mathrm{ML}} \to 1/(16\pi^2\sigma^2)$, giving $\ds = 4$.
 
-\textcolor{proven}{\textbf{Verified:}} $\ds(100) = 4.0008$ (primary derivation),
-$\ds(1000) = 4.000$ (independent re-derivation). Agreement to 4 significant figures.
+\textcolor{proven}{\textbf{Verified:}} $\ds(100) = 4.0008$ (primary),
+$\ds(1000) = 4.000$ (re-derivation). Agreement to 4 significant figures.
 
 \subsection{Physical UV Limit ($\sigma \gtrsim \sigma_*$)}
 
@@ -336,10 +372,15 @@ $\sigma\,[\Lambda^{-2}]$ & $W(\sigma)$ & $\ds$ \\
 \end{table}
 
 Near the ghost scale ($\sigma \sim 0.05$--$0.1\,\Lambda^{-2}$),
-$\ds \approx 2$, echoing the universal value seen in CDT, Asymptotic Safety,
-Horava--Lifshitz, and Stelle gravity. However, the SCT mechanism is
-distinct: the reduction arises from ghost pole interference
-in the weight function $W(\sigma)$, not from modified UV scaling.
+$\ds$ passes through $\approx 2$. Unlike the monotonic $4 \to 2$ UV
+plateau seen in CDT, Asymptotic Safety, Horava--Lifshitz, and Stelle
+gravity, the SCT flow is \emph{non-monotonic}: $\ds$ oscillates between
+$\sim 0.6$ and $\sim 2.8$ in the ghost-scale region before settling to~4.
+The numerical coincidence $\ds \approx 2$ at one specific scale does
+not constitute UV dimensional reduction---it arises from ghost pole
+interference in $W(\sigma)$, not from modified UV scaling of the
+propagator. Moreover, the quantitative values in this region depend
+on the truncation of the Mittag--Leffler series (see below).
 
 \begin{figure}[ht]
 \centering
@@ -415,31 +456,43 @@ SCT (CMN propagator) & 2 & 2 & this work \\
 \label{tab:comparison}
 \end{table}
 
+\textbf{Caveat on cross-approach comparison.}
+Each entry in \Cref{tab:comparison} uses a different \emph{definition} of
+$\ds$: CDT uses discrete random walks on a triangulation, AS uses the
+effective average action heat kernel trace, HL uses anisotropic scaling,
+and Stelle uses the CMN propagator integral. These are distinct physical
+and mathematical objects; the numerical agreement $\ds \approx 2$ across
+approaches may be less significant than it appears.
+
 Key observations:
 \begin{enumerate}
   \item SCT does \emph{not} predict $\ds^{\mathrm{UV}} = 2$ from modified
-    UV scaling ($\PiTT$ saturates rather than growing). The $\ds \approx 2$
-    value at the ghost scale arises from a different mechanism (ghost
-    interference).
+    UV scaling ($\PiTT$ saturates at a constant rather than growing as a
+    power of $z$). The $\ds \approx 2$ crossing at the ghost scale arises
+    from a qualitatively different mechanism (ghost pole interference in
+    $W(\sigma)$).
   \item The SCT deep UV is inaccessible under the ML prescription
     due to ghost dominance ($P < 0$). This parallels the ASZ finding
     $\ds = 0$: in both cases, the spectral action's UV structure
     prevents a well-defined spectral dimension at the shortest scales.
-  \item Unlike Stelle gravity, SCT does not produce a clean $\ds = 2$
-    plateau. The flow shows oscillatory structure near $\sigma \sim 0.1$
-    before monotonically approaching 4.
+  \item Unlike all other approaches in the table, the SCT $\ds$ flow
+    is \emph{non-monotonic}: it oscillates between $\sim 0.6$ and
+    $\sim 2.8$ near the ghost scale before settling to~4. The other
+    approaches exhibit a monotonic $4 \to 2$ UV flow. This oscillatory
+    behavior is a distinctive signature of the ghost pole spectrum.
 \end{enumerate}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt3/nt3_uv_comparison.pdf}
-\caption{UV spectral dimension comparison across quantum gravity approaches.
-CDT ($d_S \approx 1.80$), Asymptotic Safety ($d_S = 2$), Horava--Lifshitz
-($d_S = 2$), Stelle gravity ($d_S = 2$), and LQG ($d_S = 2$) all exhibit
-dimensional reduction in the UV. SCT (ML, physical region) shows
-$d_S \approx 2$ near the ghost scale, but the mechanism is distinct: ghost
-pole interference rather than modified UV power-law scaling. The SCT deep UV
-is inaccessible under the ML prescription due to $P < 0$.}
+\caption{Spectral dimension across quantum gravity approaches.
+CDT, Asymptotic Safety, Horava--Lifshitz, Stelle gravity, and LQG
+all exhibit a monotonic $4 \to 2$ UV flow, constituting a UV plateau.
+SCT (ML, physical region) passes through $d_S \approx 2$ near the
+ghost scale, but the flow is non-monotonic and the $d_S \approx 2$
+value is a transient crossing, not a UV limit. The SCT deep UV
+is inaccessible under the ML prescription due to $P < 0$.
+Note: each approach uses a different definition of $d_S$ (see text).}
 \label{fig:nt3-uv-comparison}
 \end{figure}
 
@@ -491,21 +544,46 @@ and on the treatment of ghost poles. The principal findings are:
     consequence of the ghost pole structure.
 \end{enumerate}
 
-The result $\ds \approx 2$ at the ghost scale is qualitatively consistent
-with the $\ds = 2$ universality observed across multiple approaches to
-quantum gravity, though the mechanism (ghost interference vs.\ modified
-UV scaling) is distinct.
+The $\ds \approx 2$ crossing at the ghost scale is a numerical
+coincidence with the $\ds = 2$ UV plateau observed in CDT, Asymptotic
+Safety, and Stelle gravity; however, the SCT value is a non-monotonic
+transient (not a UV limit), arises from a different mechanism (ghost
+pole interference, not modified UV scaling), and its quantitative
+position depends on the Hadamard truncation order (\Cref{sec:truncation}).
+
+\textbf{Scalar sector.} The scalar (spin-0) propagator sector,
+governed by $\Pi_s(z, \xi)$, does not contribute additional poles
+at any value of the non-minimal coupling $\xi$. The no-scalaron
+theorem proves $\Pi_s(z) > 1$ for all real $z > 0$ at $\xi = 1/6$;
+at general $\xi$, $\Pi_s$ has no real positive zeros either. Therefore
+the scalar sector gives $\ds = 4$ for all $\sigma$ and does not modify
+the spin-2 results above.
 
 \textbf{Verdict:} The SCT spectral dimension is
-\textcolor{caution}{DEFINITION-DEPENDENT}. The recommended primary
-prediction is:
+\textcolor{caution}{DEFINITION-DEPENDENT}. SCT does not predict a clean,
+definition-independent UV spectral dimension. The primary finding is:
 \begin{equation}
   \boxed{
-    \ds(\sigma) \approx 2 \;\text{at } \sigma \sim 0.05\text{--}0.1\,\Lambda^{-2}
-    \,,\qquad
-    \ds(\sigma) = 4 \;\text{at } \sigma \gg \Lambda^{-2}\,.
+    \parbox{0.82\textwidth}{%
+    $\ds(\sigma) = 4$ for $\sigma \gg \Lambda^{-2}$ (IR, all definitions).\\[3pt]
+    $\ds$ passes through $\approx 2$ near
+    $\sigma \sim 0.05$--$0.1\,\Lambda^{-2}$ (ML method, non-monotonic
+    transient, truncation-sensitive).\\[3pt]
+    $\ds$ is not defined for $\sigma < \sigma_* \approx 0.01\,\Lambda^{-2}$
+    (ML: $P < 0$, ghost dominance).%
+    }
   }
 \end{equation}
+
+\textbf{What this derivation does not show:}
+\begin{itemize}[nosep]
+  \item It does not demonstrate UV dimensional reduction in the standard sense
+    (a monotonic $4 \to 2$ UV plateau).
+  \item It does not resolve the definition ambiguity: four definitions give
+    four different UV values ($0$, $2$, $4$, or undefined).
+  \item The quantitative $\ds$ values in the ghost-scale region are sensitive
+    to the number of included Hadamard poles (\Cref{sec:truncation}).
+\end{itemize}
 
 \textbf{Verification status:} 32/32 checks across 5 layers; independently
 confirmed by two independent derivations using 5 different methods.

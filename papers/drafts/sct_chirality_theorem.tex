@@ -5,7 +5,12 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{amsthm}
 \usepackage[margin=2.5cm]{geometry}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{microtype}
 \usepackage{hyperref}
+
+\tolerance=1500
+\emergencystretch=1.5em
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{mathtools}
@@ -52,7 +57,9 @@
 \title{Chirality of the Seeley--DeWitt coefficients and quartic Weyl
 structure in the spectral action}
 
-\author{David Alfyorov}
+\author{David Alfyorov\\[4pt]
+\small Independent researcher, Russia\\[2pt]
+\small\textit{davidich.alfyorov@gmail.com}}
 
 \date{March 2026}
 
@@ -82,7 +89,7 @@ reduce first to two via the Cayley--Hamilton identity, and then to one
 effective structure via chirality.  This reduces the three-loop finiteness
 problem for the spectral action from an overdetermined system to a single
 ratio condition.  We show that the strict spectral renormalizability conjecture
-for gravity is \emph{disproven}: the graviton propagator is chirality-blind
+for gravity is \emph{excluded at the level of structural analysis}: the graviton propagator is chirality-blind
 (a scalar on the traceless-transverse sector), and multi-eigenvalue sums at two
 loops and above generate $pq$ cross-terms outside the spectral function space.
 The precise obstruction is the multi-trace structure of divided differences in
@@ -95,6 +102,8 @@ to this precision.  All algebraic results are verified by independent numerical
 computation on ensembles of random Weyl tensors with precision
 $\leq 10^{-12}$.
 \end{abstract}
+
+\noindent\textbf{PACS:} 04.60.-m, 04.62.+v, 11.10.Gh, 02.40.Gh
 
 \tableofcontents
 \newpage
@@ -118,15 +127,35 @@ extension generates momentum-dependent form factors that characterize the
 one-loop quantum gravitational effective
 action~\cite{Barvinsky:1985an,Barvinsky:1987uw,Codello:2012kq}.
 
-In a companion paper~\cite{Alfyorov:2026ff} we computed the complete
-one-loop form factors $F_1(\Box/\Lam^2)$ and $F_2(\Box/\Lam^2,\xi)$ with
-full Standard Model content, establishing that the spectral action generates
-the SM-determined Weyl-squared coefficient $\alpha_C = 13/120$ and an $R^2$
-coefficient $\alpha_R(\xi) = 2(\xi - 1/6)^2$ depending only on the Higgs
-non-minimal coupling~$\xi$.  In~\cite{Alfyorov:2026ss} we derived the
-observational consequences, obtaining a lower bound
-$\Lam > 2.565 \times 10^{-3}\;\mathrm{eV}$ from torsion-balance
-experiments.
+The chiral decomposition of the spin connection in four dimensions is
+a classical result in differential geometry and mathematical physics.
+Eguchi, Gilkey, and Hanson~\cite{EguchiGilkeyHanson:1980} established
+the block-diagonal structure of the spin curvature in their comprehensive
+review of gravitational instantons.  The same decomposition underlies
+the Atiyah--Singer index theorem in four dimensions and has been used
+extensively in self-dual gravity and instanton
+physics~\cite{AtiyahSinger:1968,AlvarezGaume:1983ig}.  In the spectral
+action context, Chamseddine, Connes, and
+Marcolli~\cite{ChamseddineConnesMarcolli:2007} computed the full Standard
+Model action from the spectral action principle on the product geometry
+$M \times F$, and van~Suijlekom~\cite{vanSuijlekom:2014pya} provided a
+systematic treatment of the heat kernel expansion.
+
+The novelty of the present paper lies not in the chirality of the spin
+generators (which is classical) but in the systematic application of this
+property to the spectral action's quartic Weyl structure.  We show that the
+chiral block-diagonal decomposition, combined with the Cayley--Hamilton
+identity for the Weyl spinors, reduces the space of quartic Weyl invariants
+from three (Molien count) to one effective structure, exactly matching the
+single spectral parameter.  This resolves the apparent overdetermination of
+the three-loop finiteness problem.
+
+The one-loop form factors of the spectral action with full Standard Model
+content --- yielding $\alpha_C = 13/120$ and
+$\alpha_R(\xi) = 2(\xi - 1/6)^2$ --- have been computed
+in~\cite{Alfyorov:2026ff}, and the observational consequences (lower bound
+$\Lam > 2.565 \times 10^{-3}\;\mathrm{eV}$) are derived
+in~\cite{Alfyorov:2026ss}.
 
 These results establish perturbative finiteness at one loop (degree of
 divergence $D = 0$) and, by explicit on-shell computation, at two
@@ -365,6 +394,27 @@ Seeley--DeWitt coefficients, defined as the local invariants in the
 asymptotic expansion $\tr(e^{-tD^2}) \sim \sum_{n \geq 0} t^{n-2}\,\tr(a_{2n})$,
 inherit this decomposition.
 \end{proof}
+
+\begin{remark}[Scope of the Ricci-flat restriction]
+\label{rem:ricci-flat}
+The block-diagonal property $[\Omega_{\mu\nu}, \gamma_5] = 0$
+(Theorem~\ref{thm:chirality}) and the commutation
+$[D^2, \gamma_5] = 0$ hold on \emph{any} four-dimensional background,
+not just Ricci-flat ones: the Lichnerowicz scalar curvature term $R/4$
+is proportional to the identity and commutes with $\gamma_5$ trivially.
+The Ricci-flat restriction is needed only for the $p$-$q$ decomposition of
+the heat kernel coefficients, because on a general background the Riemann
+tensor includes Ricci contributions that do not separate into self-dual
+and anti-self-dual Weyl sectors.  On a general Einstein manifold
+($R_{\mu\nu} = \lambda g_{\mu\nu}$), the heat kernel retains the chiral
+block-diagonal structure, but the coefficients $\tr(a_{2n})$ contain
+additional terms involving $\lambda$ that couple to both chiral sectors
+symmetrically.  The zero-$pq$ theorem (Theorem~\ref{thm:zero-pq}) remains
+valid for the Weyl-dependent part of $\tr(a_{2n})$, but the total
+coefficient receives Ricci-squared and mixed Ricci--Weyl contributions that
+require separate treatment.  Extension to general backgrounds is an
+important open problem for the full three-loop program.
+\end{remark}
 
 
 % ============================================================
@@ -671,9 +721,15 @@ with $\tr(\mathbf{1}_4) = 4$.  The chirality constraint requires:
   \frac{1}{2}\,c_{S_3} + 4\,\beta_{\mathrm{geom}} = 0,
 \end{equation}
 where $c_{S_3}$ is the Avramidi coefficient multiplying $S_3$ in $a_8$.
-This is a checkable prediction of the theorem: it constrains the
-relationship between the spinor-sector and geometry-sector coefficients in
-the Avramidi recursion~\cite{Avramidi:1999bm}.
+Equation~\eqref{eq:cancel} is a non-trivial \emph{prediction} of the
+chirality theorem, not a circular consequence: it constrains the
+relationship between the spinor-sector and geometry-sector Avramidi
+coefficients~\cite{Avramidi:1999bm} and can be independently verified by
+computing $c_{S_3}$ and $\beta_{\mathrm{geom}}$ from the Avramidi
+recursion.  We have confirmed the cancellation numerically: for $10^3$
+random Weyl tensors, the total $pq$ coefficient of $\tr(a_8)$ is
+$|\beta| < 10^{-12}$ (see Table~\ref{tab:omega} and
+Section~\ref{sec:numerical}, test~(9)).
 
 
 % ============================================================
@@ -851,8 +907,8 @@ about a Ricci-flat background have the form
 for some spectral function $g_L$ depending on the loop order.
 \end{conjecture}
 
-\noindent\textbf{Status: disproven.}
-The strict conjecture is disproven at the structural level.  The precise
+\noindent\textbf{Status: excluded by structural argument and numerical evidence.}
+The strict conjecture is excluded at the level of structural analysis.  The precise
 obstruction is that the multi-loop effective action involves multi-eigenvalue
 sums (divided differences in the van~Nuland--van~Suijlekom
 framework~\cite{vanNuland:2021}) whose propagator structure does not respect
@@ -882,9 +938,11 @@ graviton modifies the operator \emph{itself}: $D = D[g]$.
 All $pq$ cross-terms in the gravitational counterterms are suppressed by at
 least $\alpha_C^3/(16\pi^2)^3 \approx 3.2 \times 10^{-10}$ relative to
 the tree-level action, where $\alpha_C = 13/120$ is the one-loop Weyl
-coefficient.  Within the perturbative regime (loop orders $L \leq L_{\rm opt}
-\sim 78$), the spectral action provides an effective absorption of all
-divergences to precision $\sim 10^{-10}$.
+coefficient.  Within the perturbative regime (loop orders
+$L \leq L_{\rm opt}$, where the indicative $L_{\rm opt} \sim (16\pi^2/\alpha_C)^{1/2}
+\approx 78$ is the estimated loop order at which the perturbative expansion parameter
+$[\alpha_C/(16\pi^2)]^L$ reaches order unity), the spectral action provides
+an effective absorption of all divergences to precision $\sim 10^{-10}$.
 \end{conjecture}
 
 \noindent\textbf{Supporting evidence for the practical statement.}
@@ -921,7 +979,7 @@ divergences to precision $\sim 10^{-10}$.
 \end{enumerate}
 
 \begin{remark}
-The strict conjecture is disproven, but the failure is quantitatively
+The strict conjecture is excluded at the level of structural analysis, but the failure is quantitatively
 negligible.  The spectral action retains its one-parameter predictive
 structure through at least two loops (unconditionally on-shell) and provides
 effective UV finiteness within the perturbative regime to precision
@@ -1040,9 +1098,10 @@ three-loop finiteness problem is reduced from an overdetermined system to
 a single ratio condition.
 
 The remaining question---whether multi-loop counterterms respect the spectral
-action structure---is resolved in the negative.  The strict spectral
+action structure---is resolved in the negative by structural argument
+and numerical evidence on finite spectral triples.  The strict spectral
 renormalizability conjecture (Conjecture~\ref{conj:spectral}) is
-\emph{disproven}: the graviton propagator is chirality-blind (a scalar on the
+\emph{excluded at the level of structural analysis}: the graviton propagator is chirality-blind (a scalar on the
 traceless-transverse sector), and multi-eigenvalue sums at two loops and above
 generate $pq$ cross-terms that lie outside the spectral function space.
 This obstruction is fundamental to gravity and does not arise in the
@@ -1073,8 +1132,7 @@ action providing effective UV finiteness to precision $\sim 10^{-10}$.
 \section*{Acknowledgments}
 % ============================================================
 
-The author thanks Aliaksandr Samatyia for research assistance and workflow
-support.  All symbolic results were verified numerically to $\geq 12$-digit
+All symbolic results were verified numerically to $\geq 12$-digit
 precision using independent implementations.
 
 
@@ -1180,6 +1238,14 @@ versus 1 spectral parameter.  After
 Cayley--Hamilton ($3 \to 2$) and chirality ($2 \to 1$), the system becomes
 determined.
 
+
+\section*{Funding}
+
+This work received no external funding.
+
+\section*{Conflict of interest}
+
+The author declares no conflict of interest.
 
 \bibliographystyle{unsrtnat}
 \bibliography{../references/sct_chirality}

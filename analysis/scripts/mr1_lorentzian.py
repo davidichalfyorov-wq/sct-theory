@@ -430,9 +430,15 @@ def Pi_scalar_complex(z: complex | mp.mpc, xi: float = 0.0, dps: int = DEFAULT_D
     """
     Spin-0 scalar propagator denominator for arbitrary complex z.
 
-    Pi_s(z, xi) = 1 + 6*(xi - 1/6)^2 * z * F2_hat(z, xi)
+    Universal formula: Pi_s(z, xi) = 1 + 3*z*alpha_R(z, xi)
+    where alpha_R = F2_total * 16*pi^2.
 
-    At xi = 1/6: Pi_s = 1 (scalar mode decouples).
+    Valid for ALL xi, including xi = 1/6 where the local R^2 coefficient
+    vanishes but the nonlocal form factor is nonzero for z != 0.
+
+    NOTE (2026-04-07): Previous version force-returned 1 at xi=1/6,
+    based on the incorrect factorized formula. The correct universal
+    formula gives Pi_s > 1 for all z > 0 at any xi.
 
     Parameters
     ----------
@@ -442,23 +448,10 @@ def Pi_scalar_complex(z: complex | mp.mpc, xi: float = 0.0, dps: int = DEFAULT_D
     """
     mp.mp.dps = dps
     z_mp = mp.mpc(z)
-    xi_mp = mp.mpf(xi)
-    coeff = 6 * (xi_mp - mp.mpf(1) / 6) ** 2
-    if abs(coeff) < mp.mpf("1e-20"):
-        return mp.mpc(1)
 
-    # Negative real axis: use corrected Lorentzian evaluator
-    if abs(mp.im(z_mp)) < mp.mpf("1e-30") and mp.re(z_mp) < -mp.mpf("1e-30"):
-        x = -mp.re(z_mp)
-        f2_hat = _F2_hat_lorentzian(x, xi=xi_mp, dps=dps)
-        return mp.mpc(1 + coeff * (-x) * f2_hat)
-
-    # General complex z
-    f0 = F2_total_complex(0, xi=xi, dps=dps)
-    if abs(f0) < mp.mpf("1e-40"):
-        return mp.mpc(1)
-    f2_hat = F2_total_complex(z_mp, xi=xi, dps=dps) / f0
-    return 1 + coeff * z_mp * f2_hat
+    # Universal formula: Pi_s = 1 + 3*z*alpha_R(z, xi)
+    alpha_R_z = F2_total_complex(z_mp, xi=xi, dps=dps) * 16 * mp.pi**2
+    return 1 + 3 * z_mp * alpha_R_z
 
 
 def Pi_TT_lorentzian(z_L: float | mp.mpf, dps: int = DEFAULT_DPS) -> mp.mpf:
@@ -489,6 +482,12 @@ def Pi_s_lorentzian(
     """
     Spin-0 scalar denominator on the Lorentzian axis.
 
+    Universal formula: Pi_s = 1 + 3*z*alpha_R(z, xi) evaluated at
+    z = -z_L (Euclidean z = -Lorentzian z_L for timelike momenta).
+
+    NOTE (2026-04-07): corrected from factorized form that
+    force-returned 1 at xi=1/6.
+
     Parameters
     ----------
     z_L : positive real Lorentzian momentum squared (in units of Lambda^2)
@@ -496,13 +495,10 @@ def Pi_s_lorentzian(
     dps : decimal places of precision
     """
     mp.mp.dps = dps
-    xi_mp = mp.mpf(xi)
-    coeff = 6 * (xi_mp - mp.mpf(1) / 6) ** 2
-    if abs(coeff) < mp.mpf("1e-20"):
-        return mp.mpf(1)
-    x = mp.mpf(z_L)
-    f2_hat = _F2_hat_lorentzian(x, xi=xi_mp, dps=dps)
-    return 1 - coeff * x * f2_hat
+    # Lorentzian z_L > 0 corresponds to Euclidean z = -z_L
+    z_eucl = mp.mpc(-mp.mpf(z_L))
+    alpha_R_z = F2_total_complex(z_eucl, xi=xi, dps=dps) * 16 * mp.pi**2
+    return mp.re(1 + 3 * z_eucl * alpha_R_z)
 
 
 # ===================================================================

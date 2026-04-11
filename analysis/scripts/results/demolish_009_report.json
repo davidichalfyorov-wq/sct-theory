@@ -1,0 +1,156 @@
+{
+  "phase1": {
+    "ppwave": {
+      "IVV_mean": 1e-08,
+      "IVV_std": 0.0,
+      "PIVF_mean": 4.599999954280065e-07,
+      "PIVF_std": 1.8000000068241206e-07,
+      "tc_med_sym_fraction_mean": 0.6355,
+      "tc_med_r2_dV2_dS2_mean": 0.2253,
+      "degree_proxy_r2_mean": 0.08,
+      "sign_frac_positive_mean": 0.234,
+      "sign_mean_dV_mean": 2.62e-06,
+      "adversary_ratio_mean": 2.1695,
+      "adversary_ratio_std": 1.1457,
+      "boundary": {
+        "z0.05": {
+          "IVV": 0.0,
+          "n_bulk": 335,
+          "IVV_boundary": 0.0
+        },
+        "z0.10": {
+          "IVV": 1e-08,
+          "n_bulk": 204,
+          "IVV_boundary": 0.0
+        },
+        "z0.15": {
+          "IVV": 1e-08,
+          "n_bulk": 126,
+          "IVV_boundary": 0.0
+        },
+        "z0.20": {
+          "IVV": 1e-08,
+          "n_bulk": 66,
+          "IVV_boundary": 0.0
+        },
+        "z0.30": {
+          "IVV": 0.0,
+          "n_bulk": 11,
+          "IVV_boundary": 0.0
+        }
+      },
+      "n_trials": 20
+    },
+    "schwarzschild": {
+      "IVV_mean": 0.0,
+      "IVV_std": 0.0,
+      "PIVF_mean": 2.7999999474559445e-07,
+      "PIVF_std": 7.999999951380232e-08,
+      "tc_med_sym_fraction_mean": 0.6184,
+      "tc_med_r2_dV2_dS2_mean": 0.2731,
+      "degree_proxy_r2_mean": 0.0759,
+      "sign_frac_positive_mean": 0.1792,
+      "sign_mean_dV_mean": 6.1e-07,
+      "adversary_ratio_mean": 2.1136,
+      "adversary_ratio_std": 0.8865,
+      "boundary": {
+        "z0.05": {
+          "IVV": 0.0,
+          "n_bulk": 333,
+          "IVV_boundary": 0.0
+        },
+        "z0.10": {
+          "IVV": 0.0,
+          "n_bulk": 204,
+          "IVV_boundary": 0.0
+        },
+        "z0.15": {
+          "IVV": 0.0,
+          "n_bulk": 121,
+          "IVV_boundary": 0.0
+        },
+        "z0.20": {
+          "IVV": 0.0,
+          "n_bulk": 58,
+          "IVV_boundary": 0.0
+        },
+        "z0.30": {
+          "IVV": 0.0,
+          "n_bulk": 15,
+          "IVV_boundary": 0.0
+        }
+      },
+      "n_trials": 20
+    },
+    "desitter": {
+      "IVV_mean": 3e-08,
+      "IVV_std": 1e-08,
+      "PIVF_mean": 6.880000000819564e-06,
+      "PIVF_std": 3.3799999528127955e-06,
+      "tc_med_sym_fraction_mean": 0.6418,
+      "tc_med_r2_dV2_dS2_mean": 0.1611,
+      "degree_proxy_r2_mean": 0.0615,
+      "sign_frac_positive_mean": 0.7373,
+      "sign_mean_dV_mean": 0.00011351,
+      "adversary_ratio_mean": 2.2205,
+      "adversary_ratio_std": 0.7689,
+      "boundary": {
+        "z0.05": {
+          "IVV": 3e-08,
+          "n_bulk": 297,
+          "IVV_boundary": 1e-08
+        },
+        "z0.10": {
+          "IVV": 3e-08,
+          "n_bulk": 182,
+          "IVV_boundary": 2e-08
+        },
+        "z0.15": {
+          "IVV": 3e-08,
+          "n_bulk": 107,
+          "IVV_boundary": 2e-08
+        },
+        "z0.20": {
+          "IVV": 3e-08,
+          "n_bulk": 57,
+          "IVV_boundary": 2e-08
+        },
+        "z0.30": {
+          "IVV": 1e-08,
+          "n_bulk": 15,
+          "IVV_boundary": 2e-08
+        }
+      },
+      "n_trials": 20
+    }
+  },
+  "scaling": {
+    "300": {
+      "IVV_ppw_d": 2.379,
+      "IVV_sch_d": 1.245,
+      "IVV_ppw_mean": 9.5e-09,
+      "IVV_sch_mean": 6e-09,
+      "IVV_ppw_std": 4e-09,
+      "IVV_sch_std": 4.8e-09
+    },
+    "500": {
+      "IVV_ppw_d": 2.397,
+      "IVV_sch_d": 1.739,
+      "IVV_ppw_mean": 6.5e-09,
+      "IVV_sch_mean": 3.9e-09,
+      "IVV_ppw_std": 2.7e-09,
+      "IVV_sch_std": 2.3e-09
+    },
+    "1000": {
+      "IVV_ppw_d": 3.872,
+      "IVV_sch_d": 3.244,
+      "IVV_ppw_mean": 4.5e-09,
+      "IVV_sch_mean": 2.7e-09,
+      "IVV_ppw_std": 1.2e-09,
+      "IVV_sch_std": 8e-10
+    }
+  },
+  "fatals": 2,
+  "serious": 0,
+  "elapsed_s": 38.7
+}

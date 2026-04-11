@@ -91,12 +91,22 @@ def Pi_TT(z: complex | float | mp.mpc, xi: float = 0.0, dps: int = 100) -> mp.mp
 
 
 def Pi_scalar(z: complex | float | mp.mpc, xi: float = 0.0, dps: int = 100) -> mp.mpc:
-    """Spin-0 denominator with scalar-mode decoupling at xi = 1/6."""
+    """Spin-0 denominator: Pi_s = 1 + 3*z*alpha_R(z,xi).
+
+    Valid for ALL xi, including xi = 1/6 where the local R^2 coefficient
+    vanishes but the nonlocal form factor is nonzero.
+
+    NOTE (2026-04-07): Previous version force-returned 1 at xi=1/6,
+    based on the incorrect assumption that the nonlocal R^2 sector
+    decouples at conformal coupling. The correct formula is
+    Pi_s = 1 + 3*z*alpha_R(z,xi), which gives Pi_s > 1 for all z > 0
+    and all xi (the no-scalaron theorem).
+    """
     z_mp = mp.mpc(z)
-    coeff = scalar_mode_coefficient(xi)
-    if abs(coeff) < mp.mpf("1e-40"):
-        return mp.mpc(1)
-    return 1 + coeff * z_mp * F2_shape(z_mp, xi=xi, dps=dps)
+    # Use the universal formula: Pi_s = 1 + 3*z*alpha_R(z,xi)
+    # alpha_R(z) = F2_total * 16*pi^2 (undo the 1/(16pi^2) normalization)
+    alpha_R_z = F2_total_complex(z_mp, xi=xi, dps=dps) * 16 * mp.pi**2
+    return 1 + 3 * z_mp * alpha_R_z
 
 
 def G_TT(k2: float | complex, Lambda2: float = 1.0, xi: float = 0.0, dps: int = 100) -> mp.mpc:

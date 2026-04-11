@@ -6,7 +6,9 @@ Runs all verification steps in sequence:
   1. Lint (ruff)
   2. Test suite (pytest)
   3. Form factor canonical values (quick spot-check)
-  4. Summary report
+  4. Quick sanity checks (simulation-in-the-loop)
+  5. Consistency DAG (cross-derivation verification)
+  6. Summary report
 
 Usage:
     python analysis/run_ci.py          # full run
@@ -109,6 +111,59 @@ def check_canonical_values():
         return False, elapsed, str(e)
 
 
+def check_quick_sanity():
+    """Run simulation-in-the-loop quick sanity checks."""
+    print(f"\n{'='*60}")
+    print(f"  Quick Sanity Check (simulation-in-the-loop)")
+    print(f"{'='*60}")
+    t0 = time.time()
+    try:
+        sys.path.insert(0, str(ROOT / "analysis"))
+        from sct_tools.quick_check import quick_sanity
+        results = quick_sanity()
+        n_fail = sum(1 for r in results.values() if not r["passed"])
+        all_ok = n_fail == 0
+        for name, r in results.items():
+            status = "OK" if r["passed"] else "FAIL"
+            print(f"  [{status}] {name}")
+        elapsed = time.time() - t0
+        status = "PASS" if all_ok else "FAIL"
+        print(f"  [{status}] Quick Sanity ({elapsed:.1f}s)")
+        return all_ok, elapsed, ""
+    except Exception as e:
+        elapsed = time.time() - t0
+        print(f"  [FAIL] Quick Sanity: {e}")
+        return False, elapsed, str(e)
+
+
+def check_consistency_dag():
+    """Run cross-derivation consistency DAG checks."""
+    print(f"\n{'='*60}")
+    print(f"  Consistency DAG Check")
+    print(f"{'='*60}")
+    t0 = time.time()
+    try:
+        sys.path.insert(0, str(ROOT / "analysis"))
+        from sct_tools.consistency_matrix import SCTConsistencyDAG
+        dag = SCTConsistencyDAG.default()
+        statuses = dag.check_all()
+        n_fail = sum(1 for s in statuses.values() if s == "FAIL")
+        n_stale = sum(1 for s in statuses.values() if s == "STALE")
+        all_ok = n_fail == 0 and n_stale == 0
+        for name, s in statuses.items():
+            marker = {"PASS": "OK", "FAIL": "!!", "STALE": "??",
+                      "UNKNOWN": "--"}.get(s, s)
+            print(f"  [{marker:2s}] {name}")
+        elapsed = time.time() - t0
+        status = "PASS" if all_ok else "FAIL"
+        print(f"  [{status}] Consistency DAG ({elapsed:.1f}s)")
+        return all_ok, elapsed, ""
+    except Exception as e:
+        elapsed = time.time() - t0
+        print(f"  [FAIL] Consistency DAG: {e}")
+        return False, elapsed, str(e)
+
+
 def main():
     parser = argparse.ArgumentParser(description="SCT Theory CI runner")
     parser.add_argument("--quick", action="store_true", help="Tests only")
@@ -131,6 +186,10 @@ def main():
         results.append(("Tests", ok, t))
         ok, t, _ = check_canonical_values()
         results.append(("Canonical", ok, t))
+        ok, t, _ = check_quick_sanity()
+        results.append(("Quick Sanity", ok, t))
+        ok, t, _ = check_consistency_dag()
+        results.append(("Consistency DAG", ok, t))
 
     # Summary
     elapsed_total = time.time() - t_total

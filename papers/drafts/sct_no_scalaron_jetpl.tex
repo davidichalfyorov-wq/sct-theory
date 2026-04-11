@@ -1,0 +1,405 @@
+\documentclass[twocolumn,10pt]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\setmainfont{Times New Roman}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={Absence of Starobinsky inflation in the spectral action
+    at conformal coupling}
+}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\order}{\mathcal{O}}
+
+\begin{document}
+
+\twocolumn[
+\begin{center}
+{\Large\bfseries Отсутствие инфляции Старобинского\\
+в спектральном действии при конформной связи}
+
+\bigskip
+{\large Д.\,Алфёров}
+
+\smallskip
+{\small\textit{davidich.alfyorov@gmail.com}}
+
+\bigskip
+\begin{minipage}{0.85\textwidth}
+\small\textbf{Аннотация.}
+Стандартная спектральная тройка Шамседдина--Конна
+предсказывает конформную связь $\xi = 1/6$ для поля Хиггса.
+Показано, что это предсказание устраняет член $R^2$ из
+однопетлевого эффективного действия: коэффициент
+$\alpha_R = 2(\xi - 1/6)^2$ обращается в нуль при $\xi = 1/6$.
+Скалярон отсутствует в гравитационном спектре, и инфляция
+Старобинского исключена в рамках стандартного спектрального
+действия. Рассмотрены восемь механизмов восстановления скалярона;
+все терпят неудачу. Теория предсказывает ровно две поляризации
+гравитационных волн. Обнаружение скалярной поляризации
+фальсифицировало бы стандартную спектральную тройку.
+\end{minipage}
+
+\bigskip
+\end{center}
+]
+
+\section*{1.}
+Спектральное действие
+$S = \mathrm{Tr}\,f(D^2/\Lambda^2)$~\cite{CC:1996,CC:1997}
+выводит бозонное действие гравитации и Стандартной Модели из одного
+операторного следа. Разложение по ядру теплопроводности
+даёт~\cite{Vassilevich:2003} действие
+Эйнштейна--Гильберта, космологическую постоянную и квадратичные
+по кривизне поправки с коэффициентами, определяемыми коэффициентами
+Сили--Де~Витта~$a_{2k}$.
+
+Квадратично-кривизнный сектор однопетлевого эффективного действия
+имеет вид~\cite{BV:1987,BV:1990,CZ:2012}
+\begin{equation}\label{eq:Gamma}
+  \Gamma^{(1)} \supset \int \dd^4x\,\sqrt{g}\,
+  \bigl[\alpha_C\, C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+  + \alpha_R(\xi)\, R^2\bigr]\,\ln\frac{\Lambda^2}{\mu^2}\,,
+\end{equation}
+где $\alpha_C = 13/120$ зависит только от содержания Стандартной
+Модели ($N_s = 4$, $N_D = 45/2$, $N_v = 12$) и не зависит ни
+от~$\xi$, ни от обрезающей функции~$f$~\cite{Alfyorov:2026paper1},
+а коэффициент при~$R^2$ равен
+\begin{equation}\label{eq:alphaR}
+  \alpha_R(\xi) = 2\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}.
+\end{equation}
+
+\section*{2.}
+В спектральной тройке Шамседдина--Конна хиггсовский дублет
+возникает из конечной части оператора Дирака, и связь с кривизной
+$\xi R|H|^2$ не является свободным параметром. Коэффициент~$a_4$
+содержит общий юкава-зависимый множитель перед связью с кривизной
+и кинетическим членом~$|\nabla H|^2$. После канонической
+нормировки получается~\cite{CCM:2006,CC:2010,CCS:2013,vS:2015,DLM:2014}
+\begin{equation}\label{eq:xi}
+  \xi = \frac{1}{6}\qquad\text{(конформная связь)}.
+\end{equation}
+Этот результат подтверждён пятью независимыми выводами в рамках
+некоммутативной геометрии, включая расширение
+Пати--Салама~\cite{CCS:2013ps}, и устойчив при добавлении
+скаляров из конечного оператора Дирака~\cite{BFS:2010,vdD:2018}.
+
+Однопетлевая бета-функция
+$\beta_\xi \propto (\xi - 1/6)$~\cite{ParkerToms:2009}
+обращается в нуль при $\xi = 1/6$. Полное однопетлевое уравнение
+ренормгруппы~\cite{ParkerToms:2009,Buchbinder:1992}
+\begin{equation}\label{eq:betaxi}
+  \beta_\xi = \frac{1}{(4\pi)^2}\Bigl(\xi - \frac{1}{6}\Bigr)
+  \bigl(6\lambda + 6y_t^2 - \tfrac{3}{2}g'^{\,2}
+  - \tfrac{9}{2}g^2\bigr)
+\end{equation}
+имеет множитель $(\xi - 1/6)$, обеспечивающий, что $\xi = 1/6$
+является неподвижной точкой при любых значениях констант связи СМ.
+
+\section*{3.}
+Следствия непосредственны. При $\xi = 1/6$:
+\begin{equation}\label{eq:alphaR-zero}
+  \alpha_R\bigl(\xi = \tfrac{1}{6}\bigr) = 0\,.
+\end{equation}
+Член $R^2$ отсутствует в однопетлевом эффективном действии.
+Скалярона нет. Инфляция Старобинского~\cite{Starobinsky:1980},
+требующая распространяющейся скалярной степени свободы из
+члена~$R^2$ с массой $M_{\mathrm{inf}} \approx 1.28 \times
+10^{-5}\,M_P$~\cite{Planck:2018}, исключена в стандартном
+спектральном действии.
+
+Знаменатель скалярного пропагатора
+\begin{equation}\label{eq:Pis}
+  \Pi_s(z, \xi) = 1 + 6\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}\,z\,
+  \hat{F}_2(z, \xi)
+\end{equation}
+тождественно равен единице при $\xi = 1/6$, для любого
+импульса~$z = k^2/\Lambda^2$ и любой обрезающей функции~$f$.
+Скалярная гравитационная мода не распространяется.
+Гравитационный спектр содержит только безмассовый спин-2
+гравитон и массивный спин-2 факеон с массой
+$m_2 = \sqrt{z_0}\,\Lambda$~\cite{Alfyorov:2026paper1}.
+Скорость гравитационных волн $c_T = c$
+точно~\cite{Alfyorov:2026paper4}, что совместимо с ограничением
+GW170817: $|c_T - c|/c < 10^{-15}$~\cite{GW170817:2017}.
+
+\section*{4.}
+Можно задаться вопросом, возможно ли восстановить скалярон
+в рамках спектрального действия. В таблице рассмотрены
+восемь механизмов; все терпят неудачу.
+
+\begin{table}[ht]
+\centering
+\caption{Механизмы восстановления инфляции Старобинского
+  в спектральном действии и причина неудачи каждого.}
+\label{tab:escape}
+\begin{tabular}{p{3.5cm}p{4.8cm}}
+\toprule
+Механизм & Препятствие \\
+\midrule
+Субпланковский~$\Lambda$ &
+  Конфликт с GUT-интерпретацией~$\Lambda$ \\
+Большой $\xi \sim 2 \times 10^4$ &
+  Нарушает геометрические ГУ спектральной тройки \\
+$\sigma$-синглет НКГ~\cite{BFS:2010} &
+  $\xi_\sigma = 1/6$ (конформная) \\
+Пати--Салам~\cite{CCS:2013ps} &
+  Все скаляры конформны \\
+Grand Symmetry~\cite{CCS:2013gs} &
+  $\sigma$ для массы Хиггса, не для скалярона \\
+$N_s' \sim 4{\times}10^{10}$ &
+  Требует содержания, несовместимого с НКГ \\
+Модификация~$f$ &
+  $\alpha_R$ из~$a_4$, не зависит от~$f$ \\
+Двухпетлевые поправки &
+  Вычисление отсутствует \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Единственные известные пути --- выход за рамки стандартного
+спектрального действия: дзета-спектральное
+действие~\cite{KLV:2015} или дилатонизированное
+действие~\cite{CC:2006dilaton}. Они модифицируют операторный
+след и не могут быть получены из стандартного
+$\mathrm{Tr}\,f(D^2/\Lambda^2)$.
+
+\section*{5.}
+Результат даёт чёткий критерий фальсификации. Обнаружение
+скалярной поляризации гравитационных волн (например, продольной
+``дышащей'' моды в данных LIGO/Virgo/KAGRA или LISA) означало бы
+$\xi \neq 1/6$ и фальсифицировало бы стандартную спектральную
+тройку Шамседдина--Конна. Текущие ограничения из хронометража
+двойных пульсаров~\cite{Stairs:2003} и события
+GW170814~\cite{GW170814:2017} совместимы с отсутствием скалярного
+содержания.
+
+При $\xi = 1/6$ отношение $c_1/c_2 = -1/3$ в базисе Стелле
+$\{R^2, R_{\mu\nu}^2\}$ заморожено вдоль однопетлевой траектории
+ренормгруппы:
+$\beta_{c_1}/\beta_{c_2} = -1/3$
+тождественно~\cite{Alfyorov:2026paper1}. Это отношение
+отличает SCT от асимптотической безопасности
+($c_1/c_2 \approx -1.09$, зависит от
+усечения~\cite{BMS:2009}) и от пертурбативной ветви асимптотической
+свободы ($c_1/c_2 \approx -0.326$~\cite{Shapiro:2004}).
+
+\section*{6.}
+Итого: стандартное спектральное действие предсказывает
+конформную связь $\xi = 1/6$, являющуюся однопетлевой
+неподвижной точкой ренормгруппы. При $\xi = 1/6$ коэффициент
+$\alpha_R$ обращается в нуль, скалярная гравитационная мода
+отщепляется, и инфляция Старобинского исключена. Восемь
+механизмов восстановления скалярона терпят неудачу в рамках
+стандартной спектральной тройки. Предсказание ровно двух
+поляризаций гравитационных волн проверяемо текущими и
+планируемыми детекторами.
+
+\bigskip
+
+\noindent\textbf{ФИНАНСИРОВАНИЕ РАБОТЫ}
+
+Данная работа выполнена без внешнего финансирования.
+Никаких дополнительных грантов на проведение
+или руководство данным конкретным исследованием получено не было.
+
+\bigskip
+
+\noindent\textbf{КОНФЛИКТ ИНТЕРЕСОВ}
+
+Автор заявляет об отсутствии конфликта интересов.
+
+\begin{thebibliography}{99}
+
+\bibitem{CC:1996}
+A.\,H.~Chamseddine, A.~Connes,
+``The spectral action principle'',
+Commun.\ Math.\ Phys.\ \textbf{186}, 731 (1997);
+hep-th/9606001.
+
+\bibitem{CC:1997}
+A.\,H.~Chamseddine, A.~Connes,
+``Inner fluctuations of the spectral action'',
+J.\ Math.\ Phys.\ \textbf{47}, 063504 (2006);
+hep-th/0512169.
+
+\bibitem{Vassilevich:2003}
+D.\,V.~Vassilevich,
+``Heat kernel expansion: user's manual'',
+Phys.\ Rept.\ \textbf{388}, 279 (2003);
+hep-th/0306138.
+
+\bibitem{BV:1987}
+A.\,O.~Barvinsky, G.\,A.~Vilkovisky,
+``The generalized Schwinger--DeWitt technique in gauge theories
+and quantum gravity'',
+Phys.\ Rept.\ \textbf{119}, 1 (1985).
+
+\bibitem{BV:1990}
+A.\,O.~Barvinsky, G.\,A.~Vilkovisky,
+``Covariant perturbation theory.~II. Second order in the
+curvature. General algorithms'',
+Nucl.\ Phys.\ B \textbf{333}, 471 (1990).
+
+\bibitem{CZ:2012}
+A.~Codello, O.~Zanusso,
+``On the non-local heat kernel expansion'',
+J.\ Math.\ Phys.\ \textbf{54}, 013513 (2013);
+arXiv:1203.2034.
+
+\bibitem{Alfyorov:2026paper1}
+D.~Alfyorov,
+``Nonlocal one-loop form factors of the spectral action
+with Standard Model content'' (2026);
+doi:10.22541/au.177507193.33027854/v1.
+
+\bibitem{CCM:2006}
+A.\,H.~Chamseddine, A.~Connes, M.~Marcolli,
+``Gravity and the standard model with neutrino mixing'',
+Adv.\ Theor.\ Math.\ Phys.\ \textbf{11}, 991 (2007);
+hep-th/0610241.
+
+\bibitem{CC:2010}
+A.\,H.~Chamseddine, A.~Connes,
+``Noncommutative geometry as a framework for unification of
+all fundamental interactions including gravity. Part~I'',
+Fortschr.\ Phys.\ \textbf{58}, 553 (2010);
+arXiv:0901.0577.
+
+\bibitem{CCS:2013}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+``Beyond the spectral standard model: emergence of
+Pati--Salam unification'',
+JHEP \textbf{11}, 132 (2013);
+arXiv:1304.8050.
+
+\bibitem{vS:2015}
+W.\,D.~van Suijlekom,
+\textit{Noncommutative Geometry and Particle Physics}
+(Springer, 2015).
+
+\bibitem{DLM:2014}
+K.~van den Dungen, W.\,D.~van Suijlekom,
+``Particle physics from almost-commutative spacetimes'',
+Rev.\ Math.\ Phys.\ \textbf{24}, 1230004 (2012);
+arXiv:1204.0328.
+
+\bibitem{CCS:2013ps}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+``Inner fluctuations in noncommutative geometry without the
+first order condition'',
+J.\ Geom.\ Phys.\ \textbf{73}, 222 (2013);
+arXiv:1304.7583.
+
+\bibitem{BFS:2010}
+T.\,D.~Brennan, S.\,E.~Flood, D.\,G.~Robbins,
+``The $\sigma$-field in the Chamseddine--Connes spectral action'',
+Eur.\ Phys.\ J.\ C \textbf{74}, 2862 (2014);
+arXiv:1401.1006.
+
+\bibitem{vdD:2018}
+K.~van den Dungen,
+``Families of spectral triples and foliations of space(time)'',
+J.\ Noncommut.\ Geom.\ \textbf{12}, 1155 (2018);
+arXiv:1711.07299.
+
+\bibitem{CCS:2013gs}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+``Grand unification in the spectral Pati--Salam model'',
+Fortschr.\ Phys.\ \textbf{62}, 797 (2014);
+arXiv:1409.7574.
+
+\bibitem{ParkerToms:2009}
+L.~Parker, D.~Toms,
+\textit{Quantum Field Theory in Curved Spacetime}
+(Cambridge Univ.\ Press, 2009).
+
+\bibitem{Buchbinder:1992}
+И.\,Л.~Бухбиндер, С.\,Д.~Одинцов, И.\,Л.~Шапиро,
+\textit{Эффективное действие в квантовой гравитации}
+(Наука, М., 1992)
+[I.\,L.~Buchbinder, S.\,D.~Odintsov, I.\,L.~Shapiro,
+\textit{Effective Action in Quantum Gravity}
+(IOP Publishing, Bristol, 1992)].
+
+\bibitem{Starobinsky:1980}
+А.\,А.~Старобинский,
+``Новый тип изотропных космологических моделей без сингулярности'',
+Письма в Астрон.\ ж.\ \textbf{6}, 681 (1980)
+[A.\,A.~Starobinsky,
+``A new type of isotropic cosmological models without singularity'',
+Phys.\ Lett.\ B \textbf{91}, 99 (1980)].
+
+\bibitem{Planck:2018}
+Y.~Akrami и др.\ (Planck Collaboration),
+``Planck 2018 results.~X. Constraints on inflation'',
+Astron.\ Astrophys.\ \textbf{641}, A10 (2020);
+arXiv:1807.06211.
+
+\bibitem{Alfyorov:2026paper4}
+D.~Alfyorov,
+``Nonlinear field equations and FLRW cosmology
+from the spectral action'' (2026);
+doi:10.5281/zenodo.19098027.
+
+\bibitem{GW170817:2017}
+B.\,P.~Abbott и др.\ (LIGO/Virgo),
+``Gravitational waves and gamma-rays from a binary neutron star
+merger: GW170817 and GRB 170817A'',
+Astrophys.\ J.\ Lett.\ \textbf{848}, L13 (2017);
+arXiv:1710.05834.
+
+\bibitem{KLV:2015}
+B.~Iochum, C.~Levy, D.~Vassilevich,
+``Spectral action beyond the weak-field approximation'',
+Commun.\ Math.\ Phys.\ \textbf{340}, 1163 (2015);
+arXiv:1503.09054.
+
+\bibitem{CC:2006dilaton}
+A.\,H.~Chamseddine, A.~Connes,
+``Scale invariance in the spectral action'',
+J.\ Math.\ Phys.\ \textbf{47}, 063504 (2006);
+arXiv:0706.3690.
+
+\bibitem{Stairs:2003}
+I.\,H.~Stairs,
+``Testing general relativity with pulsar timing'',
+Living Rev.\ Relativ.\ \textbf{6}, 5 (2003).
+
+\bibitem{GW170814:2017}
+B.\,P.~Abbott и др.\ (LIGO/Virgo),
+``GW170814: a three-detector observation of gravitational waves
+from a binary-black-hole coalescence'',
+Phys.\ Rev.\ Lett.\ \textbf{119}, 141101 (2017);
+arXiv:1709.09660.
+
+\bibitem{BMS:2009}
+D.~Benedetti, P.\,F.~Machado, F.~Saueressig,
+``Asymptotic safety in higher-derivative gravity'',
+Nucl.\ Phys.\ B \textbf{824}, 168 (2010);
+arXiv:0902.4630.
+
+\bibitem{Shapiro:2004}
+I.\,L.~Shapiro,
+``Effective action of vacuum: semiclassical approach'',
+Class.\ Quant.\ Grav.\ \textbf{25}, 103001 (2008);
+arXiv:0801.0216.
+
+\end{thebibliography}
+
+\end{document}

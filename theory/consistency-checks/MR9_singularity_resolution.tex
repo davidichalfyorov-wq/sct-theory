@@ -1,0 +1,619 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{caption}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!50!black,
+  urlcolor=blue!70!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={MR-9: Black Hole Singularity Resolution in the Spectral Action},
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\definecolor{proven}{rgb}{0,0.5,0}
+\definecolor{near}{rgb}{0.8,0.4,0}
+\definecolor{distant}{rgb}{0.8,0,0}
+
+\newcommand{\Lam}{\Lambda}
+\newcommand{\PiTT}{\Pi_{\mathrm{TT}}}
+\newcommand{\Pis}{\Pi_{\mathrm{s}}}
+\newcommand{\rs}{r_{\mathrm{s}}}
+\newcommand{\rNL}{r_{\mathrm{NL}}}
+\newcommand{\Msun}{M_{\odot}}
+
+\title{MR-9: Black Hole Singularity Resolution\\in the Spectral Causal Theory}
+\author{David Alfyorov}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We investigate black hole singularity resolution in the spectral causal theory (SCT),
+a candidate framework for UV-complete quantum gravity derived from the spectral action
+principle. The linearized SCT field equations produce a modified Schwarzschild metric
+with potential $V(r)/V_N(r) = 1 - \tfrac{4}{3}e^{-m_2 r} + \tfrac{1}{3}e^{-m_0 r}$,
+where $V(0) = 0$ and the Kretschner scalar is softened from $K \sim 1/r^6$ to $K \sim 1/r^4$.
+The singularity is \emph{softened but not resolved} on the linearized level.
+We analyze geodesic completeness, Raychaudhuri defocusing, and the nonlinearity radius
+$\rNL \sim 1/\Lam$, below which the linearized approximation breaks down.
+The Koshelev--Tokareva theorem (2024) implies that for entire functions of order $\geq 1/2$
+(SCT has order~1), the singular Schwarzschild metric requires infinite total mass and
+is therefore forbidden at the nonperturbative level.
+We compare SCT with infinite-derivative gravity (IDG), Stelle gravity, and the
+Modesto super-renormalizable program, identifying key discriminating properties.
+The tangential null energy condition is violated for $r < \rNL$, providing the
+necessary mechanism for Penrose theorem evasion.
+Full singularity resolution remains conditional on the explicit evaluation of the
+Weyl-sector correction $\Theta^{(C)}_{\mu\nu}$ on curved backgrounds (Gap~G1, OP-01).
+\end{abstract}
+
+\tableofcontents
+
+% ===================================================================
+\section{Introduction}
+% ===================================================================
+
+The black hole singularity problem is one of the central challenges in quantum gravity.
+General relativity predicts that gravitational collapse inevitably produces a curvature
+singularity at $r = 0$ in the Schwarzschild spacetime, where the Kretschner scalar
+$K = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma} = 48G^2M^2/r^6$ diverges and geodesics
+are incomplete~\cite{Penrose1965,HawkingPenrose1970}.
+
+The spectral causal theory (SCT) modifies the Einstein--Hilbert action through nonlocal
+form factors derived from the spectral action principle:
+\begin{equation}\label{eq:action}
+  S = \frac{1}{16\pi G}\int d^4x\,\sqrt{-g}\,
+  \bigl[R + \alpha_C\, C_{\mu\nu\rho\sigma}\, F_1(\Box/\Lam^2)\, C^{\mu\nu\rho\sigma}
+  + \alpha_R\, R\, F_2(\Box/\Lam^2)\, R\bigr],
+\end{equation}
+where $\alpha_C = 13/120$ is parameter-free (determined by the Standard Model particle
+content), $\Lam$ is the spectral cutoff, and $F_1$, $F_2$ are entire functions of order~1
+derived from the master function $\varphi(z) = e^{-z/4}\sqrt{\pi/z}\,\mathrm{erfi}(\sqrt{z}/2)$.
+
+The key question is: does the nonlocal structure of SCT resolve the Schwarzschild singularity?
+
+% ===================================================================
+\section{Linearized Analysis}
+% ===================================================================
+
+\subsection{Modified Newtonian Potential}
+
+The linearized field equations (NT-4a) yield the modified Newtonian potential in the
+Yukawa (pole) approximation:
+\begin{equation}\label{eq:potential}
+  \frac{V(r)}{V_N(r)} = h(r) = 1 - \frac{4}{3}e^{-m_2 r} + \frac{1}{3}e^{-m_0 r},
+\end{equation}
+where the effective masses are
+\begin{equation}
+  m_2 = \Lam\sqrt{\frac{60}{13}} \approx 2.148\,\Lam, \qquad
+  m_0 = \Lam\sqrt{6} \approx 2.449\,\Lam \quad (\xi = 0).
+\end{equation}
+
+At $r = 0$: $h(0) = 1 - 4/3 + 1/3 = 0$ exactly. The potential vanishes at the origin:
+$V(0) = 0$.
+
+\subsection{Modified Metric and L'H\^opital Limit}
+
+The modified Schwarzschild metric function is
+\begin{equation}\label{eq:metric}
+  f(r) = 1 - \frac{\rs}{r}\,h(r),
+\end{equation}
+where $\rs = 2GM$ is the Schwarzschild radius. Since $h(0) = 0$, the ratio
+$h(r)/r$ requires L'H\^opital's rule:
+\begin{equation}\label{eq:lhopital}
+  \lim_{r\to 0}\frac{h(r)}{r} = h'(0) = \frac{4m_2}{3} - \frac{m_0}{3}
+  \approx 2.048\,\Lam.
+\end{equation}
+
+Therefore:
+\begin{equation}\label{eq:f_at_zero}
+  f(0) = 1 - \rs\,h'(0).
+\end{equation}
+
+For astrophysical black holes ($\rs\,\Lam \gg 1$): $f(0) \ll 0$ (deep inside the horizon).
+A regular center ($f(0) > 0$) requires $M < M_{\mathrm{crit}} = c^2/(2G\Lam h'(0))$,
+which for $\Lam = 2.38\,\mathrm{meV}$ gives $M_{\mathrm{crit}} \approx 1.4 \times 10^{-8}\,M_\odot$
+(comparable to the Earth's mass).
+
+\subsection{Kretschner Scalar}
+
+For the metric \eqref{eq:metric}, the Kretschner scalar is
+\begin{equation}\label{eq:kretschner}
+  K = (f'')^2 + \frac{4(f')^2}{r^2} + \frac{4(f-1)^2}{r^4}.
+\end{equation}
+
+With $m(r) = M\,h(r)$ and $h(r) \sim h'(0)\,r$ near $r = 0$:
+\begin{equation}
+  f(r) \approx 1 - \rs\,h'(0) + O(r), \qquad
+  f'(r) \approx -\rs\,h''(0) + O(r),
+\end{equation}
+the leading Kretschner behavior is
+\begin{equation}
+  K(r \to 0) \sim \frac{4\bigl(2GM\,h'(0)\bigr)^2}{r^4}.
+\end{equation}
+
+This is \emph{softened} from the Schwarzschild $K \sim 48G^2M^2/r^6$ by two powers
+of $r$, but \textbf{still diverges}. The singularity is softened but not resolved on
+the linearized level.
+
+\subsection{Mass Function Scaling}
+
+The effective enclosed mass $m(r) = M\,h(r)$ behaves as
+\begin{equation}
+  m(r) \sim M\,h'(0)\,r \quad (r \to 0).
+\end{equation}
+
+This is \emph{linear} in $r$, unlike the cubic scaling $m(r) \sim r^3$ characteristic
+of a de Sitter core. The absence of a de Sitter core is the root cause of the
+unresolved singularity at the linearized level.
+
+% ===================================================================
+\section{Nonlinearity Radius and Breakdown of Linearization}
+% ===================================================================
+
+\subsection{Definition}
+
+The linearized analysis is valid only for weak gravitational fields. The nonlinearity
+radius $\rNL$ marks the scale where the curvature corrections from the form factors
+become $O(1)$:
+\begin{equation}
+  \rNL = \frac{1}{m_2} = \sqrt{\frac{13}{60}}\,\frac{1}{\Lam} \approx \frac{0.465}{\Lam}.
+\end{equation}
+
+For $r < \rNL$, the linearized field equations (NT-4a) break down and the full nonlinear
+equations (NT-4b) must be used.
+
+\subsection{Kretschner at $r = \rNL$}
+
+At $r = \rNL$, the GR Kretschner scalar for a black hole of mass $M$ is
+\begin{equation}
+  K_{\mathrm{GR}}(\rNL) = \frac{48G^2M^2}{\rNL^6}
+  = 48G^2M^2\Bigl(\frac{60}{13}\Bigr)^3\Lam^6.
+\end{equation}
+
+For any astrophysical black hole, $K_{\mathrm{GR}}(\rNL) \gg \Lam^4$, confirming
+that the linearized approximation breaks down well before reaching $r = 0$.
+
+\subsection{Koshelev--Tokareva theorem: scope and applicability}
+
+Koshelev and Tokareva~\cite{KoshelevTokareva2024} proved that in quadratic-in-curvature
+nonlocal gravity with analytic form factors $F_i(\Box)$, the singular Schwarzschild
+metric \emph{as a limit of regular configurations} requires infinite total mass.
+Their analysis proceeds via the trace of the full nonlinear equations, integrated
+over space, and classifies form factors by their maximal growth in the complex plane
+into three cases.
+
+\paragraph{Scope of the no-go.}
+The K-T result forbids specifically the \textbf{Schwarzschild $1/r$ branch}---it does
+\emph{not} claim that all curvature invariants of the exact solution must be finite.
+Our linearized SCT metric has $V(0) = 0$ (no $1/r$ divergence in the potential), with
+$m(r) \sim h'(0)\,r \to 0$; the Kretschner divergence $K \sim 1/r^4$ arises from
+derivatives, not from the Schwarzschild $m/r^3$ structure.  Therefore our linearized
+result is \emph{compatible} with K-T (the Schwarzschild branch is already absent),
+rather than contradictory.
+
+\paragraph{Case classification.}
+Both standard IDG ($e^{-\Box/M^2}$) and SCT ($\varphi$ of order~1) fall into
+\textbf{Case~2}: finite order, growth slower than $\exp(q\,z^{3/2})$.  The strong
+no-go (Case~1, requiring infinite mass) applies only to faster-growing form factors
+of order ${}>3/2$ or infinite order.  In Case~2, the convergence of the mass integral
+is \emph{regularization-dependent}: it depends on the family of smooth metrics used
+to approach the singular limit, not on the QFT pole prescription.  Thus K-T does
+\emph{not} resolve the question for SCT in either direction.
+
+\paragraph{Fakeon caveat.}
+K-T analyze the variational equations of the full action.  The fakeon prescription
+modifies the physical classical equations (replacing the Feynman propagator by the
+average of retarded and advanced Green functions for the ghost mode), so the
+fakeon-projected classical dynamics differs from the naively varied action.
+Consequently, K-T cannot be applied directly to the physical SCT dynamics without
+repeating their mass-integral analysis for the fakeon-projected equations.
+
+\paragraph{Global order vs.\ Euclidean asymptotics.}
+The master function $\varphi(z)$ has order~1 \emph{globally} (growth $\sim e^{|z|/4}$
+on the negative real axis), but $\PiTT(z) \to \mathrm{const}$ on the positive real
+axis because $\varphi(z) \sim 2/z$ there.  These are compatible: the order is a
+\emph{global complex-plane} property controlling K-T convergence, while the propagator
+UV behavior on the Euclidean axis determines the linearized source smearing.
+
+\paragraph{Nonlinearity radius.}
+For black holes with $\rs \gg 1/\Lam$, the linearized metric $f(r) = 1 - (\rs/r)\,h(r)$
+has $|f - 1| = O(1)$ already at $r \sim \rs$, not at $r \sim 1/\Lam$.  The correct
+breakdown scale is $r_{\rm NL} \sim \max(\rs,\, 1/\Lam)$; for astrophysical black holes,
+the entire interior $r < \rs$ is outside the domain of validity of the linearized theory.
+
+\paragraph{Implication.}
+K-T provides \emph{weak} support for singularity resolution in SCT: it excludes the
+Schwarzschild $1/r$ branch but does not exclude a milder, non-Schwarzschild singularity
+(such as $K \sim 1/r^4$).  The possibility of a softer-than-Schwarzschild but still
+singular exact solution remains open.  Full resolution requires either (a) solving the
+fakeon-projected nonlinear equations (blocked by Gap~G1), or (b) repeating K-T's
+mass-integral analysis for the fakeon-classical equations.
+
+% ===================================================================
+\section{Geodesic Completeness}
+% ===================================================================
+
+\subsection{Monotonicity of $f(r)$ and horizon structure}
+
+Define $g(r) = h(r) - r\,h'(r)$. Then $g(0) = 0$ and $g'(r) = -r\,h''(r) > 0$
+(since $h''(r) < 0$ for all $r > 0$), so $g(r) > 0$ for $r > 0$. Since
+$f'(r) = \rs\, g(r)/r^2 > 0$, the metric function $f(r)$ is \textbf{monotonically
+increasing} from $f(0) = 1 - \rs\,h'(0)$ to $f(\infty) = 1$. Consequently,
+for $\rs\,h'(0) > 1$ (all astrophysical black holes), there is \textbf{exactly one
+horizon} where $f = 0$. The center $r = 0$ lies in a $T$-region where $r$ is
+timelike, the same causal structure as the Schwarzschild interior.
+
+Note: $M_{\mathrm{crit}}$ defined by $f(0) = 0$ ($\rs\,h'(0) = 1$) is the
+\textbf{horizon existence threshold}, not a regularity threshold. A regular
+center requires $f(0) = 1$ and $f'(0) = 0$, equivalently $m(r) = O(r^3)$.
+Since $m(r) = (\rs/2)\,h'(0)\,r + O(r^2)$ for any $M > 0$, the linearized
+SCT metric is \textbf{never regular at $r = 0$}, regardless of the mass.
+
+\subsection{Geodesic incompleteness}
+
+For a general causal geodesic with energy $E$ and angular momentum $L$:
+\begin{equation}
+  \dot{r}^2 = E^2 - f(r)\Bigl(\kappa + \frac{L^2}{r^2}\Bigr),
+  \qquad \kappa = \begin{cases} 1 & \text{timelike,} \\ 0 & \text{null.}\end{cases}
+\end{equation}
+Near $r = 0$ with $f_0 := f(0) < 0$:
+\begin{itemize}
+  \item Radial timelike ($L = 0$):
+    $\dot{r}^2 \to E^2 - f_0 > 0$, so $\tau \sim r/\sqrt{E^2 - f_0} \to 0$ (finite).
+  \item Radial null ($L = 0$):
+    $\dot{r}^2 = E^2$, so $\lambda \sim r/E \to 0$ (finite).
+  \item Nonzero $L$:
+    $\dot{r}^2 \sim |f_0|\,L^2/r^2$, so $\Delta\tau \sim O(r^2)$ (even more convergent).
+\end{itemize}
+All causal geodesics reach $r = 0$ in finite affine/proper parameter.
+
+The key question is whether $r = 0$ is a regular interior point or a non-extendable
+boundary. In Cartesian coordinates $x^i = r\,n^i$, the metric becomes
+$g_{ij} = \delta_{ij} + (f^{-1} - 1)\,x_i x_j / r^2$. If $f(0) \neq 1$, the
+limit at $r \to 0$ depends on the direction $x_i/r$, so $r = 0$ cannot be added as
+a regular interior point. Combined with $K \sim (1 - f_0)^2/r^4 \to \infty$, the
+spacetime is \textbf{geodesically incomplete}: geodesics reach $r = 0$ in finite
+parameter, and $r = 0$ is not extendable.
+
+\subsection{What nonlinear corrections must achieve}
+
+For geodesic completeness, the nonlinear corrections must replace the linearized
+near-center asymptotics $m(r) \sim \alpha\,r$ with $m(r) \sim \beta\,r^3$, yielding
+$f(r) = 1 + O(r^2)$ (de Sitter core). This is a \textbf{qualitative restructuring},
+not a small perturbation: the entire leading-order behavior at $r = 0$ must change.
+Even if a local de Sitter core is achieved, global maximal extendability of the
+resulting geometry through all horizons requires separate verification.
+
+\paragraph{Kinematic structure of the regular center.}
+In the two-function ansatz $ds^2 = -A(r)\,dt^2 + B(r)\,dr^2 + r^2\,d\Omega^2$,
+regularity of $G^t{}_t$ at $r = 0$ requires $b_1 = 0$; regularity of $G^r{}_r$
+requires $a_1 = b_1$.  Hence a smooth center admits only even powers:
+$A = 1 + a_2 r^2 + \cdots$, $B = 1 + b_2 r^2 + \cdots$.  The mass function
+$m(r) = \tfrac{r}{2}(1 - 1/B) = \tfrac{b_2}{2}\,r^3 + O(r^5)$
+is \emph{automatically} cubic ($n = 3$).  This is kinematic, not dynamic:
+$n = 3$ is a \emph{consequence} of smoothness, not an independent condition.
+
+\paragraph{Branch structure.}
+The $n = 1$ result is stable on the Schwarzschild/Yukawa-connected perturbative
+branch: no finite order in $\varepsilon = GM\Lam$ can cancel the leading linear term.
+A regular $n = 3$ solution, if it exists, must be a \textbf{separate nonperturbative
+branch}, not a perturbative correction.  Such branch structure is typical of
+Weyl-sector higher-derivative gravity (L\"u--Perkins--Pope--Stelle, 2015).
+The fakeon prescription does not help: classicization is itself perturbative and
+cannot produce a branch change.
+
+\paragraph{Selection by collapse.}
+In quadratic gravity, dust collapse produces horizons and singularities, with the
+$C^2$ terms even accelerating singularization.  There is no evidence that collapse
+dynamics select a regular branch over the Schwarzschild-connected one in SCT.
+
+% ===================================================================
+\section{Raychaudhuri Defocusing}
+% ===================================================================
+
+\subsection{Null Energy Condition Analysis}
+
+For the metric $f(r) = 1 - 2Gm(r)/r$ with $m(r) = M\,h(r)$, the effective
+stress-energy has:
+\begin{itemize}
+  \item Radial NEC: $\rho + p_r = 0$ (marginal, identically satisfied).
+  \item Tangential NEC: $\rho + p_t = (2m' - r\,m'')/(8\pi r^2)$.
+\end{itemize}
+
+The correct tangential NEC quantity (verified against the de~Sitter cross-check
+$m(r) = \rho_0 r^3/3$, for which $\rho + p_t = 0$ identically) is
+\begin{equation}
+  g(r) \equiv 2m'(r) - r\,m''(r) = M\bigl[2h'(r) - r\,h''(r)\bigr].
+\end{equation}
+
+Although $h''(r) < 0$ for all $r > 0$ (the mass function is everywhere concave),
+the quantity $g(r) > 0$ for all $r \geq 0$:
+\begin{equation}
+  g(0) = 2h'(0) = 2\Bigl(\frac{4m_2}{3} - \frac{m_0}{3}\Bigr) > 0,
+\end{equation}
+and $g(r) \to 0^+$ as $r \to \infty$. Numerical verification at 100-digit precision
+confirms $g(r) > 0$ for all $r \in (0, 100/\Lam)$.
+
+\textbf{The tangential NEC is NEVER violated in the linearized SCT Yukawa metric.}
+
+\subsection{Penrose Theorem Status}
+
+Since the NEC is satisfied everywhere on the linearized SCT metric, all conditions
+of the Penrose singularity theorem~\cite{Penrose1965} are met:
+\begin{enumerate}
+  \item NEC: satisfied (both radially and tangentially).
+  \item Trapped surface: present (horizons exist for $M > M_{\mathrm{crit}}$).
+  \item Global hyperbolicity: standard for asymptotically flat spacetimes.
+  \item Cauchy surface: exists.
+\end{enumerate}
+
+The Penrose theorem therefore \emph{applies} at the linearized level and predicts
+geodesic incompleteness. This is fully consistent with the Kretschner result
+$K \sim 1/r^4$.
+
+\textbf{Comparison with IDG:} In ghost-free IDG with $\exp(-\Box/M^2)$, the
+exponential propagator modification produces a Gaussian smearing of the source
+($\rho_{\mathrm{eff}} \sim e^{-r^2 M^2/4}$), which \emph{does} violate the NEC
+near $r = 0$, enabling singularity resolution at the linearized level. SCT's
+order-1 entire function $\varphi(z) \sim 2/z$ produces $\PiTT \to \mathrm{const}$
+in the UV, which is insufficient for linearized NEC violation.
+
+The critical distinction is: IDG has $\Pi \to \infty$ (exponential growth);
+SCT has $\PiTT \to \mathrm{const}$ (saturation). Both have entire-function
+order~1, but the propagator UV behavior differs qualitatively.
+
+% ===================================================================
+\section{Comparison with Other Frameworks}
+% ===================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Black hole singularity resolution across modified gravity frameworks.}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Property & SCT & IDG & Stelle & Hayward \\
+\midrule
+Action origin & Spectral & Postulated & Quadratic & Metric ansatz \\
+Entire-fn order & 1 & 1 & N/A & N/A \\
+$\PiTT$ UV & $\to\,$const & $\to\,\infty$ & $\to\,$const & N/A \\
+Source smearing & No (lin.) & Gaussian & Partial & By constr. \\
+Core type & No dS (lin.) & de Sitter & No dS & de Sitter \\
+$K$ scaling & $1/r^4$ & Finite & $1/r^4$ & Finite \\
+$m(r\to 0)$ & $\sim r$ & $\sim r^3$ & $\sim r$ & $\sim r^3$ \\
+Geodesic & Incomplete & Complete & Incomplete & Complete \\
+Ghost? & Fakeon & None & Massive & N/A \\
+Free params & 0 & 1 & 2 & 1 \\
+Singularity & Softened & Resolved & Not resolved & Resolved \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+SCT occupies a unique position: it is derived from a deeper principle (spectral action)
+with zero free parameters beyond $\Lam$, but its linearized predictions match those of
+Stelle gravity (softened but unresolved).
+
+\paragraph{The $n$-classification.}
+The near-center behavior $m(r) \sim c\,r^n$ classifies singular vs.\ regular cores:
+$n < 3$ (SCT: $n = 1$): $\rho + p_t = c\,n(3-n)\,r^{n-3}/(8\pi) > 0$ (focusing,
+singular); $n = 3$ (de Sitter): marginal; $n > 3$: defocusing.  SCT sits deep in the
+singular class, two powers of $r$ below the de Sitter threshold.
+
+\paragraph{Smoothing power vs.\ entire-function order.}
+What determines $n$ is not the complex-plane order of $\varphi(z)$, but the UV
+behavior of the propagator denominator $\PiTT$ on the \emph{physical Euclidean axis}:
+$\PiTT \to \mathrm{const}$ gives $n = 1$ (zero extra smoothing---same UV as GR);
+$\PiTT \sim k^{2N}$ gives $n = 2N + 1$;
+$\PiTT \sim e^{k^2/M^2}$ (IDG) gives $n = 3$ (Gaussian smearing, de Sitter core).
+Nicolini's order-$\geq 1/2$ threshold applies to his specific class of cutoffs, not
+universally.
+
+\paragraph{Bach-flatness and the $C\Box C$ correction (Gap~G1 partial resolution).}
+Schwarzschild is an Einstein space, hence Bach-flat ($B_{\mu\nu} = 0$).  In
+\emph{local} $C^2$ gravity, this means Schwarzschild is an exact vacuum solution.
+
+In the nonlocal theory, the first surviving contribution comes from the $n = 1$ term
+in the Taylor expansion $\hat{F}_1(z) = 1 + \hat{f}_1 z + O(z^2)$, i.e., from the
+$C\Box C$ term in the action.  We have computed (and verified at 100-digit precision):
+\begin{equation}
+  \hat{f}_1 \equiv \hat{F}_1'(0) = -\frac{307}{182} \approx -1.687.
+\end{equation}
+On Schwarzschild, the covariant d'Alembertian of the Weyl tensor satisfies the
+remarkable algebraic identity (in orthonormal frame):
+\begin{equation}\label{eq:box_C}
+  \Box\, C_{\hat{a}\hat{b}\hat{c}\hat{d}}
+  = -\frac{6M}{r^3}\, C_{\hat{a}\hat{b}\hat{c}\hat{d}},
+\end{equation}
+so $C\,\Box C \sim C^3 \sim M^3/r^9$.  The first nonzero $\Theta^{(C)}_{\mu\nu}$ on
+Schwarzschild therefore scales as $\alpha_C\,\hat{f}_1\,\Lam^{-2}\,M^2/r^8$ and
+falls off as $1/r^8$--$1/r^9$.  Explicit $a_6$ (six-derivative spectral action)
+computations confirm that Schwarzschild is \emph{not} an exact solution at this order.
+
+However, this correction \emph{adds} a cubic term to the mass function
+($m(r) = a_1 r + a_3 r^3 + \cdots$) rather than cancelling the linear term $a_1$.
+The UV saturation $\PiTT \to \mathrm{const}$ provides no mechanism to set $a_1 = 0$.
+
+% ===================================================================
+\section{Nonperturbative Spectral Action Argument}
+% ===================================================================
+
+A potential bypass of Gap~G1 is the nonperturbative spectral action argument:
+the spectral action $S = \mathrm{Tr}\,f(D^2/\Lam^2)$ assigns \emph{infinite} action
+to the singular Schwarzschild geometry (due to $\int C^2\,\sqrt{g}\,d^4x = \infty$)
+and \emph{finite} action to regular geometries (Hayward, Bardeen).
+
+If the path integral weights geometries by $e^{-S}$, the singular geometry has zero
+weight and is dynamically excluded. This argument is heuristic but suggestive: it
+provides a mechanism for singularity resolution that does not require explicit
+knowledge of $\Theta^{(C)}_{\mu\nu}$.
+
+\textbf{Caveat:} This argument relies on the perturbative expansion of the spectral
+action. The full nonperturbative spectral action on a singular background is not
+well-defined (the Dirac operator is not essentially self-adjoint at $r = 0$), which
+may itself be interpreted as forbidding the singular geometry.
+
+% ===================================================================
+\section{Verdict and Open Questions}
+% ===================================================================
+
+\subsection{Summary of Results}
+
+\begin{enumerate}
+  \item \textbf{Linearized:} $K \sim 1/r^4$ (softened from $1/r^6$, NOT resolved).
+    Mass function $m(r) \sim r$ (linear, not cubic). No de Sitter core.
+  \item \textbf{Geodesics:} Incomplete on linearized metric (same as Schwarzschild).
+  \item \textbf{NEC:} Tangential NEC \emph{satisfied} everywhere (2$m'$ -- $r m'' > 0$).
+    Penrose theorem \emph{applies} at linearized level.
+  \item \textbf{Nonlinearity:} Linearization breaks down at $\rNL \sim 0.47/\Lam$.
+    All singular behavior ($K \sim 1/r^4$) occurs in the unreliable region.
+  \item \textbf{K-T theorem:} SCT is Case~2 (same as IDG). K-T forbids
+    the Schwarzschild $1/r$ branch (already absent in SCT linearized),
+    but does \emph{not} exclude a milder singularity. Fakeon caveat:
+    K-T may not apply to fakeon-projected equations.
+  \item \textbf{Nonperturbative:} $S[\mathrm{Schw}] = \infty > S[\mathrm{Hayward}] < \infty$.
+    Spectral action energetically prefers regularity.
+\end{enumerate}
+
+\subsection{Overall Verdict}
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{
+\textbf{SINGULARITY RESOLUTION: NEGATIVE at linearized level; OPEN at nonlinear.}\\[4pt]
+Linearized: $K \sim 1/r^4$, $m(r) \sim r$ ($n = 1$, deep in singular class,
+two powers below de Sitter $n = 3$). NEC satisfied everywhere; Penrose theorem
+applies; all causal geodesics incomplete.  Root cause: $\PiTT \to \mathrm{const}$
+provides zero extra UV smoothing.\\[4pt]
+Nonlinear: \textbf{unknown}.  Schwarzschild is Bach-flat ($B_{\mu\nu} = 0$), so
+the leading Weyl-sector correction vanishes; but nonlocal commutator terms
+$[\Box^n, C]$ may push the solution off the Schwarzschild branch.  Whether this
+changes $m(r) \sim r \to r^3$ is \emph{precisely} what Gap~G1 (OP-01) must resolve.
+K-T forbids only the Schwarzschild $1/r$ branch (already absent here);
+a milder singularity is not excluded.  The $n$-classification and UV smoothing
+analysis suggest \textbf{pessimism} but do not constitute a proof of persistence.
+}}
+\end{center}
+
+\subsection{Open Questions}
+
+\begin{enumerate}
+  \item \textbf{OP-01 (Gap G1):} Compute $\Theta^{(C)}_{\mu\nu}$ on Schwarzschild.
+    This unblocks the full nonlinear analysis.
+  \item \textbf{K-T Case~2:} Is SCT's resolution regularization-independent?
+    Does the fakeon prescription affect the outcome?
+  \item \textbf{Self-consistent solution:} Solve the full NT-4b equations on a
+    static spherically symmetric ansatz. Determine if the solution has a de Sitter
+    core, bounce, or other regular structure.
+  \item \textbf{Nonperturbative spectral action:} Compute
+    $S[\mathrm{Hayward}(L)]$ as a function of $L$ and find the minimum.
+    This gives the predicted core radius without solving the field equations.
+\end{enumerate}
+
+% ===================================================================
+\section*{Acknowledgments}
+% ===================================================================
+
+I thank Igor Shnyukov for discussions on the nonlinear field equations
+and the spectral action on singular backgrounds.
+
+% ===================================================================
+\begin{thebibliography}{30}
+\bibitem{Penrose1965}
+R.~Penrose, ``Gravitational collapse and space-time singularities,''
+\textit{Phys. Rev. Lett.} \textbf{14}, 57 (1965).
+
+\bibitem{HawkingPenrose1970}
+S.~W.~Hawking and R.~Penrose, ``The singularities of gravitational collapse
+and cosmology,'' \textit{Proc. R. Soc. Lond. A} \textbf{314}, 529 (1970).
+
+\bibitem{Stelle1977}
+K.~S.~Stelle, ``Renormalization of higher-derivative quantum gravity,''
+\textit{Phys. Rev. D} \textbf{16}, 953 (1977).
+
+\bibitem{BGKM2012}
+T.~Biswas, E.~Gerwick, T.~Koivisto, and A.~Mazumdar,
+``Towards singularity and ghost free theories of gravity,''
+\textit{Phys. Rev. Lett.} \textbf{108}, 031101 (2012),
+\href{https://arxiv.org/abs/1110.5249}{arXiv:1110.5249}.
+
+\bibitem{Modesto2012}
+L.~Modesto, ``Super-renormalizable quantum gravity,''
+\textit{Phys. Rev. D} \textbf{86}, 044005 (2012),
+\href{https://arxiv.org/abs/1107.2403}{arXiv:1107.2403}.
+
+\bibitem{Nicolini2012}
+P.~Nicolini, ``Nonlocal and generalized uncertainty principle black holes,''
+\href{https://arxiv.org/abs/1202.2102}{arXiv:1202.2102} (2012).
+
+\bibitem{KoshelevTokareva2024}
+A.~S.~Koshelev and A.~Tokareva,
+``Non-perturbative quantum gravity denounces singular black holes,''
+\textit{Phys. Rev. D} \textbf{111}, 086026 (2025),
+\href{https://arxiv.org/abs/2404.07925}{arXiv:2404.07925}.
+
+\bibitem{ConroyMazumdar2017}
+A.~Conroy and A.~Mazumdar,
+``Newtonian potential and geodesic completeness in infinite derivative gravity,''
+\href{https://arxiv.org/abs/1705.02382}{arXiv:1705.02382} (2017).
+
+\bibitem{EdholmKM2016}
+J.~Edholm, A.~S.~Koshelev, and A.~Mazumdar,
+``Behavior of the Newtonian potential for ghost-free gravity and singularity free gravity,''
+\textit{Phys. Rev. D} \textbf{94}, 104033 (2016),
+\href{https://arxiv.org/abs/1604.01989}{arXiv:1604.01989}.
+
+\bibitem{Hayward2006}
+S.~A.~Hayward, ``Formation and evaporation of nonsingular black holes,''
+\textit{Phys. Rev. Lett.} \textbf{96}, 031103 (2006).
+
+\bibitem{Burzilla2023}
+N.~Burzilla et al., ``Regular multi-horizon Lee-Wick black holes,''
+\href{https://arxiv.org/abs/2308.12810}{arXiv:2308.12810} (2023).
+
+\bibitem{LMR2015}
+Y.-D.~Li, L.~Modesto, and L.~Rachwal,
+``Exact solutions and spacetime singularities in nonlocal gravity,''
+\textit{JHEP} \textbf{12}, 173 (2015),
+\href{https://arxiv.org/abs/1506.08619}{arXiv:1506.08619}.
+
+\bibitem{Alfyorov2026a}
+D.~Alfyorov, ``Nonlocal one-loop form factors from the spectral action,''
+DOI:\href{https://doi.org/10.5281/zenodo.19098042}{10.5281/zenodo.19098042} (2026).
+
+\bibitem{Alfyorov2026b}
+D.~Alfyorov, ``Solar system and laboratory tests of the spectral action,''
+DOI:\href{https://doi.org/10.5281/zenodo.19098100}{10.5281/zenodo.19098100} (2026).
+
+\bibitem{Alfyorov2026c}
+D.~Alfyorov, ``Nonlinear field equations and FLRW cosmology from the spectral action,''
+DOI:\href{https://doi.org/10.5281/zenodo.19098027}{10.5281/zenodo.19098027} (2026).
+
+\end{thebibliography}
+
+\end{document}

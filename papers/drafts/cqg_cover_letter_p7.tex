@@ -1,0 +1,69 @@
+\documentclass[12pt,a4paper]{letter}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue!60!black}
+
+\signature{David Alfyorov, Igor Shnyukov}
+\address{Corresponding author: David Alfyorov\\
+\href{mailto:davidich.alfyorov@gmail.com}{davidich.alfyorov@gmail.com}\\
+ORCID: 0009-0003-6027-7837}
+\date{March 31, 2026}
+
+\begin{document}
+\begin{letter}{Editorial Office\\Classical and Quantum Gravity}
+
+\opening{Dear Editors,}
+
+We submit for your consideration the manuscript entitled
+\textbf{``Weyl curvature from the Hasse diagram: a parameter-free
+bridge formula for causal sets''} by David Alfyorov and Igor
+Shnyukov (35~pages, 8~figures).
+
+The paper constructs a discrete observable (CJ) on causal sets that
+responds to the electric part of the Weyl tensor and derives an
+analytical formula verified against Monte Carlo data with ratio
+data/prediction $= 1.016 \pm 0.015$.  To our knowledge, this is
+the first discrete causal-set observable shown to be sensitive to
+Weyl curvature, extending the Benincasa--Dowker hierarchy from
+scalar curvature to the Weyl level.
+
+The main results are:
+\begin{itemize}
+\item A parameter-free coefficient
+  $C_0 = 32\pi^2/(3 \cdot 9! \cdot 45)$ decomposed into five
+  factors, each with a distinct geometric origin.
+\item Numerical verification on exact pp-wave causal diamonds
+  across $N = 500$--$15{,}000$.
+\item Seven diagnostic tests including a de~Sitter null test
+  (CJ~$= 0$ exactly, 200~seeds) and polarisation independence
+  ($M = 50$ paired seeds, $p = 0.43$).
+\item Formal verification of all rational coefficient identities
+  in Lean~4 (105 sorry-free theorems, three independent proof
+  backends).
+\item Documentation of five failed approaches and over thirty
+  closed spectral routes.
+\end{itemize}
+
+The derivation is conditional on two explicitly stated hypotheses
+concerning the continuum limit of the stratified estimator.  The
+$N^{8/9}$ scaling exponent is consistent with the theoretical
+value $8/9$ at the $1\sigma$ level.  All Monte Carlo data,
+analysis code, and Lean~4 proof files are publicly available at
+\url{https://github.com/davidichalfyorov-wq/sct-theory}
+(DOI: 10.5281/zenodo.19135673).
+
+This manuscript has not been published or submitted for
+publication elsewhere, and all authors have read and approved the
+final version.  The authors declare no conflicts of interest.
+
+We believe the paper is suitable for Classical and Quantum Gravity
+given its direct relevance to the causal set programme, to
+discrete approaches to quantum gravity, and to the broader
+question of how continuum curvature invariants emerge from
+discrete causal order.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

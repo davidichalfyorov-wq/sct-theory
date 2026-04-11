@@ -64,8 +64,8 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 ALPHA_C = mp.mpf(13) / 120
 LOCAL_C2 = 2 * ALPHA_C  # 13/60
 
-# Unit conversions (CODATA 2022 compatible, via scipy.constants)
-HBAR_C_EV_M = mp.mpf("1.9732705e-7")  # hbar*c in eV*m
+# Unit conversions (CODATA 2022, 12 significant figures)
+HBAR_C_EV_M = mp.mpf("1.97326980459e-7")  # hbar*c in eV*m (CODATA 2022)
 M_TO_EV_INV = 1 / HBAR_C_EV_M  # 1 m in eV^{-1}
 AU_M = mp.mpf("1.495978707e11")  # 1 AU in meters
 AU_EV_INV = AU_M * M_TO_EV_INV  # 1 AU in eV^{-1}
@@ -634,7 +634,7 @@ def lower_bound_Lambda(
         }
 
     if experiment.lower() == "messenger":
-        # Verma+ (2014): |gamma-1| < 2.5e-5 (1-sigma, A&A 561 A115)
+        # Verma+ (2014): |gamma-1| < 2.5e-5 (1-sigma, A&A 561, A115; arXiv:1306.5569)
         threshold = mp.mpf("2.5e-5")
         exp_bound = threshold * 3 / 2
         min_m2_r = -mp.log(exp_bound)
@@ -839,12 +839,229 @@ def exclusion_plot(
 
 
 # ---------------------------------------------------------------------------
-# Snapshot export
+# Publication-quality figures (v2 — 6 panels)
+# ---------------------------------------------------------------------------
+def _ensure_figures_dir() -> Path:
+    d = FIGURES_DIR / "ppn1"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def figure_potential_ratio(output_dir: Path | None = None) -> Path:
+    """Fig 2: Phi(r)/Phi_N and Psi(r)/Psi_N vs r*Lambda."""
+    out = (output_dir or _ensure_figures_dir()) / "ppn1_potential_ratio.pdf"
+    init_style()
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.5), sharey=True)
+
+    rL = np.logspace(-2, 1.5, 300)
+    m2L = float(mp.sqrt(mp.mpf(60) / 13))
+    m0L = float(mp.sqrt(6))
+
+    for ax, xi, title in [(axes[0], 0.0, r"$\xi = 0$"),
+                           (axes[1], 1 / 6, r"$\xi = 1/6$")]:
+        phi_arr = []
+        psi_arr = []
+        for r in rL:
+            p = 1 - 4 / 3 * math.exp(-m2L * r)
+            s = 1 - 2 / 3 * math.exp(-m2L * r)
+            if abs(xi - 1 / 6) > 1e-10:
+                coeff = 6 * (xi - 1 / 6) ** 2
+                m0 = 1 / math.sqrt(coeff)
+                p += 1 / 3 * math.exp(-m0 * r)
+                s -= 1 / 3 * math.exp(-m0 * r)
+            phi_arr.append(p)
+            psi_arr.append(s)
+
+        ax.plot(rL, phi_arr, color=SCT_COLORS["total"], linewidth=1.5,
+                label=r"$\Phi/\Phi_{\rm N}$")
+        ax.plot(rL, psi_arr, color=SCT_COLORS["reference"], linewidth=1.5,
+                linestyle="--", label=r"$\Psi/\Psi_{\rm N}$")
+        ax.axhline(1, color="gray", linewidth=0.5, linestyle=":")
+        ax.axhline(0, color="gray", linewidth=0.5, linestyle=":")
+        ax.set_xlabel(r"$r\Lambda$")
+        ax.set_xscale("log")
+        ax.set_title(title)
+        ax.legend(fontsize=8)
+        ax.set_ylim(-0.5, 1.2)
+
+    axes[0].set_ylabel(r"Potential ratio")
+    fig.tight_layout()
+    save_figure(fig, out.stem, fmt="pdf", directory=out.parent)
+    plt.close(fig)
+    return out
+
+
+def figure_gamma_vs_r(output_dir: Path | None = None) -> Path:
+    """Fig 3: gamma(r) for xi=0 and xi=1/6."""
+    out = (output_dir or _ensure_figures_dir()) / "ppn1_gamma_vs_r.pdf"
+    init_style()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.5))
+
+    rL = np.logspace(-1, 2, 300)
+    m2L = float(mp.sqrt(mp.mpf(60) / 13))
+    m0L = float(mp.sqrt(6))
+
+    for ax, xi, title in [(ax1, 0.0, r"$\xi = 0$"),
+                           (ax2, 1 / 6, r"$\xi = 1/6$")]:
+        gamma_arr = []
+        for r in rL:
+            p = 1 - 4 / 3 * math.exp(-m2L * r)
+            s = 1 - 2 / 3 * math.exp(-m2L * r)
+            if abs(xi - 1 / 6) > 1e-10:
+                coeff = 6 * (xi - 1 / 6) ** 2
+                m0 = 1 / math.sqrt(coeff)
+                p += 1 / 3 * math.exp(-m0 * r)
+                s -= 1 / 3 * math.exp(-m0 * r)
+            gamma_arr.append(s / p if abs(p) > 1e-15 else float("nan"))
+
+        ax.plot(rL, gamma_arr, color=SCT_COLORS["total"], linewidth=1.5)
+        ax.axhline(1, color="gray", linewidth=0.5, linestyle=":")
+        ax.set_xlabel(r"$r\Lambda$")
+        ax.set_xscale("log")
+        ax.set_title(title)
+        ax.set_ylabel(r"$\gamma(r)$")
+
+    ax1.set_ylim(0.95, 1.15)
+    ax2.set_ylim(-2, 3)
+    fig.tight_layout()
+    save_figure(fig, out.stem, fmt="pdf", directory=out.parent)
+    plt.close(fig)
+    return out
+
+
+def figure_mass_vs_xi(output_dir: Path | None = None) -> Path:
+    """Fig 4: m2/Lambda and m0/Lambda vs xi."""
+    out = (output_dir or _ensure_figures_dir()) / "ppn1_mass_vs_xi.pdf"
+    init_style()
+    fig, ax = plt.subplots(figsize=(6, 4.5))
+
+    xi_vals = np.linspace(0, 0.5, 500)
+    m2_line = float(mp.sqrt(mp.mpf(60) / 13)) * np.ones_like(xi_vals)
+    m0_line = []
+    for xi in xi_vals:
+        coeff = 6 * (xi - 1 / 6) ** 2
+        if coeff > 1e-6:
+            m0_line.append(1 / math.sqrt(coeff))
+        else:
+            m0_line.append(np.nan)
+
+    ax.plot(xi_vals, m2_line, color=SCT_COLORS["total"], linewidth=1.5,
+            label=r"$m_2/\Lambda = \sqrt{60/13}$")
+    ax.plot(xi_vals, m0_line, color=SCT_COLORS["reference"], linewidth=1.5,
+            linestyle="--", label=r"$m_0(\xi)/\Lambda$")
+    ax.axvline(1 / 6, color="gray", linewidth=0.5, linestyle=":",
+               label=r"$\xi = 1/6$ (conformal)")
+    ax.set_xlabel(r"$\xi$")
+    ax.set_ylabel(r"Mass / $\Lambda$")
+    ax.set_ylim(0, 15)
+    ax.set_xlim(0, 0.5)
+    ax.legend(fontsize=8)
+    ax.set_title(r"Effective masses vs $\xi$")
+    fig.tight_layout()
+    save_figure(fig, out.stem, fmt="pdf", directory=out.parent)
+    plt.close(fig)
+    return out
+
+
+def figure_PiTT_zero(output_dir: Path | None = None) -> Path:
+    """Fig 5: Pi_TT(z) showing the zero at z0."""
+    out = (output_dir or _ensure_figures_dir()) / "ppn1_PiTT_zero.pdf"
+    init_style()
+    fig, ax = plt.subplots(figsize=(6, 4.5))
+
+    z_vals = np.linspace(0, 6, 300)
+    pi_vals = []
+    for z in z_vals:
+        pi_vals.append(float(mp.re(_Pi_TT(float(z), dps=30))))
+
+    ax.plot(z_vals, pi_vals, color=SCT_COLORS["total"], linewidth=1.5)
+    ax.axhline(0, color="gray", linewidth=0.5, linestyle=":")
+
+    # Mark the zero
+    z0_approx = 2.4148
+    ax.plot(z0_approx, 0, "o", color=SCT_COLORS["dirac"], markersize=6,
+            label=f"$z_0 \\approx {z0_approx:.4f}$")
+    ax.annotate(f"$z_0 = {z0_approx:.4f}$", xy=(z0_approx, 0),
+                xytext=(z0_approx + 0.5, 0.3), fontsize=8,
+                arrowprops={"arrowstyle": "->", "color": "gray"})
+
+    # Also show the Stelle asymptote (1 + c2*z)
+    c2 = 13 / 60
+    stelle = 1 + c2 * z_vals
+    ax.plot(z_vals, stelle, color=SCT_COLORS["reference"], linewidth=1.0,
+            linestyle="--", alpha=0.5, label=r"Stelle: $1 + c_2 z$")
+
+    ax.set_xlabel(r"$z = k^2/\Lambda^2$")
+    ax.set_ylabel(r"$\Pi_{\rm TT}(z)$")
+    ax.set_title(r"Spin-2 propagator denominator")
+    ax.set_ylim(-2, 3)
+    ax.legend(fontsize=8)
+    fig.tight_layout()
+    save_figure(fig, out.stem, fmt="pdf", directory=out.parent)
+    plt.close(fig)
+    return out
+
+
+def figure_K_kernels(output_dir: Path | None = None) -> Path:
+    """Fig 6: K_Phi(z) and K_Psi(z)."""
+    out = (output_dir or _ensure_figures_dir()) / "ppn1_K_kernels.pdf"
+    init_style()
+    fig, ax = plt.subplots(figsize=(6, 4.5))
+
+    # Avoid the pole region near z0
+    z_lo = np.linspace(0, 2.35, 150)
+    z_hi = np.linspace(2.48, 6, 100)
+
+    for z_arr, ls in [(z_lo, "-"), (z_hi, "-")]:
+        kp_vals, ks_vals = [], []
+        for z in z_arr:
+            kp = float(mp.re(K_Phi(float(z), dps=30)))
+            ks = float(mp.re(K_Psi(float(z), dps=30)))
+            kp_vals.append(max(min(kp, 5), -5))
+            ks_vals.append(max(min(ks, 5), -5))
+        if ls == "-":
+            ax.plot(z_arr, kp_vals, color=SCT_COLORS["total"], linewidth=1.5,
+                    label=r"$K_\Phi(z)$" if z_arr is z_lo else "")
+            ax.plot(z_arr, ks_vals, color=SCT_COLORS["reference"], linewidth=1.5,
+                    linestyle="--",
+                    label=r"$K_\Psi(z)$" if z_arr is z_lo else "")
+
+    ax.axhline(0, color="gray", linewidth=0.5, linestyle=":")
+    ax.axhline(1, color="gray", linewidth=0.3, linestyle=":")
+    ax.axvline(2.4148, color=SCT_COLORS["dirac"], linewidth=0.8,
+               linestyle=":", alpha=0.7, label=r"$z_0$ (pole)")
+    ax.set_xlabel(r"$z = k^2/\Lambda^2$")
+    ax.set_ylabel(r"Kernel value")
+    ax.set_title(r"Newton kernels $K_\Phi(z)$, $K_\Psi(z)$")
+    ax.set_ylim(-3, 5)
+    ax.legend(fontsize=8)
+    fig.tight_layout()
+    save_figure(fig, out.stem, fmt="pdf", directory=out.parent)
+    plt.close(fig)
+    return out
+
+
+def generate_all_figures_v2(output_dir: Path | None = None) -> list[Path]:
+    """Generate all 6 PPN-1 v2 publication figures."""
+    d = output_dir or _ensure_figures_dir()
+    paths = [
+        exclusion_plot(d / "ppn1_exclusion_v2.pdf"),
+        figure_potential_ratio(d),
+        figure_gamma_vs_r(d),
+        figure_mass_vs_xi(d),
+        figure_PiTT_zero(d),
+        figure_K_kernels(d),
+    ]
+    return paths
+
+
+# ---------------------------------------------------------------------------
+# Snapshot export (v2)
 # ---------------------------------------------------------------------------
 def ppn_snapshot(
     Lambda: float | mp.mpf = 1.0, xi: float = 0.0,
 ) -> dict[str, Any]:
-    """Generate a full PPN-1 snapshot for archival."""
+    """Generate a full PPN-1 v2 snapshot for archival."""
     mp.mp.dps = 50
     m2, m0 = effective_masses(Lambda=Lambda, xi=xi)
 
@@ -852,27 +1069,58 @@ def ppn_snapshot(
     for exp in ("cassini", "messenger", "eot-wash", "microscope", "llr"):
         bounds[exp] = lower_bound_Lambda(exp, xi=xi)
 
+    z0 = _find_tt_zero(xi=xi, dps=50)
+    deriv = _Pi_TT_prime_at_z0(z0, xi=xi, dps=50)
+    R_pole = 1 / deriv
+
+    m2_ov_L = mp.sqrt(mp.mpf(60) / 13)
+    m0_ov_L = 1 / mp.sqrt(_scalar_mode_coefficient(xi)) \
+        if abs(_scalar_mode_coefficient(xi)) > 1e-14 else None
+
+    # gamma(0) via L'Hopital for xi=0
+    gamma_0 = None
+    if m0_ov_L is not None:
+        gamma_0 = float((2 * m2_ov_L + m0_ov_L) / (4 * m2_ov_L - m0_ov_L))
+
     return {
+        "version": "v2",
         "phase": "PPN-1",
         "scope": "linear_static",
         "Lambda_eV": str(Lambda),
         "xi": str(xi),
-        "m2_eV": str(m2),
-        "m0_eV": str(m0) if m0 is not None else "infinity (xi=1/6)",
-        "m2_over_Lambda": str(mp.sqrt(mp.mpf(60) / 13)),
-        "m0_over_Lambda": str(1 / mp.sqrt(_scalar_mode_coefficient(xi)))
-            if abs(_scalar_mode_coefficient(xi)) > 1e-14 else "infinity",
-        "bounds": bounds,
-        "parameters": ppn_table(Lambda, xi=xi),
+        "upstream": {
+            "alpha_C": "13/120",
+            "c2": "13/60",
+            "F1_0": str(mp.mpf(13) / (1920 * mp.pi ** 2)),
+        },
+        "masses": {
+            "m2_over_Lambda": str(m2_ov_L),
+            "m0_over_Lambda": str(m0_ov_L) if m0_ov_L else "infinity",
+            "m2_eV": str(m2),
+            "m0_eV": str(m0) if m0 is not None else "infinity (xi=1/6)",
+            "mass_ratio_m2_m0": str(mp.sqrt(mp.mpf(10) / 13))
+                if m0_ov_L else "N/A",
+        },
         "pole_data": {
-            "z0": str(_find_tt_zero(xi=xi, dps=50)),
-            "Pi_TT_prime_z0": str(_Pi_TT_prime_at_z0(
-                _find_tt_zero(xi=xi, dps=50), xi=xi, dps=50)),
+            "z0": str(z0),
+            "Pi_TT_prime_z0": str(deriv),
+            "R_pole": str(R_pole),
+            "k0_over_Lambda": str(mp.sqrt(z0)),
             "ghost_note": (
-                "Pi_TT has a zero at z0 ~ 2.41. The massive spin-2 pole "
-                "is a ghost (R2 < 0) with |R2| ~ 0.49 (50% suppressed vs Stelle)."
+                "Pi_TT has a zero at z0 ~ 2.41484. The massive spin-2 pole "
+                "is a ghost. R_pole * c2 ~ -0.258 (SCT ghost ~ 4x weaker "
+                "than Stelle ghost)."
             ),
         },
+        "gamma": {
+            "gamma_0_xi0": gamma_0,
+            "gamma_0_xi_conf": -1.0,
+            "formula": "gamma(r) = [1 - (2/3)exp(-m2*r) - (1/3)exp(-m0*r)] / "
+                       "[1 - (4/3)exp(-m2*r) + (1/3)exp(-m0*r)]",
+            "leading_correction": "|gamma-1| ~ (2/3)*exp(-m2*r)",
+        },
+        "bounds": bounds,
+        "parameters": ppn_table(Lambda, xi=xi),
     }
 
 
@@ -880,49 +1128,55 @@ def ppn_snapshot(
 # Main entry point
 # ---------------------------------------------------------------------------
 def main() -> None:
-    """Run PPN-1 analysis and generate outputs."""
+    """Run PPN-1 v2 analysis and generate outputs."""
     parser = argparse.ArgumentParser(
-        description="PPN-1 parameters for SCT Theory."
+        description="PPN-1 parameters for SCT Theory (v2)."
     )
     parser.add_argument("--Lambda", type=float, default=1e-3,
                         help="Cutoff scale in eV")
     parser.add_argument("--xi", type=float, default=0.0,
                         help="Non-minimal coupling xi")
     parser.add_argument("--output", type=Path,
-                        default=RESULTS_DIR / "ppn1_snapshot.json")
+                        default=RESULTS_DIR / "ppn1_snapshot_v2.json")
     parser.add_argument("--no-plot", action="store_true",
-                        help="Skip exclusion plot generation")
+                        help="Skip figure generation")
+    parser.add_argument("--figures-only", action="store_true",
+                        help="Only generate figures, skip snapshot")
     args = parser.parse_args()
 
-    L_mp = mp.mpf(str(args.Lambda))
-    snapshot = ppn_snapshot(L_mp, xi=args.xi)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(snapshot, indent=2, default=str), encoding="utf-8",
-    )
-    print(f"Wrote snapshot to {args.output}")
+    if not args.figures_only:
+        L_mp = mp.mpf(str(args.Lambda))
+        snapshot = ppn_snapshot(L_mp, xi=args.xi)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(
+            json.dumps(snapshot, indent=2, default=str), encoding="utf-8",
+        )
+        print(f"Wrote snapshot to {args.output}")
 
     if not args.no_plot:
-        plot_path = exclusion_plot(xi=args.xi)
-        print(f"Wrote exclusion plot to {plot_path}")
+        paths = generate_all_figures_v2()
+        for p in paths:
+            print(f"Wrote figure: {p}")
 
-    # Print summary
-    print("\n" + "=" * 60)
-    print("PPN-1 Summary")
-    print("=" * 60)
-    print(f"Lambda = {args.Lambda} eV, xi = {args.xi}")
-    m2, m0 = effective_masses(Lambda=args.Lambda, xi=args.xi)
-    print(f"m2 = {float(m2):.4e} eV")
-    print(f"m0 = {float(m0):.4e} eV" if m0 else "m0 = infinity (conformal)")
+    if not args.figures_only:
+        # Print summary
+        print("\n" + "=" * 60)
+        print("PPN-1 v2 Summary")
+        print("=" * 60)
+        print(f"Lambda = {args.Lambda} eV, xi = {args.xi}")
+        m2, m0 = effective_masses(Lambda=args.Lambda, xi=args.xi)
+        print(f"m2 = {float(m2):.4e} eV")
+        print(f"m0 = {float(m0):.4e} eV" if m0 else "m0 = infinity (conformal)")
 
-    for exp in ("cassini", "messenger", "eot-wash"):
-        bound = lower_bound_Lambda(exp, xi=args.xi)
-        print(f"{bound['experiment']}: Lambda > {bound['Lambda_min_str']}")
+        for exp in ("cassini", "messenger", "eot-wash"):
+            bound = lower_bound_Lambda(exp, xi=args.xi)
+            print(f"{bound['experiment']}: Lambda > {bound['Lambda_min_str']}")
 
-    params = ppn_table(L_mp, xi=args.xi)
-    print(f"gamma at 1 AU: {params['gamma']}")
-    print(f"beta: {params['beta']}")
-    print("=" * 60)
+        L_mp = mp.mpf(str(args.Lambda))
+        params = ppn_table(L_mp, xi=args.xi)
+        print(f"gamma at 1 AU: {params['gamma']}")
+        print(f"beta: {params['beta']}")
+        print("=" * 60)
 
 
 if __name__ == "__main__":

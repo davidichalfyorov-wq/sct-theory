@@ -1,0 +1,348 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdfauthor={David Alfyorov},
+  pdftitle={Absence of Starobinsky inflation in the spectral action
+    at conformal coupling}
+}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\newcommand{\order}{\mathcal{O}}
+
+\title{Absence of Starobinsky inflation in the spectral action\\
+  at conformal coupling}
+\author{David Alfyorov\\[4pt]
+\small\textit{davidich.alfyorov@gmail.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The spectral action $S = \mathrm{Tr}\,f(D^2/\Lambda^2)$ of the
+standard Chamseddine--Connes spectral triple predicts conformal
+coupling $\xi = 1/6$ for the Higgs field.  We show that this
+prediction eliminates the $R^2$ term from the one-loop effective
+action, removing the scalaron from the gravitational spectrum and
+excluding Starobinsky inflation within the standard framework.
+The $R^2$ coefficient $\alpha_R = 2(\xi - 1/6)^2$ vanishes
+identically at $\xi = 1/6$, and $\xi = 1/6$ is an exact one-loop
+fixed point of the renormalization group.  Eight mechanisms for
+restoring the scalaron are examined; all fail within the standard
+spectral triple.  The theory predicts exactly two gravitational
+wave polarizations.  Detection of a scalar polarization would
+falsify the standard spectral triple.
+\end{abstract}
+
+\noindent\textit{PACS:} 04.60.--m, 04.50.Kd, 98.80.Cq
+
+\medskip
+
+\noindent\textbf{1.}
+The spectral action principle~\cite{CC:1996,CC:1997} derives the
+bosonic action of gravity and the Standard Model from a single
+operator trace $S = \mathrm{Tr}\,f(D^2/\Lambda^2)$, where $D$ is
+the Dirac operator of an almost-commutative spectral triple
+and~$\Lambda$ is the spectral cutoff.  The heat kernel expansion
+of this trace yields the Einstein--Hilbert action, cosmological
+constant, and curvature-squared corrections, with coefficients
+determined by the Seeley--DeWitt coefficients
+$a_{2k}$~\cite{Vassilevich:2003}.
+
+The curvature-squared sector of the one-loop effective action
+takes the form~\cite{BV:1987,BV:1990,CZ:2012}
+\begin{equation}\label{eq:Gamma}
+  \Gamma^{(1)} \supset \int \dd^4x\,\sqrt{g}\,
+  \bigl[\alpha_C\, C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+  + \alpha_R(\xi)\, R^2\bigr]\,\ln\frac{\Lambda^2}{\mu^2}\,,
+\end{equation}
+where $\alpha_C = 13/120$ depends only on the Standard Model
+particle content ($N_s = 4$, $N_D = 45/2$, $N_v = 12$) and is
+independent of both~$\xi$ and the cutoff function~$f$, while the
+$R^2$ coefficient is~\cite{Alfyorov:2026paper1}
+\begin{equation}\label{eq:alphaR}
+  \alpha_R(\xi) = 2\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}.
+\end{equation}
+
+\medskip
+
+\noindent\textbf{2.}
+In the Chamseddine--Connes spectral triple, the Higgs doublet
+arises from the finite part of the Dirac operator, and the
+curvature coupling $\xi R|H|^2$ is not a free parameter.  The
+$a_4$ coefficient contains a common Yukawa-dependent factor
+multiplying both the curvature coupling and the kinetic
+term~$|\nabla H|^2$.  After canonical normalization, one
+obtains~\cite{CCM:2006,CC:2010,CCS:2013,vS:2015,DLM:2014}
+\begin{equation}\label{eq:xi}
+  \xi = \frac{1}{6}\qquad\text{(conformal coupling)}.
+\end{equation}
+This result has been confirmed in five independent derivations
+within the noncommutative geometry
+framework~\cite{CCM:2006,CC:2010,CCS:2013,vS:2015,DLM:2014},
+including Pati--Salam extensions, and is robust under
+addition of BSM scalars from the finite Dirac
+operator~\cite{BFS:2010,CCS:2013ps,vdD:2018}.
+
+The one-loop beta function $\beta_\xi \propto (\xi - 1/6)$
+vanishes at $\xi = 1/6$~\cite{ParkerToms:2009}, so conformal
+coupling is an exact one-loop fixed point.  The full one-loop
+RG equation for~$\xi$ in the SM with gravitational corrections
+is~\cite{ParkerToms:2009,Buchbinder:1992}
+\begin{equation}\label{eq:betaxi}
+  \beta_\xi = \frac{1}{(4\pi)^2}\Bigl(\xi - \frac{1}{6}\Bigr)
+  \bigl(6\lambda + 6y_t^2 - \tfrac{3}{2}g'^{\,2}
+  - \tfrac{9}{2}g^2\bigr),
+\end{equation}
+where $\lambda$ is the Higgs self-coupling, $y_t$ the top
+Yukawa coupling, and $g'$, $g$ the $\mathrm{U}(1)_Y$ and
+$\mathrm{SU}(2)_L$ gauge couplings.  The prefactor
+$(\xi - 1/6)$ ensures that $\xi = 1/6$ is a fixed point
+for all values of the SM couplings.
+
+\medskip
+
+\noindent\textbf{3.}
+The consequences are immediate.  At $\xi = 1/6$:
+\begin{equation}\label{eq:alphaR-zero}
+  \alpha_R\bigl(\xi = \tfrac{1}{6}\bigr) = 0\,.
+\end{equation}
+The $R^2$ term is absent from the one-loop effective action.
+There is no scalaron.  Starobinsky inflation~\cite{Starobinsky:1980},
+which requires a propagating scalar degree of freedom from the
+$R^2$ term with mass $M_{\mathrm{inf}} \approx 1.28 \times
+10^{-5}\,M_P$~\cite{Planck:2018}, is excluded in the standard
+spectral action.
+
+The scalar propagator denominator
+\begin{equation}\label{eq:Pis}
+  \Pi_s(z, \xi) = 1 + 6\Bigl(\xi - \frac{1}{6}\Bigr)^{\!2}\,z\,
+  \hat{F}_2(z, \xi)
+\end{equation}
+reduces to $\Pi_s = 1$ identically at $\xi = 1/6$, for any
+momentum~$z = k^2/\Lambda^2$ and any cutoff function~$f$.
+The scalar gravitational mode does not propagate.  The
+gravitational spectrum contains only the massless spin-2
+graviton and the massive spin-2 fakeon with mass
+$m_2 = \sqrt{z_0}\,\Lambda$~\cite{Alfyorov:2026paper1}.
+The gravitational wave speed is $c_T = c$
+exactly~\cite{Alfyorov:2026paper4}, compatible with the
+GW170817 bound $|c_T - c|/c < 10^{-15}$~\cite{GW170817:2017}.
+
+\medskip
+
+\noindent\textbf{4.}
+One may ask whether the scalaron can be restored within the
+spectral action framework.  Table~\ref{tab:escape} examines
+eight mechanisms; all fail.
+
+\begin{table}[ht]
+\centering
+\caption{Mechanisms for restoring Starobinsky inflation
+  in the spectral action, and the obstruction that closes each.}
+\label{tab:escape}
+\begin{tabular}{p{3.8cm}p{6.5cm}}
+\toprule
+Mechanism & Obstruction \\
+\midrule
+Sub-Planckian~$\Lambda$ &
+  Conflicts with GUT interpretation of~$\Lambda$ \\
+Large $\xi \sim 2 \times 10^4$ &
+  Violates spectral-triple geometric boundary conditions \\
+NCG $\sigma$-singlet~\cite{BFS:2010} &
+  $\xi_\sigma = 1/6$ (conformal) by the same mechanism \\
+Pati--Salam extension~\cite{CCS:2013ps} &
+  All scalars acquire conformal coupling \\
+Grand Symmetry~\cite{CCS:2013gs} &
+  $\sigma$ generates Higgs mass, not scalaron \\
+$N_s' \sim 4 \times 10^{10}$ BSM scalars &
+  Requires BSM content incompatible with NCG \\
+Modified cutoff~$f$ &
+  $\alpha_R$ comes from $a_4$, independent of~$f$ \\
+Two-loop corrections &
+  No calculation exists; $\beta_\xi(\xi=1/6) = 0$ persists at one loop \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The only known paths are departures from the standard framework:
+the zeta spectral action~\cite{KLV:2015} or the dilatonized
+spectral action~\cite{CC:2006dilaton}.  These modify the
+operator trace and cannot be obtained from the standard
+$\mathrm{Tr}\,f(D^2/\Lambda^2)$.
+
+\medskip
+
+\noindent\textbf{5.}
+The result provides a sharp falsification criterion.  Detection
+of a scalar gravitational wave polarization (e.g., a
+longitudinal breathing mode in the output of LIGO/Virgo/KAGRA
+or LISA) would imply $\xi \neq 1/6$ and falsify the standard
+Chamseddine--Connes spectral triple.  Current constraints on
+scalar polarizations from binary pulsar timing~\cite{Stairs:2003}
+and GW170814~\cite{GW170814:2017} are consistent with zero
+scalar content.
+
+At $\xi = 1/6$, the ratio $c_1/c_2 = -1/3$ in the
+$\{R^2, R_{\mu\nu}^2\}$ Stelle basis is frozen under the
+matter-only one-loop RG flow:
+$\beta_{c_1}/\beta_{c_2} = -1/3$
+identically~\cite{Alfyorov:2026paper1}.  This ratio
+discriminates SCT from asymptotic safety ($c_1/c_2 \approx
+-1.09$, truncation-dependent~\cite{BMS:2009}) and from the
+perturbative asymptotic freedom branch
+($c_1/c_2 \approx -0.326$~\cite{Shapiro:2004}).
+
+\medskip
+
+\noindent\textbf{6.}
+To summarize: the standard spectral action predicts conformal
+coupling $\xi = 1/6$, which is a one-loop RG fixed point.
+At $\xi = 1/6$, the $R^2$ coefficient vanishes, the scalar
+gravitational mode decouples, and Starobinsky inflation is
+excluded.  Eight mechanisms for restoring the scalaron fail
+within the standard framework.  The prediction of exactly two
+gravitational wave polarizations is testable by current and
+planned detectors.
+
+\bigskip
+
+I am grateful to Igor Shnyukov for collaboration and discussions.
+
+\begin{thebibliography}{99}
+
+\bibitem{CC:1996}
+A.\,H.~Chamseddine, A.~Connes, Commun.\ Math.\ Phys.\
+\textbf{186}, 731 (1997); hep-th/9606001.
+
+\bibitem{CC:1997}
+A.\,H.~Chamseddine, A.~Connes, J.\ Math.\ Phys.\
+\textbf{47}, 063504 (2006); hep-th/0512169.
+
+\bibitem{Vassilevich:2003}
+D.\,V.~Vassilevich, Phys.\ Rept.\ \textbf{388}, 279 (2003);
+hep-th/0306138.
+
+\bibitem{BV:1987}
+A.\,O.~Barvinsky, G.\,A.~Vilkovisky, Phys.\ Rept.\
+\textbf{119}, 1 (1985).
+
+\bibitem{BV:1990}
+A.\,O.~Barvinsky, G.\,A.~Vilkovisky, Nucl.\ Phys.\ B
+\textbf{333}, 471 (1990).
+
+\bibitem{CZ:2012}
+A.~Codello, O.~Zanusso, J.\ Math.\ Phys.\ \textbf{54},
+013513 (2013); arXiv:1203.2034 [gr-qc].
+
+\bibitem{Alfyorov:2026paper1}
+D.~Alfyorov, ``Nonlocal one-loop form factors of the spectral
+action with Standard Model content'' (2026);
+doi:10.22541/au.177507193.33027854/v1.
+
+\bibitem{CCM:2006}
+A.\,H.~Chamseddine, A.~Connes, M.~Marcolli, Adv.\ Theor.\
+Math.\ Phys.\ \textbf{11}, 991 (2007); hep-th/0610241.
+
+\bibitem{CC:2010}
+A.\,H.~Chamseddine, A.~Connes, J.\ Geom.\ Phys.\
+\textbf{61}, 317 (2011); arXiv:0901.0577.
+
+\bibitem{CCS:2013}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+J.\ Geom.\ Phys.\ \textbf{73}, 222 (2013);
+arXiv:1304.7583.
+
+\bibitem{vS:2015}
+W.\,D.~van Suijlekom, \textit{Noncommutative Geometry and
+Particle Physics} (Springer, 2015).
+
+\bibitem{DLM:2014}
+K.~van den Dungen, W.\,D.~van Suijlekom, Rev.\ Math.\ Phys.\
+\textbf{24}, 1230004 (2012); arXiv:1204.0328.
+
+\bibitem{BFS:2010}
+T.\,D.~Brennan, S.\,E.~Flood, D.\,G.~Robbins, Eur.\ Phys.\
+J.\ C \textbf{74}, 2862 (2014); arXiv:1401.1006.
+
+\bibitem{CCS:2013ps}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+JHEP \textbf{11}, 132 (2013); arXiv:1304.8050.
+
+\bibitem{vdD:2018}
+K.~van den Dungen, J.\ Noncommut.\ Geom.\ \textbf{12}, 1155
+(2018); arXiv:1711.07299.
+
+\bibitem{CCS:2013gs}
+A.\,H.~Chamseddine, A.~Connes, W.\,D.~van Suijlekom,
+Fortschr.\ Phys.\ \textbf{62}, 797 (2014);
+arXiv:1409.7574.
+
+\bibitem{ParkerToms:2009}
+L.~Parker, D.~Toms, \textit{Quantum Field Theory in Curved
+Spacetime} (Cambridge, 2009).
+
+\bibitem{Buchbinder:1992}
+I.\,L.~Buchbinder, S.\,D.~Odintsov, I.\,L.~Shapiro,
+\textit{Effective Action in Quantum Gravity} (IOP, 1992).
+
+\bibitem{Starobinsky:1980}
+A.\,A.~Starobinsky, Phys.\ Lett.\ B \textbf{91}, 99 (1980).
+
+\bibitem{Planck:2018}
+Y.~Akrami \textit{et al.} (Planck Collaboration), Astron.\
+Astrophys.\ \textbf{641}, A10 (2020); arXiv:1807.06211.
+
+\bibitem{Alfyorov:2026paper4}
+D.~Alfyorov, ``Nonlinear field equations and FLRW cosmology
+from the spectral action'' (2026); doi:10.5281/zenodo.19098027.
+
+\bibitem{GW170817:2017}
+B.\,P.~Abbott \textit{et al.} (LIGO/Virgo), Astrophys.\ J.\
+Lett.\ \textbf{848}, L13 (2017); arXiv:1710.05834.
+
+\bibitem{KLV:2015}
+B.~Iochum, C.~Levy, D.~Vassilevich, Commun.\ Math.\ Phys.\
+\textbf{340}, 1163 (2015); arXiv:1503.09054.
+
+\bibitem{CC:2006dilaton}
+A.\,H.~Chamseddine, A.~Connes, Phys.\ Rev.\ Lett.\
+\textbf{99}, 071302 (2007); arXiv:0706.3690.
+
+\bibitem{Stairs:2003}
+I.\,H.~Stairs, Living Rev.\ Relativ.\ \textbf{6}, 5 (2003).
+
+\bibitem{GW170814:2017}
+B.\,P.~Abbott \textit{et al.} (LIGO/Virgo), Phys.\ Rev.\
+Lett.\ \textbf{119}, 141101 (2017); arXiv:1709.09660.
+
+\bibitem{BMS:2009}
+D.~Benedetti, P.\,F.~Machado, F.~Saueressig, Nucl.\ Phys.\ B
+\textbf{824}, 168 (2010); arXiv:0902.4630.
+
+\bibitem{Shapiro:2004}
+I.\,L.~Shapiro, Class.\ Quant.\ Grav.\ \textbf{25}, 103001
+(2008); arXiv:0801.0216.
+
+\bibitem{CPR:2008}
+A.~Codello, R.~Percacci, C.~Rahmede, Ann.\ Phys.\
+\textbf{324}, 414 (2009); arXiv:0805.2909.
+
+\end{thebibliography}
+
+\end{document}

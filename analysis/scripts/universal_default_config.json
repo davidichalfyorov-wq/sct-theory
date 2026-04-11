@@ -1,0 +1,401 @@
+{
+  "global": {
+    "output_dir": "universal_runs",
+    "workers": 8,
+    "tol": 1e-12,
+    "seed_base": 910000,
+    "zeta_primary": 0.15
+  },
+  "stages": {
+    "0": [
+      {
+        "id": "C0_ppwave_exact_vs_jet_q010",
+        "family": "ppwave_calibration",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.1
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35
+        ],
+        "N": 10000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "compare_mode": "jet"
+      },
+      {
+        "id": "C1_ds_exact_ricci",
+        "family": "ds_control",
+        "geometry": "ds",
+        "full_mode": "ds_exact",
+        "param_law": {
+          "kind": "ds_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35
+        ],
+        "N": 10000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet"
+      },
+      {
+        "id": "C2_ppwave_projector_validation",
+        "family": "ppwave_projval",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.1
+        },
+        "T_values": [
+          0.5,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 5,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "projector_validation": true
+      },
+      {
+        "id": "C2_ds_projector_validation",
+        "family": "ds_projval",
+        "geometry": "ds",
+        "full_mode": "ds_exact",
+        "param_law": {
+          "kind": "ds_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.5,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 5,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet",
+        "projector_validation": true
+      }
+    ],
+    "1": [
+      {
+        "id": "S1_ppwave_q010",
+        "family": "ppwave_q010",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.1
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 20,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O6"
+      },
+      {
+        "id": "S1_ppwave_q015",
+        "family": "ppwave_q015",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.15
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 20,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O6"
+      },
+      {
+        "id": "S1_ppwave_fixed_eps2",
+        "family": "ppwave_fixed_eps2",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_fixed",
+          "value": 2.0
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35
+        ],
+        "N": 10000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1"
+      }
+    ],
+    "2": [
+      {
+        "id": "S2_ds_qR010",
+        "family": "ds_qR010",
+        "geometry": "ds",
+        "full_mode": "ds_exact",
+        "param_law": {
+          "kind": "ds_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 20,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet"
+      },
+      {
+        "id": "S2_flrw_qR010",
+        "family": "flrw_qR010",
+        "geometry": "flrw",
+        "full_mode": "flrw_exact",
+        "param_law": {
+          "kind": "flrw_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.7,
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 15,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet"
+      }
+    ],
+    "3": [
+      {
+        "id": "S3_sch_r050_q010",
+        "family": "sch_q010_r050",
+        "geometry": "schwarzschild_local",
+        "full_mode": "jet",
+        "param_law": {
+          "kind": "sch_qW",
+          "qW": 0.01
+        },
+        "T_values": [
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 20,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O6",
+        "ric_mode": "ricci_jet",
+        "r0": 0.5
+      },
+      {
+        "id": "S3_sch_r050_q015",
+        "family": "sch_q015_r050",
+        "geometry": "schwarzschild_local",
+        "full_mode": "jet",
+        "param_law": {
+          "kind": "sch_qW",
+          "qW": 0.015
+        },
+        "T_values": [
+          0.5,
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 20,
+        "zeta_values": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "orientation_set": "O6",
+        "ric_mode": "ricci_jet",
+        "r0": 0.5
+      },
+      {
+        "id": "S3_sch_r070_q010",
+        "family": "sch_q010_r070",
+        "geometry": "schwarzschild_local",
+        "full_mode": "jet",
+        "param_law": {
+          "kind": "sch_qW",
+          "qW": 0.01
+        },
+        "T_values": [
+          0.35,
+          0.25
+        ],
+        "N": 10000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O6",
+        "ric_mode": "ricci_jet",
+        "r0": 0.7
+      }
+    ],
+    "4": [
+      {
+        "id": "S4_ppwave_q010_N20k",
+        "family": "ppwave_q010_confirm",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.1
+        },
+        "T_values": [
+          0.35,
+          0.25
+        ],
+        "N": 20000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O6"
+      },
+      {
+        "id": "S4_ds_qR010_N20k",
+        "family": "ds_qR010_confirm",
+        "geometry": "ds",
+        "full_mode": "ds_exact",
+        "param_law": {
+          "kind": "ds_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.35,
+          0.25
+        ],
+        "N": 20000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet"
+      },
+      {
+        "id": "S4_sch_r050_q010_N20k",
+        "family": "sch_q010_r050_confirm",
+        "geometry": "schwarzschild_local",
+        "full_mode": "jet",
+        "param_law": {
+          "kind": "sch_qW",
+          "qW": 0.01
+        },
+        "T_values": [
+          0.35,
+          0.25
+        ],
+        "N": 20000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O6",
+        "ric_mode": "ricci_jet",
+        "r0": 0.5
+      },
+      {
+        "id": "S4_ppwave_q010_T018_N20k",
+        "family": "ppwave_q010_stretch",
+        "geometry": "ppwave",
+        "full_mode": "ppwave_exact",
+        "param_law": {
+          "kind": "ppwave_q",
+          "q": 0.1
+        },
+        "T_values": [
+          0.18
+        ],
+        "N": 20000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O6"
+      },
+      {
+        "id": "S4_ds_qR010_T018_N20k",
+        "family": "ds_qR010_stretch",
+        "geometry": "ds",
+        "full_mode": "ds_exact",
+        "param_law": {
+          "kind": "ds_qR",
+          "qR": 0.1
+        },
+        "T_values": [
+          0.18
+        ],
+        "N": 20000,
+        "n_seeds": 10,
+        "zeta_values": [
+          0.15
+        ],
+        "orientation_set": "O1",
+        "ric_mode": "ricci_jet"
+      }
+    ]
+  }
+}

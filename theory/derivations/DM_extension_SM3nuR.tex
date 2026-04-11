@@ -1,0 +1,575 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% SCT Theory — DM Extension: SM+3ν_R One-Loop Gravitational Sector
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+\definecolor{sctblue}{RGB}{0,51,153}
+\definecolor{verified}{RGB}{0,128,0}
+\definecolor{conditional}{RGB}{204,102,0}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Derivation}}
+\fancyhead[R]{\small\textsc{DM Extension: SM+$3\nu_R$}}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=sctblue,
+  urlcolor=sctblue,
+  citecolor=sctblue,
+  pdftitle={DM Extension: SM+3nuR One-Loop Gravitational Sector},
+  pdfauthor={David Alfyorov, Igor Shnyukov}
+}
+
+\newcommand{\proven}[1]{\textcolor{verified}{\textbf{#1}}}
+\newcommand{\cond}[1]{\textcolor{conditional}{\textbf{#1}}}
+
+\title{%
+  \textbf{DM Extension: SM+$3\nu_R$}\\[6pt]
+  \Large One-Loop Gravitational Sector, Zero-Set Structure,\\
+  and Black Hole Entropy\\[4pt]
+  \large Complete Derivation with NCG Classification
+}
+\author{David Alfyorov, Igor Shnyukov}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+  \colorbox{verified!15}{\parbox{0.65\textwidth}{\centering
+    \textbf{\color{verified} STATUS: VERIFIED}\\[2pt]
+    \small 12 independent numerical checks (mpmath 50-digit),\\
+    ODE derivation (SymPy), independent cross-verification (12 checks, 50-digit)
+  }}
+\end{center}
+
+\vspace{1em}
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introduction and Motivation}
+% ============================================================
+
+The canonical SM spectral triple has multiplicity numbers $(N_s, N_D, N_v) = (4, 22.5, 12)$,
+yielding the one-loop Weyl coefficient $\alpha_C = 13/120$.
+The Chamseddine--Connes--Marcolli (CCM) framework~\cite{CCM2007} naturally accommodates
+right-handed neutrinos, giving the extended triple $(4, 24, 12)$ with $\alpha_C = 1/30$.
+
+This document derives the complete one-loop gravitational sector for SM+$3\nu_R$:
+the ODE for the TT propagator, real and complex zeros, Hadamard factorization,
+the analog of the ``magic number'' $83/24$, the CL sum rule, simplicity of all zeros,
+and the modified black hole entropy.
+All results are cross-verified at 50-digit precision with mpmath.
+
+\subsection*{Why SM+$3\nu_R$}
+
+Three reasons single out this extension:
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{NCG-canonical}: right-handed neutrinos are natural in the CCM/Barrett branch
+    and required by the van den Broek--van Suijlekom classification~\cite{vdBvS2013}
+    under physical constraints (anomaly cancellation + GUT relation).
+  \item \textbf{Dark matter candidate}: the lightest $\nu_R$ ($N_1$) serves as sterile neutrino
+    DM via Shi--Fuller resonant production at $m_s \sim 45$~keV.
+  \item \textbf{Maximal canonical model}: $N_D = 24$ is only $0.667$ below the fermion ceiling
+    $N_D^{\mathrm{crit}} = 24.667$; adding one more Dirac fermion kills $\alpha_C > 0$.
+\end{enumerate}
+
+
+% ============================================================
+\section{Multiplicities and Form Factors}
+% ============================================================
+
+\subsection{Counting Convention}
+
+Each right-handed neutrino $\nu_R$ is one Weyl fermion, contributing $+1/2$ to $N_D$.
+The Majorana mass matrix $M_R$ does not change the UV spin counting
+(confirmed via the Pfaffian argument of CCM~\cite{CCM2007}: the fermionic integral
+is $\mathrm{Pf}(A)$, not $\det(A)$, giving ``half a Dirac determinant'' per Majorana sector).
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Quantity} & \textbf{SM} & \textbf{SM+$3\nu_R$} \\
+\midrule
+$N_s$ & 4 & 4 \\
+$N_D$ & $22.5$ & $24$ \\
+$N_v$ & 12 & 12 \\
+$\alpha_C(0)$ & $13/120$ & $1/30$ \\
+$\alpha_R(0,\xi)$ & $2(\xi-1/6)^2$ & $2(\xi-1/6)^2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Note: $\alpha_R$ depends only on $N_s$ and $\xi$, hence is \textbf{unchanged}.
+
+\subsection{Combined $\alpha_C(z)$}
+
+\begin{equation}\label{eq:alphaC}
+  \alpha_C(z) = N_s\,h_C^{(0)}(z) + N_D\,h_C^{(1/2)}(z) + N_v\,h_C^{(1)}(z),
+\end{equation}
+with the SM form factors from Papers~1--3.
+The TT propagator is
+\begin{equation}\label{eq:PiTT}
+  \Pi_{TT}(z) = 1 + 2z\,\alpha_C(z).
+\end{equation}
+
+
+% ============================================================
+\section{Master Formula and ODE}
+% ============================================================
+
+\subsection{Master Formula}
+
+Using the master function $\phi(z) = e^{-z/4}\sqrt{\pi/z}\,\mathrm{erfi}(\sqrt{z}/2)$
+satisfying the ODE $4z\phi' = 2 - (z+2)\phi$, we obtain:
+
+\begin{equation}\label{eq:Pi_ext}
+  \boxed{
+    \Pi_{TT}^{\mathrm{ext}}(z) = \left(6z + 48 + \frac{124}{z}\right)\phi(z)
+    - \frac{79}{3} - \frac{124}{z}
+  }
+\end{equation}
+
+\noindent\textbf{Verification:} $\Pi^{\mathrm{ext}}(0) = 48 - 79/3 = 65/3$\,---\,but the $1/z$ terms cancel:
+$(124/z)\phi \to 124/z$ as $z\to 0$, while $-124/z$ subtracts it. Taylor expansion gives
+$\Pi^{\mathrm{ext}}(0) = 1$ and $(\Pi^{\mathrm{ext}})'(0) = 1/15 = 2\alpha_C(0)$. \proven{Verified.}
+
+\medskip\noindent
+SM comparison: $\Pi_{TT}^{\mathrm{SM}}(z) = (6z + 93/2 + 118/z)\phi - 155/6 - 118/z$.
+
+\subsection{First-Order ODE}
+
+Eliminating $\phi$ via $\phi = (\Pi - g)/f$ where $f = 6z + 48 + 124/z$, $g = -79/3 - 124/z$,
+and using the $\phi$-ODE, we derive:
+
+\begin{equation}\label{eq:ODE_ext}
+  \boxed{
+    12z(3z^2 + 24z + 62)\,\Pi' + 3(3z^3 + 18z^2 + 110z + 372)\,\Pi
+    + (129z^3 + 810z^2 - 454z - 1116) = 0
+  }
+\end{equation}
+
+\noindent SM comparison: $24z(12z^2+93z+236)\,\Pi' + (72z^3+414z^2+2532z+8496)\,\Pi
++ (996z^3+5799z^2-5600z-8496) = 0$.
+
+
+% ============================================================
+\section{Real Zeros}
+% ============================================================
+
+Newton refinement at 50-digit precision gives:
+
+\begin{center}
+\begin{tabular}{lcccl}
+\toprule
+\textbf{Zero} & \textbf{SM} & \textbf{SM+$3\nu_R$} & \textbf{$\Pi'(z_j)$} & \textbf{Physical meaning} \\
+\midrule
+$z_0$ (negative) & $-1.28070$ & $\mathbf{-1.44710}$ & $+1.4525$ & tachyonic, not physical \\
+$z_1$ (positive) & $+2.41484$ & $\mathbf{+2.10619}$ & $-0.8571$ & fakeon mass${}^2/\Lambda^2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Fakeon mass: $m_2/\Lambda = \sqrt{z_1} = 1.4513$ (SM: $1.554$, shift $-6.6\%$).
+
+Both zeros are simple (see Section~\ref{sec:simplicity}).
+
+
+% ============================================================
+\section{The Number 43: Analog of the SM ``83''}
+\label{sec:43}
+% ============================================================
+
+At the zeros of $\Pi^{\mathrm{ext}}$, the ODE~\eqref{eq:ODE_ext} with $\Pi(z_n) = 0$ gives:
+\begin{equation}
+  \Pi'(z_n) = -\frac{P_3(z_n)}{12z_n(3z_n^2 + 24z_n + 62)},
+\end{equation}
+where $P_3(z) = 129z^3 + 810z^2 - 454z - 1116$.
+
+As $|z_n| \to \infty$, the leading-order ratio is:
+\begin{equation}
+  \boxed{
+    \Pi'(z_n) \to -\frac{129}{36} = -\frac{43}{12} = -3.58\overline{3}
+    \qquad (n \to \infty)
+  }
+\end{equation}
+
+\noindent SM analog: $\Pi'(z_n) \to -996/288 = -83/24 = -3.458\overline{3}$.
+
+\medskip
+\noindent\textbf{Numerical verification} (15 complex zeros, upper half-plane):
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$n$ & $\mathrm{Re}\,\Pi'(z_n)$ & $|\Pi'(z_n) + 43/12|$ \\
+\midrule
+1 & $-3.5758$ & $0.198$ \\
+5 & $-3.5824$ & $0.046$ \\
+10 & $-3.5830$ & $0.024$ \\
+15 & $-3.5831$ & $0.016$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Convergence rate $O(1/n)$, identical to SM. \proven{Verified.}
+
+\medskip\noindent
+\textbf{Origin of 43.}
+In the SM, $83 = 996/12$ where $996$ is the leading coefficient of $P_3^{\mathrm{SM}}$.
+For SM+$3\nu_R$: $129 = 3 \times 43$, and the leading ODE coefficient is $36 = 12 \times 3$,
+giving $129/36 = 43/12$.
+The change $83/24 \to 43/12$ reflects the decreased $\alpha_C$.
+
+
+% ============================================================
+\section{Complex Zeros and Asymptotics}
+% ============================================================
+
+\subsection{First 15 Complex Zeros (Upper Half-Plane)}
+
+\begin{center}
+\begin{tabular}{ccc|ccc}
+\toprule
+$n$ & $\mathrm{Re}\,z_n$ & $\mathrm{Im}\,z_n$ & $n$ & $\mathrm{Re}\,z_n$ & $\mathrm{Im}\,z_n$ \\
+\midrule
+1 & 5.909 & 33.293 & 9 & 9.734 & 235.406 \\
+2 & 7.001 & 58.933 & 10 & 9.936 & 260.558 \\
+3 & 7.700 & 84.276 & 11 & 10.120 & 285.706 \\
+4 & 8.215 & 109.525 & 12 & 10.288 & 310.852 \\
+5 & 8.625 & 134.732 & 13 & 10.443 & 335.996 \\
+6 & 8.965 & 159.916 & 14 & 10.587 & 361.139 \\
+7 & 9.255 & 185.087 & 15 & 10.721 & 386.280 \\
+8 & 9.509 & 210.250 & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Lower half-plane: $z_n^- = \overline{z_n^+}$ (complex conjugates).
+
+\subsection{Asymptotic Spacing}
+
+The imaginary spacing converges to $8\pi$:
+\[
+  \Delta(\mathrm{Im}\,z_n) \to 8\pi = 25.1327\ldots
+\]
+This is \textbf{universal} --- it depends on the master function $\phi(z)$,
+not on the multiplicities.
+Numerical: $\Delta_{14\to 15} = 25.141$, error $0.03\%$. \proven{Verified.}
+
+\subsection{Comparison with SM}
+
+The real parts are slightly shifted (e.g., $n=1$: $5.91$ vs SM's $6.05$),
+but the structural pattern is identical:
+$\mathrm{Re}\,z_n = 2\ln n + C + o(1)$ with a different constant $C$.
+
+
+% ============================================================
+\section{Simplicity of All Zeros}
+\label{sec:simplicity}
+% ============================================================
+
+\textbf{Theorem.} All zeros of $\Pi_{TT}^{\mathrm{ext}}(z)$ are simple.
+
+\textbf{Proof.}
+A zero $z_n$ is non-simple iff $\Pi(z_n) = 0$ and $\Pi'(z_n) = 0$.
+From the ODE~\eqref{eq:ODE_ext}, $\Pi'(z_n) = 0$ requires $P_3(z_n) = 0$.
+The cubic $P_3(z) = 129z^3 + 810z^2 - 454z - 1116$ has three real roots:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Root & Value & $\Pi^{\mathrm{ext}}$ at root \\
+\midrule
+$r_1$ & $-6.613$ & $-42.55 \neq 0$ \\
+$r_2$ & $+1.323$ & $+0.586 \neq 0$ \\
+$r_3$ & $-0.989$ & $+0.541 \neq 0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+None of the $P_3$-roots are zeros of $\Pi^{\mathrm{ext}}$.
+Therefore no zero of $\Pi^{\mathrm{ext}}$ can have $\Pi' = 0$. \hfill$\square$
+
+\proven{Verified:} all three $P_3$-roots evaluated at 50-digit precision.
+
+
+% ============================================================
+\section{Hadamard Factorization}
+% ============================================================
+
+$\Pi_{TT}^{\mathrm{ext}}$ is entire of order $\rho = 1$, genus $p = 1$.
+The canonical Hadamard factorization is:
+\begin{equation}
+  \Pi_{TT}^{\mathrm{ext}}(z) = e^{a_H z}
+  \prod_{\zeta \in \mathcal{Z}} E_1\!\left(\frac{z}{\zeta}\right),
+  \qquad E_1(u) = (1-u)e^u,
+\end{equation}
+where $\mathcal{Z} = \{z_0, z_1, z_n^+, z_n^- : n \geq 1\}$.
+
+\subsection{Hadamard Exponent}
+
+Since $E_1(0) = 1$ and $E_1'(0) = 0$:
+\begin{equation}
+  \boxed{a_H = (\Pi^{\mathrm{ext}})'(0) = \frac{1}{15}}
+\end{equation}
+
+SM analog: $a_H^{\mathrm{SM}} = 13/60$. Ratio: $(1/15)/(13/60) = 4/13 = \alpha_C^{\mathrm{ext}}/\alpha_C^{\mathrm{SM}}$.
+
+\textbf{Important:} the Mittag--Leffler constant $g_{ML} = -1/15$ (constant term in the
+Laurent expansion of $1/(z\Pi)$ at $z=0$) is a \emph{different} quantity.
+
+\subsection{CL Sum Rule}
+
+From the behavior of $1/(z\Pi)$ at $z \to \infty$:
+\begin{equation}
+  \boxed{
+    \frac{R_0}{z_0} + \frac{R_1}{z_1}
+    + \sum_{n=1}^{\infty}\left(\frac{R_n^+}{z_n^+} + \frac{R_n^-}{z_n^-}\right)
+    = \frac{1}{15}
+  }
+\end{equation}
+where $R_\zeta = 1/(\zeta\,\Pi'(\zeta))$.
+
+\medskip\noindent
+\textbf{Numerical:}
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Source & Contribution & Cumulative & Saturation \\
+\midrule
+$R_0/z_0$ & $+0.3288$ & $0.3288$ & --- \\
+$R_1/z_1$ & $-0.2630$ & $0.0657$ & $98.6\%$ \\
+$+15$ complex pairs & $+0.00094$ & $0.0666$ & $99.9\%$ \\
+\midrule
+Target: $1/15$ & & $0.06\overline{6}$ & $100\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Real zeros provide $98.6\%$ of the sum rule (SM: $99.6\%$). \proven{Verified.}
+
+
+% ============================================================
+\section{Black Hole Entropy}
+% ============================================================
+
+The logarithmic entropy correction is controlled by:
+\begin{equation}
+  c_{\log} = \frac{2N_s + 7N_D - 26N_v + 424}{180}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Quantity} & \textbf{SM} & \textbf{SM+$3\nu_R$} & \textbf{Change} \\
+\midrule
+$c_{\log}$ & $37/24 = 1.542$ & $8/5 = 1.600$ & $+3.8\%$ \\
+$\alpha_C/(\pi\alpha_R)$ at $\xi=0$ & $0.621$ & $0.191$ & $\times 0.31$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The entropy formula becomes:
+\begin{equation}
+  S = \frac{A}{4G} + \frac{\alpha_C}{\pi\,\alpha_R(\xi)} + \frac{8}{5}\,\ln\frac{A}{\ell_P^2}
+  + O(1).
+\end{equation}
+
+\textbf{Key point:} the area term $A/(4G)$ is unchanged, and $\alpha_R$ depends only on $N_s = 4$
+and $\xi$, hence is also unchanged. Only $\alpha_C$ and $c_{\log}$ shift.
+
+
+% ============================================================
+\section{NCG Classification of Viable Extensions}
+\label{sec:ncg}
+% ============================================================
+
+A scan over $(N_s, N_D, N_v)$ with four SCT-viability conditions
+($\alpha_C > 0$, CCC $\neq 0$, $c_{\log} > 0$, no-scalaron)
+combined with NCG realizability gives:
+
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & $N_s$ & $N_D$ & $N_v$ & $\alpha_C(0)$ & $m_2/\Lambda$ & NCG status \\
+\midrule
+SM minimal & 4 & 22.5 & 12 & $13/120$ & 1.554 & canonical \\
+\textbf{SM+$3\nu_R$} & \textbf{4} & \textbf{24} & \textbf{12} & $\mathbf{1/30}$ & \textbf{1.451} & \textbf{canonical} \\
+NCG-2HDM & 8 & 22.5 & 12 & $17/120$ & 1.607 & conditional \\
+Pati--Salam & $\geq 24$ & 24 & 21 & $\sim 1.1$ & $\sim 2.3$ & beyond 1st order \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Fermion ceiling:} $N_D < (N_s + 12N_v)/6$.
+For SM gauge ($N_v = 12$, $N_s = 4$): $N_D^{\mathrm{crit}} = 24.667$.
+SM+$3\nu_R$ has margin $0.667$ --- the tightest of all viable models.
+
+\textbf{Correction:} Pati--Salam with $N_v = 21$ does \emph{not} fail $c_{\log} > 0$
+(our earlier claim was an arithmetic error).
+
+
+% ============================================================
+\section{Full Comparison Table}
+% ============================================================
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Quantity} & \textbf{SM} & \textbf{SM+$3\nu_R$} & \textbf{Change} \\
+\midrule
+$\alpha_C(0)$ & $13/120$ & $1/30$ & $\times 4/13$ \\
+$\alpha_R(\xi)$ & $2(\xi-1/6)^2$ & $2(\xi-1/6)^2$ & unchanged \\
+$c_{\log}$ & $37/24$ & $8/5$ & $+3.8\%$ \\
+$m_2/\Lambda$ & 1.554 & 1.451 & $-6.6\%$ \\
+Hadamard $a_H$ & $13/60$ & $1/15$ & $\times 4/13$ \\
+ML constant $g_{ML}$ & $-13/60$ & $-1/15$ & $\times 4/13$ \\
+``Magic number'' & $83/24$ & $43/12$ & different \\
+Real zero $z_0$ & $-1.281$ & $-1.447$ & shifted \\
+Real zero $z_1$ & $+2.415$ & $+2.106$ & shifted \\
+Im spacing & $8\pi$ & $8\pi$ & universal \\
+All zeros simple & yes & yes & universal \\
+Sum rule & $\Sigma R/z = 13/60$ & $\Sigma R/z = 1/15$ & $\times 4/13$ \\
+Real saturation & $99.6\%$ & $98.6\%$ & --- \\
+No-scalaron & yes & yes & unchanged \\
+De Sitter stability & yes & yes & unchanged \\
+$d_S$ max deviation & --- & $-0.086$ at $\sigma \approx 0.5$ & $\sim 2.5\%$ \\
+$d_S$ (IR) & 4.000 & 4.000 & universal \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Scaling law:}
+all Hadamard/ML quantities scale by
+$\alpha_C^{\mathrm{ext}}/\alpha_C^{\mathrm{SM}} = (1/30)/(13/120) = 4/13$.
+The zero-set structure (spacing, simplicity, convergence rates) is \textbf{universal}.
+
+
+% ============================================================
+\section{Spectral Dimension}
+\label{sec:spectral-dim}
+% ============================================================
+
+The spectral dimension $d_S(\sigma)$ is defined via the return probability $P(\sigma)$
+of a diffusion process with diffusion time $\sigma$:
+\begin{equation}
+  d_S(\sigma) = -2\sigma\,\frac{P'(\sigma)}{P(\sigma)}.
+\end{equation}
+We use Method~4 (Mittag--Leffler pole decomposition, 11 poles: 1~real + 10~complex pairs)
+from the SM analysis (NT-3).  Each pole contributes:
+\begin{equation}
+  P(\sigma) = \frac{1}{16\pi^2\sigma^2}
+  + \sum_n \frac{R_n}{16\pi^2\sigma^2}\,e^{-m_n^2\sigma},
+  \qquad m_n^2 = z_n\Lambda^2.
+\end{equation}
+
+\subsection{Results}
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\sigma$ & $d_S^{\mathrm{SM}}$ & $d_S^{\mathrm{ext}}$ & $\Delta d_S$ \\
+\midrule
+$0.001$ & 3.995 & 3.995 & $-0.001$ \\
+$0.01$ & 3.946 & 3.940 & $-0.006$ \\
+$0.05$ & 3.806 & 3.783 & $-0.023$ \\
+$0.1$ & 3.696 & 3.659 & $-0.038$ \\
+$0.2$ & 3.575 & 3.516 & $-0.059$ \\
+$0.5$ & 3.585 & 3.499 & $\mathbf{-0.086}$ \\
+$1.0$ & 3.772 & 3.689 & $-0.083$ \\
+$2.0$ & 3.960 & 3.927 & $-0.033$ \\
+$5.0$ & 4.000 & 4.000 & $0.000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Key Findings}
+
+\begin{enumerate}
+  \item \textbf{IR universality:} $d_S(\sigma \to \infty) = 4.000$ for both models.
+    This is guaranteed: the massless graviton dominates at large $\sigma$.
+  \item \textbf{Systematic UV suppression:} SM+$3\nu_R$ has lower $d_S$ at all
+    intermediate scales, with maximum deviation $\Delta d_S = -0.086$ at
+    $\sigma \approx 0.5/\Lambda^2$ (the fakeon scale).
+  \item \textbf{Non-monotonicity preserved:} both models exhibit oscillatory
+    $d_S(\sigma)$ with local minimum $d_S^{\mathrm{min}} \approx 3.46$
+    (SM+$3\nu_R$) vs $3.53$ (SM) near $\sigma \approx 0.25$.
+  \item \textbf{$P(\sigma) > 0$} throughout the scanned range for both models
+    (with 11 poles; the full infinite series may produce $P < 0$ at very
+    small $\sigma$, as noted in the SM analysis).
+\end{enumerate}
+
+\textbf{Physical interpretation:} The smaller $\alpha_C = 1/30$ (vs $13/120$)
+brings the fakeon mass scale closer ($m_2/\Lambda = 1.451$ vs $1.554$),
+so the UV modification of the propagator sets in \emph{earlier} in diffusion time.
+This depresses $d_S$ by $\sim 2.5\%$ in the transition region.
+The effect is small and qualitatively identical to SM.
+The spectral dimension flow is \textbf{not} a distinguishing observable
+between SM and SM+$3\nu_R$.
+
+
+% ============================================================
+\section{What This Document Does Not Show}
+% ============================================================
+
+\begin{enumerate}
+  \item Does \emph{not} derive $m_s = 45$~keV or mixing angles from NCG first principles.
+  \item Does \emph{not} prove the exact continuum limit of the Hadamard product
+        (Lemma~(iii) remains conditional).
+  \item Does \emph{not} compute the full Pati--Salam SCT sector
+        ($N_s$ model-dependent).
+  \item Does \emph{not} address Lorentzian continuation or unitarity beyond one loop.
+  \item Does \emph{not} compute two-loop corrections with SM+$3\nu_R$ content
+        (CCC $\neq 0$ is verified, but explicit two-loop coefficients not computed).
+\end{enumerate}
+
+
+\begin{thebibliography}{10}
+
+\bibitem{CCM2007}
+  A.~H.~Chamseddine, A.~Connes, M.~Marcolli,
+  ``Gravity and the standard model with neutrino mixing,''
+  Adv.\ Theor.\ Math.\ Phys.\ \textbf{11} (2007) 991--1089,
+  arXiv:hep-th/0610241.
+
+\bibitem{vdBvS2013}
+  T.~van den Broek, W.~D.~van Suijlekom,
+  ``Going beyond the Standard Model with noncommutative geometry,''
+  JHEP \textbf{03} (2013) 112,
+  arXiv:1211.0825.
+
+\bibitem{Barrett2007}
+  J.~W.~Barrett,
+  ``A Lorentzian version of the non-commutative geometry of the standard model of particle physics,''
+  J.\ Math.\ Phys.\ \textbf{48} (2007) 012303,
+  arXiv:hep-th/0608221.
+
+\bibitem{JRR2022}
+  F.~Jimenez, C.~A.~Restrepo, J.~Rivera,
+  ``Type-II two-Higgs-doublet model in noncommutative geometry,''
+  Nucl.\ Phys.\ B \textbf{985} (2022) 116014,
+  arXiv:2202.04222.
+
+\bibitem{CCvS2013}
+  A.~H.~Chamseddine, A.~Connes, W.~D.~van Suijlekom,
+  ``Beyond the spectral standard model: emergence of Pati--Salam unification,''
+  JHEP \textbf{11} (2013) 132,
+  arXiv:1304.8050.
+
+\end{thebibliography}
+
+\end{document}

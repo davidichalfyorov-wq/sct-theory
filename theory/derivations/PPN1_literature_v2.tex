@@ -1,0 +1,1656 @@
+%%======================================================================
+%%  PPN-1 v2: Literature Extraction & Convention Fixing
+%%            for SCT Post-Newtonian Solar System Tests
+%%
+%%  Comprehensive extraction of all equations, conventions, and
+%%  benchmarks from the primary literature needed for the PPN-1
+%%  derivation.  This document feeds into PPN1_derivation.tex.
+%%
+%%  RESEARCH DOCUMENT: formulas extracted from cited papers.
+%%  No original derivations --- gaps noted explicitly.
+%%======================================================================
+\documentclass[11pt,a4paper]{article}
+
+%% ---- packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{cite}
+
+%% ---- colors ---------------------------------------------------------
+\definecolor{sctblue}{RGB}{0,51,153}
+\definecolor{verified}{RGB}{0,128,0}
+
+%% ---- theorem-like environments --------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{benchmark}[theorem]{Benchmark}
+\newtheorem{finding}[theorem]{Finding}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%% ---- custom commands ------------------------------------------------
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Id}{\mathbb{1}}
+\newcommand{\Ricsq}{R_{\mu\nu}R^{\mu\nu}}
+\newcommand{\Weylsq}{C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\erfi}{\operatorname{erfi}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\erf}{erf}
+
+%% ---- annotation commands --------------------------------------------
+\newcommand{\fromlit}[1]{\textcolor{sctblue}{\textsf{[#1]}}}
+\newcommand{\oursign}{\textcolor{teal!80!black}{\textsf{[our convention]}}}
+\newcommand{\gap}{\textcolor{red!80!black}{\textsf{[GAP]}}}
+\newcommand{\needscheck}{\textcolor{orange!80!black}{\textsf{[needs check]}}}
+
+%% ---- verification annotations ---------------------------------------
+\newcommand{\verified}[1]{%
+  \par\smallskip\noindent
+  \colorbox{green!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{verified}{\textbf{[Verified]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\signcorrection}[1]{%
+  \par\smallskip\noindent
+  \colorbox{red!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{red!60!black}{\textbf{[Important note]}} #1}}%
+  \par\smallskip}
+
+\newcommand{\crosscheck}[1]{%
+  \par\smallskip\noindent
+  \colorbox{blue!10}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textcolor{sctblue}{\textbf{[Cross-check]}} #1}}%
+  \par\smallskip}
+
+%% ---- page style -----------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- Literature Extraction}}
+\fancyhead[R]{\small\textsc{PPN-1 v2}}
+\fancyfoot[C]{\thepage}
+
+%% ---- hyperref -------------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=sctblue,
+  citecolor=verified,
+  urlcolor=sctblue,
+  pdftitle={PPN-1 v2: Literature Extraction for SCT Post-Newtonian Tests},
+  pdfauthor={David Alfyorov},
+}
+
+%% ---- title ----------------------------------------------------------
+\title{\textbf{PPN-1 v2: Literature Extraction \& Convention Fixing\\[4pt]
+       for SCT Post-Newtonian Solar System Tests}\\[8pt]
+       \large Comprehensive Extraction of the 10-Parameter PPN Formalism,\\
+       Higher-Derivative Gravity Benchmarks, Nonlocal Potentials,\\
+       and Experimental Constraints}
+\author{David Alfyorov}
+\date{April 2026 --- Working Document}
+
+%%======================================================================
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document provides a complete, self-contained extraction of all
+equations, sign conventions, and experimental benchmarks from the
+primary literature needed to derive the PPN parameters of the SCT
+spectral action and compare them against solar-system and laboratory
+constraints.  Seven sub-tasks are addressed:
+(L-1)~the full 10-parameter PPN formalism of Will~(2014);
+(L-2)~Stelle's higher-derivative gravity as a local benchmark;
+(L-3)~nonlocal gravity potentials from Edholm--Koshelev--Mazumdar~(2016)
+and Biswas--Mazumdar--Siegel~(2006);
+(L-4)~the Brans--Dicke scalar-tensor limit as a structural cross-check;
+(L-5)~the Barnes--Rivers projector algebra for static sources;
+(L-6)~a compilation of experimental bounds from Cassini, MESSENGER,
+E\"ot-Wash, LLR, and MICROSCOPE;
+(L-7)~the van~Dam--Veltman--Zakharov discontinuity and why SCT avoids it.
+Every formula is cited to its primary source with equation number.
+No original derivations are performed; all new results are deferred
+to \texttt{PPN1\_derivation.tex}.
+
+\medskip\noindent
+\textbf{Purpose:} Literature extraction feeding into the PPN-1 v2
+derivation pipeline.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%======================================================================
+\section{Master Convention Block}\label{sec:master-conventions}
+%%======================================================================
+
+All conventions in this document are fixed to match the existing SCT
+derivation chain (NT-1 through NT-4a).  Any conflict with the
+literature source is noted explicitly.
+
+\begin{convention}[Metric signature]\label{conv:signature}
+\oursign\;
+We work in the $(-,+,+,+)$ Lorentzian signature for physical
+predictions.  The SCT spectral action is formulated in Euclidean
+signature with continuation to Lorentzian at the end.  The static
+weak-field metric is:
+\begin{equation}\label{eq:static-metric}
+  \dd s^2 = -(1 + 2\Phi(r))\,\dd t^2
+  + (1 - 2\Psi(r))\,\delta_{ij}\,\dd x^i\dd x^j,
+\end{equation}
+where $\Phi < 0$ and $\Psi < 0$ for an attractive source.  In GR:
+$\Phi = \Psi = -GM/r$.
+\end{convention}
+
+\begin{convention}[Unit system]\label{conv:units}
+We use natural units $\hbar = c = 1$ for all theoretical formulas.
+Physical predictions restore SI units via $\hbar c = 197.3$~MeV$\cdot$fm,
+$G = 6.674 \times 10^{-11}$~m$^3$kg$^{-1}$s$^{-2}$,
+$M_{\mathrm{Pl}} = \sqrt{\hbar c / (8\pi G)} = 2.435 \times 10^{18}$~GeV
+(reduced Planck mass).
+\end{convention}
+
+\begin{convention}[PPN sign mapping]\label{conv:ppn-sign}
+Will~(2014) uses $U = GM/r > 0$ for the Newtonian potential.
+Our convention uses $\Phi = -U < 0$.  The mapping is:
+\begin{equation}\label{eq:sign-map}
+  \Phi = -U, \qquad
+  \Psi = -\gamma_{\mathrm{PPN}}\, U \quad\text{(at Newtonian order)}.
+\end{equation}
+Therefore $\gamma_{\mathrm{PPN}} = \Psi/\Phi$ with the signs cancelling.
+\end{convention}
+
+\signcorrection{The sign convention $\Phi < 0$ for attraction
+differs from the PPN convention $U > 0$.  This must be tracked
+carefully in every formula that couples to the PPN metric.
+The mapping \eqref{eq:sign-map} is the definitive translation.}
+
+
+%%======================================================================
+\section{L-1: Full 10-Parameter PPN Formalism}\label{sec:ppn}
+%%======================================================================
+
+\subsection{The Standard PPN Metric}
+
+\fromlit{Will (2014), arXiv:1403.7377, \S3.2, Eq.~(36)}
+
+The standard PPN metric in the standard PPN gauge, using
+isotropic coordinates $(t, x^i)$ and the Newtonian potential
+$U(\mathbf{x}) = \int \rho'(\mathbf{x}')\,|\mathbf{x} -
+\mathbf{x}'|^{-1}\,\dd^3 x'$:
+
+\begin{align}
+  g_{00} &= -1 + 2U - 2\beta U^2
+    - 2\xi\Phi_W
+    + (2\gamma + 2 + \alpha_3 + \zeta_1 - 2\xi)\,\Phi_1
+    \notag\\
+    &\quad + 2(3\gamma - 2\beta + 1 + \zeta_2 + \xi)\,\Phi_2
+    + 2(1 + \zeta_3)\,\Phi_3
+    + 2(3\gamma + 3\zeta_4 - 2\xi)\,\Phi_4
+    \notag\\
+    &\quad - (\zeta_1 - 2\xi)\,\mathcal{A}
+    - (\alpha_1 - \alpha_2 - \alpha_3)\,w^2 U
+    - \alpha_2 w^i w^j U_{ij}
+    \notag\\
+    &\quad + (2\alpha_3 - \alpha_1)\,w^i V_i
+    + \mathcal{O}(4),
+    \label{eq:ppn-g00}\\[8pt]
+  g_{0i} &= -\tfrac{1}{2}(4\gamma + 3 + \alpha_1
+    - \alpha_2 + \zeta_1 - 2\xi)\,V_i
+    - \tfrac{1}{2}(1 + \alpha_2 - \zeta_1 + 2\xi)\,W_i
+    \notag\\
+    &\quad - \tfrac{1}{2}(\alpha_1 - 2\alpha_2)\,w^i U
+    - \alpha_2 w^j U_{ij}
+    + \mathcal{O}(3.5),
+    \label{eq:ppn-g0i}\\[8pt]
+  g_{ij} &= (1 + 2\gamma U)\,\delta_{ij}
+    + \mathcal{O}(2),
+    \label{eq:ppn-gij}
+\end{align}
+where $\mathcal{O}(n)$ denotes terms of $n$-th post-Newtonian order.
+The \emph{superpotentials} $\Phi_1, \ldots, \Phi_4, \Phi_W,
+\mathcal{A}$ and the vector potentials $V_i, W_i$ are defined in
+terms of matter integrals (Will~2014, \S3.2, Eqs.~(28)--(35)).
+For the static, single-body problem that is relevant for PPN-1,
+only the leading terms survive:
+\begin{equation}\label{eq:ppn-static}
+  g_{00} \approx -1 + 2U - 2\beta U^2,\qquad
+  g_{ij} \approx (1 + 2\gamma U)\,\delta_{ij}.
+\end{equation}
+
+\subsection{The 10 PPN Parameters}
+
+\fromlit{Will (2014), arXiv:1403.7377, Table~2}
+
+\begin{definition}[PPN parameters and their physical meaning]
+\label{def:ppn-params}
+The 10 PPN parameters and their physical content:
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{clp{7.5cm}c}
+\toprule
+\# & Parameter & Physical meaning & GR value \\
+\midrule
+\endhead
+1 & $\gamma$ & Spatial curvature produced per unit rest mass.
+  Measures how much space curvature is produced by gravity. & 1 \\
+2 & $\beta$ & Nonlinearity of gravitational superposition.
+  Measures nonlinear contribution to $g_{00}$. & 1 \\
+3 & $\xi$ & Preferred-location effects (Whitehead-type). & 0 \\
+4 & $\alpha_1$ & Preferred-frame effect: PPN--velocity-dependent
+  contribution to $g_{00}$ proportional to $w^2 U$. & 0 \\
+5 & $\alpha_2$ & Preferred-frame effect: contribution to $g_{00}$
+  proportional to $w^i w^j U_{ij}$. & 0 \\
+6 & $\alpha_3$ & Preferred-frame effect combined with
+  conservation-law violation.  & 0 \\
+7 & $\zeta_1$ & Violation of conservation of total
+  4-momentum (matter creation/destruction). & 0 \\
+8 & $\zeta_2$ & Violation of conservation of total
+  4-momentum. & 0 \\
+9 & $\zeta_3$ & Violation of conservation of total
+  4-momentum. & 0 \\
+10 & $\zeta_4$ & Violation of conservation of total
+  4-momentum. & 0 \\
+\bottomrule
+\end{longtable}
+\end{center}
+\end{definition}
+
+\begin{remark}[Fully conservative theories]
+\fromlit{Will (2014), \S3.3}
+A metric theory of gravity derived from a generally covariant
+Lagrangian automatically satisfies:
+\begin{equation}\label{eq:conservative}
+  \alpha_3 = \zeta_1 = \zeta_2 = \zeta_3 = \zeta_4 = 0.
+\end{equation}
+If additionally the theory has no preferred-frame structure
+(no prior geometry, no fixed timelike vector), then:
+\begin{equation}\label{eq:no-preferred}
+  \xi = \alpha_1 = \alpha_2 = 0.
+\end{equation}
+A theory satisfying both conditions is called \emph{fully
+conservative} and is described by only 2 independent PPN parameters:
+$\gamma$ and $\beta$.
+\end{remark}
+
+\begin{finding}[SCT is fully conservative]\label{find:sct-conservative}
+The SCT spectral action $\Tr(f(D^2/\Lambda^2))$ is derived from
+a diffeomorphism-invariant functional with no prior geometry.
+The off-shell gauge invariance proven in NT-4a (\S3) is the
+linearized manifestation of this symmetry.  Therefore SCT is fully
+conservative:
+\begin{equation}\label{eq:sct-conservative}
+  \xi = \alpha_1 = \alpha_2 = \alpha_3
+  = \zeta_1 = \zeta_2 = \zeta_3 = \zeta_4 = 0.
+\end{equation}
+Only $\gamma$ and $\beta$ are nontrivial.  This is \textbf{derived},
+not asserted.
+\end{finding}
+
+\subsection{The Nordtvedt Effect}
+
+\fromlit{Will (2014), arXiv:1403.7377, \S3.7, Eq.~(56)}
+
+The Nordtvedt effect quantifies the violation of the strong
+equivalence principle (SEP) for gravitationally bound bodies.
+The Nordtvedt parameter is:
+\begin{equation}\label{eq:nordtvedt}
+  \eta_N = 4\beta - \gamma - 3
+    - \frac{10}{3}\xi - \alpha_1
+    + \frac{2}{3}\alpha_2 - \frac{2}{3}\zeta_1
+    - \frac{1}{3}\zeta_2.
+\end{equation}
+For a fully conservative theory (all $\xi, \alpha_i, \zeta_i = 0$):
+\begin{equation}\label{eq:nordtvedt-simple}
+  \eta_N = 4\beta - \gamma - 3.
+\end{equation}
+In GR ($\gamma = \beta = 1$): $\eta_N = 4 - 1 - 3 = 0$.
+
+\signcorrection{The Nordtvedt parameter $\eta_N$ requires
+knowledge of \emph{both} $\gamma$ and $\beta$.  The PPN-1
+derivation computes $\gamma$ from the linearized propagator,
+but $\beta$ requires the cubic vertex (nonlinear interaction).
+The Nordtvedt effect bounds are therefore \emph{informational
+only} for the linear PPN-1 analysis; they become constraining
+once $\beta$ is derived from NT-4b.}
+
+
+%%======================================================================
+\section{L-2: Stelle (1977/78) Higher-Derivative Gravity}
+\label{sec:stelle}
+%%======================================================================
+
+\subsection{The Quadratic Gravity Action}
+
+\fromlit{Stelle, Phys.\ Rev.\ D \textbf{16} (1977) 953, Eq.~(1);
+Gen.\ Rel.\ Grav.\ \textbf{9} (1978) 353}
+
+The most general parity-even, quadratic-curvature extension of GR
+in $d = 4$:
+\begin{equation}\label{eq:stelle-action}
+  S_{\mathrm{Stelle}} = \int \dd^4 x\,\sqrt{-g}\left[
+    \frac{R}{16\pi G}
+    + \alpha\, R^2
+    + \beta_S\, C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+  \right],
+\end{equation}
+where $\alpha$ and $\beta_S$ are dimensionful coupling constants
+with $[\alpha] = [\beta_S] = \mathrm{length}^2$.
+
+\begin{convention}[Stelle coupling notation]\label{conv:stelle-couplings}
+We use $\beta_S$ (with subscript) for the Stelle Weyl-squared
+coupling to avoid confusion with the PPN parameter $\beta$.
+Some references use the Ricci-squared basis:
+$S = \int \dd^4 x\,\sqrt{-g}\,[R/(16\pi G)
++ c_1 R^2 + c_2 R_{\mu\nu}R^{\mu\nu}]$.
+The conversion uses the 4D Gauss--Bonnet identity
+$C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+= R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+- 2R_{\mu\nu}R^{\mu\nu} + \tfrac{1}{3}R^2$:
+\begin{equation}\label{eq:stelle-basis}
+  c_2 = 2\beta_S,\qquad
+  c_1 = \alpha + \tfrac{1}{3}\beta_S.
+\end{equation}
+\end{convention}
+
+\subsection{Linearized Propagator}
+
+\fromlit{Stelle (1977), Eq.~(2.5); Rivers, Nuovo Cim.\ \textbf{34} (1964) 386}
+
+The linearized graviton propagator around flat Minkowski space,
+decomposed via Barnes--Rivers projectors:
+\begin{equation}\label{eq:stelle-prop}
+  G_{\mu\nu\rho\sigma}^{\mathrm{Stelle}}(k)
+  = \frac{1}{k^2}\left[
+    \frac{P^{(2)}_{\mu\nu\rho\sigma}}{1 + 2\beta_S\, k^2}
+    + \frac{P^{(0\text{-}s)}_{\mu\nu\rho\sigma}}
+           {1 + (6\alpha + 2\beta_S)\,k^2}
+  \right]
+  + \text{gauge terms},
+\end{equation}
+where the gauge-dependent terms drop out for on-shell matrix elements
+with conserved sources.
+
+\begin{definition}[Stelle effective masses]\label{def:stelle-masses}
+\fromlit{Stelle (1977), below Eq.~(2.5)}
+\begin{equation}\label{eq:stelle-masses}
+  m_2^2 = \frac{1}{2\beta_S} \quad\text{(spin-2 massive mode)},\qquad
+  m_0^2 = \frac{1}{6\alpha + 2\beta_S} \quad\text{(spin-0 massive mode)}.
+\end{equation}
+The spin-2 mass requires $\beta_S > 0$ for a real mass.
+The spin-0 mass requires $3\alpha + \beta_S > 0$.
+\end{definition}
+
+\subsection{Partial-Fraction Decomposition}
+
+The propagator denominators factor as:
+\begin{align}
+  \frac{1}{k^2(1 + k^2/m_2^2)}
+  &= \frac{1}{k^2} - \frac{1}{k^2 + m_2^2}
+  \quad\text{(spin-2)},
+  \label{eq:pf-spin2}\\
+  \frac{1}{k^2(1 + k^2/m_0^2)}
+  &= \frac{1}{k^2} - \frac{1}{k^2 + m_0^2}
+  \quad\text{(spin-0)}.
+  \label{eq:pf-spin0}
+\end{align}
+The \emph{relative sign} between the two terms in \eqref{eq:pf-spin2}
+is the signature of the ghost: the massive spin-2 propagator has
+residue $-1$ (wrong sign), meaning it propagates a ghost degree of freedom.
+The massive spin-0 has residue $+1$ (healthy).
+
+\subsection{The Newtonian Potential}
+
+\fromlit{Stelle (1978), Gen.\ Rel.\ Grav.\ \textbf{9}, 353;
+Accioly et al.\ (2002), Phys.\ Rev.\ D \textbf{65}, 067501}
+
+Performing the Fourier--Bessel integral for a static point mass $M$:
+
+\begin{benchmark}[Stelle metric potentials]\label{bench:stelle-pots}
+\begin{align}
+  \Phi_{\mathrm{Stelle}}(r)
+  &= -\frac{GM}{r}\left[
+    1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r}
+  \right],
+  \label{eq:Phi-Stelle}\\
+  \Psi_{\mathrm{Stelle}}(r)
+  &= -\frac{GM}{r}\left[
+    1 - \frac{2}{3}\,e^{-m_2 r} - \frac{1}{3}\,e^{-m_0 r}
+  \right].
+  \label{eq:Psi-Stelle}
+\end{align}
+\end{benchmark}
+
+\noindent The coefficient structure is:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Mode & $\Phi$ coefficient & $\Psi$ coefficient & Physical character \\
+\midrule
+Massless (GR) & $+1$ & $+1$ & Healthy \\
+Massive spin-2 ($m_2$) & $-4/3$ & $-2/3$ & Ghost (attractive Yukawa) \\
+Massive spin-0 ($m_0$) & $+1/3$ & $-1/3$ & Healthy (repulsive Yukawa) \\
+\midrule
+Sum at $r = 0$ & $1 - 4/3 + 1/3 = 0$ & $1 - 2/3 - 1/3 = 0$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{finding}[Regularity at the origin]\label{find:V0}
+$\Phi(0) = \Psi(0) = 0$: the potential is \emph{finite} (in fact,
+vanishing) at $r = 0$ because the coefficients sum to zero:
+$1 - 4/3 + 1/3 = 0$.  This is a direct consequence of the improved
+UV behavior of the higher-derivative propagator.
+\end{finding}
+
+\begin{finding}[The ghost problem]\label{find:ghost}
+The spin-2 massive mode has the \emph{wrong-sign} residue in the
+propagator (negative residue in the spin-2 channel, Eq.~\eqref{eq:pf-spin2}).
+This means:
+\begin{itemize}[nosep]
+  \item The massive spin-2 mode is a ghost (negative norm state).
+  \item Its Yukawa contribution to $\Phi$ is \emph{attractive}
+    (coefficient $-4/3 < 0$, enhancing the gravitational potential).
+  \item The coefficient $-4/3$ vs $+1/3$ ensures $|$ghost$|
+    > |$scalar$|$, so the total potential is enhanced at short
+    distances before the $r \to 0$ cancellation.
+\end{itemize}
+The SCT treatment of this ghost pole is via the fakeon prescription
+(Anselmi 2017, arXiv:1704.07728); see MR-2 for the full analysis.
+\end{finding}
+
+\subsection{Mapping to SCT Coefficients}
+
+The SCT effective action in its local limit maps to Stelle's
+framework via \fromlit{NT-1b Phase~3; NT-4a}:
+\begin{equation}\label{eq:sct-to-stelle}
+  \beta_S \leftrightarrow \frac{\alpha_C}{16\pi^2\,\Lambda^2}
+  = \frac{13}{1920\pi^2\,\Lambda^2},
+  \qquad
+  \alpha \leftrightarrow \frac{\alpha_R(\xi) - \alpha_C/3}
+  {16\pi^2\,\Lambda^2}.
+\end{equation}
+The full correspondence for the propagator denominators:
+\begin{equation}\label{eq:Pi-stelle-map}
+  \Pi_{\mathrm{TT}}^{\mathrm{Stelle}} = 1 + 2\beta_S\, k^2
+  \longleftrightarrow 1 + \frac{13}{60}\,z
+  \quad (z = k^2/\Lambda^2),
+\end{equation}
+\begin{equation}
+  \Pi_{\mathrm{s}}^{\mathrm{Stelle}} = 1 + (6\alpha + 2\beta_S)\,k^2
+  \longleftrightarrow 1 + 6\left(\xi - \tfrac{1}{6}\right)^2 z.
+\end{equation}
+
+The SCT effective masses in the local (Yukawa) approximation:
+\begin{equation}\label{eq:sct-masses}
+  m_2^2 = \frac{60}{13}\,\Lambda^2 \approx (2.148\,\Lambda)^2,
+  \qquad
+  m_0^2 = \frac{\Lambda^2}{6(\xi - 1/6)^2},
+\end{equation}
+with $m_0 \to \infty$ at conformal coupling $\xi = 1/6$
+(scalar mode decouples).
+
+
+%%======================================================================
+\section{L-3: Nonlocal Gravity Potentials}\label{sec:nonlocal}
+%%======================================================================
+
+\subsection{The BMS Infinite-Derivative Action}
+
+\fromlit{Biswas, Mazumdar, Siegel (2006), JCAP \textbf{0603}, 009;
+hep-th/0508194, Eq.~(1)}
+
+The most general quadratic-curvature action with nonlocal
+(infinite-derivative) form factors:
+\begin{equation}\label{eq:idg-action}
+  S_{\mathrm{IDG}} = \frac{1}{16\pi G}\int \dd^4 x\,\sqrt{-g}\left[
+    R + R\,\mathcal{F}_1(\Box/M^2)\,R
+    + R_{\mu\nu}\,\mathcal{F}_2(\Box/M^2)\,R^{\mu\nu}
+    + C_{\mu\nu\rho\sigma}\,\mathcal{F}_3(\Box/M^2)\,
+    C^{\mu\nu\rho\sigma}
+  \right],
+\end{equation}
+where $\mathcal{F}_i$ are analytic functions of the covariant
+d'Alembertian $\Box = g^{\mu\nu}\nabla_\mu\nabla_\nu$, and $M$ is
+the scale of non-locality.
+
+\begin{remark}[Comparison with SCT action]
+The SCT effective action has the same quadratic-curvature structure
+but uses only $\Weylsq$ and $R^2$ (not $\Ricsq$ independently),
+because the Gauss--Bonnet term is topological in 4D.  The SCT form
+factors $F_1(z)$ and $F_2(z,\xi)$ are not free but are
+\emph{computed} from the spectral action.
+\end{remark}
+
+\subsection{The Modified Propagator Structure}
+
+\fromlit{Biswas, Gerwick, Koivisto, Mazumdar (2012), PRL \textbf{108},
+031101; Edholm, Koshelev, Mazumdar (2016), arXiv:1604.01989, Eq.~(5)}
+
+The linearized propagator around flat space decomposes as:
+\begin{equation}\label{eq:idg-prop}
+  G_{\mu\nu\rho\sigma}^{\mathrm{IDG}}(k)
+  = \frac{P^{(2)}_{\mu\nu\rho\sigma}}{k^2\,a(-k^2/M^2)}
+  + \frac{P^{(0\text{-}s)}_{\mu\nu\rho\sigma}}
+         {k^2\,(a(-k^2/M^2) - 3c(-k^2/M^2))}
+  + \text{gauge},
+\end{equation}
+where the two structure functions are
+\fromlit{Biswas et al.\ (2012), Eqs.~(4)--(5)}:
+\begin{align}
+  a(-k^2/M^2) &= 1 - \frac{2}{M_{\mathrm{Pl}}^2}\,k^2\,
+    \big(\mathcal{F}_2(-k^2/M^2) + 2\mathcal{F}_3(-k^2/M^2)\big),
+    \label{eq:a-func}\\
+  c(-k^2/M^2) &= 1 + \frac{2}{M_{\mathrm{Pl}}^2}\,k^2\,
+    \big(6\mathcal{F}_1(-k^2/M^2)
+    + \tfrac{1}{2}\mathcal{F}_2(-k^2/M^2)\big).
+    \label{eq:c-func}
+\end{align}
+
+The mapping to the SCT notation:
+\begin{equation}\label{eq:idg-to-sct}
+  a(-k^2/M^2) \longleftrightarrow \Pi_{\mathrm{TT}}(z),\qquad
+  a(-k^2/M^2) - 3c(-k^2/M^2) \longleftrightarrow \Pi_{\mathrm{s}}(z,\xi).
+\end{equation}
+
+\subsection{Ghost-Freedom Condition}
+
+\fromlit{BMS (2006), hep-th/0508194, \S3; Biswas et al.\ (2012),
+PRL \textbf{108}, 031101}
+
+The propagator \eqref{eq:idg-prop} is ghost-free if and only if
+\emph{neither} $a(-k^2/M^2)$ nor $(a - 3c)(-k^2/M^2)$ has zeros
+on the real $k^2$ axis.  A sufficient condition is:
+\begin{equation}\label{eq:ghost-free}
+  a(\Box/M^2) = c(\Box/M^2) = e^{-\tau(\Box/M^2)},
+\end{equation}
+where $\tau$ is an \emph{entire function} with $\tau(0) = 0$
+and $\operatorname{Re}\tau(-k^2/M^2) \geq 0$ for real $k^2 \geq 0$.
+
+\begin{remark}[SCT does NOT satisfy the ghost-free condition]
+\label{rem:sct-ghost}
+In SCT, $\Pi_{\mathrm{TT}}(z)$ has a real positive zero at
+$z_0 \approx 2.415$ (verified numerically in NT-4a).
+Therefore the SCT spin-2 sector contains a massive ghost pole.
+The SCT resolution is the fakeon prescription, not the
+exponential suppression used in IDG.
+\end{remark}
+
+\subsection{The Edholm--Koshelev--Mazumdar Newtonian Potential}
+
+\fromlit{Edholm, Koshelev, Mazumdar (2016), arXiv:1604.01989,
+Eqs.~(8)--(10)}
+
+For the simplest ghost-free choice $\tau = -k^2/M^2$
+(Gaussian form factor), both $a = c = e^{k^2/M^2}$, and
+the Newtonian potential becomes:
+\begin{equation}\label{eq:Phi-idg}
+  \Phi_{\mathrm{IDG}}(r) = -\frac{GM}{r}\,\erf\!\left(\frac{Mr}{2}\right),
+\end{equation}
+where $\erf(x) = \frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2}\,\dd t$ is
+the error function.
+
+More generally, the exact potential is given by the Fourier--Bessel
+integral \fromlit{EKM (2016), Eq.~(7)}:
+\begin{equation}\label{eq:idg-FB}
+  \Phi(r) = -\frac{GM}{r}\,\frac{2}{\pi}\int_0^\infty
+  \frac{\sin(kr)}{k}\,K_\Phi(k^2/M^2)\,\dd k,
+\end{equation}
+where the Newton kernel $K_\Phi$ is constructed from the propagator
+as described in \S\ref{sec:proj-pot}.
+
+\begin{finding}[IDG forces $\gamma = 1$]\label{find:idg-gamma}
+When $a = c$ (ghost-free condition), the spin-0 propagator denominator
+is $a - 3c = -2a$, which is a \emph{fixed multiple} of the spin-2
+denominator.  Consequently both metric potentials receive identical
+modifications and $\gamma_{\mathrm{PPN}} = 1$ identically
+\fromlit{EKM (2016), below Eq.~(10)}.
+This is \emph{not} the case in SCT, where $\Pi_{\mathrm{TT}}
+\neq \Pi_{\mathrm{s}}$ generically.
+\end{finding}
+
+
+%%======================================================================
+\section{L-4: Brans--Dicke as Limiting Case}\label{sec:BD}
+%%======================================================================
+
+\subsection{The Brans--Dicke Action}
+
+\fromlit{Brans, Dicke (1961), Phys.\ Rev.\ \textbf{124}, 925, Eq.~(5);
+Will (2014), arXiv:1403.7377, \S5.1}
+
+\begin{equation}\label{eq:BD-action}
+  S_{\mathrm{BD}} = \frac{1}{16\pi}\int \dd^4 x\,\sqrt{-g}\left[
+    \phi\, R - \frac{\omega}{\phi}\,
+    g^{\mu\nu}\partial_\mu\phi\,\partial_\nu\phi
+  \right] + S_{\mathrm{matter}},
+\end{equation}
+where $\phi$ is the Brans--Dicke scalar field and $\omega$ is the
+dimensionless BD coupling constant.
+
+\subsection{PPN Parameters of Brans--Dicke Theory}
+
+\fromlit{Will (2014), arXiv:1403.7377, \S5.1, Eqs.~(80)--(82)}
+
+\begin{benchmark}[Brans--Dicke PPN values]\label{bench:BD-ppn}
+\begin{equation}\label{eq:gamma-BD}
+  \gamma_{\mathrm{BD}} = \frac{1 + \omega}{2 + \omega},
+  \qquad
+  \beta_{\mathrm{BD}} = 1,
+  \qquad
+  \xi = \alpha_1 = \alpha_2 = \alpha_3 = \zeta_i = 0.
+\end{equation}
+\end{benchmark}
+
+\noindent Key limits:
+\begin{itemize}[nosep]
+  \item GR limit: $\omega \to \infty$ gives $\gamma_{\mathrm{BD}} \to 1$.
+  \item The deviation: $\gamma_{\mathrm{BD}} - 1
+    = -1/(2 + \omega) \approx -1/\omega$ for large $\omega$.
+  \item Cassini bound $|\gamma - 1| < 2.3\times 10^{-5}$ translates to
+    $\omega > 40{,}000$.
+\end{itemize}
+
+\subsection{Structural Analogy with SCT}
+
+\begin{finding}[Key structural difference from Brans--Dicke]
+\label{find:bd-vs-sct}
+In Brans--Dicke theory, $\gamma - 1$ is a \emph{constant}
+(scale-independent) offset from GR.  This is fundamentally different
+from SCT, where:
+\begin{enumerate}[nosep]
+  \item The scalar sector is controlled by $6(\xi - 1/6)^2$:
+    at conformal coupling $\xi = 1/6$, the scalar mode decouples
+    \emph{identically} and $\gamma = 1$ exactly, analogous to
+    $\omega \to \infty$.
+  \item For $\xi \neq 1/6$, the scalar mode is active but its
+    contribution is \emph{Yukawa-suppressed}: $\Delta\gamma \sim
+    e^{-m_0 r}$, not constant.
+  \item At solar-system distances, $\Delta\gamma \sim e^{-10^{46}}
+    \approx 0$ for $\Lambda \sim M_{\mathrm{Pl}}$.
+\end{enumerate}
+Therefore SCT evades the Cassini bound \emph{automatically} at any
+$\xi$ (due to the Yukawa suppression), while Brans--Dicke requires
+fine-tuning $\omega > 40{,}000$.
+\end{finding}
+
+\begin{finding}[BD as a consistency check]\label{find:bd-check}
+The BD theory provides a structural consistency check for the SCT
+$\gamma$ formula: in the limit where the SCT scalar mass $m_0 \to 0$
+(a hypothetical limit, not realized in the actual theory), the
+$\gamma$ formula should exhibit a BD-like constant offset from 1.
+Specifically, the Yukawa approximation gives $\gamma(r) - 1 \sim
+(2/3)\,e^{-m_0 r}$ for the scalar contribution.  As $m_0 r \to 0$:
+$\gamma - 1 \to 2/3$, corresponding to an effective $\omega = -1/2$
+(i.e., the massless limit is not BD but rather a conformal scalar
+with $\gamma = 1/2$).  This matches the vDVZ value for a massless
+scalar mediator, providing an internal consistency check.
+\end{finding}
+
+
+%%======================================================================
+\section{L-5: Barnes--Rivers Projector Algebra}\label{sec:projectors}
+%%======================================================================
+
+\subsection{Projector Definitions}
+
+\fromlit{van Nieuwenhuizen (1973), Nucl.\ Phys.\ B \textbf{60}, 478;
+Rivers (1964), Nuovo Cim.\ \textbf{34}, 386;
+NT-4a, Eqs.~(4.7)--(4.8)}
+
+\begin{definition}[Transverse projector]\label{def:theta}
+In flat-space momentum representation:
+\begin{equation}\label{eq:theta}
+  \theta_{\mu\nu}(k) = \delta_{\mu\nu} - \frac{k_\mu k_\nu}{k^2},
+  \qquad
+  \omega_{\mu\nu}(k) = \frac{k_\mu k_\nu}{k^2},
+\end{equation}
+satisfying $\theta_{\mu\nu} + \omega_{\mu\nu} = \delta_{\mu\nu}$,
+$\theta_{\mu\alpha}\theta^{\alpha}{}_\nu = \theta_{\mu\nu}$,
+$\theta^\mu{}_\mu = d - 1$ (in $d$ dimensions).
+\end{definition}
+
+\begin{definition}[Spin-2 and spin-0 projectors]\label{def:BR}
+\begin{align}
+  P^{(2)}_{\mu\nu\rho\sigma}
+  &= \frac{1}{2}(\theta_{\mu\rho}\theta_{\nu\sigma}
+  + \theta_{\mu\sigma}\theta_{\nu\rho})
+  - \frac{1}{d-1}\,\theta_{\mu\nu}\theta_{\rho\sigma},
+  \label{eq:P2}\\
+  P^{(0\text{-}s)}_{\mu\nu\rho\sigma}
+  &= \frac{1}{d-1}\,\theta_{\mu\nu}\theta_{\rho\sigma}.
+  \label{eq:P0s}
+\end{align}
+In $d = 4$: the prefactor $1/(d-1) = 1/3$.
+\end{definition}
+
+\subsection{Key Algebraic Properties}
+
+\fromlit{van Nieuwenhuizen (1973), \S2}
+
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item \textbf{Idempotency:}
+    $P^{(J)}\cdot P^{(J)} = P^{(J)}$ for $J = 2, 0$.
+  \item \textbf{Orthogonality:}
+    $P^{(2)}\cdot P^{(0\text{-}s)} = 0$.
+  \item \textbf{Traces:}
+    \begin{equation}\label{eq:traces}
+      \tr\!\left(P^{(2)}\right)
+      \equiv P^{(2)\,\mu\nu}{}_{\mu\nu}
+      = \frac{d(d-1)}{2} - 1
+      = 5 \quad (d=4),
+    \end{equation}
+    \begin{equation}
+      \tr\!\left(P^{(0\text{-}s)}\right)
+      = 1.
+    \end{equation}
+  \item \textbf{Partial completeness:}
+    $P^{(2)} + P^{(0\text{-}s)} = P^T$, where $P^T$ is the
+    transverse projector:
+    \begin{equation}
+      P^{T}_{\mu\nu\rho\sigma}
+      = \frac{1}{2}(\theta_{\mu\rho}\theta_{\nu\sigma}
+      + \theta_{\mu\sigma}\theta_{\nu\rho}).
+    \end{equation}
+  \item \textbf{Full decomposition} (van~Nieuwenhuizen):
+    \begin{equation}\label{eq:full-decomp}
+      \delta_{(\mu}{}^{(\rho}\,\delta_{\nu)}{}^{\sigma)}
+      = P^{(2)} + P^{(0\text{-}s)} + P^{(0\text{-}w)}
+      + P^{(1)} + P^{(0\text{-}sw)} + P^{(0\text{-}ws)},
+    \end{equation}
+    where $P^{(1)}$, $P^{(0\text{-}w)}$, and the cross terms
+    involve the longitudinal projector $\omega_{\mu\nu}$ and are
+    pure gauge.
+\end{enumerate}
+
+\subsection{Projector Values for Static Point Source}
+
+\begin{finding}[Critical for PPN-1 derivation]\label{find:proj-static}
+For a static point mass with $k_0 = 0$ (purely spatial momentum
+$\vec{k}$), the transverse projector evaluates as:
+\begin{equation}\label{eq:theta-static}
+  \theta_{\mu\nu}\big|_{k_0=0}
+  = \begin{cases}
+    1 & \mu = \nu = 0,\\
+    \delta_{ij} - \hat{k}_i\hat{k}_j & \mu = i,\, \nu = j,\\
+    0 & \text{mixed } (\mu = 0, \nu = i \text{ or vice versa}).
+  \end{cases}
+\end{equation}
+The spatial trace is
+$\theta_{ii}\big|_{k_0=0} = 3 - 1 = 2$ (in $d = 3$ spatial
+dimensions), and the full trace is
+$\theta_{\mu\mu}\big|_{k_0=0} = 1 + 2 = 3$.
+\end{finding}
+
+The projector components relevant for the $h_{00}$ and $h_{ij}$
+extraction:
+\begin{align}
+  P^{(2)}_{0000} &= \theta_{00}\theta_{00}
+    - \tfrac{1}{3}\theta_{00}\theta_{00}
+    = 1 - \tfrac{1}{3} = \tfrac{2}{3},
+    \label{eq:P2-0000}\\
+  P^{(0\text{-}s)}_{0000} &= \tfrac{1}{3}\theta_{00}\theta_{00}
+    = \tfrac{1}{3},
+    \label{eq:P0s-0000}\\
+  P^{(2)}_{00ij} &= -\tfrac{1}{3}\theta_{ij},
+    \label{eq:P2-00ij}\\
+  P^{(0\text{-}s)}_{00ij} &= \tfrac{1}{3}\theta_{ij}.
+    \label{eq:P0s-00ij}
+\end{align}
+These are the values that enter the projector-to-potential map
+(see \S\ref{sec:proj-pot}).
+
+\signcorrection{In the previous PPN-1 attempt, the values
+$P^{(2)}_{0000} = 2/3$ and $P^{(0\text{-}s)}_{0000} = 1/3$ were
+extracted incorrectly, leading to a vanishing $h_{00}$ in the GR
+limit (Finding~B).  The values above are verified against three
+independent references: NT-4a, van~Nieuwenhuizen~(1973), and
+direct computation with $\theta_{00} = 1$.}
+
+
+%%======================================================================
+\section{L-5 (continued): The Projector-to-Potential Map}
+\label{sec:proj-pot}
+%%======================================================================
+
+This section contains the \textbf{central technical result} of the
+literature extraction: the explicit formulas relating the propagator
+components $\Pi_{\mathrm{TT}}$ and $\Pi_{\mathrm{s}}$ to the two
+metric potentials $\Phi(r)$ and $\Psi(r)$.
+
+\subsection{Statement of the Map}
+
+\begin{theorem}[Projector-to-potential map]\label{thm:proj-pot}
+For a modified graviton propagator of the form
+\begin{equation}\label{eq:G-full}
+  G_{\mu\nu\rho\sigma}(k)
+  = \frac{1}{k^2}\left[
+    \frac{P^{(2)}_{\mu\nu\rho\sigma}}{\Pi_{\mathrm{TT}}(z)}
+    + \frac{P^{(0\text{-}s)}_{\mu\nu\rho\sigma}}{\Pi_{\mathrm{s}}(z,\xi)}
+  \right],
+\end{equation}
+the static metric potentials for a point mass $M$ are:
+\begin{align}
+  \Phi(r) &= -\frac{GM}{r}\,\frac{2}{\pi}
+  \int_0^\infty \frac{\sin(kr)}{k}\, K_\Phi(k^2/\Lambda^2)\,\dd k,
+  \label{eq:Phi-exact}\\
+  \Psi(r) &= -\frac{GM}{r}\,\frac{2}{\pi}
+  \int_0^\infty \frac{\sin(kr)}{k}\, K_\Psi(k^2/\Lambda^2)\,\dd k,
+  \label{eq:Psi-exact}
+\end{align}
+where the \emph{Newton kernels} are:
+\begin{equation}\label{eq:K-Phi}
+  \boxed{K_\Phi(z)
+  = \frac{4}{3\,\Pi_{\mathrm{TT}}(z)}
+  - \frac{1}{3\,\Pi_{\mathrm{s}}(z,\xi)},}
+\end{equation}
+\begin{equation}\label{eq:K-Psi}
+  \boxed{K_\Psi(z)
+  = \frac{2}{3\,\Pi_{\mathrm{TT}}(z)}
+  + \frac{1}{3\,\Pi_{\mathrm{s}}(z,\xi)}.}
+\end{equation}
+\end{theorem}
+
+\subsection{Derivation Sketch}
+
+The derivation proceeds by:
+\begin{enumerate}[nosep]
+  \item Coupling the propagator to a static point-mass source
+    $T_{\mu\nu}(k) = M\,\delta_{\mu 0}\delta_{\nu 0}$.
+  \item Computing $\bar{h}_{\mu\nu}(k) = -(16\pi G/k^2)\,
+    [P^{(2)}/\Pi_{\mathrm{TT}} + P^{(0\text{-}s)}/\Pi_{\mathrm{s}}]
+    \cdot \bar{T}_{\rho\sigma}$ with trace-reversed source
+    $\bar{T}_{\mu\nu} = T_{\mu\nu} - \frac{1}{2}\eta_{\mu\nu}T$.
+  \item Evaluating the projector action using
+    Eqs.~\eqref{eq:P2-0000}--\eqref{eq:P0s-00ij}.
+  \item Trace-reversing $h_{\mu\nu} = \bar{h}_{\mu\nu}
+    - \frac{1}{2}\delta_{\mu\nu}\bar{h}$.
+  \item Performing the angular average over $\hat{k}$ to extract
+    the isotropic (monopole) components.
+  \item Identifying $h_{00}(r) = -2\Phi(r)$ and
+    $h_{ij}(r) = -2\Psi(r)\,\delta_{ij}$.
+\end{enumerate}
+The full derivation is in \texttt{PPN1\_derivation.tex}.
+
+\subsection{GR Limit Check}
+
+At $z = 0$: $\Pi_{\mathrm{TT}}(0) = \Pi_{\mathrm{s}}(0) = 1$, so:
+\begin{equation}
+  K_\Phi(0) = \frac{4}{3} - \frac{1}{3} = 1,\qquad
+  K_\Psi(0) = \frac{2}{3} + \frac{1}{3} = 1.
+\end{equation}
+Both potentials equal $-GM/r$: $\gamma_{\mathrm{PPN}} = 1$.
+
+\verified{GR limit $K_\Phi(0) = K_\Psi(0) = 1$ confirmed analytically
+and numerically (mpmath 100-digit precision).}
+
+\subsection{Stelle Benchmark Check}
+
+In the Stelle limit ($\Pi_{\mathrm{TT}} = 1 + k^2/m_2^2$,
+$\Pi_{\mathrm{s}} = 1 + k^2/m_0^2$), using the standard Fourier--Bessel
+identity
+$\frac{2}{\pi}\int_0^\infty \frac{\sin(kr)}{k}\,
+\frac{1}{1+k^2/m^2}\,\dd k = e^{-mr}$:
+\begin{align}
+  \Phi(r) &= -\frac{GM}{r}\left[
+    \frac{4}{3} - \frac{1}{3}
+    - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r}
+  \right] \notag\\
+  &= -\frac{GM}{r}\left[
+    1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r}
+  \right],
+\end{align}
+which matches \eqref{eq:Phi-Stelle} exactly.  Similarly for $\Psi(r)$.
+
+\crosscheck{Both $K_\Phi$ and $K_\Psi$ reproduce the known Stelle
+potentials.  This is the primary verification of the
+projector-to-potential map.}
+
+\subsection{Universal Coupling Ratios}
+
+The coefficient pattern in the Newton kernels follows from the
+projector algebra alone, not from the specific form of
+$\Pi_{\mathrm{TT}}$ or $\Pi_{\mathrm{s}}$:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Mode & $K_\Phi$ weight & $K_\Psi$ weight & $K_\Psi/K_\Phi$ ratio \\
+\midrule
+Spin-2 ($\Pi_{\mathrm{TT}}$) & $+4/3$ & $+2/3$ & $+1/2$ \\
+Spin-0 ($\Pi_{\mathrm{s}}$) & $-1/3$ & $+1/3$ & $-1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These ratios are \emph{model-independent}: any theory with the
+propagator structure \eqref{eq:G-full} will have the same coefficients.
+
+\subsection{The Effective PPN Gamma}
+
+\begin{definition}[Scale-dependent PPN gamma]\label{def:gamma-eff}
+\begin{equation}\label{eq:gamma-eff}
+  \boxed{\gamma_{\mathrm{eff}}(z)
+  = \frac{K_\Psi(z)}{K_\Phi(z)}
+  = \frac{2/(3\Pi_{\mathrm{TT}}) + 1/(3\Pi_{\mathrm{s}})}
+         {4/(3\Pi_{\mathrm{TT}}) - 1/(3\Pi_{\mathrm{s}})}.}
+\end{equation}
+\end{definition}
+
+\noindent Limiting cases:
+\begin{enumerate}[nosep]
+  \item \textbf{GR} ($z \to 0$):
+    $\gamma_{\mathrm{eff}} = (2/3 + 1/3)/(4/3 - 1/3) = 1$.
+  \item \textbf{Conformal coupling} ($\xi = 1/6$, $\Pi_{\mathrm{s}} = 1$):
+    $\gamma_{\mathrm{eff}} = (2/(3\Pi_{\mathrm{TT}}) + 1/3)
+    / (4/(3\Pi_{\mathrm{TT}}) - 1/3)$.
+  \item \textbf{Large $r$} (Yukawa regime):
+    all exponential corrections vanish, $\gamma \to 1$.
+  \item \textbf{Yukawa approximation}:
+    \begin{equation}\label{eq:gamma-yukawa}
+      \gamma_{\mathrm{eff}}(r)
+      = \frac{1 - \frac{2}{3}\,e^{-m_2 r}
+        - \frac{1}{3}\,e^{-m_0 r}}
+             {1 - \frac{4}{3}\,e^{-m_2 r}
+        + \frac{1}{3}\,e^{-m_0 r}}.
+    \end{equation}
+\end{enumerate}
+
+
+%%======================================================================
+\section{L-6: Experimental Data Compilation}\label{sec:experiments}
+%%======================================================================
+
+\subsection{Solar System: Light Deflection and Time Delay}
+
+\subsubsection{Cassini Spacecraft (2003)}
+
+\fromlit{Bertotti, Iess, Tortora, Nature \textbf{425} (2003) 374}
+
+The Cassini spacecraft measured the Shapiro time delay of radio
+signals passing near the Sun during solar conjunction in June 2002.
+The frequency shift of the radio link is proportional to $\gamma + 1$.
+
+\begin{benchmark}[Cassini bound on $\gamma$]\label{bench:cassini}
+\begin{equation}\label{eq:cassini}
+  \gamma - 1 = (2.1 \pm 2.3) \times 10^{-5}
+  \qquad\text{(68\% CL)}.
+\end{equation}
+This gives the $2\sigma$ bound:
+\begin{equation}\label{eq:cassini-2sigma}
+  |\gamma - 1| < 4.4 \times 10^{-5}
+  \qquad\text{(95\% CL, Cassini)}.
+\end{equation}
+\end{benchmark}
+
+\noindent The measurement probes the gravitational field at
+$r \sim 1$--$10\,R_\odot \approx (7$--$70) \times 10^8$~m, where
+$R_\odot = 6.957 \times 10^8$~m.
+
+\subsubsection{MESSENGER (2014)}
+
+\fromlit{Verma, Fienga, Laskar et al., A\&A \textbf{561} (2014) A115}
+
+The MESSENGER spacecraft orbiting Mercury provided an independent
+measurement of $\gamma$ via Mercury ranging data:
+
+\begin{benchmark}[MESSENGER bound on $\gamma$]\label{bench:messenger}
+\begin{equation}\label{eq:messenger}
+  |\gamma - 1| < 2.5 \times 10^{-5}
+  \qquad\text{(MESSENGER + planetary ephemeris, 1$\sigma$)}.
+\end{equation}
+\end{benchmark}
+
+\noindent This is comparable in precision to Cassini and provides
+an independent confirmation at a different orbital geometry.
+
+\subsubsection{Very Long Baseline Interferometry (VLBI)}
+
+\fromlit{Lambert, Le~Poncin-Lafitte, A\&A \textbf{499} (2009) 331}
+
+VLBI measurements of radio quasar positions during solar conjunction:
+\begin{equation}\label{eq:vlbi}
+  \gamma - 1 = (-1.6 \pm 3.3) \times 10^{-4}
+  \qquad\text{(VLBI, 1$\sigma$)}.
+\end{equation}
+Less constraining than Cassini but provides independent
+geometric information.
+
+\subsection{Nordtvedt Effect and Equivalence Principle}
+
+\subsubsection{Lunar Laser Ranging (LLR)}
+
+\fromlit{Williams, Turyshev, Boggs, PRL \textbf{93} (2004) 261101;
+Williams, Turyshev, Boggs, CQG \textbf{29} (2012) 184004}
+
+LLR measures the Earth--Moon distance with $\sim 1$~cm precision,
+sensitive to the Nordtvedt effect (gravitational self-energy
+contribution to free fall):
+
+\begin{benchmark}[LLR bound on the Nordtvedt parameter]
+\label{bench:llr}
+\begin{equation}\label{eq:llr-eta}
+  |\eta_N| < 4.4 \times 10^{-4}
+  \qquad\text{(95\% CL, LLR 2004)}.
+\end{equation}
+Using $\eta_N = 4\beta - \gamma - 3$ (for conservative theories), and
+assuming $\gamma = 1$ (Cassini):
+\begin{equation}\label{eq:llr-beta}
+  |\beta - 1| < 1.1 \times 10^{-4}
+  \qquad\text{(derived from LLR + Cassini)}.
+\end{equation}
+\end{benchmark}
+
+\signcorrection{The LLR bound on $|\beta - 1|$ requires the
+\emph{combination} of LLR and Cassini data, not LLR alone.
+Quoting $|\beta - 1| < 8 \times 10^{-5}$ (as in Will~2014, Table~4)
+uses additional constraints from perihelion precession.}
+
+\subsubsection{MICROSCOPE (2022)}
+
+\fromlit{Touboul et al., PRL \textbf{129} (2022) 121102}
+
+The MICROSCOPE satellite tested the weak equivalence principle (WEP)
+in Earth orbit by comparing the free-fall acceleration of
+titanium and platinum test masses:
+
+\begin{benchmark}[MICROSCOPE bound on WEP violation]
+\label{bench:microscope}
+\begin{equation}\label{eq:microscope}
+  \eta_{\mathrm{WEP}}(\mathrm{Ti,Pt})
+  = [-1.5 \pm 2.3\,(\mathrm{stat})
+    \pm 1.5\,(\mathrm{syst})] \times 10^{-15}.
+\end{equation}
+The combined $2\sigma$ bound:
+\begin{equation}\label{eq:microscope-bound}
+  |\eta_{\mathrm{WEP}}| < 1.5 \times 10^{-15}
+  \qquad\text{(MICROSCOPE, $2\sigma$ upper limit)}.
+\end{equation}
+\end{benchmark}
+
+\begin{remark}[WEP vs Nordtvedt effect]
+MICROSCOPE tests the \emph{weak} equivalence principle (composition
+dependence of free fall for laboratory-scale bodies), not the
+\emph{strong} equivalence principle (gravitational self-energy
+contribution).  The Nordtvedt effect is a SEP violation, tested
+by LLR.  MICROSCOPE's result $|\eta| < 10^{-15}$ constrains
+composition-dependent fifth forces, not the PPN parameter $\eta_N$
+directly.  However, any Yukawa-type force from SCT is
+\emph{composition-independent} (universal coupling to mass),
+so MICROSCOPE provides no additional constraint beyond the ISL
+tests at the relevant range.
+\end{remark}
+
+\subsection{Short-Range Gravity: Torsion Balance}
+
+\subsubsection{E\"ot-Wash Group}
+
+\fromlit{Lee, Adelberger, Cook et al., PRL \textbf{124} (2020) 101101;
+Kapner et al., PRL \textbf{98} (2007) 021101}
+
+The E\"ot-Wash torsion balance experiments test the gravitational
+inverse-square law (ISL) at sub-millimeter distances by searching
+for Yukawa deviations of the form:
+\begin{equation}\label{eq:yukawa-param}
+  V(r) = -\frac{Gm_1 m_2}{r}\left[
+    1 + \alpha\,e^{-r/\lambda}
+  \right],
+\end{equation}
+where $\alpha$ is the coupling strength relative to gravity and
+$\lambda$ is the Yukawa range.
+
+\begin{benchmark}[E\"ot-Wash ISL exclusion]\label{bench:eotwash}
+The current state-of-the-art exclusion
+\fromlit{Lee et al.\ (2020)}:
+\begin{equation}\label{eq:eotwash}
+  |\alpha| \leq 1 \quad\text{at}\quad
+  \lambda \geq 38.6\;\mu\mathrm{m}
+  \qquad\text{(95\% CL)}.
+\end{equation}
+Previous result \fromlit{Kapner et al.\ (2007)}:
+$|\alpha| \leq 1$ at $\lambda \geq 56\;\mu$m.
+\end{benchmark}
+
+\noindent The exclusion curve is approximately:
+\begin{equation}\label{eq:eotwash-curve}
+  |\alpha(\lambda)|_{\text{95\%}} \approx
+  \begin{cases}
+    1 & \lambda \gtrsim 38.6\;\mu\text{m},\\
+    (\lambda / 38.6\;\mu\text{m})^{-4} & \lambda \lesssim 38.6\;\mu\text{m}.
+  \end{cases}
+\end{equation}
+
+The HUST group (Huazhong University) provides independent
+confirmation \fromlit{Tan et al., PRL \textbf{124} (2020) 051301}:
+$|\alpha| < 1$ at $\lambda \geq 40\;\mu$m.
+
+\begin{finding}[Relevance for SCT]\label{find:eotwash-sct}
+In SCT, the Yukawa deviations have:
+\begin{itemize}[nosep]
+  \item Spin-2: $\alpha_2 = -4/3$, $\lambda_2 = 1/m_2$.
+  \item Spin-0 ($\xi \neq 1/6$): $\alpha_0 = +1/3$, $\lambda_0 = 1/m_0$.
+\end{itemize}
+The dominant mode for ISL tests is the spin-2 Yukawa with
+$|\alpha_2| = 4/3 > 1$.  The E\"ot-Wash bound $|\alpha| \leq 1$
+at $\lambda = 38.6\;\mu$m then requires:
+\begin{equation}\label{eq:lambda-bound}
+  \lambda_2 = \frac{1}{m_2} < 38.6\;\mu\mathrm{m}
+  \quad\Longrightarrow\quad
+  m_2 > \frac{1}{38.6\;\mu\mathrm{m}}
+  \approx 5.1\;\mathrm{meV}.
+\end{equation}
+Since $m_2 = \sqrt{60/13}\,\Lambda \approx 2.15\,\Lambda$, this
+gives:
+\begin{equation}\label{eq:Lambda-bound}
+  \Lambda > \frac{5.1\;\mathrm{meV}}{2.15}
+  \approx 2.4\;\mathrm{meV}
+  \qquad\text{(from E\"ot-Wash)}.
+\end{equation}
+A more precise analysis (accounting for the exact $\alpha$ value
+$4/3 > 1$) is performed in LT-3d, yielding
+$\Lambda > 2.565$~meV as the parameter-free lower bound.
+\end{finding}
+
+\subsection{Summary of Experimental Bounds}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{p{3cm}p{4cm}p{3.5cm}p{1.2cm}}
+\toprule
+\textbf{Experiment} & \textbf{Reference} & \textbf{Bound} &
+\textbf{Year} \\
+\midrule
+\endhead
+Cassini &
+  Bertotti, Iess, Tortora,
+  Nature \textbf{425}, 374 &
+  $|\gamma-1| = (2.1\pm 2.3)\times 10^{-5}$ &
+  2003 \\
+MESSENGER &
+  Verma et al.,
+  A\&A \textbf{561}, A115 &
+  $|\gamma-1| < 2.5\times 10^{-5}$ &
+  2014 \\
+VLBI &
+  Lambert, Le~Poncin-Lafitte,
+  A\&A \textbf{499}, 331 &
+  $|\gamma-1| < 3.4\times 10^{-4}$ &
+  2009 \\
+LLR &
+  Williams et al.,
+  PRL \textbf{93}, 261101 &
+  $|\eta_N| < 4.4\times 10^{-4}$ &
+  2004 \\
+LLR + Cassini &
+  Will (2014) &
+  $|\beta-1| < 8 \times 10^{-5}$ &
+  2014 \\
+MICROSCOPE &
+  Touboul et al.,
+  PRL \textbf{129}, 121102 &
+  $|\eta_{\mathrm{WEP}}| < 1.5\times 10^{-15}$ &
+  2022 \\
+E\"ot-Wash &
+  Lee et al.,
+  PRL \textbf{124}, 101101 &
+  $|\alpha|<1$ at $\lambda = 38.6\;\mu$m &
+  2020 \\
+E\"ot-Wash &
+  Kapner et al.,
+  PRL \textbf{98}, 021101 &
+  $|\alpha|<1$ at $\lambda = 56\;\mu$m &
+  2007 \\
+HUST &
+  Tan et al.,
+  PRL \textbf{124}, 051301 &
+  $|\alpha|<1$ at $\lambda = 40\;\mu$m &
+  2020 \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+
+%%======================================================================
+\section{L-7: The van~Dam--Veltman--Zakharov Discontinuity}
+\label{sec:vdvz}
+%%======================================================================
+
+\subsection{Statement of the Problem}
+
+\fromlit{van~Dam, Veltman, Nucl.\ Phys.\ B \textbf{22} (1970) 397;
+Zakharov, JETP Lett.\ \textbf{12} (1970) 312}
+
+\begin{theorem}[vDVZ discontinuity]\label{thm:vdvz}
+A Fierz--Pauli massive spin-2 field $h_{\mu\nu}$ with mass $m$,
+coupled to a conserved source via $h_{\mu\nu}T^{\mu\nu}$,
+predicts a light-deflection parameter:
+\begin{equation}\label{eq:vdvz-gamma}
+  \gamma_{\mathrm{FP}} = \frac{1}{2}
+  \qquad\text{for \emph{any} } m > 0.
+\end{equation}
+This value does \emph{not} approach the GR value $\gamma = 1$
+as $m \to 0$.  The discontinuity arises because the Fierz--Pauli
+mass term introduces 5 propagating degrees of freedom (the 5
+polarizations of a massive spin-2) for any $m > 0$, while a
+massless spin-2 has only 2.  The extra scalar polarization
+contributes a finite amount to the static potential even as
+$m \to 0$.
+\end{theorem}
+
+\begin{remark}[Physical consequence]
+$\gamma = 1/2$ is excluded by the Cassini bound at
+$> 10^4\sigma$.  Any theory with a Fierz--Pauli mass term
+must invoke the Vainshtein mechanism (nonlinear screening)
+or abandon the Fierz--Pauli structure.
+\end{remark}
+
+\subsection{Propagator Origin of the vDVZ Discontinuity}
+
+\fromlit{van~Dam, Veltman (1970), \S3}
+
+The massive Fierz--Pauli propagator in $d = 4$:
+\begin{equation}\label{eq:FP-prop}
+  G_{\mu\nu\rho\sigma}^{\mathrm{FP}}(k)
+  = \frac{\bar{P}^{(2)}_{\mu\nu\rho\sigma}(k,m)}{k^2 + m^2}
+  - \frac{\frac{1}{3}\bar{\theta}_{\mu\nu}\bar{\theta}_{\rho\sigma}}
+         {k^2 + m^2},
+\end{equation}
+where $\bar{\theta}_{\mu\nu} = \eta_{\mu\nu} - k_\mu k_\nu/m^2$
+and $\bar{P}^{(2)}$ is the massive spin-2 projector.  The
+\emph{relative sign} between the spin-2 and spin-0 (trace) parts
+is $-1/3$ (versus $+1/3$ in the massless case).  This sign
+difference produces $\gamma = 1/2$ instead of $\gamma = 1$.
+
+In the massless limit $m \to 0$, the massive projectors
+$\bar{P}^{(J)}$ do not reduce to the massless projectors $P^{(J)}$:
+the longitudinal polarizations survive and contribute at order $m^0$.
+
+\subsection{Why SCT Avoids vDVZ}
+
+\begin{finding}[SCT mechanism for avoiding vDVZ]\label{find:sct-vdvz}
+The SCT spectral action avoids the vDVZ discontinuity for three
+distinct reasons:
+\begin{enumerate}[nosep]
+  \item \textbf{No Fierz--Pauli mass term.}  The spin-2 mass in SCT
+    ($m_2 \sim 2.15\,\Lambda$) arises from the momentum-dependent
+    propagator modification $\Pi_{\mathrm{TT}}(z) = 1 + (13/60)\,z\,
+    \hat{F}_1(z)$, not from a classical mass term $m^2 h_{\mu\nu}
+    h^{\mu\nu}$.  The propagator structure is:
+    \begin{equation}
+      G_{\mathrm{TT}}(k) = \frac{1}{k^2\,\Pi_{\mathrm{TT}}(k^2/\Lambda^2)},
+    \end{equation}
+    which smoothly reduces to $1/k^2$ as $k \to 0$.  There is
+    no discontinuity in the number of propagating degrees of
+    freedom.
+
+  \item \textbf{Gauge invariance is preserved.}  The SCT effective
+    action is gauge-invariant (NT-4a, \S3), so the propagator is
+    defined \emph{within the gauge-invariant sector} (transverse
+    projectors $P^{(2)}$, $P^{(0\text{-}s)}$).  The
+    Fierz--Pauli mass term breaks gauge invariance, introducing
+    the Boulware--Deser ghost at nonlinear level.  SCT avoids
+    this entirely.
+
+  \item \textbf{The dressed propagator is smooth at $k = 0$.}
+    $\Pi_{\mathrm{TT}}(0) = 1$ and $\Pi_{\mathrm{s}}(0) = 1$
+    by construction (NT-4a, Theorem~5.1).  Therefore the
+    propagator $1/(k^2\,\Pi)$ has a simple $1/k^2$ pole at
+    $k = 0$, identical to GR.  The massive pole at
+    $k^2 = -m_2^2 \Lambda^2$ (where $\Pi_{\mathrm{TT}}$
+    vanishes) is a separate feature that does not affect the
+    $k \to 0$ behavior.
+\end{enumerate}
+\end{finding}
+
+\begin{remark}[Comparison with IDG]
+Ghost-free infinite-derivative gravity (BMS, Modesto) also avoids
+vDVZ by using entire-function form factors that modify the
+propagator without introducing mass terms.  The IDG approach
+\emph{additionally} avoids ghost poles, while SCT has ghost poles
+that are treated via the fakeon prescription.  Both approaches
+preserve gauge invariance and the smooth $k \to 0$ limit.
+\end{remark}
+
+
+%%======================================================================
+\section{Convention Summary}\label{sec:conventions-summary}
+%%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{p{3.5cm}p{7cm}p{2.5cm}}
+\toprule
+\textbf{Item} & \textbf{Convention} & \textbf{Source} \\
+\midrule
+\endhead
+Metric signature &
+  $(-,+,+,+)$ Lorentzian; Euclidean for derivation,
+  continued at the end &
+  NT-1 \\
+Static metric &
+  $\dd s^2 = -(1+2\Phi)\dd t^2
+  + (1-2\Psi)\delta_{ij}\dd x^i\dd x^j$;
+  $\Phi,\Psi < 0$ for attraction &
+  NT-4a \\
+Newtonian potential &
+  $U = GM/r > 0$ (Will); $\Phi = -U < 0$ (ours) &
+  Will (2014) / NT-4a \\
+PPN $\gamma$ &
+  $g_{ij} = (1+2\gamma U)\delta_{ij}$; equivalently
+  $\gamma = \Psi/\Phi$ at Newtonian order &
+  Will (2014) \\
+PPN $\beta$ &
+  $g_{00} = -1+2U-2\beta U^2 + \ldots$ &
+  Will (2014) \\
+Nordtvedt &
+  $\eta_N = 4\beta-\gamma-3$ (conservative theories) &
+  Will (2014) \\
+Transverse projector &
+  $\theta_{\mu\nu} = \delta_{\mu\nu} - k_\mu k_\nu/k^2$ &
+  NT-4a \\
+Barnes--Rivers &
+  $P^{(2)}: 1/(d-1) = 1/3$ in $d=4$;
+  $P^{(0\text{-}s)} = (1/3)\theta\theta$ &
+  NT-4a \\
+Projector traces &
+  $\tr(P^{(2)}) = 5$, $\tr(P^{(0\text{-}s)}) = 1$ &
+  van Nieuwenhuizen \\
+Propagator &
+  $G = k^{-2}[P^{(2)}/\Pi_{\mathrm{TT}} +
+  P^{(0\text{-}s)}/\Pi_{\mathrm{s}}]$ &
+  NT-4a \\
+$\Pi_{\mathrm{TT}}$ &
+  $1 + (13/60)\,z\,\hat{F}_1(z)$; $z = k^2/\Lambda^2$ &
+  NT-4a Eq.~(5.3) \\
+$\Pi_{\mathrm{s}}$ &
+  $1 + 6(\xi-1/6)^2\,z\,\hat{F}_2(z,\xi)$ &
+  NT-4a Eq.~(5.5) \\
+$K_\Phi$ &
+  $4/(3\Pi_{\mathrm{TT}}) - 1/(3\Pi_{\mathrm{s}})$ &
+  This work \\
+$K_\Psi$ &
+  $2/(3\Pi_{\mathrm{TT}}) + 1/(3\Pi_{\mathrm{s}})$ &
+  This work \\
+Effective masses &
+  $m_2^2 = 60\Lambda^2/13$;
+  $m_0^2 = \Lambda^2/(6(\xi-1/6)^2)$ &
+  NT-4a Eq.~(7.3) \\
+SCT coefficients &
+  $\alpha_C = 13/120$; $\alpha_R = 2(\xi-1/6)^2$;
+  $c_2 = 13/60$ &
+  NT-1b Phase~3 \\
+Stelle couplings &
+  $\beta_S = c_2/2 = 13/120$ (in units $1/(16\pi^2\Lambda^2)$);
+  $c_1 = (\alpha_R - \alpha_C/3)/(16\pi^2)$ &
+  Stelle (1977) \\
+Preferred-frame &
+  All zero: $\xi = \alpha_i = \zeta_i = 0$ (from gauge invariance) &
+  Finding~\ref{find:sct-conservative} \\
+Stelle potential &
+  $V/V_N = 1 - (4/3)e^{-m_2 r} + (1/3)e^{-m_0 r}$ &
+  Stelle (1978) \\
+Yukawa parametrization &
+  $V(r) = -(Gm_1 m_2/r)[1 + \alpha\,e^{-r/\lambda}]$ &
+  Adelberger et al. \\
+E\"ot-Wash ISL &
+  $|\alpha| \leq 1$ at $\lambda = 38.6\;\mu$m &
+  Lee et al.\ (2020) \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+
+%%======================================================================
+\section{Gap Analysis and Inputs for Derivation}\label{sec:gaps}
+%%======================================================================
+
+\subsection{Resolved Items (from v1)}
+
+\begin{enumerate}[nosep]
+  \item \textbf{Finding B} (incorrect projector-to-potential map):
+    \textsc{resolved.}  Correct values
+    $P^{(2)}_{0000} = 2/3$, $P^{(0\text{-}s)}_{0000} = 1/3$
+    established and verified against three references.
+  \item \textbf{Finding G} (placeholder in spin-2 argument):
+    \textsc{resolved.}  All momentum arguments explicit:
+    $z = k^2/\Lambda^2$.
+  \item \textbf{Finding J} (preferred-frame asserted, not derived):
+    \textsc{resolved.}  Derived from gauge invariance of spectral
+    action (Finding~\ref{find:sct-conservative}).
+\end{enumerate}
+
+\subsection{Remaining Gaps}
+
+\begin{center}
+\begin{tabular}{clp{5cm}l}
+\toprule
+\# & Gap & Description & Resolution \\
+\midrule
+G1 & Full nonlocal & Exact $\Phi(r)$, $\Psi(r)$ beyond Yukawa &
+  Numerical quadrature \\
+G2 & $\beta_{\mathrm{PPN}}$ & Requires cubic vertex
+  ($\mathcal{O}(h^3)$ from NT-4b) &
+  Expand to cubic order \\
+G3 & Analytic continuation & Euclidean $\to$ Lorentzian for
+  dynamic sources &
+  Deferred to MR-1 \\
+G4 & Ghost pole prescription & $\Pi_{\mathrm{TT}}$ zero at
+  $z_0 \approx 2.415$ &
+  Fakeon (Anselmi) \\
+G5 & $\xi$-dependent scan & Full parameter space exploration &
+  Numerical scan \\
+G6 & Future experiments & GAIA, BepiColombo, LISA pathfinder &
+  Data release \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Key Inputs for the PPN-1 Derivation}
+
+The following formulas are the essential inputs for the PPN-1
+derivation document:
+
+\begin{enumerate}[nosep]
+  \item \textbf{$K_\Phi$}: Eq.~\eqref{eq:K-Phi} ---
+    $K_\Phi = 4/(3\Pi_{\mathrm{TT}}) - 1/(3\Pi_{\mathrm{s}})$.
+  \item \textbf{$K_\Psi$}: Eq.~\eqref{eq:K-Psi} ---
+    $K_\Psi = 2/(3\Pi_{\mathrm{TT}}) + 1/(3\Pi_{\mathrm{s}})$.
+  \item \textbf{$\gamma_{\mathrm{eff}}(z)$}: Eq.~\eqref{eq:gamma-eff} ---
+    ratio $K_\Psi/K_\Phi$.
+  \item \textbf{Yukawa masses}: Eq.~\eqref{eq:sct-masses} ---
+    $m_2 = \sqrt{60/13}\,\Lambda$,
+    $m_0 = \Lambda/\sqrt{6(\xi-1/6)^2}$.
+  \item \textbf{Stelle benchmark}: Eqs.~\eqref{eq:Phi-Stelle}--\eqref{eq:Psi-Stelle}.
+  \item \textbf{Solar-system estimate}: $m_2 r_\oplus
+    \approx 2 \times 10^{46}$ for $\Lambda \sim M_{\mathrm{Pl}}$,
+    giving $|\gamma - 1| \sim e^{-10^{46}} \approx 0$.
+  \item \textbf{Cassini bound}: Eq.~\eqref{eq:cassini} ---
+    $|\gamma-1| < 2.3\times 10^{-5}$.
+  \item \textbf{E\"ot-Wash bound}: $\Lambda > 2.4$~meV (approximate);
+    $\Lambda > 2.565$~meV (precise, from LT-3d).
+  \item \textbf{Preferred-frame}: all zero
+    (Finding~\ref{find:sct-conservative}).
+  \item \textbf{vDVZ}: SCT avoids the discontinuity
+    (Finding~\ref{find:sct-vdvz}).
+  \item \textbf{$\beta$}: $= 1 + \mathcal{O}(e^{-mr})$ at
+    Newtonian order; cubic vertex needed for precision.
+  \item \textbf{Cross-checks}: Stelle (\S\ref{sec:stelle}),
+    IDG (\S\ref{sec:nonlocal}), Brans--Dicke (\S\ref{sec:BD}).
+\end{enumerate}
+
+
+%%======================================================================
+% References
+%%======================================================================
+\begin{thebibliography}{30}
+
+\bibitem{Will14}
+C.~M.~Will,
+``The confrontation between general relativity and experiment,''
+\textit{Living Rev.\ Rel.} \textbf{17} (2014) 4,
+\href{https://arxiv.org/abs/1403.7377}{arXiv:1403.7377 [gr-qc]}.
+
+\bibitem{Ste77}
+K.~S.~Stelle,
+``Renormalization of higher-derivative quantum gravity,''
+\textit{Phys.\ Rev.\ D} \textbf{16} (1977) 953.
+
+\bibitem{Ste78}
+K.~S.~Stelle,
+``Classical gravity with higher derivatives,''
+\textit{Gen.\ Rel.\ Grav.} \textbf{9} (1978) 353.
+
+\bibitem{BMS06}
+T.~Biswas, A.~Mazumdar, W.~Siegel,
+``Bouncing universes in string-inspired gravity,''
+\textit{JCAP} \textbf{0603} (2006) 009,
+\href{https://arxiv.org/abs/hep-th/0508194}{hep-th/0508194}.
+
+\bibitem{EKM16}
+J.~Edholm, A.~S.~Koshelev, A.~Mazumdar,
+``Behavior of the Newtonian potential for ghost-free gravity
+and singularity-free gravity,''
+\textit{Phys.\ Rev.\ D} \textbf{94} (2016) 104033,
+\href{https://arxiv.org/abs/1604.01989}{arXiv:1604.01989 [gr-qc]}.
+
+\bibitem{BGKM12}
+T.~Biswas, E.~Gerwick, T.~Koivisto, A.~Mazumdar,
+``Towards singularity and ghost free theories of gravity,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{108} (2012) 031101,
+\href{https://arxiv.org/abs/1110.5249}{arXiv:1110.5249 [gr-qc]}.
+
+\bibitem{BD61}
+C.~Brans, R.~H.~Dicke,
+``Mach's principle and a relativistic theory of gravitation,''
+\textit{Phys.\ Rev.} \textbf{124} (1961) 925.
+
+\bibitem{vDV70}
+H.~van~Dam, M.~Veltman,
+``Massive and massless Yang-Mills and gravitational fields,''
+\textit{Nucl.\ Phys.\ B} \textbf{22} (1970) 397.
+
+\bibitem{Zak70}
+V.~I.~Zakharov,
+``Linearized gravitation theory and the graviton mass,''
+\textit{JETP Lett.} \textbf{12} (1970) 312.
+
+\bibitem{Ber03}
+B.~Bertotti, L.~Iess, P.~Tortora,
+``A test of general relativity using radio links with the Cassini
+spacecraft,''
+\textit{Nature} \textbf{425} (2003) 374.
+
+\bibitem{VFL14}
+A.~K.~Verma, A.~Fienga, J.~Laskar, H.~Manche, M.~Gastineau,
+``Use of MESSENGER radioscience data to improve planetary
+ephemeris and to test general relativity,''
+\textit{Astron.\ Astrophys.} \textbf{561} (2014) A115.
+
+\bibitem{LLP09}
+S.~B.~Lambert, C.~Le~Poncin-Lafitte,
+``Determination of the relativistic parameter $\gamma$ using very
+long baseline interferometry,''
+\textit{Astron.\ Astrophys.} \textbf{499} (2009) 331.
+
+\bibitem{WTB04}
+J.~G.~Williams, S.~G.~Turyshev, D.~H.~Boggs,
+``Progress in lunar laser ranging tests of relativistic gravity,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{93} (2004) 261101.
+
+\bibitem{Tou22}
+P.~Touboul et al.\ (MICROSCOPE Collaboration),
+``MICROSCOPE Mission: Final Results of the Test of the Equivalence
+Principle,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{129} (2022) 121102.
+
+\bibitem{Lee20}
+J.~G.~Lee, E.~G.~Adelberger, T.~S.~Cook, S.~M.~Fleischer,
+B.~R.~Heckel,
+``New test of the gravitational $1/r^2$ law at separations
+down to $52\;\mu$m,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{124} (2020) 101101.
+
+\bibitem{Kap07}
+D.~J.~Kapner, T.~S.~Cook, E.~G.~Adelberger, J.~H.~Gundlach,
+B.~R.~Heckel, C.~D.~Hoyle, H.~E.~Swanson,
+``Tests of the gravitational inverse-square law below the
+dark-energy length scale,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{98} (2007) 021101.
+
+\bibitem{Tan20}
+W.-H.~Tan et al.,
+``Improvement for testing the gravitational inverse-square law
+at the submillimeter range,''
+\textit{Phys.\ Rev.\ Lett.} \textbf{124} (2020) 051301.
+
+\bibitem{vN73}
+P.~van~Nieuwenhuizen,
+``On ghost-free tensor lagrangians and linearized gravitation,''
+\textit{Nucl.\ Phys.\ B} \textbf{60} (1973) 478.
+
+\bibitem{Riv64}
+R.~J.~Rivers,
+``Lagrangian theory for neutral massive spin-2 fields,''
+\textit{Nuovo Cim.} \textbf{34} (1964) 386.
+
+\bibitem{JP24}
+D.~Jimu, T.~Prokopec,
+``Gravitational potentials from quantum self-energy corrections,''
+(2024),
+\href{https://arxiv.org/abs/2410.01449}{arXiv:2410.01449 [gr-qc]}.
+
+\bibitem{Acc02}
+A.~Accioly, S.~Ragusa, H.~Mukai, E.~de Rey Neto,
+``Algorithm for computing the propagator of higher-derivative
+gravity theories,''
+\textit{Int.\ J.\ Theor.\ Phys.} \textbf{39} (2000) 1599.
+
+\bibitem{BV87}
+A.~O.~Barvinsky, G.~A.~Vilkovisky,
+``Beyond the Schwinger-DeWitt technique: Converting loops into trees
+and in-in currents,''
+\textit{Nucl.\ Phys.\ B} \textbf{282} (1987) 163.
+
+\bibitem{Ans17}
+D.~Anselmi,
+``On the quantum field theory of the gravitational interactions,''
+\textit{JHEP} \textbf{06} (2017) 086,
+\href{https://arxiv.org/abs/1704.07728}{arXiv:1704.07728 [hep-th]}.
+
+\bibitem{BCKM13}
+T.~Biswas, A.~Conroy, A.~S.~Koshelev, A.~Mazumdar,
+``Generalized ghost-free quadratic curvature gravity,''
+\textit{Class.\ Quant.\ Grav.} \textbf{31} (2014) 015022,
+\href{https://arxiv.org/abs/1308.2319}{arXiv:1308.2319 [hep-th]}.
+
+\bibitem{MR15}
+H.~Murata, M.~Tanaka,
+``A review of short-range gravity experiments in the LHC era,''
+\textit{Class.\ Quant.\ Grav.} \textbf{32} (2015) 033001,
+\href{https://arxiv.org/abs/1408.3588}{arXiv:1408.3588 [hep-ex]}.
+
+\bibitem{WTB12}
+J.~G.~Williams, S.~G.~Turyshev, D.~H.~Boggs,
+``Lunar laser ranging tests of the equivalence principle,''
+\textit{Class.\ Quant.\ Grav.} \textbf{29} (2012) 184004.
+
+\end{thebibliography}
+
+\end{document}

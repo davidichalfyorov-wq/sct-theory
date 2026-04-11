@@ -1,0 +1,369 @@
+% ===================================================================
+% Black hole singularity resolution: comparison across quantum gravity approaches
+% Standalone table for inclusion in papers/drafts or theory/consistency-checks
+% David Alfyorov, April 2026
+% ===================================================================
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{adjustbox}
+
+% Color definitions for status markers
+\definecolor{resolved}{rgb}{0,0.5,0}
+\definecolor{softened}{rgb}{0.8,0.5,0}
+\definecolor{notresolved}{rgb}{0.7,0,0}
+\definecolor{open}{rgb}{0.3,0.3,0.8}
+
+% ===================================================================
+% TABLE 1: Master comparison (landscape, full width)
+% ===================================================================
+
+\begin{table}[p]
+\centering
+\caption{Black hole singularity resolution across quantum gravity approaches.
+  The mass function exponent~$n$ refers to the near-center scaling
+  $m(r) \sim c\,r^n$: $n < 3$ is singular; $n = 3$ (de Sitter core) is the
+  regularity threshold; $n > 3$ is defocusing.
+  ``Free params'' counts dimensionless couplings beyond a single mass scale.
+  \textbf{SCT's unique feature}: $\alpha_C = 13/120$ and $m_0 = \Lambda\sqrt{6}$
+  are parameter-free, derived from the SM particle content.
+  Honest assessment: SCT's linearized singularity is softened but not resolved.}
+\label{tab:qg_singularity}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{} l c c c c c c c @{}}
+\toprule
+\textbf{Theory}
+  & \textbf{$n$}
+  & \textbf{$K(r\!\to\!0)$}
+  & \textbf{Ghost status}
+  & \textbf{Resolved?}
+  & \textbf{Mechanism}
+  & \textbf{Free params}
+  & \textbf{Renorm.}\\
+\midrule
+
+General Relativity
+  & $0$
+  & $\sim 1/r^6$
+  & none
+  & \textcolor{notresolved}{No}
+  & ---
+  & $0$
+  & non-renorm.\\
+
+Stelle ($R + C^2 + R^2$)
+  & $1$\,\textsuperscript{a}
+  & $\sim 1/r^4$
+  & \makecell{real ghost\\[-2pt]\scriptsize(neg.\ residue)}
+  & \textcolor{notresolved}{No}\,\textsuperscript{b}
+  & softened only
+  & $2$
+  & renorm.\\
+
+\textbf{SCT / fakeon}
+  & $\mathbf{1}$
+  & $\sim \mathbf{1/r^4}$
+  & \makecell{\textbf{fakeon}\\[-2pt]\scriptsize(projected out)}
+  & \textcolor{softened}{Softened}\,\textsuperscript{c}
+  & \makecell{$V(0)=0$;\\[-2pt]$\Pi_{\mathrm{TT}}\to\,$const}
+  & $\mathbf{0{+}1}$
+  & \makecell{open\\[-2pt]\scriptsize(finite 2-loop)}\\
+
+IDG ($e^{-\Box/M^2}$)
+  & $3$
+  & finite
+  & none
+  & \textcolor{resolved}{Yes}
+  & \makecell{Gaussian\\[-2pt]source smear}
+  & $1$
+  & improved\\
+
+Loop Quantum Gravity
+  & ---\,\textsuperscript{d}
+  & bounded
+  & none
+  & \textcolor{resolved}{Yes}
+  & \makecell{quantum\\[-2pt]bounce}
+  & $0$--$1$
+  & non-pert.\\
+
+Asymptotic Safety
+  & $3$
+  & finite\,\textsuperscript{e}
+  & unclear
+  & \textcolor{resolved}{Yes}\,\textsuperscript{e}
+  & $G(k)\!\to\!0$
+  & $0$--$2$
+  & \makecell{non-pert.\\[-2pt]renorm.}\\
+
+String / fuzzball
+  & ---\,\textsuperscript{f}
+  & ---
+  & none
+  & \textcolor{resolved}{Yes}\,\textsuperscript{g}
+  & \makecell{microstate\\[-2pt]geometry}
+  & many
+  & UV-finite\\
+
+Conformal ($C^2$)
+  & $0$
+  & $\sim 1/r^6$
+  & \makecell{controversial\\[-2pt]\scriptsize(PT claim)}
+  & \textcolor{notresolved}{No}
+  & \makecell{none\\[-2pt]\scriptsize(Schw.\ exact)}
+  & $3$\,\textsuperscript{h}
+  & renorm.\\
+
+Lee--Wick (6D)
+  & $3$
+  & finite
+  & \makecell{complex\\[-2pt]pairs}
+  & \textcolor{resolved}{Yes}\,\textsuperscript{i}
+  & \makecell{complex\\[-2pt]pole damp.}
+  & $4{+}$
+  & super-renorm.\\
+
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+
+\vspace{4pt}
+\footnotesize
+\textsuperscript{a}\,Schwarzschild-connected branch ($n\!=\!1$).
+  The regular $n\!=\!3$ branch exists but is disconnected
+  (L\"u--Perkins--Pope--Stelle, 2015~\cite{LPPS2015}).\\
+\textsuperscript{b}\,Regular branch exists mathematically but is
+  not selected by gravitational collapse.
+  The massive spin-2 ghost renders the theory non-unitary.\\
+\textsuperscript{c}\,\textbf{Linearized}: $K \sim 1/r^4$, NEC satisfied,
+  Penrose applies, geodesically incomplete.
+  \textbf{Nonlinear}: unknown---blocked by Gap~G1 (OP-01).
+  Root cause: $\Pi_{\mathrm{TT}} \to \mathrm{const}$ provides zero extra UV smoothing.
+  The spectral action nonperturbative argument
+  ($S[\mathrm{Schw}] = \infty$, $S[\mathrm{regular}] < \infty$) is suggestive
+  but not rigorous.
+  \textbf{Unique}: $\alpha_C = 13/120$, $m_0 = \Lambda\sqrt{6}$ are
+  parameter-free (SM-derived).\\
+\textsuperscript{d}\,LQG: bounce replaces the singular point;
+  $m(r)$ is not analytic at the transition surface.
+  Immirzi parameter $\gamma_I \approx 0.2375$ fixed by BH entropy.\\
+\textsuperscript{e}\,Conditional on RG-improvement scheme.
+  Recent work~\cite{WangGongPapa2025} shows resolution requires
+  $\alpha > 1$ in $G(\varepsilon) = G_N/[1 + \tilde\omega(G_N^2\varepsilon)^\alpha]$.
+  Cutoff identification $k = k(r)$ is an additional input.\\
+\textsuperscript{f}\,Fuzzball: no classical interior; the geometry is
+  topologically different.\\
+\textsuperscript{g}\,Complete only for BPS (extremal, supersymmetric) BHs.
+  Non-BPS (Schwarzschild) microstate construction is
+  incomplete~\cite{WarnerBena2022}.\\
+\textsuperscript{h}\,Action has 0 free parameters ($\alpha_W$ absorbed into $G$).
+  The Mannheim--Kazanas solution has 3 integration constants
+  $(\beta, \gamma, \kappa)$.\\
+\textsuperscript{i}\,Requires $\geq 6$ derivatives.
+  The minimal 4-derivative Lee--Wick model has $K \sim 1/r^4$
+  (same as Stelle/SCT), not resolved~\cite{Modesto2016LW}.
+\end{table}
+
+
+% ===================================================================
+% TABLE 2: Detailed property comparison
+% ===================================================================
+
+\begin{table}[p]
+\centering
+\caption{Detailed properties relevant to singularity resolution.
+  Indicial roots refer to the Frobenius analysis of static spherically
+  symmetric field equations at $r = 0$.
+  ``Action conv.'' indicates whether the classical action integral
+  $\int \mathcal{L}\,\sqrt{-g}\,d^4x$ converges on the BH geometry.}
+\label{tab:qg_detailed}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{} l l l l l @{}}
+\toprule
+\textbf{Theory}
+  & \textbf{Indicial roots at $r\!=\!0$}
+  & \textbf{Action conv.}
+  & \textbf{Resolution type}
+  & \textbf{Key reference}\\
+\midrule
+
+GR
+  & $\{0, 1\}$
+  & diverges
+  & none
+  & Penrose (1965)\\
+
+Stelle
+  & $\{0, 1, 2, 3\}$
+  & branch-dep.
+  & \makecell[l]{softened ($n\!=\!1$ branch)\\regular ($n\!=\!3$ branch, disconn.)}
+  & \makecell[l]{L\"u et al.\ (2015)\\{\scriptsize 1508.00010}}\\
+
+\textbf{SCT}
+  & \makecell[l]{$n\!=\!1$; poles at\\$m_0 = \Lambda\sqrt{6}$,\\$m_2 = \Lambda\sqrt{60/13}$}
+  & conditional
+  & \makecell[l]{softened (linearized)\\open (nonlinear)}
+  & \makecell[l]{Alfyorov (2026)\\MR-9}\\
+
+IDG
+  & N/A (nonlocal)
+  & converges
+  & \makecell[l]{resolved\\(de Sitter core, $n\!=\!3$)}
+  & \makecell[l]{Edholm et al.\ (2016)\\{\scriptsize 1604.01989}}\\
+
+LQG
+  & N/A (discrete)
+  & N/A
+  & \makecell[l]{resolved\\(quantum bounce)}
+  & \makecell[l]{Ashtekar, Bojowald\\(2006) {\scriptsize gr-qc/0602086}}\\
+
+Asym.\ Safety
+  & N/A (RG-improved)
+  & N/A
+  & \makecell[l]{resolved\\(dS core, $G\!\to\!0$)}
+  & \makecell[l]{Bonanno, Reuter\\(2000) {\scriptsize hep-th/0002196}}\\
+
+String
+  & N/A (no interior)
+  & N/A
+  & \makecell[l]{dissolved\\(microstate geom.)}
+  & \makecell[l]{Mathur (2005)\\{\scriptsize hep-th/0502050}}\\
+
+Conformal
+  & $\{0, 1, 2, 3\}$
+  & diverges
+  & none (Schw.\ exact)
+  & \makecell[l]{Mannheim (2012)\\{\scriptsize 1101.2186}}\\
+
+Lee--Wick
+  & \makecell[l]{complex pairs\\(oscillatory)}
+  & converges (6D)
+  & \makecell[l]{resolved (6D)\\softened (4D)}
+  & \makecell[l]{Modesto (2016)\\{\scriptsize 1602.02421}}\\
+
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+
+% ===================================================================
+% TABLE 3: Observational discriminators
+% ===================================================================
+
+\begin{table}[p]
+\centering
+\caption{Observational predictions and testability.
+  $\gamma_{\mathrm{PPN}}$ denotes the PPN parameter;
+  $c_T$ is the gravitational wave speed;
+  ``BH obs.'' indicates observable black hole signatures.}
+\label{tab:qg_obs}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{} l c c l l @{}}
+\toprule
+\textbf{Theory}
+  & \textbf{$\gamma_{\mathrm{PPN}} - 1$}
+  & \textbf{$c_T/c - 1$}
+  & \textbf{BH observables}
+  & \textbf{Testability}\\
+\midrule
+
+GR
+  & $0$
+  & $0$
+  & shadow, QNMs, ringdown
+  & \textcolor{resolved}{verified}\\
+
+Stelle
+  & Yukawa corr.
+  & massive mode
+  & non-Schwarzschild BHs
+  & constrained\\
+
+\textbf{SCT}
+  & $\sim e^{-10^{14}}$
+  & $\mathbf{0}$ \textbf{exactly}
+  & \makecell[l]{$\delta\omega/\omega \sim 10^{-20}$\\ghost suppression}
+  & \makecell[l]{\textbf{parameter-free}\\$\Lambda > 2.565\,$meV}\\
+
+IDG
+  & $\sim e^{-r^2 M^2}$
+  & $0$ (on-shell)
+  & regular interior
+  & 1 param ($M$)\\
+
+LQG
+  & $0$
+  & possible $\neq 0$
+  & \makecell[l]{Planck stars,\\BH-to-WH transition}
+  & \makecell[l]{birefringence\\constrained}\\
+
+Asym.\ Safety
+  & $\sim G(k)$ running
+  & not computed
+  & \makecell[l]{modified shadow,\\QNMs}
+  & truncation-dep.\\
+
+String
+  & $0$ (low $E$)
+  & $0$ (low $E$)
+  & \makecell[l]{fuzzball echoes,\\no horizon}
+  & \makecell[l]{model-dep.\\(landscape)}\\
+
+Conformal
+  & $\gamma r$ term
+  & massive mode
+  & Schw.\ exact
+  & \makecell[l]{rotation curves\\(controversial)}\\
+
+Lee--Wick
+  & oscillatory
+  & complex modes
+  & multi-horizon
+  & $4{+}$ params\\
+
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+
+% ===================================================================
+% References used in this table
+% ===================================================================
+% To be placed in the bibliography of the including document:
+%
+% \bibitem{LPPS2015}
+% H.~L\"u, A.~Perkins, C.\,N.~Pope, and K.\,S.~Stelle,
+% ``Spherically symmetric solutions in higher-derivative gravity,''
+% \textit{Phys. Rev.} \textbf{D92}, 124019 (2015),
+% \href{https://arxiv.org/abs/1508.00010}{arXiv:1508.00010}.
+%
+% \bibitem{WangGongPapa2025}
+% A.~Wang, Y.~Gong, and E.\,N.~Papantonopoulos,
+% ``Singularity resolution and regular black hole formation
+%   in gravitational collapse in asymptotically safe gravity,''
+% \textit{Phys. Rev.} \textbf{D} (2025),
+% \href{https://arxiv.org/abs/2502.16787}{arXiv:2502.16787}.
+%
+% \bibitem{WarnerBena2022}
+% I.~Bena and N.\,P.~Warner,
+% ``Fuzzballs and microstate geometries: black-hole structure in string theory,''
+% \href{https://arxiv.org/abs/2204.13113}{arXiv:2204.13113}.
+%
+% \bibitem{Modesto2016LW}
+% L.~Modesto,
+% ``Super-renormalizable or finite Lee--Wick quantum gravity,''
+% \textit{Nucl. Phys.} \textbf{B909}, 584 (2016),
+% \href{https://arxiv.org/abs/1602.02421}{arXiv:1602.02421}.

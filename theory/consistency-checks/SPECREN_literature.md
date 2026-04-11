@@ -298,7 +298,7 @@ If the ghost poles of the gravitational propagator are treated as fakeons (as in
 
 ### 7B. No-Go Indicators
 
-- **No one** has attempted, let alone proven, spectral renormalizability for the gravitational sector. The literature search across arXiv, Semantic Scholar, and web searches found ZERO papers claiming this result.
+- **No one** has attempted, let alone proven, spectral renormalizability for the gravitational sector. The literature search across arXiv and web searches found ZERO papers claiming this result.
 - The van Suijlekom program explicitly works on **flat backgrounds** (no gravitational dynamics). The extensions to almost-commutative geometries still treat gravity classically.
 - The Chamseddine-Iliopoulos-van Suijlekom matrix form (2020) explicitly turns gravity OFF.
 - The power counting paper (2512.14581) works in the **matrix model** formulation, which does not directly describe gravitational dynamics.

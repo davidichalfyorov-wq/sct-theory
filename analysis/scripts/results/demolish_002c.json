@@ -1,0 +1,152 @@
+{
+  "parameters": {
+    "N": 500,
+    "M": 5,
+    "eps": 2.0,
+    "seed": 99999
+  },
+  "results": {
+    "column_gini_C2": {
+      "cohen_d": -1.1079,
+      "p_wilcoxon": 0.125,
+      "p_ttest": 0.06840144010671412,
+      "mean_flat": 0.8265038760465998,
+      "mean_curved": 0.8260506304283541,
+      "mean_delta": -0.0004532456182457789,
+      "std_delta": 0.00040909321832375076
+    },
+    "frobenius_C2": {
+      "cohen_d": 0.5773,
+      "p_wilcoxon": 0.4375,
+      "p_ttest": 0.2663101357877285,
+      "mean_flat": 1213.0418020382504,
+      "mean_curved": 1216.3442019589406,
+      "mean_delta": 3.3023999206900725,
+      "std_delta": 5.7205666532362
+    },
+    "henrici_C2": {
+      "cohen_d": 0.2065,
+      "p_wilcoxon": 0.625,
+      "p_ttest": 0.6682606775864985,
+      "mean_flat": 1.2536578149697273,
+      "mean_curved": 1.25396868753814,
+      "mean_delta": 0.0003108725684125346,
+      "std_delta": 0.0015054526972144856
+    },
+    "henrici_C2_raw": {
+      "cohen_d": 0.3959,
+      "p_wilcoxon": 0.4375,
+      "p_ttest": 0.425982748556542,
+      "mean_flat": 2007050.8054325818,
+      "mean_curved": 2013626.1438995705,
+      "mean_delta": 6575.338466988481,
+      "std_delta": 16606.900536390876
+    },
+    "layer_0_count": {
+      "cohen_d": -0.8331,
+      "p_wilcoxon": 0.1875,
+      "p_ttest": 0.13596515796478784,
+      "mean_flat": 100.8,
+      "mean_curved": 98.4,
+      "mean_delta": -2.4,
+      "std_delta": 2.8809720581775866
+    },
+    "link_count": {
+      "cohen_d": -0.2837,
+      "p_wilcoxon": 0.5,
+      "p_ttest": 0.560305704737851,
+      "mean_flat": 5525.4,
+      "mean_curved": 5520.0,
+      "mean_delta": -5.4,
+      "std_delta": 19.03417978269618
+    },
+    "n2": {
+      "cohen_d": 0.4679,
+      "p_wilcoxon": 0.625,
+      "p_ttest": 0.3544698712667561,
+      "mean_flat": 55040.8,
+      "mean_curved": 55163.4,
+      "mean_delta": 122.6,
+      "std_delta": 262.0043892762104
+    },
+    "rank_C2": {
+      "cohen_d": 0.3922,
+      "p_wilcoxon": 0.5,
+      "p_ttest": 0.4299733794885493,
+      "mean_flat": 150.4,
+      "mean_curved": 151.4,
+      "mean_delta": 1.0,
+      "std_delta": 2.5495097567963922
+    },
+    "sc3_link": {
+      "cohen_d": -0.6951,
+      "p_wilcoxon": 0.1875,
+      "p_ttest": 0.19507174266502086,
+      "mean_flat": 1208.506319102514,
+      "mean_curved": 1204.4063363410241,
+      "mean_delta": -4.099982761490037,
+      "std_delta": 5.898202235158683
+    },
+    "sv_entropy_norm": {
+      "cohen_d": -0.8929,
+      "p_wilcoxon": 0.1875,
+      "p_ttest": 0.11656605075893554,
+      "mean_flat": 0.5574764014480204,
+      "mean_curved": 0.5564728895273163,
+      "mean_delta": -0.00100351192070407,
+      "std_delta": 0.0011238616622033602
+    },
+    "svd_H_C2": {
+      "cohen_d": -0.1768,
+      "p_wilcoxon": 0.8125,
+      "p_ttest": 0.7127976234213849,
+      "mean_flat": 2.7932621755591756,
+      "mean_curved": 2.791659342901472,
+      "mean_delta": -0.00160283265770369,
+      "std_delta": 0.009066673282398083
+    },
+    "svd_eff_rank_C2": {
+      "cohen_d": -0.1817,
+      "p_wilcoxon": 0.8125,
+      "p_ttest": 0.7053922093939193,
+      "mean_flat": 16.51625517846189,
+      "mean_curved": 16.490253721394787,
+      "mean_delta": -0.026001457067105705,
+      "std_delta": 0.14313624313191403
+    },
+    "svd_gini_C": {
+      "cohen_d": -0.2325,
+      "p_wilcoxon": 1.0,
+      "p_ttest": 0.630644830734303,
+      "mean_flat": 0.539896411531336,
+      "mean_curved": 0.5391416868163924,
+      "mean_delta": -0.0007547247149435332,
+      "std_delta": 0.003246678882521315
+    },
+    "tc": {
+      "cohen_d": 0.376,
+      "p_wilcoxon": 0.625,
+      "p_ttest": 0.4478426586500242,
+      "mean_flat": 12144.8,
+      "mean_curved": 12153.0,
+      "mean_delta": 8.2,
+      "std_delta": 21.8105479069188
+    }
+  },
+  "verdicts": {
+    "svd_eff_rank_C2": {
+      "verdict": "WEAK_FLAG",
+      "issues": [
+        "WEAK(|d|=0.18<0.5)",
+        "NOT_SIGNIFICANT(p=0.812)"
+      ]
+    },
+    "henrici_C2": {
+      "verdict": "WEAK_FLAG",
+      "issues": [
+        "WEAK(|d|=0.21<0.5)",
+        "NOT_SIGNIFICANT(p=0.625)"
+      ]
+    }
+  }
+}

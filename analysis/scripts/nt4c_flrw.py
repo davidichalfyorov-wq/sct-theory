@@ -620,12 +620,15 @@ def Pi_TT(z: complex | float | mp.mpc, xi: float = 0.0,
 
 def Pi_scalar(z: complex | float | mp.mpc, xi: float = 0.0,
               dps: int = DPS) -> mp.mpc:
-    """Spin-0 propagator denominator from NT-4a."""
+    """Spin-0 propagator denominator: Pi_s = 1 + 3*z*alpha_R(z,xi).
+
+    Valid for all xi including xi = 1/6 (nonlocal R^2 survives).
+    NOTE (2026-04-07): corrected from factorized form that
+    force-returned 1 at conformal coupling.
+    """
     z_mp = mp.mpc(z)
-    coeff = scalar_mode_coefficient(xi)
-    if abs(coeff) < mp.mpf("1e-40"):
-        return mp.mpc(1)
-    return 1 + coeff * z_mp * _F2_shape(z_mp, xi=xi, dps=dps)
+    alpha_R_z = F2_total_complex(z_mp, xi=xi, dps=dps) * 16 * mp.pi**2
+    return 1 + 3 * z_mp * alpha_R_z
 
 
 def gw_speed_squared(k: mp.mpf, H: mp.mpf, Lambda: mp.mpf,
@@ -1018,12 +1021,12 @@ def check_linearized_recovery(z_values: list[float] | None = None,
             F1_hat = mp.re(_F1_shape(z, xi=xi, dps=dps))
             pi_tt_expected = 1 + LOCAL_C2 * mp.mpf(z) * F1_hat
 
-        s_coeff = scalar_mode_coefficient(xi)
-        if z == 0 or abs(s_coeff) < mp.mpf("1e-40"):
+        # Universal formula: Pi_s = 1 + 3*z*alpha_R(z, xi)
+        if z == 0:
             pi_s_expected = mp.mpf(1)
         else:
-            F2_hat = mp.re(_F2_shape(z, xi=xi, dps=dps))
-            pi_s_expected = 1 + s_coeff * mp.mpf(z) * F2_hat
+            alpha_R_z = F2_total_complex(mp.mpc(z), xi=xi, dps=dps) * 16 * mp.pi**2
+            pi_s_expected = mp.re(1 + 3 * mp.mpf(z) * alpha_R_z)
 
         err_tt = abs(pi_tt - pi_tt_expected)
         err_s = abs(pi_s - pi_s_expected)

@@ -113,7 +113,7 @@ def Pi_TT_euclidean(z, dps=DEFAULT_DPS):
     """
     mp.mp.dps = dps
     z_mp = mp.mpf(z)
-    if z_mp < mp.mpf("1e-15"):
+    if abs(z_mp) < mp.mpf("1e-15"):
         return 1.0
     f1_z = F1_total_complex(z_mp, dps=dps)
     f1_0 = _get_F1_0(dps=dps)

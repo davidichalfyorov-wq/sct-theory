@@ -34,7 +34,6 @@ Research Roadmap and Task Prioritization}}
 \begin{document}
 \maketitle
 \begin{center}
-\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
 \end{center}
 \tableofcontents
 \newpage
@@ -413,7 +412,9 @@ physical field equations with correct SM spectrum).}
 \textbf{Status (2026-03-12):} \textcolor{proven}{COMPLETE.}
 $\Pi_{\text{TT}}(z) = 1 + (13/60)\cdot z\cdot\hat{F}_1(z)$,
 $\Pi_s(z,\xi) = 1 + 6(\xi-1/6)^2\cdot z\cdot\hat{F}_2(z,\xi)$.
-Scalar decouples at $\xi=1/6$. Barnes--Rivers: $P^{(2)}$ (tr=5), $P^{(0\text{-}s)}$ (tr=1).
+Local $R^2$ coefficient vanishes at $\xi=1/6$; nonlocal form factor
+$\alpha_R(z, 1/6) > 0$ for $z > 0$ (no-scalaron theorem).
+Barnes--Rivers: $P^{(2)}$ (tr=5), $P^{(0\text{-}s)}$ (tr=1).
 Gauge invariance + Bianchi identity verified for 10 random momenta.
 Effective masses: $m_2 = \Lambda\sqrt{60/13} \approx 2.148\,\Lambda$,
 $m_0(\xi=0) = \Lambda\sqrt{6} \approx 2.449\,\Lambda$.
@@ -604,6 +605,15 @@ falsifiability criteria for each prediction channel.}
 
 \deps{None (meta-task; can proceed immediately). Should be updated
 as each prediction task completes.}
+
+\textbf{Status (2026-04-07):} \textcolor{proven}{COMPLETE.}
+Self-audit completed via analytical~5.4 Pro (two independent analyses, Grade~A$-$).
+Two evaluation modes: SCT as EFT scores~${\sim}\,7/10$, as UV-complete~${\sim}\,5/10$.
+10-criterion audit: falsifiability~$9/10$ (strongest), causality~$4/10$ (weakest).
+Five explicit kill conditions enumerated.
+$f$-analysis confirms: $\alpha_C$, $\alpha_R$ are \emph{exactly} $\psi$-independent
+(local $a_4$ coefficients); only nonlocal form factors $F_i(z)$ depend on $f$-shape.
+See \texttt{docs/META1\_self\_audit.md}.
 
 % ==========================================================================
 \section{\textcolor{mid}{Mid-Term Tasks}}
@@ -886,22 +896,25 @@ form factors.}
 NT-2 (analyticity of form factors for nonlocal slow-roll analysis),
 NT-4c (FRW reduction of nonlocal field equations for perturbation theory).}
 
-\textcolor{near}{\textbf{Status (2026-03-15): CONDITIONAL.}}
-The full independent cross-verification has been executed.
-\textbf{Central negative result:} The SM-only one-loop spectral action at
-$\xi = 0$ gives $M = \sqrt{24\pi^2}\,M_P \approx 15.39\,M_P$, which is
-$1.2 \times 10^6$ times too heavy for inflation.
-Confirmed through 6~independent routes at 100-digit precision.
-\textbf{Conditional predictions} (if~$M$ fixed externally to
-$3.12 \times 10^{13}\,\text{GeV}$):
-$n_s = 0.965$, $r = 3.5 \times 10^{-3}$,
-$f_{\text{NL}} = -0.016$, $T_{\text{reh}} = 4.9 \times 10^9\,\text{GeV}$.
-All compatible with Planck 2018 and BICEP/Keck 2021.
-Nonlocal corrections $< 1\%$ for $\Lambda > 10^{14}\,\text{GeV}$.
-Resolution paths: sub-Planckian $\Lambda$ (viable),
-sub-Planckian $\Lambda + \text{moderate}\;\xi$ (viable),
-higher loops (open).
-91/91~pytest tests, 148~verification checks, 3~figures.
+\textcolor{long}{\textbf{Status (2026-04-01): NEGATIVE.}}
+\textbf{Scalaron is absent in standard NCG spectral action.}
+Combined with OP-44 ($\xi = 1/6$ is NCG prediction) and OP-17
+(scalaron mass problem): $\alpha_R(\xi = 1/6) = 0$ identically,
+so $m_0 = \infty$---the $R^2$ term is absent, not just suppressed.
+ALL known NCG BSM scalars also get $\xi' = 1/6$ (conformal),
+contributing $(xi'-1/6)^2 = 0$ to $\alpha_R$.  The BSM route is
+structurally closed within NCG.  Starobinsky inflation is
+\textbf{excluded} in the standard spectral action framework.
+
+\textbf{Historical record (2026-03-15):} SM-only at $\xi = 0$ gives
+$M_0 = \sqrt{24\pi^2}\,M_P \approx 15.39\,M_P$, $1.2 \times 10^6$
+times too heavy.  Conditional predictions (if~$M$ fixed externally):
+$n_s = 0.965$, $r = 3.5 \times 10^{-3}$, $f_{\text{NL}} = -0.016$.
+91/91~pytest, 148~checks.
+
+\textbf{Only surviving path:} Reinterpretation of~$\Lambda$ as
+sub-Planckian scale, or framework extension (zeta spectral action,
+dilatonized action).  See OP-04, OP-17, OP-44 in \texttt{open-problems/}.
 Derivation: \texttt{theory/derivations/INF1\_inflation.tex}.
 
 \textbf{Note:} MT-2 is \emph{not} a prerequisite: INF-1 derives the inflationary
@@ -1354,7 +1367,13 @@ MR-4 (two-loop as explicit check of any general argument).}
 
 \textbf{Severity: CRITICAL.}
 
-\textbf{Status (2026-03-17):} \textcolor{near}{CONDITIONAL (BV-3,4 only). UV-FINITE in $D^2$-quantization.}
+\textbf{Status (2026-04-07):} \textcolor{near}{CONDITIONAL (BV-3,4 + absorbability conjecture).}
+\textbf{Erratum (2026-04-07):} The CHIRAL-Q Proposition~4.4 (spectral form
+of counterterms) was invalidated by a finite-dimensional counterexample.
+The chirality theorem ($[\delta(D^2), \gamma_5] = 0$) remains proven, but
+the step from chirality to absorbability by $f$-deformation is now a
+\textbf{conjecture}. Two-loop $D = 0$ (MR-5b) is unaffected (parameter
+counting, not chirality).  Three-loop and higher remain OPEN.
 \begin{itemize}
   \item \textbf{All-orders finiteness (Option~A):} NOT achievable by known methods.
     The propagator $\Pi_{\mathrm{TT}} \to -83/6$ gives $G \sim 1/k^2$ (GR-like,
@@ -1370,15 +1389,14 @@ MR-4 (two-loop as explicit check of any general argument).}
     Goroff--Sagnotti).
   \item \textbf{Borel radius:} $R_B^{\mathrm{loop}} \approx 79$, close to
     $R_B^{\mathrm{curv}} \approx 84$ from MR-6 (ratio $\approx 0.94$).
-  \item \textbf{Two-loop $D=0$ (MR-5b):} \textcolor{proven}{UNCONDITIONAL (via CHIRAL-Q Theorem~6.12).}
+  \item \textbf{Two-loop $D=0$ (MR-5b):} \textcolor{proven}{UNCONDITIONAL (parameter counting).}
     The perturbative on-shell reduction shows $R_{\mu\nu}\sim\mathcal{O}(\alpha_C)$,
     so at $\mathcal{O}(\alpha_C^2)$ only the CCC invariant
     ($C_{\mu\nu}^{\;\;\kappa\lambda}C_{\kappa\lambda}^{\;\;\rho\sigma}
     C_{\rho\sigma}^{\;\;\mu\nu}$) survives.  With 1~constraint and 1~parameter
-    ($\delta f_6$), absorption is unconditional.
+    ($\delta f_6$), absorption is unconditional by parameter counting alone
+    (independent of the chirality argument).
     SM CCC coefficient: $-1481/6\approx -246.83$.
-    CHIRAL-Q Theorem~6.12 establishes $D=0$ unconditionally via the chirality
-    structure of the Seeley--DeWitt coefficients.
     74~pytest PASS (D), 49~self-tests (DR), 34~V-checks at 120~digits.
     See \texttt{theory/derivations/MR5b\_two\_loop.tex}.
   \item \textbf{Key result:} Background field $D = 0$ at $L = 1$ VERIFIED (MR-7).
@@ -1420,6 +1438,31 @@ MR-4 (two-loop as explicit check of any general argument).}
     \end{enumerate}
     Revised survival probability: $87$--$93\%$ (post-CHIRAL-Q $D^2$-quantization).
     See \texttt{theory/consistency-checks/FUND\_program.tex}.
+  \item \textbf{OP-13/OP-14 Resolution (2026-04-07):}
+    Two breakthroughs from independent analysis:
+    \begin{enumerate}[(i)]
+      \item \textbf{OP-13 (I$_1$=I$_2$ identity):} Cayley--Hamilton for
+        traceless $3\times 3$ gives $\Tr(A^4) = \tfrac{1}{2}(\Tr A^2)^2$.
+        Consequence: $I_1 \equiv I_2$ identically in $d=4$. Parity-even
+        quartic Weyl sector is \textbf{2-dimensional}, not 3D.
+        Reference: Moura~(2006).
+      \item \textbf{OP-14 (chiral spectral principle):} On Ricci-flat $M^4$
+        with spin structure, the bundle curvature $\Omega_{\mu\nu}$ is
+        block-diagonal under chirality ($[\gamma^{ab}, \gamma_5] = 0$,
+        $E=0$, $\nabla\gamma_5 = 0$). Therefore
+        $\Tr(a_{2n}(D^2))|_{\text{Weyl}} = F_n(C^+) + F_n(C^-)$ with
+        \textbf{no mixed $C^+C^-$ terms}. This is elementary linear
+        algebra (block-diagonal trace splitting), not conjecture.
+      \item \textbf{Combined:} $I_1=I_2$ reduces $3\to 2$; chirality
+        kills the $pq$ cross-term, reducing $2\to 1$. Result:
+        1~structure + 1~parameter ($\delta f_8$) $=$ \textbf{no
+        overdetermination at $L=3$}.
+      \item \textbf{Critical verification needed:} Compute
+        $a_8(D^2)|_{C^4}$ on Ricci-flat 4-manifold in chiral basis.
+        If $a_8|_{C^4} = k[(I_2^+)^2 + (I_2^-)^2]$ with no $I_2^+I_2^-$:
+        OP-14 becomes THEOREM, three-loop blocker removed, UV route
+        probability $25\% \to {\sim}\,45\%$.
+    \end{enumerate}
 \end{itemize}
 
 \subsection{MR-7: Scattering amplitudes and gauge-fixing}
@@ -1582,6 +1625,35 @@ MT-1 (black hole entropy for consistency check).}
 
 \textbf{Severity: DESIRABLE.}
 
+\textcolor{long}{NEGATIVE (Level~2 CERTIFIED)} (April 2026, 96 tests, 4-agent review).
+
+\emph{Linearized (NEGATIVE, definitive):}
+$K \sim 1/r^4$ (softened from $1/r^6$, but still divergent).
+$m(r) \sim r$ ($n=1$, two powers below de~Sitter $n=3$).
+NEC \textbf{satisfied} everywhere ($2m'-rm''>0$, verified dps$=$100).
+Penrose theorem \textbf{applies}. All causal geodesics incomplete.
+$f(r)$ monotonically increasing (exactly one horizon for $M>M_{\rm crit}$).
+Regular center impossible for any $M>0$ (requires $f(0)=1$, but $f(0)=1-r_s h'(0)\ne 1$).
+Root cause: $\Pi_{\rm TT}\to\mathrm{const}$ $=$ zero UV smoothing.
+
+\emph{Nonlinear (OPEN, pessimistic):}
+K-T Case~2; forbids Schwarzschild $1/r$ branch only; milder singularity not excluded.
+Schwarzschild is Bach-flat ($B_{\mu\nu}=0$) $\Rightarrow$ leading $\Theta^{(C)}=0$;
+nonlocal $[\Box,C]$ commutator terms unknown (Gap~G1).
+Fakeon-projected equations not covered by K-T.
+Nicolini order${\ge}1/2$ is model-specific, not universal.
+$n$-classification: need $m(r)\sim r^3$ (qualitative restructuring, not small correction).
+
+\emph{Overturning conditions:}
+(a)~Solve Gap~G1 and show $[\Box^n,C]$ commutator terms push $m(r)$ from $O(r)$ to $O(r^3)$; or
+(b)~Find non-Schwarzschild branch of full SCT with two metric functions $A(r),B(r)$
+  and $A(0)=B(0)^{-1}=1$; or
+(c)~Show fakeon-projected equations have qualitatively different near-center asymptotics.
+
+Scripts: \texttt{mr9\_geodesics.py}, \texttt{mr9\_raychaudhuri.py},
+\texttt{mr9\_level1\_kretschner.py}, \texttt{mr9\_comparison\_table.py}.
+Document: \texttt{theory/consistency-checks/MR9\_singularity\_resolution.tex}.
+
 \subsection{PPN-1: Parameterized post-Newtonian parameters}
 \label{task:PPN1}
 
@@ -1638,16 +1710,21 @@ parameters depend on $F_i^{\text{total}}$).}
 \textbf{Severity: CRITICAL.} This is the gold standard for testing
 gravitational theories.
 
-\textbf{Status (2026-03-14):} \textcolor{proven}{COMPLETE.}
+\textbf{Status (2026-04-02):} \textcolor{proven}{COMPLETE (Level~2 CERTIFIED, CONDITIONAL).}
+Full 6-agent pipeline redo (L$\to$L-R$\to$D$\to$D-R$\to$V$\to$V-R).
 \begin{itemize}
   \item $\gamma_{\text{PPN}} = 1 + \tfrac{2}{3}\,e^{-m_2 r} + O(e^{-m_0 r})$ (Level~2 Yukawa, derived).
   \item At $r = 1\,\text{AU}$, $\Lambda \geq 2.38\times 10^{-3}\,\text{eV}$:
     $|\gamma - 1| \sim e^{-10^{14}} \approx 0$ (indistinguishable from GR).
-  \item SCT passes ALL solar system tests trivially (Cassini, LLR, perihelion, binary pulsars).
-  \item All preferred-frame parameters zero (diffeomorphism invariance of spectral action).
+  \item SCT passes ALL solar system tests trivially (Cassini, MESSENGER, E\"ot-Wash).
+  \item $\beta_{\text{PPN}}$: NOT\_DERIVED (requires NT-4b nonlinear field equations).
+  \item Level~1 (exact nonlocal): DEFERRED (prescription ambiguity at $\Pi_{\text{TT}}$ pole).
+  \item Level~3 (nonlinear PPN): BLOCKED (requires NT-4b).
+  \item Condition: Aristotle cloud unavailable; Layer~5 (local Lean, 35/35) compensates.
 \end{itemize}
-2829/2829 quantitative checks ALL PASS.
-See \texttt{theory/predictions/prediction\_ppn1.tex}.
+332 checks PASS (174~pytest + 123~verification + 35~Lean theorems).
+See \texttt{theory/predictions/prediction\_ppn1.tex},
+\texttt{docs/reviews/PPN1\_handoff\_v2.md}.
 
 \subsection{FUND-1: Recovery of QFT on curved spacetime}
 \label{task:FUND1}
@@ -1707,6 +1784,39 @@ the background), MT-3 (quantum formulation needed for semiclassical limit).}
 it connects the UV-complete theory to the regime where all existing particle
 physics experiments operate.
 
+\textbf{Numerical investigations (FND-1, speculative, 2026-03-24):}
+CRN (Common Random Numbers) experiments on $d{=}4$ causal sets show that two
+independent operators derived from causal structure detect spacetime curvature:
+\begin{itemize}
+  \item \textbf{Commutator $[H,M]$} (BD-comm pipeline): detects pp-wave ($C^2{=}0$,
+    $R{=}0$) at Cohen $d{=}{+}0.59$, Schwarzschild at $d{=}{-}8.72$.
+    BD d'Alembertian action is null for pp-wave---signal is non-local or boundary.
+  \item \textbf{Link-graph Laplacian} (Route~2): Fiedler eigenvalue $d{=}{-}1.18$
+    for pp-wave ($\varepsilon{=}10$), heat trace $d{=}{+}3.73$ for Schwarzschild
+    ($\varepsilon{=}0.02$). Conformal null test: exact zero ($M{=}40$, $N{=}5000$).
+  \item Both operators see beyond polynomial curvature invariants (pp-wave is VSI).
+    Dose-response monotonic in all metrics. All tests exploratory (not pre-registered).
+\end{itemize}
+These results provide numerical evidence that causal structure encodes curvature
+information accessible to discrete spectral operators, supporting the
+``emergent spectral triple'' route for FUND-1.
+
+\textbf{CJ Bridge Formula (2026-03-31):}
+The GTA framework yields the exact bridge formula connecting the discrete CJ observable
+to continuum curvature invariants in $d{=}4$ vacuum:
+\[
+  \mathrm{CJ} = \frac{8\pi^2}{3\cdot 9!\cdot 45}\, N^{8/9}\, E^2\, T^4
+  = \frac{\pi^2}{6{,}123{,}600}\, N^{8/9}\, E^2\, T^4\,,
+\]
+where $E^2 = E_{ij}E^{ij}$ is the electric Weyl invariant.
+Numerically verified to $N{=}15{,}000$ (ratio $1.00\pm 0.04$, $\chi^2$ best model).
+Coefficient decomposition: $\mathrm{BD}_{\mathrm{norm}}^2 \times B(5,5)/(4!)^2 \times \pi^2/45$
+with $(d!)^2\, C(2d,d)\, (2d{+}1) = (2d{+}1)!$ proved $\forall\, d$ in Lean~4 (Mathlib).
+Rigorous chain via Mathlib: $\int_0^1 t^4(1{-}t)^4\,dt = B(5,5)
+= \Gamma(5)^2/\Gamma(10) = (4!)^2/9!$.
+\textbf{105~sorry-free Lean~4 theorems} across 7~proof files (local + Aristotle dual).
+See \texttt{analysis/scripts/sj\_entropy\_*.py} and \texttt{proofs/cj\_bridge\_*.lean}.
+
 \subsection{COMP-1: Cross-program comparison table}
 \label{task:COMP1}
 
@@ -1760,6 +1870,19 @@ programs on all shared prediction channels.}
 
 \deps{Accumulates results from all prediction tasks. Can begin with
 existing results and be updated iteratively.}
+
+\textbf{Status (2026-04-01):} \textcolor{proven}{COMPLETE.}
+Full $6 \times 9$ comparison table: SCT vs LQG, AS, CDT, String, IDG
+across 9~quantitative axes (54/54 cells filled, 42~cited papers with
+equation numbers).  Three discriminating axes identified:
+(1)~$c_{\log}$: SCT~$+37/24$ vs LQG~$-1/2$ (opposite sign);
+(2)~UV propagator: SCT entire vs IDG Gaussian vs AS power-law vs LQG
+spinfoam; (3)~matter coupling: SCT $\alpha_C = 13/120$ parameter-free
+vs all others (free or landscape).  One universal axis: $d_S \to 2$ in UV
+(SCT, LQG, AS, IDG all give ${\sim}\,2$).  CDT has 7/9 cells ``not
+computed.''  Machine-readable JSON data file.
+See \texttt{open-problems/predictions/OP-33-cross-program-comparison.md}
+and \texttt{open-problems/data/op33\_comparison\_table.json}.
 
 \textbf{Severity: DESIRABLE.} Important for positioning SCT in the field,
 but not a theory-internal consistency requirement.
@@ -1874,6 +1997,19 @@ and resolve the black hole information paradox within the spectral framework.}
 
 \deps{MT-1 (black hole entropy), MT-3 (quantum formulation), LT-1 (UV-completeness
 needed for late-time behavior).}
+
+\textcolor{near}{PARTIAL (2026-04-04).}
+Scrambling time, Page curve, ghost contribution, nonlocality analysis, and
+firewall comparison computed.  71 pytest checks.  40 papers reviewed.
+\textbf{Key results:}
+$\delta t_s/t_s \sim 10^{-78}$ for $10\,M_\odot$ (from $c_{\log}=37/24$);
+fakeon $\delta c_{\log}=0$ exactly;
+$\ell_{\rm NL}/r_s \sim 10^{-8}$ (firewall NOT resolved by nonlocality);
+Page curve $\approx$ GR + $\mathcal{O}(e^{-m_2 r_s})$.
+Solodukhin hybrid mechanism (2212.13208) identified as closest to fakeon resolution.
+\textbf{Blocked by:} OP-02 (path integral), OP-21 (singularity), OP-01 (Gap G1).
+\texttt{.tex}: \texttt{theory/consistency-checks/LT2\_information\_paradox.tex}.
+Literature: \texttt{docs/reviews/LT2\_information\_literature.md}.
 
 \subsection{LT-3: Testable numerical predictions}
 \label{task:LT3}
@@ -2033,6 +2169,19 @@ No other experiment constrains SCT. 7.8\% tighter than PPN-1.
 \outcome{Maximum neutron star mass as a function of $\Lambda$; theoretical viability check against heavy pulsar observations.}
 
 \deps{NT-4b (full nonlinear equations are required for strong-field interior metrics).}
+
+\textbf{Status (2026-04-07):} \textcolor{proven}{COMPLETE (NEGATIVE + UV DECOUPLING THEOREM).}
+SCT corrections to stellar structure are bounded by
+$|\delta M_{\max}/M| \leq C\,e^{-\Lambda R_*/2}$ (UV Decoupling Theorem, rigorous).
+At $\Lambda_{\min} = 2.565$\,meV: $m_2 R_* \approx 3.35 \times 10^8$,
+$|\delta M/M| < 10^{-10^8}$ (identically zero to any finite precision).
+Critical scale $\Lambda_{\mathrm{crit}}(1\%) \approx 3.9 \times 10^{-11}$\,eV
+(8 orders below lab bound). No spontaneous scalarization ($m_0^2 > 0$).
+UV/IR Dichotomy: SCT is Class~I (UV), NS observations structurally irrelevant.
+Gap~G1 closed for NS: $\Theta^{(C)} < 10^{-35}$.
+GR M-R curves for SLy4, AP4, BSk20, BSk21 reproduced.
+86+ tests, 4 figures, dual TOV solver, blinding protocol.
+See \texttt{theory/predictions/LT3e\_stellar\_structure.tex}.
 
 \textbf{Severity: CRITICAL.} (Direct astrophysics falsification point).
 
@@ -2268,7 +2417,7 @@ In parallel, \textbf{MR-1 (Lorentzian spectral action)} and
 10 & PPN-1: Post-Newtonian limits & NT-4a, NT-1b & LT-3d (verification) \\
 11 & \textcolor{proven}{MT-2: Cosmology+tensions [NEGATIVE]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
 12 & \textcolor{near}{MT-1: BH entropy+4 laws [CONDITIONAL]} & NT-1b, NT-4b & LT-2, LT-3a, MR-9 \\
-13 & \textcolor{near}{INF-1: Spectral inflation [CONDITIONAL]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
+13 & \textcolor{long}{INF-1: Spectral inflation [NEGATIVE]} & NT-1b, NT-2, NT-4c & LT-3b, LT-3c \\
 13b & \textcolor{long}{INF-2: Dilaton inflation [NEGATIVE]} & INF-1, NT-1b, NT-4b & (output) \\
 14 & MT-3: Postulate 5 & NT-1, NT-1b, NT-2 & LT-1, LT-2, MR-8, FUND-1 \\
 15 & MR-7: Scattering ampl. & NT-1b, NT-4a, MR-2, MR-3 & MR-4 \\
@@ -2387,7 +2536,8 @@ CLASS: Boltzmann solver (alternative to CAMB for cross-validation).
 \textbf{Completed:} NT-1 (Dirac form factors $F_1$, $F_2$) and
 NT-1b Phases~1--3 (scalar + vector + combined SM form factors) are complete.
 Total: $4156{+}$ quantitative checks passing, 71/71~PDFs compiled,
-41~Lean identities with 46~proof files (91~Lean tests).
+41~Lean identities with 46~proof files (91~Lean tests),
+plus 105~sorry-free CJ bridge theorems across 7~files (Mathlib Gamma/Beta rigorous chain).
 Three papers published (DOIs: 10.5281/zenodo.19039242,
 10.5281/zenodo.19045796, 10.5281/zenodo.19056204).
 
@@ -2417,8 +2567,8 @@ organized in five categories:
 
 \textbf{Immediate priorities (remaining open tasks):}
 \begin{enumerate}
-  \item \textbf{META-1}: Theory census, falsifiability matrix, and cutoff
-    function $f$ sensitivity analysis (no dependencies; foundational self-audit).
+  \item \textbf{META-1} \textcolor{proven}{[\,COMPLETE\,]}: Theory census,
+    falsifiability matrix, and cutoff function $f$ sensitivity analysis.
   \item \textbf{MT-3}: Three variants of Postulate~5 (quantum formulation).
   \item \textbf{MR-8}: Non-perturbative definition (path integral over Dirac operators).
   \item \textbf{MR-9}: Black hole singularity resolution.
@@ -2469,5 +2619,140 @@ The 11 theory-consistency tasks (MR-1 through MR-9, PPN-1, FUND-1) are
 specifically designed to test whether this claim survives the requirements
 for a genuine UV-complete theory.
 Any single CRITICAL task failure would require fundamental revision of the theory.
+
+% ======================================================================
+\subsection{Cosmological explanatory status (2026-04-10)}
+\label{sec:cosmo-status}
+% ======================================================================
+
+The following honest assessment reflects cross-checked results from the
+verified SCT corpus.  Minimal SCT is a consistent, falsifiable gravity
+theory with 4196+ verified tests, but it does \textbf{not} explain dark
+energy, inflation, or dark matter from first principles.
+
+\paragraph{Dark energy.}
+\textcolor{long}{CLOSED as explanation; compatibility only.}
+MT-2 gives $\delta H^2/H^2 = 1.28 \times 10^{-64}$ (64~orders too small).
+The no-scalaron theorem forbids a real scalar graviton pole
+($\Pi_s > 1$ for all $z > 0$).
+The $a_0$~vacuum term depends on the free moment~$f_4$; the cosmological
+constant value is \emph{not predicted}.
+With the GWTC-3 bound $\Lambda > 8.50$\,meV, the meV--DE coincidence
+gives $\Lambda^4/\rho_\Lambda \approx 209$, ruling it out as an explanation.
+The MR-8 pro-torsor formalism does not yield a canonical scalar
+$\rho_{\mathrm{vac}}$.
+Surviving route: new canonical background-independent scalar global
+measure beyond the current $\mathrm{HS}_{\mathrm{sa}}$ framework.
+
+\textit{DE extension analysis (2026-04-11):}  An explicit non-Gaussian
+exact-projective tower $\nu_N$ was constructed in the diagonal
+$\mathrm{HS}$-compatible class~$\mathcal{C}_{\mathrm{diag,HS}}$,
+with partition functions $Z_2,Z_4,Z_8$ computed to 10-digit accuracy.
+Key results: (i)~$-\log Z_N$ converges to $\approx 0.0505$ (bounded,
+not extensive); (ii)~$\rho_{\mathrm{vac}}^{(N)}=-\log Z_N/N\to 0$,
+so no extensive vacuum energy density arises; (iii)~any separating
+finite-rank selector channel is tautological (Theorem~6.5 of MR-8);
+(iv)~one-loop SCT kernel ($\alpha_C$, no-scalaron, $m_2/\Lambda$)
+preserved at quadratic level.
+Root cause of subextensivity: trace-class condition
+$\sum s_i^2<\infty$ ensures mode contributions give $O(1)$
+total free energy.
+\textcolor{long}{Measure-based DE route is dead in
+$\mathcal{C}_{\mathrm{diag,HS}}$.}  Escape requires leaving
+$\mathrm{HS}_{\mathrm{sa}}$ and abandoning trace-class Gaussianity.
+Cross-checked: 0~errors, $Z_N$ verified to 10+ significant digits.
+
+\paragraph{Dark matter.}
+\textcolor{long}{No prediction; SCT constrains but does not select a DM particle.}
+Canonical NCG extensions add neutral fields
+($\nu_R$, $\sigma$, $\phi_{B\text{-}L}$, PS~remnants), but none
+simultaneously fixes stability, mass, and relic abundance from spectral
+axioms alone.  The strongest conditional candidate is the sterile
+neutrino~$\nu_R$, whose Majorana mass and mixing remain free parameters
+of the finite Dirac operator.
+
+\textit{DM extension analysis (2026-04-11):} The SM$+3\nu_R$ branch
+with lightest~$N_1$ as dark matter via resonant Shi--Fuller production
+is \textbf{viable} at the benchmark
+$m_s = 45$\,keV, $\sin^2(2\theta) = 9.1 \times 10^{-15}$,
+$L_\mu = 0.80$.  Thermal-equivalent mass $m_{\text{th}} = 11.95$\,keV
+passes structure-formation bounds ($> 8.5$\,keV).  Lifetime
+$\tau = 4.4 \times 10^{27}$\,s (cosmologically stable).
+Tree-level SI cross-section vanishes (Majorana identity);
+XENONnT/LZ kinematically blind ($E_R^{\max} \sim 10^{-8}$\,eV
+$\ll$ detector thresholds).  All SCT compatibility checks pass:
+no-scalaron, $c_{\log} = 8/5 > 0$, $\alpha_C = 1/30 > 0$,
+$m_2/\Lambda = 1.451$ (spin-2 zero preserved).
+Note: $N_D = 24$ is close to $N_D^{\text{crit}} = 24.67$
+($\alpha_C \to 0$), so the extension sits near the boundary
+of the admissible fermion space.
+NCG does not fix $M_1$, $\theta$, or~$L_\mu$; the benchmark
+is viable but not uniquely predicted.
+\textcolor{near}{Status: CONDITIONAL (viable benchmark, not prediction).}
+Discovery channel: hard X-ray line at $22.5$\,keV.
+Cross-checked: 0~errors in 20~computations, 6/6 references verified real.
+
+\textit{SM$+3\nu_R$ one-loop gravitational sector (2026-04-11):}
+Full derivation in \texttt{DM\_extension\_SM3nuR.tex}.
+ODE: $12z(3z^2+24z+62)\Pi'+3(3z^3+18z^2+110z+372)\Pi+(129z^3+810z^2-454z-1116)=0$.
+Analog of ``83/24'': $\Pi'(z_n)\to -43/12$ (verified 15~zeros).
+Real zeros: $z_0=-1.447$ (tachyonic), $z_1=+2.106$ ($m_2/\Lambda=1.451$).
+Complex spacing: $\Delta\mathrm{Im}\,z_n\to 8\pi$ (universal).
+Hadamard exponent $a_H=1/15$; ML constant $g_{ML}=-1/15$.
+Sum rule: $\sum R_\zeta/\zeta = 1/15$, real zeros saturate $98.6\%$.
+BH entropy: $c_{\log}=8/5$, $\alpha_R$ unchanged.
+All quantities scale by $\alpha_C^{\mathrm{ext}}/\alpha_C^{\mathrm{SM}}=4/13$.
+Structure (spacing, simplicity, convergence) is universal.
+NCG classification (cross-verified, 7/7 refs confirmed):
+4~NCG-canonical models identified; Pati--Salam ($N_v=21$) does \emph{not}
+fail $c_{\log}$ (arithmetic error in earlier scan corrected).
+12~independent numerical checks at 50-digit precision.
+
+\paragraph{Inflation.}
+\textcolor{long}{CLOSED in plain core; exact spectral route open.}
+INF-1: $M_{\text{scalaron}} = 15.4\,M_P$ (ratio $\sim 10^6$ to
+required value).
+Higgs inflation requires $\xi \sim 5 \times 10^4$; NCG predicts
+$\xi = 1/6$.
+INF-2 (dilaton): excluded.
+The exact non-perturbative spectral action on a cosmological ansatz
+remains the strongest surviving route, but frozen and commuting-rolling
+branches yield no Euclidean inflationary saddle.
+The non-Abelian finite-sector and genuinely Lorentzian routes are open.
+
+\textit{Inflation extension analysis (2026-04-11):} Three deliverables.
+(1)~The non-Abelian $H_3$ heat-kernel coefficient for the matrix
+Schr\"odinger operator is proven:
+$[H_3]=-\tfrac16\mathbb{V}^3+\tfrac1{12}\{\mathbb{V},\ddot{\mathbb{V}}\}
++\tfrac1{12}\dot{\mathbb{V}}^2-\tfrac1{60}\mathbb{V}^{(4)}$.
+First new terms involving $[D_F^2,\dot D_F]$ and $[D_F^2,\ddot D_F]$
+explicitly isolated; the surviving scalar correction is
+$-\operatorname{tr}_F[M,\dot M]^2\ge 0$ (sign-definite positive kinetic),
+active only when $|m_a|\neq|m_b|$ (new branch beyond $\pm m$ pairs).
+However, $H_3$ alone does not produce an inflationary plateau (kinetic,
+not potential; $\Lambda^{-2}$-suppressed).
+(2)~Lorentzian continuation via Feynman complex powers of
+$P_L=-D_{L,\mathrm{AC}}^2$ with Schwinger--Keldysh causal equations
+and fakeon TT projection gives a controlled framework; the exact
+AC-FLRW theorem is not yet available.
+(3)~One-scale impossible ($\Lambda_{\mathrm{meV}}^4/H_{\rm infl}^4
+\sim 10^{-97}$); minimal two-scale matching requires full $\Pi_{TT}$
+(not only $\alpha_C$ or $m_2$), protected by one-loop universality
+(Theorem~3.9 of MR-8); 2~new parameters $(\Lambda_{\rm UV},\mu_*)$.
+SM anomaly coefficients verified: $c=283/120$, $a=3487/1440$,
+$b=-347/180$ (scheme-dependent).
+\textcolor{near}{Status: CONDITIONAL (routes identified, no plateau yet).}
+
+\paragraph{Implication.}
+Any first-principles explanation of DE, DM, or inflation requires
+\textbf{extension} beyond the current verified one-loop core.
+The most minimal extension paths are:
+\begin{enumerate}
+  \item New canonical global measure (for DE);
+  \item Exact non-perturbative spectral action on FLRW (for inflation);
+  \item Extended spectral triple with $\nu_R$ or Pati--Salam sector (for DM).
+\end{enumerate}
+All three preserve the verified one-loop SCT core via Theorem~3.9
+(one-loop universality) of the MR-8 paper.
 
 \end{document}

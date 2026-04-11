@@ -434,6 +434,71 @@ class Verifier:
     def all_passed(self):
         return self.n_fail == 0
 
+    # ----- Intermediate Reflect Checkpoints (simulation-in-the-loop) -----
+
+    def checkpoint(self, label=""):
+        """Intermediate reflect checkpoint: halt-on-failure gate.
+
+        Call after a logical group of checks within a derivation step.
+        If any check since the last checkpoint (or since creation) has
+        failed, raises RuntimeError with details.
+
+        This implements simulation-in-the-loop: instead of running all
+        checks and reporting at the end, we catch errors at the first
+        logical boundary where they appear.
+
+        Usage in derivation scripts:
+            v = Verifier("NT-1b Step 3")
+            v.check_value("sign of E", E_val, -R/4)
+            v.check_value("P_hat", P_hat, -R/12)
+            v.checkpoint("after operator extraction")  # halts here if wrong
+
+            v.check_value("hC local limit", hC_0, 1/120)
+            v.checkpoint("after local limit")
+        """
+        recent_failures = [
+            c for c in self.checks
+            if c['status'] == 'FAIL' and c.get('_checkpoint_cleared') is not True
+        ]
+        # Mark all current checks as cleared for next checkpoint
+        for c in self.checks:
+            c['_checkpoint_cleared'] = True
+
+        if recent_failures:
+            details = "\n".join(
+                f"  - {c['label']}: got {c['computed']}, expected {c['expected']}"
+                for c in recent_failures
+            )
+            cp_label = f" [{label}]" if label else ""
+            raise RuntimeError(
+                f"CHECKPOINT FAILED{cp_label}: "
+                f"{len(recent_failures)} check(s) failed since last checkpoint:\n"
+                f"{details}"
+            )
+
+        if not self.quiet and label:
+            print(f"  CHECKPOINT OK: {label} ({self.n_pass} pass, {self.n_fail} fail)")
+
+    def reflect(self, step_description=""):
+        """Soft reflect: print current status without halting.
+
+        Use between derivation steps to log progress. Unlike checkpoint(),
+        this never raises — it just reports.
+        """
+        total = self.n_pass + self.n_fail
+        recent_fails = sum(
+            1 for c in self.checks
+            if c['status'] == 'FAIL' and not c.get('_reflect_seen')
+        )
+        for c in self.checks:
+            c['_reflect_seen'] = True
+
+        if not self.quiet:
+            status = "OK" if recent_fails == 0 else f"{recent_fails} NEW FAIL(S)"
+            label = f" [{step_description}]" if step_description else ""
+            print(f"  REFLECT{label}: {total} total, {self.n_pass} pass, "
+                  f"{self.n_fail} fail — {status}")
+
 
 # =============================================================================
 # QUICK VERIFICATION FUNCTIONS

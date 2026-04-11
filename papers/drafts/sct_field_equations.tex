@@ -89,8 +89,9 @@ We establish five central results:
 $\order(H^2/\Lam^2)$, passing the GW170817 constraint by 46~orders
 of magnitude;
 (ii)~de~Sitter spacetime is an exact, stable solution;
-(iii)~at conformal coupling $\xi = 1/6$, all spectral corrections vanish
-identically;
+(iii)~at conformal coupling $\xi = 1/6$, the \emph{local} $R^2$ coefficient
+vanishes ($\alpha_R = 0$), though the nonlocal form factor remains nonzero
+for nonzero momenta;
 (iv)~late-time corrections to the Hubble parameter are
 $\delta H^2/H^2 \sim 10^{-64}$, ensuring automatic consistency with all
 precision cosmological data;
@@ -132,9 +133,10 @@ $F_2(\Box/\Lam^2,\xi)$ for the full Standard Model particle content:
 following the Barvinsky--Vilkovisky covariant perturbation
 theory~\cite{Barvinsky:1985an,Barvinsky:1987uw} and the Codello--Zanusso
 diagrammatic heat kernel~\cite{Codello:2012kq}.  Both form factors are
-entire functions of $\Box/\Lam^2$, ensuring that the one-loop effective
-action introduces no additional propagator poles beyond those of the
-classical theory.  In a second companion paper~\cite{Alfyorov:2026ss}
+entire functions of $\Box/\Lam^2$. The propagator denominators
+$\Pi_{\mathrm{TT}}$ and $\Pi_s$ are also entire, with zeros that
+correspond to massive modes (spin-2 fakeon and, for some $\xi$,
+scalar Lee--Wick resonances).  In a second companion paper~\cite{Alfyorov:2026ss}
 (Paper~II), we extracted the linearized field equations on a flat background,
 derived the modified graviton propagator and Newtonian potential, and
 confronted the predictions with solar-system and laboratory experiments.
@@ -491,6 +493,9 @@ This is the Stelle higher-derivative gravity field
 equation~\cite{Stelle:1978} in the conventions of~\eqref{eq:full-eom},
 with the SM-derived coefficients
 $\alpha_C = 13/120$ and $\alpha_R(\xi) = 2(\xi - 1/6)^2$.
+Note: in~\eqref{eq:stelle-eom} the coefficients are
+$2\alpha_C/(16\pi^2) = 2F_1(0)$ and $\alpha_R/(16\pi^2) = F_2(0)$,
+consistent with the $1/(16\pi^2)$ prefactor in~\eqref{eq:S-quad}.
 
 \subsection{Linearized limit}
 \label{sec:linearized-limit-check}
@@ -602,16 +607,25 @@ spin decomposition of the graviton propagator.  At short distances:
   \frac{V(r)}{V_\mathrm{N}(r)} \to 1 - \frac{4}{3} + \frac{1}{3} = 0
   \quad\text{as } r \to 0,
 \end{equation}
-so the $1/r$ singularity is regularized: $V(0)$ is finite.  At large
-distances, both Yukawa terms decay exponentially and Newton's law is
-recovered.
+in the local Yukawa (Stelle) approximation with both modes present.
+\emph{Note:} when the no-scalaron theorem applies (i.e., no spin-0 mode),
+the $+\frac{1}{3}$ term is absent and $V(0)/V_\mathrm{N} = -1/3$
+instead~\cite{sct_no_scalaron}.
+Both values are artifacts of the local (Yukawa) approximation;
+the full nonlocal potential $V(0)/V_\mathrm{N}$ diverges at one-loop order
+because $1/\PiTT(z) - 1 \to -1$ as $z \to \infty$, making the Fourier
+integral $\int [1/\PiTT - 1]\,dk$ divergent at $r = 0$.
+At large distances ($r \gg 1/\Lam$), both Yukawa terms decay
+exponentially and Newton's law is recovered; in this regime the local
+approximation is valid.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.85\textwidth]{nt4a_newtonian_potential.pdf}
   \caption{Modified Newtonian potential $V(r)/V_\mathrm{N}(r)$ as a function
   of $r\,\Lam$ in the local Yukawa approximation~\eqref{eq:V-ratio}.
-  The potential vanishes at the origin ($V(0) = 0$), recovers Newton's law
+  In the local Stelle approximation (both modes present), the potential
+  vanishes at the origin ($V(0) = 0$); see text for caveats.  It recovers Newton's law
   at large distances ($V \to V_\mathrm{N}$), and features an intermediate
   repulsive regime from the spin-2 Yukawa correction.
   Dashed lines show the individual spin-2 ($-\frac{4}{3}e^{-m_2 r}$) and
@@ -621,20 +635,20 @@ recovered.
 
 \subsection{Observational bounds}
 
-Confrontation with seven gravitational experiments (torsion-balance,
-time-delay, Casimir, satellite, and lunar-ranging measurements) yields the
-bound~\cite{Alfyorov:2026ss}
+Confrontation with gravitational experiments yields a lower
+bound on the spectral cutoff.  The dedicated bound from the
+no-scalaron analysis~\cite{Alfyorov:2026ns}, using the single-Yukawa
+(spin-2 only) potential with the nonlocal mass $m_2 = 1.554\,\Lam$,
+gives
 \begin{equation}\label{eq:Lambda-bound}
-  \Lam > 2.565 \times 10^{-3}\;\mathrm{eV}
-  \qquad (1/\Lam < 77\;\mu\mathrm{m}),
+  \Lam > 3.53 \times 10^{-3}\;\mathrm{eV}
+  \qquad (1/\Lam < 55.9\;\mu\mathrm{m}),
 \end{equation}
-at $95\%$ confidence level.  This bound comes from the E\"ot-Wash torsion
-balance experiment~\cite{Alfyorov:2026ss}, which constrains the Yukawa
-modification of the Newtonian potential at sub-millimetre distances.  A
-slightly weaker bound $\Lam > 2.38 \times 10^{-3}\;\mathrm{eV}$ is
-obtained from the Cassini spacecraft time-delay measurement (PPN-1);
-throughout this paper we adopt the tighter torsion-balance bound as the
-primary constraint.  All post-Newtonian parameters satisfy
+from the E\"ot-Wash torsion-balance experiment.
+Earlier estimates using the double-Yukawa (Stelle) parametrization
+with local masses gave weaker bounds ($\Lam > 2.565$~meV from
+Eöt-Wash, $\Lam > 2.38$~meV from Cassini); these are superseded
+by~\eqref{eq:Lambda-bound}.  All post-Newtonian parameters satisfy
 experimental constraints with exponential margin~\cite{Will:2014}.
 
 \begin{figure}[t]
@@ -1249,7 +1263,7 @@ most introduce polynomial dependence on $H^2/M^2$.  The entireness of $F$
 prevents $\Box^{-1}$ terms that would introduce infrared-enhanced
 contributions.
 
-The implication is clear: UV-complete nonlocal gravity theories (SCT, IDG)
+The implication is clear: nonlocal gravity theories with entire-function form factors (SCT, IDG)
 are structurally incapable of producing order-unity cosmological corrections
 unless $M \sim H_0$, which would conflict with short-distance tests of
 gravity.  Conversely, the automatic consistency of such theories with
@@ -1349,7 +1363,6 @@ early-universe dynamics (inflation driven by the $R^2$ sector).
 \section*{Acknowledgments}
 % ============================================================
 
-The author thanks Aliaksandr Samatyia for research assistance and workflow
 support.
 
 % ============================================================

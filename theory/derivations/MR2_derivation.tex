@@ -58,7 +58,6 @@
 \maketitle
 
 \begin{center}
-\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
 \end{center}
 
 \begin{abstract}
@@ -705,9 +704,12 @@ The $\Rsq$ coefficient in the SCT effective action is
 \end{equation}
 For $\xi \neq 1/6$, the positive $\Rsq$ term bounds the Euclidean
 action from below in the conformal direction.  At conformal coupling
-$\xi = 1/6$, $\alpha_R = 0$ but $\Pis(z, 1/6) \equiv 1$: the scalar
-sector decouples completely, and there is no conformal degree of freedom
-to be unstable.
+$\xi = 1/6$, the \emph{local} coefficient $\alpha_R(0) = 0$, but the
+nonlocal form factor satisfies $\alpha_R(z, 1/6) > 0$ for $z > 0$
+(Dirac and vector contributions survive), giving $\Pis(z, 1/6) > 1$.
+\textbf{Erratum (2026-04-07):} the earlier claim $\Pis \equiv 1$ at
+conformal coupling was incorrect; see the no-scalaron theorem.
+In either case, there is no conformal instability.
 \end{proof}
 
 Numerical verification at representative values:
@@ -718,7 +720,7 @@ $\xi$ & $\alpha_R(\xi)$ & $\Pis(z,\xi)$ decouples? & Status \\
 \midrule
 $0$ & $0.0556$ & No & Stable \\
 $0.1$ & $0.0089$ & No & Stable \\
-$1/6$ & $0$ & Yes ($\Pis \equiv 1$) & Stable \\
+$1/6$ & $0$ (local) & No ($\Pis > 1$, nonlocal) & Stable \\
 $0.5$ & $0.2222$ & No & Stable \\
 $1.0$ & $1.3889$ & No & Stable \\
 \bottomrule
@@ -763,12 +765,13 @@ The scalar propagator denominator is
 \begin{equation}
   \Pis(z,\xi) = 1 + 6\!\left(\xi - \frac{1}{6}\right)^{\!2} z\,\Fhat_2(z,\xi).
 \end{equation}
-At conformal coupling $\xi = 1/6$:
-\begin{equation}
-  \Pis(z, 1/6) \equiv 1 \qquad \forall\,z.
-\end{equation}
-The scalar sector is \emph{identically ghost-free} at conformal
-coupling.  Numerically verified: $|\Pis(z, 1/6) - 1| < 10^{-15}$ for
+The universal formula (valid for all $\xi$ including $1/6$) is
+$\Pis(z,\xi) = 1 + 3z\,\alpha_R(z,\xi)$, where $\alpha_R(z,\xi)$ is the
+full $z$-dependent $R^2$ form factor. At conformal coupling $\xi = 1/6$,
+$\alpha_R(0, 1/6) = 0$ (the local $R^2$ coefficient vanishes) but
+$\alpha_R(z, 1/6) > 0$ for $z > 0$, so $\Pis > 1$.
+\textbf{Erratum:} the previous claim $\Pis \equiv 1$ was incorrect.
+The scalar sector is ghost-free at conformal coupling (and at all $\xi$). Verified:
 all tested $z \in [0.01, 100]$.
 
 For $\xi \neq 1/6$, the scalar sector propagator has its own pole

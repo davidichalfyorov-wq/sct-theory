@@ -449,8 +449,9 @@ def conformal_factor_analysis(dps: int = 50) -> dict:
         "mechanism": (
             "The R^2 coefficient alpha_R(xi) = 2*(xi - 1/6)^2 is non-negative "
             "for all values of the Higgs non-minimal coupling xi. "
-            "At conformal coupling xi = 1/6, alpha_R = 0 and the scalar sector "
-            "decouples completely (Pi_s = 1 identically). "
+            "At conformal coupling xi = 1/6, the LOCAL coefficient alpha_R(0) = 0, "
+            "but the nonlocal form factor alpha_R(z, 1/6) > 0 for z > 0 "
+            "(Pi_s > 1, no real scalar pole). "
             "For xi != 1/6, alpha_R > 0 provides a positive-definite R^2 term "
             "that stabilizes the conformal direction of the Euclidean action. "
             "The nonlocal form factor F_2(Box/Lambda^2) does not change the "
@@ -601,7 +602,7 @@ def generate_verdict() -> dict:
             "confidence": "HIGH",
             "evidence": (
                 "alpha_R(xi) = 2*(xi - 1/6)^2 >= 0 for ALL xi. "
-                "At xi = 1/6: scalar sector decouples (Pi_s = 1). "
+                "At xi = 1/6: local R^2 coefficient vanishes (Pi_s > 1 for z > 0). "
                 "For xi != 1/6: positive R^2 coefficient stabilizes the "
                 "conformal direction of the Euclidean action. "
                 "The nonlocal form factor preserves this sign."

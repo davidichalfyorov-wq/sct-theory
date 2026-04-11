@@ -1,0 +1,10 @@
+import Mathlib
+#check Summable.prod_factor
+#check Summable.prod
+#check Summable.tsum_prod
+#check Summable.tsum_prod_uncurry
+#check Summable.mul_left
+#check Summable.mul_right
+#check squeeze_zero_norm
+#check Tendsto.const_mul
+#check Tendsto.mul_const

@@ -1,0 +1,89 @@
+{
+  "adversary": {
+    "test": "adversary",
+    "d_geo": 2.765,
+    "d_rdag": 4.304,
+    "ratio": 1.557,
+    "mean_geo": 0.2141,
+    "mean_rdag": 0.1944,
+    "verdict": "KILL"
+  },
+  "n_convergence": {
+    "test": "n_convergence",
+    "results": [
+      {
+        "N": 300,
+        "n_interior": 64,
+        "d_dcor": 5.343,
+        "d_pearson": 0.509,
+        "d_spearman": -0.096,
+        "mean_dcor": 0.2258,
+        "std_dcor": 0.0423,
+        "mean_pearson": 0.0833,
+        "mean_spearman": -0.0108,
+        "elapsed_s": 1.1
+      },
+      {
+        "N": 500,
+        "n_interior": 118,
+        "d_dcor": 3.686,
+        "d_pearson": 1.858,
+        "d_spearman": -0.098,
+        "mean_dcor": 0.2168,
+        "std_dcor": 0.0588,
+        "mean_pearson": 0.1767,
+        "mean_spearman": -0.0098,
+        "elapsed_s": 4.4
+      }
+    ],
+    "verdict": "CONDITIONAL"
+  },
+  "pearson_equiv": {
+    "test": "pearson_equivalence",
+    "spearman_dcor_r2": 0.836,
+    "spearman_dcor_r": 0.789,
+    "d_dcor": 3.603,
+    "d_pearson": 0.649,
+    "d_pearson_sq": 0.721,
+    "verdict": "REDUNDANT"
+  },
+  "stratified": {
+    "test": "stratified_dcor",
+    "d_global": 4.029,
+    "d_strat": 4.708,
+    "ratio": 1.169,
+    "mean_global": 0.2459,
+    "mean_strat": 0.3194,
+    "verdict": "GENUINE"
+  },
+  "subsample": {
+    "test": "subsample_sensitivity",
+    "results": {
+      "30": {
+        "d": 3.387,
+        "mean": 0.3171
+      },
+      "50": {
+        "d": 4.533,
+        "mean": 0.2662
+      },
+      "100": {
+        "d": 3.997,
+        "mean": 0.2226
+      },
+      "150": {
+        "d": 3.997,
+        "mean": 0.2226
+      },
+      "999": {
+        "d": 3.997,
+        "mean": 0.2226
+      }
+    },
+    "cv": 0.091,
+    "verdict": "STABLE"
+  },
+  "meta": {
+    "elapsed_sec": 25.7
+  }
+}

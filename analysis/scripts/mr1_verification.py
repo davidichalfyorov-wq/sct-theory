@@ -118,11 +118,14 @@ def layer1_analytic():
     check("L1.5 Pi_TT(0)~1", abs(pi0 - 1) < mp.mpf("0.001"),
           f"Pi_TT(1e-4)={float(pi0):.10f}")
 
-    # 1.6  Pi_s(z, xi=1/6) = 1 (conformal decoupling, exact)
+    # 1.6  Pi_s(z, xi=1/6) > 1 for z > 0 (nonlocal R^2 survives)
+    # NOTE (2026-04-07): corrected from "Pi_s = 1" to "Pi_s > 1".
+    # The local R^2 coefficient vanishes at conformal coupling but the
+    # nonlocal form factor alpha_R(z, 1/6) is nonzero for z > 0.
     xi_conf = float(mp.mpf(1) / 6)
     for zL in [0.1, 1.0, 5.0, 50.0]:
         ps = Pi_s_lorentzian(zL, xi=xi_conf, dps=DPS)
-        check(f"L1.6 Pi_s(xi=1/6) conformal z_L={zL}", abs(ps - 1) < mp.mpf("1e-15"),
+        check(f"L1.6 Pi_s(xi=1/6) > 1 z_L={zL}", float(ps) > 1.0,
               f"Pi_s={float(ps):.18f}")
 
     # 1.7  Residue sign: R_L < 0 (ghost at Lorentzian zero)

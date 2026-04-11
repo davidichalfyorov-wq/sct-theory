@@ -1,0 +1,519 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\sa}{\mathrm{sa}}
+\newcommand{\cF}{\mathcal F}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Law}{\operatorname{Law}}
+\newcommand{\Id}{\mathrm{Id}}
+
+\newcommand{\statusproven}{\textcolor{green!50!black}{\textsf{[PROVEN]}}}
+\newcommand{\statuscond}{\textcolor{orange!80!black}{\textsf{[CONDITIONAL]}}}
+\newcommand{\statusinterp}{\textcolor{blue!60!black}{\textsf{[INTERPRETIVE]}}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{SCT Theory --- MR-8 Endpoint}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={MR-8: Nonperturbative Selector Endpoint in Spectral Causal Theory},
+  pdfauthor={David Alfyorov},
+}
+
+\title{%
+  \textbf{MR-8: Nonperturbative Selector Endpoint}\\[4pt]
+  \textbf{in Spectral Causal Theory}\\[8pt]
+  \large Finite-Rank Tautology, Universal Sufficiency, and the Remaining Loophole
+}
+\author{David Alfyorov}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\end{center}
+
+\begin{abstract}
+We record the current mathematical endpoint of MR-8, the problem of a
+nonperturbative external selector for Spectral Causal Theory (SCT).  The
+main unconditional result is stark: at finite rank, every separating
+state-independent selector channel must be injective; every injective
+measurable channel with standard Borel codomain is a lossless Borel
+re-encoding of the full truncation; and every such injective channel is
+automatically sufficient in the sense of the projective criterion of
+MR-8 v44.  Therefore the only finite-rank selector towers that can
+possibly succeed are the tautological ones equivalent to the identity
+truncation itself.  This leaves a single thin loophole: allow
+tautological re-encodings as admissible selector channels.  Under the
+explicit non-tautology axiom forbidding that loophole, a full no-go
+theorem follows immediately.  We separate throughout what is proven, what
+is conditional, and what is an archive-grounded interpretation of the
+intended MR-8 program.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Scope}
+
+The earlier MR-8 archive established the following background facts.
+
+\begin{enumerate}[leftmargin=2.2em]
+  \item The naive spectral-action path integral diverges.
+  \item Corrected two-sided Gaussian local completions exist sectorwise.
+  \item Global Gaussian gluing fails across generic sectors.
+  \item The correct global object is a pro-torsor of local completed
+        measure classes together with density-valued observables.
+  \item Internal selectors fail.
+  \item External selectors on a fixed sector are classified by sector
+        weights plus terminal densities.
+  \item The post-v44 unresolved problem is the existence of a
+        physically motivated finite-rank channel tower, fixed
+        \emph{independently of the selected state}, that realizes those
+        external states levelwise.
+\end{enumerate}
+
+This note concerns only the last point.  It does not revisit the
+construction of the torsor/density formalism itself.
+
+\section{Finite-Rank Setup}
+
+Fix one compact-resolvent completed sector, as in v44.  Let
+\[
+(\Omega,\cF,\mu)
+\]
+be the ambient completed probability space, and let
+\[
+\pi_N:\Omega\to\Omega_N
+\]
+be the level-$N$ truncation map.  Write
+\[
+\cF_N:=\sigma(\pi_N).
+\]
+
+We assume the standard measurable hypotheses already used in v42--v44:
+
+\begin{itemize}[leftmargin=2em]
+  \item each $\Omega_N$ is a standard Borel space;
+  \item each finite-rank channel codomain $Y_N$ is standard Borel;
+  \item ambient channel codomains $Y$ considered below are standard
+        Borel;
+  \item regular conditional laws exist in the standard way.
+\end{itemize}
+
+For the SCT finite-rank truncations relevant here,
+\[
+\Omega_N \cong \HS_{\sa}(H_N)
+\]
+for a finite-dimensional Hilbert space $H_N$.  Hence $\Omega_N$ is a
+finite-dimensional real vector space and therefore a Polish, in fact
+standard Borel, space.
+
+\section{Separating Channels Must Be Injective}
+
+\begin{theorem}[Point-separation obstruction]
+\label{thm:separating-injective}
+Let $X$ be a standard Borel space and let
+\[
+B:X\to Y
+\]
+be any map.  If
+\[
+\sigma(B)=\cB(X),
+\]
+then $B$ is injective.
+\end{theorem}
+
+\begin{proof}
+Assume that $B$ is not injective.  Then there exist $x\neq x'$ in $X$
+such that $B(x)=B(x')$.
+
+Because $X$ is standard Borel, the singleton $\{x\}$ is Borel.  If
+$\sigma(B)=\cB(X)$, then there exists some set $E\subseteq Y$ such that
+\[
+\{x\}=B^{-1}(E).
+\]
+But $B(x)=B(x')$ implies
+\[
+x\in B^{-1}(E)\iff x'\in B^{-1}(E),
+\]
+contradicting $x\in\{x\}$ and $x'\notin\{x\}$.  Therefore $B$ must be
+injective.
+\end{proof}
+
+\begin{corollary}
+\label{cor:finite-rank-injective}
+If a finite-rank channel
+\[
+B_N:\Omega_N\to Y_N
+\]
+is separating,
+\[
+\sigma(B_N)=\cB(\Omega_N),
+\]
+then $B_N$ is injective.
+\end{corollary}
+
+\begin{proof}
+Apply \cref{thm:separating-injective} with $X=\Omega_N$.
+\end{proof}
+
+\begin{remark}
+This is the exact finite-rank content of the v42 requirement that a
+successful selector must act on a measure-determining observable class.
+At finite rank, measure determination already forces pointwise
+separation.
+\end{remark}
+
+\section{Injective Channels Are Tautological Re-Encodings}
+
+We now isolate the only standard descriptive-set-theoretic input used in
+this note.
+
+\begin{proposition}[Standard Borel factorization input]
+\label{prop:factorization-input}
+Let $X,Y,Z$ be standard Borel spaces, let $f:X\to Y$ be measurable, and
+let $g:X\to Z$ be $\sigma(f)$-measurable.  Then there exists a
+measurable map
+\[
+h:Y\to Z
+\]
+such that
+\[
+g=h\circ f.
+\]
+\end{proposition}
+
+\begin{remark}
+\cref{prop:factorization-input} is the standard measurable factorization
+theorem on standard Borel spaces.  We use it as a standard external
+input, exactly as one uses disintegration or Lusin--Souslin.
+\end{remark}
+
+\begin{theorem}[Finite-rank tautology theorem]
+\label{thm:tautology}
+Let
+\[
+B_N:\Omega_N\to Y_N
+\]
+be measurable, with both $\Omega_N$ and $Y_N$ standard Borel.  If
+$B_N$ is injective, then $B_N$ is a Borel re-encoding of the full
+truncation: there exists a measurable map
+\[
+\Psi_N:B_N(\Omega_N)\to \Omega_N
+\]
+such that
+\[
+\Psi_N(B_N(x))=x
+\qquad
+\forall x\in\Omega_N.
+\]
+\end{theorem}
+
+\begin{proof}
+Because $\Omega_N$ is finite-dimensional Polish, choose a Borel
+isomorphism
+\[
+\chi_N:\Omega_N\to \chi_N(\Omega_N)\subseteq \R^{d_N},
+\qquad d_N:=\dim_{\R}\Omega_N.
+\]
+Write
+\[
+\chi_N=(\chi_{N,1},\dots,\chi_{N,d_N}).
+\]
+Each coordinate function
+\[
+\chi_{N,j}:\Omega_N\to \R
+\]
+is Borel and therefore $\sigma(B_N)$-measurable.  By
+\cref{prop:factorization-input}, for each $j$ there exists a measurable
+map
+\[
+f_{N,j}:Y_N\to \R
+\]
+such that
+\[
+\chi_{N,j}=f_{N,j}\circ B_N.
+\]
+Define
+\[
+F_N:Y_N\to \R^{d_N},
+\qquad
+F_N:=(f_{N,1},\dots,f_{N,d_N}).
+\]
+Then
+\[
+F_N(B_N(x))=\chi_N(x)
+\qquad
+\forall x\in\Omega_N.
+\]
+Hence the image $F_N(B_N(\Omega_N))$ lies in $\chi_N(\Omega_N)$, and we
+may define
+\[
+\Psi_N:=\chi_N^{-1}\circ F_N\big|_{B_N(\Omega_N)}.
+\]
+This map is measurable and satisfies
+\[
+\Psi_N(B_N(x))
+=
+\chi_N^{-1}(F_N(B_N(x)))
+=
+\chi_N^{-1}(\chi_N(x))
+=
+x.
+\]
+Therefore $B_N$ is a Borel re-encoding of the full truncation.
+\end{proof}
+
+\begin{corollary}
+\label{cor:tautology-from-separation}
+Every separating finite-rank channel is a tautological re-encoding of the
+full truncation.
+\end{corollary}
+
+\begin{proof}
+Combine \cref{cor:finite-rank-injective} with \cref{thm:tautology}.
+\end{proof}
+
+\section{Injective Channels Are Universally Sufficient}
+
+Let
+\[
+B_N:\Omega_N\to Y_N
+\]
+be a measurable finite-rank channel, and write
+\[
+\widetilde B_N:=B_N\circ \pi_N:\Omega\to Y_N.
+\]
+
+\begin{theorem}[Injective channels recover the truncation]
+\label{thm:recover-truncation}
+If $B_N$ is injective, then
+\[
+\cF_N=\sigma(\widetilde B_N).
+\]
+\end{theorem}
+
+\begin{proof}
+By \cref{thm:tautology}, there exists a measurable inverse
+\[
+\Psi_N:B_N(\Omega_N)\to\Omega_N
+\]
+with $\Psi_N(B_N(x))=x$ for all $x\in\Omega_N$.  Therefore
+\[
+\pi_N(\omega)
+=
+\Psi_N(B_N(\pi_N(\omega)))
+=
+\Psi_N(\widetilde B_N(\omega))
+\qquad
+\forall \omega\in\Omega.
+\]
+So $\pi_N$ is measurable with respect to $\sigma(\widetilde B_N)$, which
+implies
+\[
+\cF_N=\sigma(\pi_N)\subseteq \sigma(\widetilde B_N).
+\]
+The reverse inclusion is automatic because
+\[
+\widetilde B_N=B_N\circ \pi_N
+\]
+is $\cF_N$-measurable.  Hence the two $\sigma$-fields coincide.
+\end{proof}
+
+\begin{theorem}[Universal sufficiency theorem]
+\label{thm:universal-sufficiency}
+If $B_N$ is injective, then for every ambient channel
+\[
+B:\Omega\to Y
+\]
+with standard Borel codomain $Y$, the finite-rank channel $B_N$ is
+sufficient for $B$ relative to $\cF_N$.  Equivalently, there exists a
+measurable map
+\[
+K_N:Y_N\to \cP(Y)
+\]
+such that
+\[
+\Law_\mu(B\mid \cF_N)
+=
+K_N\circ \widetilde B_N
+\qquad
+\mu\text{-a.s.}
+\]
+\end{theorem}
+
+\begin{proof}
+By \cref{thm:recover-truncation},
+\[
+\cF_N=\sigma(\widetilde B_N).
+\]
+The regular conditional law
+\[
+\omega\mapsto \Law_\mu(B\mid \cF_N)(\omega)
+\]
+is $\cF_N$-measurable and takes values in the standard Borel space
+$\cP(Y)$.  Applying \cref{prop:factorization-input} to
+$f=\widetilde B_N$ and
+$g=\Law_\mu(B\mid \cF_N)$ yields a measurable map
+\[
+K_N:Y_N\to \cP(Y)
+\]
+such that
+\[
+\Law_\mu(B\mid \cF_N)=K_N\circ \widetilde B_N
+\qquad
+\mu\text{-a.s.}
+\]
+This is exactly the v44 sufficiency criterion.
+\end{proof}
+
+\begin{corollary}
+\label{cor:only-tautological-survive}
+The only finite-rank selector channels that can possibly satisfy the
+v42--v44 burden are the tautological ones equivalent to the identity
+truncation.
+\end{corollary}
+
+\begin{proof}
+If a finite-rank channel can satisfy the v42 burden, it must be
+separating; by \cref{cor:tautology-from-separation} it is tautological.
+Conversely, by \cref{thm:universal-sufficiency}, every such tautological
+channel is automatically sufficient in the v44 sense.
+\end{proof}
+
+\section{Consequences for Natural Coarse Channels}
+
+The working-note chain v46--v50 established theorem-level negative
+results for the following natural finite-rank selector patterns:
+
+\begin{itemize}[leftmargin=2em]
+  \item natural conjugacy-invariant spectral channels;
+  \item compression-only boundary channels;
+  \item boundary restrictions of equivariant operator functionals;
+  \item standard SJ boundary truncations under full basis covariance;
+  \item proper-subspace SJ-type truncations under the weaker relative
+        phase-covariance hypothesis;
+  \item finite families of correlators on a proper test subspace.
+\end{itemize}
+
+Together with \cref{cor:only-tautological-survive}, these results show
+that all investigated \emph{nontrivial coarse} selector routes fail.  The
+only finite-rank survivors are identity-like recodings of the full
+truncation itself.
+
+\section{Conditional No-Go Under Non-Tautology}
+
+\begin{definition}[Finite-rank non-tautology axiom]
+\label{def:NT}
+An admissible finite-rank selector channel
+\[
+B_N:\Omega_N\to Y_N
+\]
+is said to satisfy \emph{non-tautology} if it is not Borel-equivalent to
+the identity truncation.
+\end{definition}
+
+\begin{theorem}[Conditional Option C closure]
+\label{thm:conditional-option-c}
+Assume that every admissible finite-rank selector channel satisfies
+\cref{def:NT}.  Then no external selector tower can satisfy the v42--v44
+program.  Equivalently, under non-tautology, Option~C holds.
+\end{theorem}
+
+\begin{proof}
+Suppose, for contradiction, that an admissible external selector tower
+solves the v42--v44 problem.  Then each finite-rank channel must be
+separating; otherwise density-gauge ambiguity already survives at finite
+rank.  By \cref{cor:tautology-from-separation}, each such channel is
+Borel-equivalent to the identity truncation, contradicting
+\cref{def:NT}.  Therefore no such admissible tower exists.
+\end{proof}
+
+\begin{remark}
+The preceding theorem is conditional because non-tautology is an explicit
+admissibility axiom rather than a purely measure-theoretic theorem.
+\end{remark}
+
+\section{Status of MR-8}
+
+We summarize the endpoint in three layers.
+
+\subsection*{Proven}
+\statusproven
+\begin{itemize}[leftmargin=2em]
+  \item Option~A, the torsor/density endpoint, is mathematically complete.
+  \item Every investigated nontrivial coarse finite-rank selector
+        pattern fails.
+  \item The only finite-rank selector towers that can survive are the
+        tautological ones equivalent to the full truncation.
+  \item These tautological towers are automatically sufficient in the
+        sense of v44.
+\end{itemize}
+
+\subsection*{Conditional}
+\statuscond
+\begin{itemize}[leftmargin=2em]
+  \item If tautological finite-rank re-encodings are ruled out by an
+        explicit admissibility axiom, then Option~C follows immediately.
+\end{itemize}
+
+\subsection*{Interpretive}
+\statusinterp
+\begin{itemize}[leftmargin=2em]
+  \item The language of v44--v45 already treats the target selector as a
+        genuine coarse external readout and treats tautological/vacuous
+        towers as failures of meaning.
+  \item Under that archive-grounded reading, the negative closure is the
+        likely intended endpoint of MR-8.
+\end{itemize}
+
+\section{Conclusion}
+
+The current mathematical endpoint of MR-8 is a sharp dichotomy.
+
+\begin{quote}
+Either one accepts the torsor/density formalism of Option~A, or one
+allows only tautological external selector towers that are equivalent to
+the full finite-rank truncation itself.
+\end{quote}
+
+If tautological re-encodings are excluded as physically vacuous, then the
+program closes negatively and Option~C holds.
+
+This is substantially stronger than the original candidate-by-candidate
+formulation of the problem.
+
+\end{document}

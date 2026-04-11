@@ -68,6 +68,12 @@ def phi(x):
         phi(0) = 1
         phi(x) ~ sqrt(pi/x) * exp(-x/4) * erfi(sqrt(x)/2) for x > 0
         phi(x) ~ 2/x for x -> infinity
+
+    Implementation: uses scipy.integrate.quad for x < 700, falls back to
+    phi_fast (Dawson function) for x >= 700 where quad underflows to 0.
+    Bug fix 2026-04-11: quad returns 0.0 for x > ~700 due to float64
+    underflow of exp(-x/4), causing wrong UV asymptotics in all form
+    factors that call phi(). Dawson-based phi_fast is accurate at all x.
     """
     x = float(x)
     if not np.isfinite(x):
@@ -76,6 +82,9 @@ def phi(x):
         raise ValueError(f"phi: requires x >= 0, got {x}")
     if abs(x) < 1e-12:
         return 1.0
+    if x >= 700:
+        # quad underflows here; use Dawson-based closed form
+        return phi_fast(x)
     result, _ = quad(lambda a: np.exp(-a * (1 - a) * x), 0, 1)
     return result
 

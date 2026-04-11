@@ -87,4 +87,3 @@ For a newcomer:
 
 ## Author and Credits
 - Author of formal theory documents: `David Alfyorov`
-- Research-assistance and workflow support: `Aliaksandr Samatyia`

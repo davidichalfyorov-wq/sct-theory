@@ -1,0 +1,12 @@
+Dear Editor,
+
+We submit the manuscript "Nonlocal one-loop form factors from spectral causal theory" for consideration in Classical and Quantum Gravity.
+
+The paper computes the complete nonlocal one-loop form factors F_1 and F_2 of the curvature-squared effective action for the full Standard Model particle content within the spectral action framework. Using Barvinsky-Vilkovisky covariant perturbation theory and the Codello-Zanusso diagrammatic heat kernel, we derive closed-form results for each spin sector in the Weyl basis {C^2, R^2}.
+
+The main results are: the local Weyl-squared coefficient alpha_C = 13/120 and R-squared coefficient alpha_R = 2(xi - 1/6)^2; entireness of both form factors, which excludes additional propagator poles at one loop; the scalar graviton decoupling condition at conformal coupling; and a modified Newtonian potential with calculable effective masses. All analytic results are checked by independent numerical evaluation.
+
+The manuscript has not been submitted elsewhere.
+
+Sincerely,
+David Alfyorov

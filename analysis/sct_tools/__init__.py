@@ -20,14 +20,19 @@ Modules:
     cas_backends   — Triple CAS cross-verification: SymPy × GiNaC × mpmath (Layer 4.5)
     form_interface — FORM 5.0 subprocess interface for large symbolic expressions
                      (gamma traces, heat kernel)
+    metadata       — Structured computation metadata (ComputationRecord, save/load)
     plotting       — Publication-quality plotting defaults (SciencePlots, PRL/PRD compatible)
     propagator     — Linearized-field and modified-propagator utilities for NT-4a
+    provenance     — Provenance chain tracing (derivation ancestry, impact analysis)
+    quick_check    — Simulation-in-the-loop fast sanity checks (~20 checks, <5s)
+    consistency_matrix — Cross-derivation consistency DAG (dependency tracking)
 """
 
 __version__ = "0.7.0"
 
 from . import cas_backends as cas_backends
 from . import compute as compute
+from . import consistency_matrix as consistency_matrix
 from . import constants as constants
 from . import data_io as data_io
 from . import entanglement as entanglement
@@ -37,8 +42,11 @@ from . import form_factors as form_factors
 from . import form_interface as form_interface
 from . import graphs as graphs
 from . import lean as lean
+from . import metadata as metadata
 from . import plotting as plotting
 from . import propagator as propagator
+from . import provenance as provenance
+from . import quick_check as quick_check
 from . import tensors as tensors
 from . import verification as verification
 from .constants import log_dimensions
@@ -52,9 +60,11 @@ from .form_factors import (
 )
 
 __all__ = [
-    "cas_backends", "compute", "constants", "data_io", "entanglement",
-    "entire_function", "fitting", "form_factors", "form_interface",
-    "graphs", "lean", "plotting", "propagator", "tensors", "verification",
+    "cas_backends", "compute", "consistency_matrix", "constants",
+    "data_io", "entanglement", "entire_function", "fitting",
+    "form_factors", "form_interface", "graphs", "lean", "metadata",
+    "plotting", "propagator", "provenance", "quick_check",
+    "tensors", "verification",
     "dhC_dirac_dx", "dhC_scalar_dx", "dhC_vector_dx",
     "dhR_dirac_dx", "dhR_scalar_dx", "dhR_vector_dx",
     "log_dimensions",

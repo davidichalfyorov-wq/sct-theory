@@ -1,0 +1,126 @@
+{
+  "u1_conditions": [
+    {
+      "geometry": "ppwave",
+      "predicate": "cubic",
+      "T": 0.7,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "exact",
+      "T": 0.7,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "schwarzschild_local",
+      "predicate": "cubic",
+      "T": 0.7,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15,
+      "r0": 0.5
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "cubic",
+      "T": 0.7,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "exact",
+      "T": 0.7,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "schwarzschild_local",
+      "predicate": "cubic",
+      "T": 0.7,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15,
+      "r0": 0.5
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "cubic",
+      "T": 0.5,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "exact",
+      "T": 0.5,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "schwarzschild_local",
+      "predicate": "cubic",
+      "T": 0.5,
+      "q": 0.1,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15,
+      "r0": 0.5
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "cubic",
+      "T": 0.5,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "ppwave",
+      "predicate": "exact",
+      "T": 0.5,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15
+    },
+    {
+      "geometry": "schwarzschild_local",
+      "predicate": "cubic",
+      "T": 0.5,
+      "q": 0.2,
+      "N": 10000,
+      "n_seeds": 50,
+      "zeta": 0.15,
+      "r0": 0.5
+    }
+  ],
+  "verdict_thresholds": {
+    "pass": [
+      0.8,
+      1.25
+    ],
+    "borderline": [
+      0.65,
+      1.5
+    ]
+  }
+}

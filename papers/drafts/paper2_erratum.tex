@@ -1,0 +1,67 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+
+\hypersetup{
+  pdfauthor={David Alfyorov, Igor Shnyukov},
+  pdftitle={Erratum: Solar system and laboratory tests of spectral causal theory},
+}
+
+\title{\textbf{Erratum: Solar system and laboratory tests\\
+of spectral causal theory}}
+\author{David Alfyorov, Igor Shnyukov}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+This erratum corrects two issues in Ref.~[1]
+(doi:10.22541/au.177524450.03515205/v1).
+
+\paragraph{1. Scalar Yukawa term in the modified Newtonian potential.}
+Equation~(12) of Ref.~[1] gives the modified Newtonian potential as
+\begin{equation}
+  \frac{V(r)}{V_N(r)} = 1 - \frac{4}{3}\,e^{-m_2 r} + \frac{1}{3}\,e^{-m_0 r},
+\end{equation}
+with the scalar mass $m_0 = \Lambda\sqrt{6}$ at $\xi = 0$.
+This formula uses the \emph{local} (Yukawa) approximation, in which
+both the spin-2 and scalar poles of the propagator contribute.
+
+Subsequent analysis~[2] has shown that the scalar propagator
+denominator $\Pi_s(z,\xi) > 1$ for all positive Euclidean momenta
+$z > 0$ and all $\xi$: the scalar pole does not exist in the full
+nonlocal theory. The ``scalar mass'' $m_0 = \Lambda\sqrt{6}$ is an
+artifact of the local approximation and does not correspond to a
+physical propagator pole. The correct potential is the single-Yukawa
+form
+\begin{equation}
+  \frac{V_{\mathrm{SCT}}(r)}{V_N(r)} = 1 - \frac{4}{3}\,e^{-m_2 r},
+\end{equation}
+where $m_2 = 1.554\,\Lambda$ (from the exact zero of $\Pi_{\mathrm{TT}}$,
+correcting the local-approximation value $m_2^{\mathrm{loc}} = 2.148\,\Lambda$).
+
+\paragraph{2. Torsion-balance bound.}
+The bound $\Lambda > 2.38$~meV in Table~2 of Ref.~[1] was derived
+using the double-Yukawa potential and the local spin-2 mass.
+Using the corrected single-Yukawa formula with the exact mass
+$m_2 = 1.554\,\Lambda$ and the Lee~et~al.\ (2020) exclusion curve
+at $|\alpha| = 4/3$, the dedicated bound becomes
+$\Lambda > 3.53$~meV.
+
+The PPN parameters $\gamma - 1$ and $\beta - 1$ remain zero at
+leading order (exponentially small corrections for $r \gg 1/\Lambda$),
+so the Solar System conclusions of Ref.~[1] are unaffected.
+
+\bigskip
+\noindent [1] D.~Alfyorov and I.~Shnyukov,
+``Solar system and laboratory tests of spectral causal theory,''
+Zenodo (2025), doi:10.22541/au.177524450.03515205/v1.
+
+\noindent [2] D.~Alfyorov and I.~Shnyukov,
+``Absence of a real scalar graviton pole in spectral causal theory,''
+in preparation (2026).
+
+\end{document}

@@ -54,7 +54,16 @@ tasks = [
     ("MT-1  Black hole entropy",       "conditional", "Aux"),
     ("MR-9  Singularity",              "conditional", "Aux"),
 
-    ("FND-1  Finite-nerve coherence",  "negative",    "Fnd"),
+    ("FND-1  Finite-nerve (Paper 6)",   "negative",    "Fnd"),
+    ("FND-1  Route 1: Ensemble BD",     "negative",    "Fnd"),
+    ("FND-1  Route 3: DW bridge",       "negative",    "Fnd"),
+    ("FND-1  BD-comm CRN (5 metrics)",   "in_progress", "Fnd"),
+    ("FND-1  Route 2: Link-graph",      "in_progress", "Fnd"),
+    ("FND-1  Analytical (pp-wave)",      "complete",    "Fnd"),
+
+    ("FUND  Fundamental program",       "complete",    "Meta"),
+    ("CHIRAL-Q  UV-finiteness",         "complete",    "Meta"),
+    ("COMP-1  Roadmap completion",      "pending",     "Meta"),
 ]
 
 # ── Palette & labels ─────────────────────────────────────────
@@ -64,6 +73,7 @@ PAL = {
     "conditional": "#e6a817",
     "negative":    "#d73027",
     "pending":     "#bababa",
+    "in_progress": "#9b59b6",
 }
 STATUS_TEXT = {
     "complete":    "COMPLETE",
@@ -71,15 +81,17 @@ STATUS_TEXT = {
     "conditional": "CONDITIONAL",
     "negative":    "NEGATIVE",
     "pending":     "PENDING",
+    "in_progress": "IN PROGRESS",
 }
-GROUP_ORDER = ["Core", "Eqs", "Solar", "UV", "Aux", "Fnd"]
+GROUP_ORDER = ["Core", "Eqs", "Solar", "UV", "Aux", "Fnd", "Meta"]
 GROUP_TITLE = {
     "Core":  "CORE FORM FACTORS",
     "Eqs":   "FIELD EQUATIONS & COSMOLOGY",
     "Solar": "SOLAR SYSTEM & LABORATORY",
     "UV":    "UV CONSISTENCY",
     "Aux":   "AUXILIARY & STRUCTURAL",
-    "Fnd":   "FOUNDATIONAL",
+    "Fnd":   "FOUNDATIONAL SYNTHESIS (FND-1)",
+    "Meta":  "META & PROGRAMS",
 }
 
 # ── Build row list (top to bottom) ───────────────────────────

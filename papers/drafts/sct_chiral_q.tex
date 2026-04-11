@@ -43,13 +43,13 @@
   citecolor=blue!60!black,
   urlcolor=blue!60!black,
   pdfauthor={David Alfyorov},
-  pdftitle={Perturbative UV finiteness of the spectral action in D-squared quantization: a chirality proof},
+  pdftitle={Chirality of perturbative counterterms in the spectral action in D-squared quantization},
   pdfsubject={hep-th}
 }
 
 \begin{document}
 
-\title{Perturbative UV finiteness of the spectral action\\
+\title{Chirality of perturbative counterterms in the spectral action\\
 in $D^2$-quantization: a chirality proof}
 
 \author{David Alfyorov}
@@ -64,21 +64,22 @@ in $D^2$-quantization: a chirality proof}
 
 We prove that in the $D^2$-quantization of the spectral action
 $S = \Tr\,f(D^2/\Lam^2)$, all perturbative counterterms at every loop
-order commute with the chirality operator~$\gamma_5$ and are therefore
-absorbable by deformation of the spectral function~$f$.  The proof is
+order commute with the chirality operator~$\gamma_5$.  The proof is
 purely algebraic: the Dirac chirality relation $\{D, \gamma_5\} = 0$
 forces the variation $\delta(D^2)$ to commute with~$\gamma_5$, and this
 block-diagonal structure propagates to the kinetic operator, propagator,
-vertices, and all loop integrals.  The result resolves the three-loop
-overdetermination obstruction of metric quantization, where two independent
-quartic Weyl invariants cannot be absorbed by a single spectral parameter.
-UV finiteness holds through two loops (where the unique dimension-6
-counterterm structure ensures absorption), and at all perturbative orders
-under five BV axioms formulated in Section~\ref{sec:gap}---of which two
-are proven, one is natural, and two are verified to one-loop order.  The
-identity is verified numerically for finite spectral triples ($N = 4$--$64$,
-$L = 1$--$8$) and formally in Lean~4.  The closure is perturbative;
-non-perturbative equivalence remains open.
+vertices, and all loop integrals.  UV finiteness through two loops
+follows unconditionally (the unique dimension-6 counterterm structure
+ensures absorption).  At higher orders, chirality is necessary but not
+sufficient for absorbability: the additional step from
+$[\mathrm{CT}_L, \gamma_5] = 0$ to $\mathrm{CT}_L = h(D_0^2)$ requires
+five BV axioms formulated in Section~\ref{sec:gap}---of which two are
+proven, one is natural, and two are verified to one-loop order.  Under
+these axioms, absorbability holds at all perturbative orders; without
+them, all-orders absorbability remains a \emph{conjecture}.  The
+chirality identity is verified numerically for finite spectral triples
+($N = 4$--$64$, $L = 1$--$8$) and formally in Lean~4.  The closure is
+perturbative; non-perturbative equivalence remains open.
 
 \end{abstract}
 
@@ -124,7 +125,7 @@ and~$q$ label the self-dual and anti-self-dual Weyl sectors.  However, at
 three loops and above in metric quantization, the counterterms are \emph{not}
 constrained by chirality: two independent quartic Weyl invariants arise, but
 only one spectral parameter~$\delta\psi$ is available to absorb them.  This
-three-loop obstruction was identified as the principal barrier to proving
+three-loop obstruction was identified as the principal barrier to
 all-orders UV finiteness within the spectral action framework.
 
 The present paper removes this obstruction by changing the quantization
@@ -398,9 +399,21 @@ Every vertex $V_n$ commutes with $\gamma_5$: $[V_n, \gamma_5] = 0$.
 
 \subsection{Spectral form of counterterms}
 
-The following proposition establishes that block-diagonal counterterms are
-expressible as traces of spectral functions, closing the logical gap between
-chirality preservation and absorbability.
+\textbf{Erratum (2026-04-07).}
+The following proposition, as originally stated, does not close the logical
+gap between chirality and absorbability.  The statement at trace level is
+trivially true (one can always find $h_L$ matching a given number by
+adjusting its values on the eigenvalues), but it is too weak to imply that
+the counterterm \emph{action functional} is absorbable by a deformation
+$f \to f + \delta f$. The operator-level interpretation is \emph{false}:
+a counterexample is $\gamma_5 = \mathrm{diag}(1,1,-1,-1)$,
+$D_0^2 = \mathrm{diag}(1,2,1,2)$, $\mathrm{CT} = \mathrm{diag}(1,0,0,0)$,
+which commutes with $\gamma_5$ but cannot equal $h(D_0^2)$ for any~$h$
+(the eigenvalue~$1$ of $D_0^2$ is degenerate, and $h(1)$ must act identically
+on both copies). Consequently, Theorem~4.5 below is a \textbf{conjecture},
+not a proven theorem. The algebraic chirality result
+(Theorem~\ref{thm:main}, $[\delta(D^2), \gamma_5] = 0$) and its Lean
+formalization remain valid.
 
 \begin{proposition}[Spectral form of counterterms]\label{prop:spectral_form}
 Let $D_0$ be a background Dirac operator satisfying $\{D_0, \gamma_5\} = 0$,
@@ -439,12 +452,18 @@ by $f \to f + h_L$.
 
 \subsection{The finiteness theorem}
 
-\begin{theorem}[UV finiteness in $D^2$-quantization]\label{thm:finiteness}
+\begin{theorem}[Chirality of counterterms in $D^2$-quantization]\label{thm:finiteness}
 In the $D^2$-quantization of the spectral action~\eqref{eq:spectral_action}
 on a spectral triple $(\Alg, \Hilb, D)$ in even KO-dimension with chirality
 $\gamma_5$, all perturbative counterterms at every loop order $L \geq 1$
-commute with $\gamma_5$.  Consequently, all counterterms are absorbable by a
-deformation $f \to f + \delta f$ of the spectral function.
+commute with $\gamma_5$.
+
+\textbf{Erratum:} The original version further claimed that chirality
+implies absorbability by $f \to f + \delta f$. This step relied on
+Proposition~\ref{prop:spectral_form}, which is now known to be
+insufficient (see erratum above). The chirality statement itself
+(counterterms commute with $\gamma_5$) remains proven. The
+absorbability conclusion is downgraded to a \textbf{conjecture}.
 \end{theorem}
 
 \begin{proof}
@@ -1458,20 +1477,44 @@ open question.
 
 We have proved that in $D^2$-quantization of the spectral action, the Dirac
 chirality relation $\{D, \gamma_5\} = 0$ propagates to all loop orders:
-every counterterm commutes with $\gamma_5$ and is absorbable by a spectral
-function deformation.  All counterterms are absorbable by spectral function
-deformation at every loop order $L$.
+every counterterm commutes with $\gamma_5$.
 
 The proof is algebraic, relying on a single identity:
 $[\delta(D^2), \gamma_5] = 0$ whenever $\{D, \gamma_5\} = 0$ and
 $\{\delta D, \gamma_5\} = 0$.  This identity is verified numerically for
 finite spectral triples of size $N = 4$--$64$, at loop orders $L = 1$--$8$,
-and verified exact to 100-digit working precision using arbitrary-precision
-arithmetic (the identity is algebraic, not a numerical approximation).
+and formalized in Lean~4.
 
-The result resolves the three-loop obstruction found in metric quantization:
-chirality reduces the two-dimensional space of quartic Weyl counterterms to a
-single effective structure, which is absorbed by one spectral parameter.
+\textbf{Open problem.}  The step from chirality ($[\mathrm{CT}_L, \gamma_5] = 0$)
+to absorbability ($\mathrm{CT}_L = h(D_0^2)$) is \emph{not}
+established. A finite-dimensional counterexample (see erratum to
+Proposition~\ref{prop:spectral_form}) shows that commuting with $\gamma_5$ is
+necessary but not sufficient for spectral form.
+
+The divided-difference structure of perturbative counterterms does not close
+this gap. In the van~Nuland--van~Suijlekom
+framework~\cite{vanNuland:2021oneloop}, the $L$-loop counterterm lives in the
+\emph{multiple operator integral (MOI) algebra}
+$\mathfrak{A}_{\mathrm{DD}} = \mathrm{span}\{P_{\lambda_0} X_1 P_{\lambda_1}
+\cdots X_n P_{\lambda_n}\}$, where $P_\lambda$ are spectral projectors of
+$D_0^2$ and $X_j$ are insertions of $\delta(D^2)$. On degenerate eigenspaces
+$E_\lambda$, the projected operator $P_\lambda X P_\lambda$ is a generic
+element of $\mathrm{End}(E_\lambda)$, while $h(D_0^2)|_{E_\lambda}
+= h(\lambda)\mathbf{1}_{E_\lambda}$ is a scalar. A concrete counterexample:
+with the chiral fluctuation $\delta D = \bigl(\begin{smallmatrix} 0 & B \\
+B^\dagger & 0 \end{smallmatrix}\bigr)$, $B = \bigl(\begin{smallmatrix} 0 & 1
+\\ 0 & 0 \end{smallmatrix}\bigr)$, the operator
+$\Sigma = f'(1)\,P_1\,\delta(D^2)\,P_1 = f'(1)\,\mathrm{diag}(1,0,0,0)$
+is built from divided differences and satisfies $[\Sigma, \gamma_5] = 0$,
+yet $\Sigma \neq h(D_0^2)$.
+
+For absorbability at three loops and beyond, one needs the stronger condition
+$P_\lambda\,\mathrm{CT}\,P_\lambda = c_\lambda\,P_\lambda$ (centrality on
+each degenerate eigenspace). This could follow from an additional symmetry
+acting irreducibly on each $E_\lambda^\pm$ (via Schur's lemma), but such a
+symmetry has not been identified. At two loops, absorbability holds by
+parameter counting alone (1~structure, 1~parameter).
+This is the central open problem of the $D^2$-quantization program.
 
 \medskip\noindent
 \textbf{Summary of results.}
@@ -1540,7 +1583,6 @@ Standard Model content.
 \section*{Acknowledgements}
 % ============================================================
 
-The author thanks Aliaksandr Samatyia for research-assistance and
 workflow support throughout this project.
 
 % ============================================================

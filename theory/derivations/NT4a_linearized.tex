@@ -67,7 +67,6 @@ and Newtonian Potential}
 
 
 \begin{center}
-\small\textit{Credits: Aliaksandr Samatyia contributed research-assistance and workflow support.}
 \end{center}
 
 \begin{abstract}
@@ -593,8 +592,16 @@ Key observations:
     numerical artifact.
   \item $\Pi_{\mathrm{s}}$ at $\xi = 0$ is \emph{monotonically increasing},
     meaning the scalar mode becomes heavier at high energies.
-  \item At $\xi = 1/6$, $\Pi_{\mathrm{s}} = 1$ identically: the scalar
-    mode is non-dynamical and decouples completely.
+  \item At $\xi = 1/6$, the \emph{local} $R^2$ coefficient
+    $\alpha_R(0, 1/6) = 0$ vanishes, but $\Pi_{\mathrm{s}}(z, 1/6) > 1$
+    for $z > 0$ because the nonlocal form factor
+    $\alpha_R(z, 1/6) \neq 0$ (fermion and vector contributions).
+    \textbf{Erratum (2026-04-07):} the earlier claim
+    $\Pi_{\mathrm{s}} \equiv 1$ at $\xi = 1/6$ was based on the
+    factorized form $6(\xi-1/6)^2 \hat{F}_2$, which has a $0/0$
+    indeterminacy at conformal coupling. The correct universal formula
+    $\Pi_s = 1 + 3z\,\alpha_R(z,\xi)$ resolves this and gives
+    $\Pi_s > 1$.
   \item $\Pi_{\mathrm{TT}}$ is $\xi$-independent (it depends only on
     $\alpha_C = 13/120$, which receives no scalar contribution).
 \end{itemize}
@@ -667,10 +674,13 @@ theorems, zero \texttt{sorry}).}
   \includegraphics[width=0.85\textwidth]{../../analysis/figures/nt4a_scalar_mode.pdf}
   \caption{The scalar propagator denominator $\Pi_{\mathrm{s}}(z,\xi)$
     for representative values of the non-minimal coupling $\xi$.
-    At conformal coupling $\xi = 1/6$, the scalar mode decouples
-    identically ($\Pi_{\mathrm{s}} \equiv 1$).  For $\xi \neq 1/6$,
-    $\Pi_{\mathrm{s}}$ is monotonically increasing, meaning the scalar
-    mode becomes progressively heavier at high momenta.}
+    At conformal coupling $\xi = 1/6$, the \emph{local}
+    $R^2$ coefficient vanishes, but the nonlocal form factor
+    $\alpha_R(z, 1/6)$ remains positive for $z > 0$
+    (Dirac and vector contributions survive). Hence
+    $\Pi_{\mathrm{s}}(z, 1/6) > 1$ for all $z > 0$.
+    For all $\xi$, $\Pi_{\mathrm{s}}$ has no positive real zero:
+    no on-shell scalar graviton with real mass exists.}
   \label{fig:nt4a-scalar-mode}
 \end{figure}
 

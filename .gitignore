@@ -106,3 +106,16 @@ docs/plans/
 docs/reviews/
 docs/temp_roadmap_analysis.txt
 SCT Spectral Causal Theory Complete.pdf
+SCT_AI/
+speculative/
+AGENTS.md
+memory/
+.tmp.driveupload/
+*.tar.gz
+analysis/discovery_runs/
+analysis/fnd1_data/
+analysis/universal_runs*/
+local/
+aristotle_proj2_output/
+gcp_results/
+spectral_quietness_*.pdf

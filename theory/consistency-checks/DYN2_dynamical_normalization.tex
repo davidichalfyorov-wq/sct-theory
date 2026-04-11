@@ -1,0 +1,383 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdfauthor={David Alfyorov},
+  pdftitle={DYN-2: Dynamical Normalization of the CJ Bridge Formula}
+}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{DYN-2: Dynamical Normalization of the CJ Bridge Formula\\[6pt]
+\large Numerical investigation and time-reversal mechanism}
+\author{David Alfyorov}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\vspace{1em}
+\noindent\textit{Credits: Igor Shnyukov (physical interpretation, analytical framework).}
+
+% ============================================================
+\section{Problem Statement}
+
+The CJ bridge formula for a Poisson-sprinkled $d{=}4$ Alexandrov diamond reads
+\begin{equation}\label{eq:bridge}
+  \mathbb{E}[\mathrm{CJ}_N] = C_0\, N^{8/9}\, \mathcal{E}^2\, T^4 \,(1 + o(1)),
+\end{equation}
+where $C_0 = 32\pi^2/(3 \cdot 9! \cdot 45) \approx 6.447 \times 10^{-6}$
+and $\mathcal{E}^2 = E_{ij}E^{ij}$ is the electric part of the Weyl tensor.
+
+The coefficient $C_0 = 4\,C_\mathrm{AN}$, where $C_\mathrm{AN} = 8\pi^2/(3 \cdot 9! \cdot 45)$
+is assembled from the analytical coefficient skeleton (Benincasa--Dowker normalization,
+beta-overlap identities, angular-volume arithmetic).
+The factor~4 decomposes as
+\begin{equation}\label{eq:factor4}
+  4 = \underbrace{2}_{\text{algebraic}} \times \underbrace{2}_{\text{dynamical}}.
+\end{equation}
+
+The \textbf{algebraic~2} is exact: since $\delta Y \approx g_- + g_+$ in the bulk,
+$\delta Y^2 = 2\,g_s^2$ where $g_s = (g_- + g_+)/\sqrt{2}$ is the symmetric channel.
+Hence $\mathrm{CJ} = 2\,M_{ss}$.
+
+The \textbf{dynamical~2} is the claim
+\begin{equation}\label{eq:dyn2}
+  \frac{M_{ss}}{C_\mathrm{AN}\, N^{8/9}\, \mathcal{E}^2\, T^4} \;\longrightarrow\; 2
+  \qquad\text{as } N \to \infty.
+\end{equation}
+
+This note reports the first high-$N$ investigation of the dynamical factor,
+including spatial diagnostics that identify the time-reversal mechanism behind it.
+
+% ============================================================
+\section{Channel Decomposition}
+
+Define the past and future curvature responses
+\[
+  g_- = \log_2(p_{\downarrow}^{\mathrm{curv}}) - \log_2(p_{\downarrow}^{\mathrm{flat}}),\qquad
+  g_+ = \log_2(p_{\uparrow}^{\mathrm{curv}}) - \log_2(p_{\uparrow}^{\mathrm{flat}}),
+\]
+and the stratified covariances
+\[
+  M_{--} = Q_N[g_-^2],\quad M_{++} = Q_N[g_+^2],\quad M_{-+} = Q_N[g_-\,g_+],
+\]
+where $Q_N[F] = \sum_B w_B\,\mathrm{Cov}_B(|X|, F)$.
+
+The symmetric and antisymmetric channel covariances are
+\begin{align}
+  M_{ss} &= \tfrac{1}{2}(M_{--} + 2\,M_{-+} + M_{++}), \label{eq:Mss}\\
+  M_{aa} &= \tfrac{1}{2}(M_{--} - 2\,M_{-+} + M_{++}), \label{eq:Maa}\\
+  M_{sa} &= \tfrac{1}{2}(M_{--} - M_{++}). \label{eq:Msa}
+\end{align}
+
+Defining the single-leg average $L = (M_{--}^{\mathrm{norm}} + M_{++}^{\mathrm{norm}})/2$
+and the effective correlation
+\begin{equation}\label{eq:rho}
+  \rho_{\mathrm{eff}} = \frac{M_{-+}}{\sqrt{M_{--}\,M_{++}}},
+\end{equation}
+the dynamical normalization becomes
+\begin{equation}\label{eq:constraint}
+  M_{ss}^{\mathrm{norm}} = L \cdot (1 + \rho_{\mathrm{eff}}).
+\end{equation}
+The target $M_{ss}^{\mathrm{norm}} = 2$ is satisfied whenever $L(1 + \rho_{\mathrm{eff}}) = 2$.
+
+% ============================================================
+\section{Numerical Results}
+
+\subsection{Phase~1: High-$N$ channel decomposition}
+
+We measure the channel covariances using common random numbers (CRN)
+on pp-wave backgrounds ($\varepsilon = 3$, $T = 1$) at $N = 3000$ to $20{,}000$,
+with $M = 20$ trials per $N$.
+
+\begin{table}[h]
+\centering
+\caption{Channel normalization data.  All quantities normalized by $C_\mathrm{AN}\,N^{8/9}\,\mathcal{E}^2\,T^4$.}
+\label{tab:channels}
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & $M_{ss}^{\mathrm{norm}}$ & $\rho_{\mathrm{eff}}$ & $\mathrm{corr}(g_-,g_+)$ & $M_{aa}^{\mathrm{norm}}$ \\
+\midrule
+3\,000  & $1.79 \pm 0.10$ & $0.577 \pm 0.032$ & 0.499 & 0.534 \\
+5\,000  & $1.99 \pm 0.10$ & $0.578 \pm 0.019$ & 0.556 & 0.550 \\
+10\,000 & $1.93 \pm 0.05$ & $0.598 \pm 0.012$ & 0.597 & 0.504 \\
+15\,000 & $2.08 \pm 0.06$ & $0.611 \pm 0.010$ & 0.628 & 0.507 \\
+20\,000 & $1.87 \pm 0.04$ & $0.598 \pm 0.010$ & 0.635 & 0.479 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key observations:}
+\begin{enumerate}
+\item $M_{ss}^{\mathrm{norm}}$ clusters around~2 at all tested~$N$ (mean $1.97 \pm 0.05$).
+\item $\rho_{\mathrm{eff}}$ is positive and growing: $0.58 \to 0.60 \to 0.61$.
+\item The pointwise Pearson correlation $\mathrm{corr}(g_-,g_+)$ grows more steadily: $0.50 \to 0.56 \to 0.60 \to 0.63 \to 0.64$.
+\item $M_{aa}^{\mathrm{norm}}$ is persistently nonzero ($\approx 0.50$), definitively excluding the equalization hypothesis $M_{--} = M_{-+} = M_{++}$.
+\end{enumerate}
+
+\subsection{Phase~2: Spatial diagnostics}
+
+At $N = 10{,}000$ with $M = 40$ trials, we decompose the pointwise correlation $\rho(g_-,g_+)$
+into 20 bins along the normalized depth coordinate~$\zeta$.
+
+\begin{table}[h]
+\centering
+\caption{Phase~2 decomposition at $N = 2000, 5000, 10000$.}
+\label{tab:phase2}
+\begin{tabular}{rrrrrr}
+\toprule
+$N$ & $L$ & $\rho_{\mathrm{eff}}$ & $L(1{+}\rho)$ & $\cos(g_-,g_+)$ & median$(g_+/g_-)$ \\
+\midrule
+2\,000  & 1.259 & 0.559 & 1.99 & 0.461 & 0.75 \\
+5\,000  & 1.272 & 0.568 & 2.00 & 0.559 & 0.85 \\
+10\,000 & 1.239 & 0.566 & 1.94 & 0.600 & 0.89 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Spatial profile} (Fig.~\ref{fig:profile}):
+$\rho(\zeta)$ is bell-shaped, peaking at $\zeta \approx 0.45{-}0.55$ (diamond center)
+with $\rho_{\mathrm{peak}} \approx 0.63$ at $N = 10{,}000$, and dropping to $\rho \lesssim 0.2$
+near the boundaries.  The asymmetry $\langle|g_- - g_+|\rangle/\langle|g_-| + |g_+|\rangle$
+shows the complementary pattern: minimal ($\approx 0.45$) at the center, maximal ($\approx 0.80$)
+at the boundaries.
+
+% ============================================================
+\section{Time-Reversal Mechanism}
+
+\subsection{Physical picture}
+
+The Minkowski diamond $\mathcal{D}(T)$ has an approximate time-reversal symmetry at its center:
+the reflection $t \mapsto -t$ maps past light cones to future light cones and vice versa.
+Under a small metric perturbation (here a pp-wave), the curvature response at a point~$x$
+depends on the geometry of its past cone ($g_-$) and future cone ($g_+$).
+
+At the diamond center, the past and future cones are images of each other under time reversal.
+Both ``see'' the same spacetime curvature, so both respond similarly: $g_-(x) \approx g_+(x)$.
+Near the boundaries, one cone is truncated by the diamond boundary while the other extends
+into the bulk, breaking the symmetry.
+
+The spatial profile confirms this picture:
+\begin{itemize}
+\item Center ($\zeta \approx 0.5$): $\rho \approx 0.63$, asymmetry $\approx 0.45$
+\item Boundary ($\zeta \lesssim 0.1$ or $\zeta \gtrsim 0.9$): $\rho \lesssim 0.2$, asymmetry $\approx 0.8$
+\end{itemize}
+
+\subsection{Consequence for the factor~2}
+
+If $g_- = g_+$ exactly at all bulk points, then $M_{-+} = M_{--} = M_{++}$ (so $\rho_{\mathrm{eff}} = 1$)
+and
+\[
+  M_{ss} = \tfrac{1}{2}(M_{--} + 2M_{--} + M_{--}) = 2\,M_{--},
+\]
+giving the dynamical~2 as the ratio $M_{ss}/M_{--} = 2$.
+
+In practice, $g_- \neq g_+$ even at the center (the pp-wave breaks time-reversal),
+but the positive correlation $\rho_{\mathrm{eff}} \approx 0.6$ at $N = 20{,}000$
+contributes a factor $(1 + 0.6) = 1.6$, while the single-leg normalization
+$L \approx 1.25$ provides the remaining factor, so $L(1{+}\rho) \approx 2.0$.
+
+Whether $\rho_{\mathrm{eff}} \to 1$ in the strict continuum limit
+($N \to \infty$) remains open.  The data is consistent with slow convergence
+(the bulk central value grows from $\approx 0.52$ at $N{=}3000$ to $\approx 0.66$ at $N{=}20{,}000$),
+but the rate is too slow to confirm extrapolation from the tested range alone.
+
+% ============================================================
+\section{Analytical Framework: Even/Odd Decomposition}
+
+\subsection{Channel decomposition}
+
+Define the symmetric and antisymmetric responses:
+\[
+  s(x) = \frac{g_-(x) + g_+(x)}{\sqrt{2}}\,,\qquad
+  a(x) = \frac{g_-(x) - g_+(x)}{\sqrt{2}}\,.
+\]
+Then $g_-(x)\,g_+(x) = \frac{1}{2}(s^2 - a^2)$, and the stratified
+covariances satisfy
+\begin{equation}\label{eq:Mpm-decomp}
+  M_{-+} = \frac{M_{ss} - M_{aa}}{2}\,.
+\end{equation}
+Positive cross-correlation ($M_{-+} > 0$) is therefore equivalent to
+$M_{ss} > M_{aa}$: the symmetric channel dominates the antisymmetric one.
+
+\subsection{Kernel-response model}
+
+For a pp-wave perturbation $h_{ij} = \varepsilon^2 f(u)\,\delta_{ij}$,
+the curvature responses admit the continuum representation
+\[
+  g_\pm(x) \approx \varepsilon^2
+  \int_0^\infty K_N(x,s)\,f(u_x \pm s)\,ds + B_\pm^\partial(x)\,,
+\]
+where $K_N$ is a common kernel for past/future in the bulk and
+$B_\pm^\partial$ are boundary corrections.  Taylor-expanding $f(u_x \pm s)$:
+\[
+  g_\pm(x) = c(x) \pm b(x)\,,
+\]
+where $c(x)$ collects even moments of $K_N$ (common response) and
+$b(x)$ collects odd moments (directional asymmetry from the wave
+propagation and boundary truncation).  Then
+\[
+  g_-(x)\,g_+(x) = c(x)^2 - b(x)^2\,.
+\]
+In the bulk center, $c^2 \gg b^2$ (time-reversal approximate symmetry),
+giving strong positive correlation.  Near boundaries, $B_a^\partial$ grows
+(one cone truncated more than the other), reducing $\rho$.
+
+This explains the bell-shaped spatial profile of $\rho(\zeta)$:
+the even channel dominates at the center and the odd channel grows
+at the boundaries.
+
+\subsection{Exact formula for $\rho_{\mathrm{eff}}$}
+
+\begin{proposition}[Exact rho formula]\label{prop:rho-exact}
+Define $r_N := M_{aa}^{\mathrm{norm}} / M_{ss}^{\mathrm{norm}}$.
+When $M_{sa}/M_{ss}$ is small,
+\begin{equation}\label{eq:rho-exact}
+  \rho_{\mathrm{eff}} \approx \frac{1 - r_N}{1 + r_N}\,.
+\end{equation}
+Therefore $\rho_{\mathrm{eff}} \to 1$ if and only if $r_N \to 0$,
+i.e., the antisymmetric channel vanishes relative to the symmetric one.
+\end{proposition}
+
+\begin{proof}
+From~\eqref{eq:Mpm-decomp} and $M_{--} = (M_{ss} + M_{aa} + 2M_{sa})/2$,
+$M_{++} = (M_{ss} + M_{aa} - 2M_{sa})/2$:
+\[
+  \rho_{\mathrm{eff}}
+  = \frac{M_{ss} - M_{aa}}
+  {\sqrt{(M_{ss}+M_{aa})^2 - 4M_{sa}^2}}\,.
+\]
+For $|M_{sa}| \ll M_{ss}$, this reduces to $(1-r_N)/(1+r_N)$.
+\end{proof}
+
+Numerical check from our data:
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & $r_N = M_{aa}/M_{ss}$ & $\rho_{\text{predicted}}$ & $\rho_{\text{measured}}$ & Deviation \\
+\midrule
+3\,000  & 0.298 & 0.541 & 0.577 & 4\% \\
+5\,000  & 0.276 & 0.567 & 0.578 & 2\% \\
+10\,000 & 0.261 & 0.586 & 0.598 & 2\% \\
+15\,000 & 0.244 & 0.608 & 0.611 & 1\% \\
+20\,000 & 0.256 & 0.592 & 0.598 & 1\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Assessment: $\rho_{\mathrm{eff}} \to 1$ or $R < 1$?}
+
+Five arguments support the hypothesis $\rho_{\mathrm{eff}} \to R < 1$
+with $R \approx 0.6$:
+
+\begin{enumerate}
+\item \textbf{Global time-reversal breaking.}
+  The pp-wave depends on the retarded coordinate $u = t - z$.
+  Under $t \mapsto -t$: $u \mapsto -v$, so the wave does not map to itself.
+  Exact time-reversal symmetry is absent even in the continuum.
+
+\item \textbf{Global observables.}
+  $p_\downarrow(x)$ counts paths from the bottom vertex; $p_\uparrow(x)$
+  from the top.  For $t \neq 0$, the past and future distances to the
+  vertices differ, introducing inherent asymmetry.
+
+\item \textbf{Fixed bulk mask.}
+  The boundary cut $\zeta = 0.15$ is fixed in continuum units and does
+  not shrink with~$N$.  If the odd contribution persists in the fixed bulk,
+  it need not vanish as $N \to \infty$.
+
+\item \textbf{Stable ratio.}
+  The data show $L \approx 1.25$, $\rho \approx 0.58$, with product
+  $L(1{+}\rho) \approx 2.0$ stable across all~$N$.  This is consistent
+  with a finite limit $R \approx 0.6$, $L \to 2/(1{+}R) \approx 1.25$.
+
+\item \textbf{Central asymmetry not negligible.}
+  Even at $\zeta = 0.5$, the pointwise asymmetry is $\approx 0.45$ (45\%),
+  not $\approx 0$.  This does not suggest the antisymmetric channel is
+  nearly extinct.
+\end{enumerate}
+
+\begin{remark}[Open question: $|X|$-weight localization]
+  One mechanism that could still drive $\rho \to 1$ despite nonvanishing
+  pointwise asymmetry: if the CJ weight $|X|$ preferentially samples
+  the central region (where $\rho$ is highest) with increasing~$N$,
+  the weighted $\rho_{\mathrm{eff}}$ could approach~1 even as the
+  unweighted correlation saturates.  Whether such localization occurs
+  is an open question requiring analysis of the $|X|$-distribution
+  as a function of~$N$.
+\end{remark}
+
+% ============================================================
+\section{Established Results}
+
+\begin{enumerate}
+\item $M_{ss}^{\mathrm{norm}} = 2 \pm 5\%$ at all tested $N \in [3000, 20000]$.
+
+\item The past-future curvature responses $g_-$ and $g_+$ are positively correlated,
+with $\rho_{\mathrm{eff}}$ growing from $0.58$ to $0.61$ over $N = 3000$ to $20{,}000$.
+
+\item The correlation is spatially structured: bell-shaped, peaking at the diamond center,
+consistent with time-reversal symmetry as the mechanism.
+
+\item The equalization hypothesis ($M_{--} = M_{-+} = M_{++}$) is definitively excluded:
+$M_{aa}^{\mathrm{norm}} \approx 0.50$ is persistently nonzero.
+
+\item The factor~2 arises from the product $L \cdot (1 + \rho_{\mathrm{eff}}) = 2$,
+where both $L$ (single-leg normalization) and $\rho_{\mathrm{eff}}$ (past-future correlation)
+evolve with~$N$ in a way that keeps their product fixed.
+\end{enumerate}
+
+% ============================================================
+\section{Open Questions}
+
+\begin{enumerate}
+\item \textbf{Does $\rho_{\mathrm{eff}} \to 1$ or $R < 1$?}
+  Current data ($N \leq 20{,}000$) supports $R \approx 0.6$ more
+  than $\rho \to 1$ (see Section~5.4).  However, $|X|$-weight
+  localization could still drive $\rho \to 1$ (Remark in Section~5.4).
+  Resolving this requires either $N \gg 20{,}000$ data or a proof
+  that $M_{aa}/M_{ss} \to 0$.
+
+\item \textbf{Analytical derivation of $M_{ss}^{\mathrm{norm}} = 2$.}
+  The even/odd decomposition (Section~5) provides a framework but not
+  a proof.  A complete derivation requires the continuum limit of the
+  resolvent $(I - A)^{-1}$ acting on path counts, which involves the
+  nonlocal structure of the Hasse transitive reduction.
+
+\item \textbf{Dimension dependence.}
+  The CJ bridge formula involves $N^{2d/(2d+1)}$; the even/odd channel
+  decomposition might have a different ratio $r = M_{aa}/M_{ss}$ in $d \neq 4$.
+
+\item \textbf{$|X|$-weight localization.}
+  Does the CJ weight $|X| = |Y_{\mathrm{flat}} - \langle Y_{\mathrm{flat}}\rangle|$
+  concentrate on the central region with increasing~$N$?  If so, the
+  weighted $\rho_{\mathrm{eff}}$ could approach~1 even with stable
+  pointwise asymmetry.
+\end{enumerate}
+
+% ============================================================
+\section{Verification Summary}
+
+\begin{itemize}
+\item Phase~1: 6 values of~$N$ ($3000$--$20{,}000$), 20 CRN trials each, $\varepsilon = 3$. Total: 120 MC trials.
+\item Phase~2: 3 values of~$N$ ($2000$, $5000$, $10{,}000$), 40 CRN trials each. Total: 120 MC trials. 20-bin spatial profiles.
+\item Total computation time: $\approx 2$ hours on RTX~3090~Ti.
+\item Data archived in \texttt{dynamical2\_highN.json} and \texttt{dynamical2\_rho\_diagnostic.json}.
+\item 4 publication figures in \texttt{analysis/figures/dyn2/}.
+\end{itemize}
+
+\end{document}

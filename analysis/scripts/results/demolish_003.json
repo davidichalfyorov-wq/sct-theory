@@ -1,0 +1,138 @@
+{
+  "parameters": {
+    "N": 500,
+    "M": 30,
+    "eps_ppwave": 2.0,
+    "eps_schw": 0.005,
+    "seed": 77777
+  },
+  "main_signal": {
+    "eta": {
+      "d": -0.4426405143322274,
+      "p": 0.029325857758522034
+    },
+    "sr": {
+      "d": 0.46346859487938313,
+      "p": 0.022098854184150696
+    }
+  },
+  "tests": {
+    "T1_diag_dominance": {
+      "mean_diag_frac_flat": 0.030843276856463604,
+      "mean_diag_frac_curved": 0.030849609685106548,
+      "verdict": "CLEAR",
+      "detail": "Off-diagonal dominates: eta has genuinely novel content"
+    },
+    "T2_redundancy_eta": {
+      "r2": 0.8237318566772738,
+      "verdict": "SERIOUS",
+      "detail": "R\u00b2=0.824 > 0.70: substantial algebraic redundancy"
+    },
+    "T2_redundancy_sr": {
+      "r2": 0.8529532909049229,
+      "verdict": "SERIOUS",
+      "detail": "R\u00b2=0.853 > 0.70: substantial algebraic redundancy"
+    },
+    "T3_random_perm_eta": {
+      "ratio": 0.052468719316584464,
+      "sign_consistency": 0.6333333333333333,
+      "verdict": "FATAL",
+      "detail": "Random flips produce LARGER effects than curvature (ratio=0.05)"
+    },
+    "T3_random_perm_sr": {
+      "ratio": 0.05575104888077279,
+      "sign_consistency": 0.7,
+      "verdict": "FATAL",
+      "detail": "Random flips produce LARGER effects than curvature (ratio=0.06)"
+    },
+    "T4_boundary_eta": {
+      "d_full": -0.4426405143322274,
+      "d_trim": -0.4467061794231003,
+      "retention": 1.009185027034876,
+      "verdict": "CLEAR",
+      "detail": "Signal retains 101% after trim \u2014 not boundary-driven"
+    },
+    "T4_boundary_sr": {
+      "d_full": 0.46346859487938313,
+      "d_trim": 0.4200260322922407,
+      "retention": 0.90626643732258,
+      "verdict": "CLEAR",
+      "detail": "Signal retains 91% after trim \u2014 not boundary-driven"
+    },
+    "T5_tc_residual_sr": {
+      "r2_tc": 0.3334590036013064,
+      "d_residual": 2.860945085000651e-17,
+      "p_residual": 1.0,
+      "verdict": "FATAL",
+      "detail": "After removing TC, residual signal is d=0.00, p=1.000 \u2014 sr is TC-driven"
+    },
+    "T5_tc_residual_eta": {
+      "r2_tc": 0.3036433631135358,
+      "d_residual": 9.718210873485696e-17,
+      "p_residual": 0.9838335812091827
+    },
+    "T6_sigma1_predict": {
+      "r2_sigma1": 0.08649559685280055,
+      "r2_sr_pred": 0.10215275638454936,
+      "verdict": "CLEAR",
+      "detail": "sr is NOT trivially predictable from max row/col sums (R\u00b2=0.102)"
+    },
+    "T7_monotonicity": {
+      "eps_0.5": {
+        "eta_d": -0.6339998629133673,
+        "sr_d": 0.696229229602201
+      },
+      "eps_1.0": {
+        "eta_d": -1.038312048941253,
+        "sr_d": 1.0334421478557492
+      },
+      "eps_2.0": {
+        "eta_d": -1.0892850554661093,
+        "sr_d": 1.0015840167347767
+      },
+      "eps_4.0": {
+        "eta_d": -1.2997727420503236,
+        "sr_d": 1.3084329554295786
+      }
+    },
+    "T7_mono_eta": {
+      "monotonic": true,
+      "sign_flip": false,
+      "verdict": "CLEAR",
+      "detail": "Monotonic, consistent sign"
+    },
+    "T7_mono_sr": {
+      "monotonic": false,
+      "sign_flip": false,
+      "verdict": "SERIOUS",
+      "detail": "Not monotonic in eps (non-physical)"
+    },
+    "T8_schw_eta": {
+      "d_ppw": -0.4426405143322274,
+      "d_schw": -6.161028783666542,
+      "p_schw": 0.001953125,
+      "verdict": "CLEAR",
+      "detail": "Consistent across metrics, Schw d=-6.16"
+    },
+    "T8_schw_sr": {
+      "d_ppw": 0.46346859487938313,
+      "d_schw": 5.626162049782789,
+      "p_schw": 0.001953125,
+      "verdict": "CLEAR",
+      "detail": "Consistent across metrics, Schw d=+5.63"
+    }
+  },
+  "final_verdicts": {
+    "eta": {
+      "verdict": "KILLED",
+      "fatals": 1,
+      "serious": 1
+    },
+    "sr": {
+      "verdict": "KILLED",
+      "fatals": 2,
+      "serious": 2
+    }
+  },
+  "total_time_s": 1.5373520851135254
+}

@@ -1,0 +1,37 @@
+{
+  "Pi_s_scan": {
+    "xi=0.0000": {
+      "raw_count": -0.5898770930998403,
+      "rounded_count": -1,
+      "verdict": "-1 ZEROS FOUND"
+    },
+    "xi=0.1667": {
+      "raw_count": -0.57748335482172,
+      "rounded_count": -1,
+      "verdict": "-1 ZEROS FOUND"
+    },
+    "xi=0.2500": {
+      "raw_count": -0.5743226537799486,
+      "rounded_count": -1,
+      "verdict": "-1 ZEROS FOUND"
+    }
+  },
+  "Pi_TT_SM_R50": {
+    "label": "N_f=45",
+    "raw_count": 0.2647277323340747,
+    "rounded_count": 0,
+    "R_max": 50.0
+  },
+  "Pi_TT_nuR_R50": {
+    "label": "N_f=48",
+    "raw_count": 0.24953121314586704,
+    "rounded_count": 0,
+    "R_max": 50.0
+  },
+  "Pi_TT_SM_R100": {
+    "label": "N_f=45",
+    "raw_count": 0.4320697916139948,
+    "rounded_count": 0,
+    "R_max": 100.0
+  }
+}

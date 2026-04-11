@@ -1,0 +1,138 @@
+{
+  "run": "RAZUMIST #002c DEMOLISH",
+  "date": "2026-03-25",
+  "agent": "DEMOLISH",
+
+  "candidates": {
+    "svd_eff_rank_C2": {
+      "formula": "r_eff(C^2) = exp(H_SVD(C^2)) where H_SVD = -sum (sigma_i/sum sigma_j) log(sigma_i/sum sigma_j)",
+      "comp_scan_claim": {"d": -8.68, "N": 300, "M": 20, "eps": 2, "r2_TC": 0.083},
+      "reproduction": {"d": -0.18, "N": 500, "M": 5, "eps": 2, "p_wilcoxon": 0.81},
+      "collapse_factor": 48,
+      "verdict": "KILL"
+    },
+    "henrici_C2": {
+      "formula": "Delta_H(C^2) = ||C^2(C^2)^T - (C^2)^T C^2||_F / ||C^2||_F^2",
+      "comp_scan_claim": {"d": 4.26, "N": 300, "M": 20, "eps": 2, "r2_TC": 0.038},
+      "reproduction": {"d": 0.21, "N": 500, "M": 5, "eps": 2, "p_wilcoxon": 0.63},
+      "collapse_factor": 20,
+      "verdict": "KILL"
+    }
+  },
+
+  "attacks": [
+    {
+      "id": 1,
+      "attack": "Redundancy with certified column_gini_C2 or SVD Gini of C",
+      "svd_eff_rank_C2": "NOT redundant: r^2 = 0.059 (delta), r^2 = 0.011 (level). INDEPENDENT of column_gini. Also r^2=0.003 with svd_gini_C. This attack FAILS — observable is not a clone.",
+      "henrici_C2": "NOT redundant: r^2 = 0.234 (delta with sc3_link), r^2 = 0.071 (level). INDEPENDENT. Attack FAILS."
+    },
+    {
+      "id": 2,
+      "attack": "Decomposable into simpler observables (edge count, degree variance, layer counts)",
+      "svd_eff_rank_C2": "r^2(TC) = 0.004 (GREEN). Not driven by TC alone. But r^2(rank_C2) = 0.74 — it IS tightly coupled to integer rank, which is a trivial quantity that fails at larger N.",
+      "henrici_C2": "r^2(TC) = 0.10 (GREEN). Not driven by TC alone. r^2(frobenius_C2) = 0.020 — not driven by normalization denominator. But the SIGNAL ITSELF collapses, so decomposition is academic."
+    },
+    {
+      "id": 3,
+      "attack": "Known graph-theoretic triviality",
+      "svd_eff_rank_C2": "SVD effective rank = exp(Shannon entropy of SV distribution). Well-studied in random matrix theory. For random matrices, eff_rank ~ rank * f(aspect ratio). For DAG adjacency, it tracks the 'dimensionality' of the reachability space. Not trivially equal to any single statistic, but collapses to noise at N=500.",
+      "henrici_C2": "Henrici departure measures non-normality via commutator. For nilpotent matrices (all DAGs), the departure is always O(1) — all nilpotent matrices are maximally non-normal. The curvature-induced VARIATION is tiny (delta/mean ~ 0.02%) and indistinguishable from noise."
+    },
+    {
+      "id": 4,
+      "attack": "Signal driven by TC change rather than curvature",
+      "svd_eff_rank_C2": "r^2(TC) = 0.004 — NOT TC-driven. But this is irrelevant since the signal is zero.",
+      "henrici_C2": "r^2(TC) = 0.10 — NOT TC-driven. But again irrelevant."
+    },
+    {
+      "id": 5,
+      "attack": "PP-wave (Weyl=0) interpretation: what drives the signal?",
+      "svd_eff_rank_C2": "On pp-wave, Weyl=0 but Ricci!=0. C^2 (matrix) measures 2-step paths, not Weyl curvature. Signal should come from Ricci-induced changes in the sprinkling. But at N=500/eps=2, this effect is UNDETECTABLE (d=-0.18). The N=300 signal was a finite-size artifact.",
+      "henrici_C2": "Same as above. The 2-step reachability asymmetry changes with Ricci curvature but the effect is invisible at N=500. The N=300 signal was a finite-size artifact."
+    },
+    {
+      "id": 6,
+      "attack": "Dimension dependence",
+      "svd_eff_rank_C2": "Formula is dimension-independent. Not attacked on this ground.",
+      "henrici_C2": "Formula is dimension-independent. Not attacked on this ground."
+    },
+    {
+      "id": 7,
+      "attack": "svd_eff_rank is monotonic function of rank(C^2) → inherits rank failure",
+      "svd_eff_rank_C2": "CONFIRMED. Delta-correlation r^2(rank_C2) = 0.74. svd_eff_rank IS coupled to integer rank. rank_C2 collapsed from d=-2.6 (N=300) to d=0.41 (N=500). svd_eff_rank collapses from d=-8.68 (N=300) to d=-0.18 (N=500). Same failure mode. The 'softness' of entropy weighting does NOT save it.",
+      "henrici_C2": "N/A"
+    },
+    {
+      "id": 8,
+      "attack": "Henrici(C^2) = ||[H,M]|| in disguise (KILLED observable)",
+      "svd_eff_rank_C2": "N/A",
+      "henrici_C2": "ATTACK FAILS. [C^2, (C^2)^T] measures 2-step asymmetry between shared-future and shared-past reachability. [H,M] from BD-commutator mixes 1-step links with full causal order. These are genuinely different matrix products. Confirmed by r^2 = 0.071 (level) with sc3_link. However, the observable still DIES from N-scaling collapse."
+    },
+    {
+      "id": 9,
+      "attack": "eps→0 behavior",
+      "svd_eff_rank_C2": "At eps=2 (N=500): d=-0.18 (noise). At eps=0: d=0 by construction (CRN). The transition is smooth but the signal is already noise at eps=2. Cannot test smaller eps meaningfully.",
+      "henrici_C2": "Same. d=+0.21 at eps=2 — already noise. eps→0 limit is trivially smooth because the signal is already zero."
+    },
+    {
+      "id": 10,
+      "attack": "Counterexample: non-geometric graph with same observable",
+      "svd_eff_rank_C2": "Any Erdos-Renyi random DAG with p tuned to match TC~12000 at N=500 would produce svd_eff_rank_C2 ~ 16.5 (the flat mean). The difference between flat (16.52) and curved (16.49) is 0.03 — within the std_delta=0.14. A non-geometric graph would be indistinguishable.",
+      "henrici_C2": "Any random DAG with the same degree profile produces Henrici ~ 1.25 (the flat mean). The difference (0.0003) is within noise (std_delta=0.0015). Non-geometric counterexample trivially exists."
+    }
+  ],
+
+  "redundancy": {
+    "svd_eff_rank_C2_vs_column_gini_C2": {"r2_delta": 0.059, "r2_level": 0.011, "verdict": "INDEPENDENT"},
+    "svd_eff_rank_C2_vs_svd_gini_C": {"r2_delta": 0.003, "r2_level": 0.074, "verdict": "INDEPENDENT"},
+    "svd_eff_rank_C2_vs_rank_C2": {"r2_delta": 0.745, "verdict": "CORRELATED — inherits rank failure"},
+    "svd_eff_rank_C2_vs_sv_entropy_norm": {"r2_delta": 0.020, "verdict": "INDEPENDENT (definitional cousin but delta decorrelated)"},
+    "henrici_C2_vs_sc3_link": {"r2_delta": 0.234, "r2_level": 0.071, "verdict": "INDEPENDENT"},
+    "henrici_C2_vs_frobenius_C2": {"r2_delta": 0.020, "verdict": "INDEPENDENT (not normalization artifact)"},
+    "summary": "Neither candidate is redundant with certified observables. They are KILLED on N-scaling grounds, not redundancy."
+  },
+
+  "reproduction": {
+    "parameters": {"N": 500, "M": 5, "eps": 2.0, "seed": 99999, "metric": "ppwave_quad"},
+    "positive_controls": {
+      "layer_0_count": {"d": -0.83, "status": "MODERATE — directional effect present"},
+      "tc": {"d": 0.38, "status": "WEAK — eps=2 is small perturbation"},
+      "column_gini_C2": {"d": -1.11, "status": "GOOD — certified observable reproduces at N=500"}
+    },
+    "negative_controls": {
+      "note": "CRN ensures flat-flat comparison gives d=0 by construction (same random seed → identical causal set)"
+    },
+    "nan_check": "PASS — no NaN values in any observable",
+    "sign_check": {
+      "svd_eff_rank_C2": "CONSISTENT (negative at both N=300 and N=500) but COLLAPSED (d=-8.68 → d=-0.18)",
+      "henrici_C2": "CONSISTENT (positive at both N=300 and N=500) but COLLAPSED (d=+4.26 → d=+0.21)"
+    },
+    "key_finding": "Both candidates show catastrophic N-scaling collapse. svd_eff_rank_C2 collapses by factor 48x, henrici_C2 by factor 20x. Same failure mode as integer rank_C2. The column_gini_C2 positive control (d=-1.11) confirms the sprinkling detects curvature — the targets simply fail to respond at N=500."
+  },
+
+  "prl_rejection": "The proposed observables — SVD effective rank and Henrici departure of the squared link matrix — exhibit catastrophic N-scaling failure: effect sizes collapse by factors of 20-48x when N increases from 300 to 500 (Cohen's d from -8.68 to -0.18 and +4.26 to +0.21 respectively), rendering both statistically indistinguishable from noise at p>0.6. This is the same failure mode previously documented for integer rank of C^2, indicating that these quantities measure finite-size graph artifacts rather than continuum geometry. We cannot recommend publication of results that do not survive the most basic robustness test against system size.",
+
+  "verdicts": {
+    "svd_eff_rank_C2": {
+      "verdict": "KILL",
+      "cause_of_death": "N-scaling collapse (d: -8.68 → -0.18, factor 48x). Coupled to integer rank (r^2=0.74). Same failure mode as rank_C2. Not significant at N=500 (p=0.81).",
+      "was_it_redundant": false,
+      "was_sign_wrong": false,
+      "was_nan": false,
+      "was_tc_driven": false,
+      "was_weak": true,
+      "fatal_flaw": "Finite-size artifact. The SVD entropy softening does NOT rescue the integer rank failure."
+    },
+    "henrici_C2": {
+      "verdict": "KILL",
+      "cause_of_death": "N-scaling collapse (d: +4.26 → +0.21, factor 20x). For nilpotent matrices, Henrici departure is always O(1) — curvature-induced variation is ~0.02% of the mean, drowned in noise. Not significant at N=500 (p=0.63).",
+      "was_it_redundant": false,
+      "was_sign_wrong": false,
+      "was_nan": false,
+      "was_tc_driven": false,
+      "was_weak": true,
+      "fatal_flaw": "Finite-size artifact. The 2-step non-normality is dominated by the generic nilpotent structure, not by geometry."
+    }
+  }
+}

@@ -182,7 +182,7 @@ backends confirming the proof).
 
 1. Mathlib4 documentation. https://leanprover-community.github.io/mathlib4_docs/
 2. PhysLean documentation. (project-internal)
-3. Aristotle prover documentation. (MCP tool documentation)
+3. Aristotle automated theorem prover documentation.
 4. de Moura, L. and Ullrich, S. (2021). "The Lean 4 theorem prover
    and programming language." CADE-28, LNCS 12699, 625-635.
 5. Alfyorov, D. "Nonlocal one-loop form factors from the spectral

@@ -1,0 +1,94 @@
+{
+  "run": "RAZUMIST #003",
+  "phase": "DEMOLISH",
+  "parameters": {
+    "N": 500,
+    "M": 30,
+    "eps_ppwave": 2.0,
+    "eps_schw": 0.005,
+    "seed": 77777,
+    "boundary_trim": 0.20,
+    "eps_sweep": [0.5, 1.0, 2.0, 4.0],
+    "random_perms_per_trial": 20
+  },
+
+  "observable_1_eta": {
+    "definition": "eta(C) = ||CC^T - C^TC||_F / ||C||_F^2",
+    "main_signal": {
+      "cohen_d": -0.443,
+      "p_wilcoxon": 0.029,
+      "sign_consistency": 0.633
+    },
+    "threats": {
+      "TOP_1_TC_mediation": {
+        "rating": "FATAL",
+        "evidence": "Flat-trained TC model predicts curved eta within noise. Excess: d=-0.04, p=0.81. The entire curvature signal is mediated through TC changes. eta carries zero curvature information beyond TC.",
+        "test": "T5_corrected"
+      },
+      "TOP_2_algebraic_redundancy": {
+        "rating": "SERIOUS",
+        "evidence": "Across-level R^2 = 0.824 on (TC, n2, link, sum_Fut^2, sum_Past^2, var_FP_diff). 82% of eta variance is predictable from known causal set invariants.",
+        "test": "T2",
+        "mitigant": "Delta-level R^2 = 0.448, much lower. The curvature signal is not well-predicted by known deltas (but this is because the signal is tiny and dominated by noise)."
+      },
+      "TOP_3_poor_sign_consistency": {
+        "rating": "SERIOUS",
+        "evidence": "Sign of curvature delta is consistent only 63% of trials (M=30). Barely above chance (p~0.05 for sign test). The directional effect is unreliable.",
+        "test": "T3_corrected"
+      }
+    },
+    "defenses_acknowledged": {
+      "T1_diagonal_dominance": "CLEAR. Diagonal contributes only 3% of ||D||_F^2. Off-diagonal (pairwise correlations) dominates. eta is NOT a simple layer-count rewriting.",
+      "T3_random_permutation": "CLEAR (corrected). Curvature IS distinguishable from random: d=+11.85, p=5.9e-33. Curvature changes the matrix in a structured way that partially cancels.",
+      "T4_boundary_trim": "CLEAR. Signal retains 101% after removing outer 20%. Not boundary-driven.",
+      "T7_monotonicity": "CLEAR. eta is monotonically increasing with eps (d: -0.63 -> -1.04 -> -1.09 -> -1.30).",
+      "T8_schwarzschild": "CLEAR. Schwarzschild d=-6.16, sign consistent with ppwave."
+    },
+    "final_verdict": "KILLED",
+    "kill_reason": "TC-mediation is fatal. eta detects curvature only because curvature changes TC. After controlling for TC via a flat-trained model, the residual is d=-0.04 (p=0.81). eta is a redundant, noisy proxy for TC."
+  },
+
+  "observable_2_sr": {
+    "definition": "sr(C) = ||C||_F^2 / ||C||_2^2 = TC / sigma_1^2",
+    "main_signal": {
+      "cohen_d": 0.463,
+      "p_wilcoxon": 0.022,
+      "sign_consistency": 0.700
+    },
+    "threats": {
+      "TOP_1_TC_mediation": {
+        "rating": "FATAL",
+        "evidence": "Flat-trained TC model predicts curved sr within noise. Excess: d=+0.05, p=0.78. The curvature signal is entirely TC-mediated. sr carries zero independent curvature content.",
+        "test": "T5_corrected"
+      },
+      "TOP_2_non_monotonic_eps": {
+        "rating": "SERIOUS",
+        "evidence": "sr(d) at eps sweep: 0.70 -> 1.03 -> 1.00 -> 1.31. Dip at eps=2.0 breaks monotonicity. Physical curvature observables should respond monotonically to curvature strength.",
+        "test": "T7",
+        "mitigant": "The dip (1.03 -> 1.00) is small and may be M=10 noise."
+      },
+      "TOP_3_algebraic_redundancy": {
+        "rating": "SERIOUS",
+        "evidence": "Across-level R^2 = 0.853 on known observables. 85% of sr variance is predictable from (TC, n2, link, sum_Fut^2, sum_Past^2, var_FP_diff).",
+        "test": "T2"
+      }
+    },
+    "defenses_acknowledged": {
+      "T3_random_permutation": "CLEAR (corrected). Curvature IS distinguishable from random: d=-7.98, p=5.1e-28.",
+      "T4_boundary_trim": "CLEAR. Signal retains 91% after trim.",
+      "T6_sigma1_predict": "CLEAR. sigma_1 is NOT trivially predictable from max row/col sums (R^2=0.10).",
+      "T8_schwarzschild": "CLEAR. Schwarzschild d=+5.63, sign consistent."
+    },
+    "final_verdict": "KILLED",
+    "kill_reason": "TC-mediation is fatal. sr = TC/sigma_1^2, and curvature changes sr only through TC. After TC control, the residual is d=+0.05 (p=0.78). sr is a TC proxy with extra noise from sigma_1."
+  },
+
+  "methodological_notes": {
+    "T5_correction": "Original T5 used OLS on paired deltas, which gives d=0 by construction (mean residual = 0 after OLS). Corrected T5 fits eta(TC) and sr(TC) on flat-only data, then tests whether curved data shows excess beyond the flat model prediction.",
+    "T3_correction": "Original T3 compared absolute magnitudes (curvature 20x smaller than random). Corrected T3 tests whether curvature is distinguishable from random in direction/structure, finding it IS distinguishable (d>7). However, this doesn't save the observables because the signal is TC-mediated.",
+    "T9_note": "Delta-level regression on 6 known features gives R^2~0.45, but with insane beta coefficients (10^11-10^12) indicating multicollinearity. The delta regression is numerically unstable and should not be trusted.",
+    "anti_correlation": "eta_delta and tc_delta have same sign only 23% of the time (anti-correlated r~-0.55). This means curvature increases TC but decreases eta — but this is expected from the formula since eta ~ ||D||_F / TC, and TC in the denominator grows faster than the numerator."
+  },
+
+  "summary": "Both observables are KILLED by TC-mediation. Neither carries curvature information beyond TC. The RESURRECT agent would need to demonstrate either: (a) TC-independent curvature sensitivity at larger N, (b) a modified normalization that removes TC dependence, or (c) a theoretical argument for why TC-mediation is acceptable (which would need to explain why eta/sr add value over TC itself)."
+}
