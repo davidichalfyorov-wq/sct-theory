@@ -5,12 +5,12 @@
 [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:da228c6cdf4a95844f2e98bfe508e31145a72580/)](https://archive.softwareheritage.org/browse/directory/da228c6cdf4a95844f2e98bfe508e31145a72580/?origin_url=https://doi.org/10.5281/zenodo.19056982&path=davidichalfyorov-wq-sct-theory-7e8f479&release=1&snapshot=0e5684bb3f3bb036d1972363539b24eab0570376)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0003--6027--7837-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0003-6027-7837)
 ![Status](https://img.shields.io/badge/status-active_research_workspace-blue)
-![Pytest](https://img.shields.io/badge/pytest-4445_collected_(2026--04--01)-brightgreen)
-![TeX Targets](https://img.shields.io/badge/TeX_targets-71_core_%2B_7_drafts-brightgreen)
-![Lean](https://img.shields.io/badge/Lean-105_CJ_bridge_%2B_46_legacy_%2B_FND1-1f6feb)
+![Pytest](https://img.shields.io/badge/pytest-5047+_collected_(2026--04--11)-brightgreen)
+![TeX Targets](https://img.shields.io/badge/TeX_targets-89_compiled-brightgreen)
+![Lean](https://img.shields.io/badge/Lean-703_theorems-1f6feb)
 ![Open Problems](https://img.shields.io/badge/open_problems-50_(16_resolved,_8_partial)-orange)
-![Verified Results](https://img.shields.io/badge/verified_results-237-brightgreen)
-![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--01-blueviolet)
+![Verified Results](https://img.shields.io/badge/verified_results-4196+-brightgreen)
+![Verification](https://img.shields.io/badge/verification-local_audit_2026--04--11-blueviolet)
 ![Paper Build](https://img.shields.io/badge/paper_build-local-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
@@ -18,7 +18,7 @@
 
 **Spectral Causal Theory** is a research program investigating whether gravity and its quantum corrections can be derived from the spectral data of the Dirac operator.
 
-This repository is an active research workspace rather than a single frozen release snapshot. The badges above reflect a local repository audit on 2026-03-20 rather than a harmonized semantic version tag.
+This repository is an active research workspace rather than a single frozen release snapshot. The badges above reflect a local repository audit on 2026-04-11 (Release 4.0) rather than a harmonized semantic version tag.
 
 ## Quick Start
 
@@ -27,7 +27,7 @@ git clone https://github.com/davidichalfyorov-wq/sct-theory.git
 cd sct-theory
 python -m pip install -r requirements.txt
 
-python -m pytest analysis/ -x -q              # run 4445+ verification tests
+python -m pytest analysis/ -x -q              # run 5047+ verification tests
 python analysis/run_ci.py                     # full CI pipeline
 python papers/build.py                        # compile all TeX targets
 ```
@@ -84,7 +84,7 @@ The Wald entropy for Schwarzschild black holes in SCT is computed with full Stan
 
 *S* = *A*/(4*G*) + 13/(120&pi;) + (37/24) ln(*A*/&ell;<sub>P</sub>&sup2;) + O(1)
 
-The logarithmic coefficient **c<sub>log</sub> = 37/24** is determined by the SM particle content via the Sen formula (2012) and has opposite sign to the Loop Quantum Gravity prediction (c<sub>log</sub> = &minus;3/2), providing a potential observational discriminant.
+The logarithmic coefficient **c<sub>log</sub> = 37/24** is determined by the SM particle content via the Sen formula (2012) and has opposite sign to the Loop Quantum Gravity prediction (c<sub>log</sub> = &minus;3/2), providing a potential observational discriminant. For the SM+3&nu;<sub>R</sub> extension, c<sub>log</sub> = 8/5.
 
 ### Black hole singularity: softened, not resolved
 
@@ -230,6 +230,7 @@ Some pipeline stages use automated and AI-assisted tooling. All mathematical con
 | 5 | Perturbative UV finiteness of the spectral action in D&sup2;-quantization: a chirality proof | *preprint in repository* |
 | 6 | Auxiliary boundary data and the failure of intrinsic coherence in a finite-nerve route for spectral causal theory | *preprint in repository* |
 | 7 | Weyl curvature from the Hasse diagram: a parameter-free bridge formula for causal sets | [10.5281/zenodo.19364212](https://doi.org/10.5281/zenodo.19364212) |
+| 8 | Non-perturbative spectral gravity measure: pro-torsor structure and the obstruction to canonical expectations | Submitted to Annales Henri Poincar&eacute; |
 
 ## Research Status
 
@@ -245,8 +246,10 @@ Selected research highlights:
 | Two-loop finiteness | Counterterm uniquely absorbed | **Unconditional** |
 | All-orders finiteness | Conjectured via chirality + two unproven BV axioms | Open conjecture |
 | Graviton scattering | Tree-level SCT = GR; one-loop finite | Verified (internal) |
-| Solar system tests | Spectral scale &Lambda; > 3.53 meV from torsion-balance (post-no-scalaron) | Complete |
-| Black hole entropy | c<sub>log</sub> = 37/24 (opposite sign to LQG) | Verified (internal) |
+| No-scalaron theorem | &Pi;<sub>s</sub>(z,&xi;) > 1 for all z > 0 and &xi; &ne; 1/6; scalar graviton absent; m&#8322; = 1.554&Lambda; | Complete |
+| Solar system tests | Spectral scale &Lambda; > 8.50 meV from GWTC-3 (post-no-scalaron, parameter-free) | Complete |
+| SM+3&nu;<sub>R</sub> extension | Full one-loop sector: ODE, zeros, Hadamard (a<sub>H</sub>=1/15), magic number 43/12, d<sub>S</sub> comparison | Complete |
+| Black hole entropy | c<sub>log</sub> = 37/24 (SM) / 8/5 (SM+3&nu;<sub>R</sub>); opposite sign to LQG | Verified (internal) |
 | Black hole singularity | Kretschner softened r<sup>&minus;6</sup> &rarr; r<sup>&minus;4</sup>; not resolved (&Pi;<sub>TT</sub> &rarr; const, same 1/k&sup2; UV as GR) | Negative |
 | Late-time cosmology | Corrections 60+ orders below observability | Consistent |
 | Inflation | Scalaron mass too heavy; requires BSM extension. At NCG-predicted &xi; = 1/6 no scalaron exists. | Negative |
@@ -299,7 +302,7 @@ The spectral action framework has well-known theoretical vulnerabilities. This p
 
 **No infrared predictions.** The spectral action is a UV modification of gravity. All corrections are exponentially suppressed at distances above 1/&Lambda; &asymp; 0.08 mm. The theory cannot address the Hubble tension, dark energy, or large-scale structure anomalies.
 
-**The spectral action is Euclidean.** The Chamseddine-Connes spectral action is defined on Riemannian manifolds. Its extension to Lorentzian signature relies on Wick rotation, which is well-defined perturbatively (van den Dungen-Paschke-Rennie 2012) but has no established non-perturbative Lorentzian formulation. The Dang-Wrochna program (2020-2024) is making progress on native Lorentzian spectral zeta functions, but only the leading term (scalar curvature) has been recovered so far.
+**The spectral action is Euclidean.** The Chamseddine-Connes spectral action is defined on Riemannian manifolds. Its extension to Lorentzian signature relies on Wick rotation, which is well-defined perturbatively but has no established non-perturbative Lorentzian formulation. At the non-perturbative level, the Euclidean functional integral over Dirac operators does not admit a canonical expectation value: background-dependent Gaussian sectors are mutually singular (Feldman-Hajek), and measure classes form a pro-torsor rather than a single measure (Paper 8). The Lorentzian extension of this pro-torsor structure is an open problem.
 
 **Interpretation.** The spectral action can be viewed as a fundamental principle (the spectrum of the Dirac operator determines all of physics) or as an effective field theory (a convenient generating functional for higher-derivative corrections). This project adopts the former as a working hypothesis but does not claim it is the only valid interpretation.
 
